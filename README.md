@@ -2,17 +2,53 @@
 
 中国海洋大学 MEM《软件工程管理》课程项目：汽车信息管理系统。
 
-React + TypeScript 车主 H5 / 管理 Web，Node.js 统一 API，PostgreSQL 持久化。采用实拍车型参考图与海洋蓝的统一设计系统，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
+React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。采用实拍车型参考图、浅灰底与海洋蓝操作色，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
 
 课程预览已部署：[打开云程](http://117.72.124.241:58083/)。车主、门店、专家和平台账号的独立口令保存在部署者本机受控文件中，不提供公开通用密码。实际验收范围见 [验证记录](docs/verification.md)。
 
+![云程车主首页：实拍车型参考图、里程与养护计划](docs/images/owner-dashboard.jpg)
+
+截图使用课程演示车辆；车型照片为公开许可参考图，非车主实车，署名与许可见 [图片来源](docs/image-attribution.md)。
+
+## 功能与当前进度
+
+| 使用角色 | 主要功能 |
+| --- | --- |
+| 车主 | 多车档案、行驶证识别与人工核对、仪表里程识别、分项目保养提醒、门店查询与比价预约、故障咨询、消息及服务记录 |
+| 门店管理员 | 本店资料、服务报价与版本、时段名额、预约接单及服务进度、项目与费用变更、专家分配 |
+| 门店专家 | 分配范围内的故障资料、补充信息、建议与费用预估 |
+| 平台管理员 | 标准项目、车型保养规则与资料来源、门店审核及审计记录 |
+
+V0.2 已部署实拍图改版与行驶证识别，线上应用镜像对应代码提交 `2e6107d`。后续文档提交不触发 Portainer 自动发布。完整代码检查通过，包含 27 项后端测试、类型检查和前后端构建；行驶证另完成 6 项真实 PostgreSQL 测试与云端真实 AI 合成样本识别。测试口径、截图和未验收项见 [验证记录](docs/verification.md)。
+
+课程数据包括演示车型、规则、门店、价格与记录；当前车型目录包含迈腾和海豹。真实车型手册、真实证件准确率、手机真机兼容性和压力测试仍需独立验证。
+
+## 文档导航
+
+| 文档 | 内容 |
+| --- | --- |
+| [操作手册](docs/user-guide.md) | 登录、车辆建档、行驶证上传、里程更新、预约与课程演示步骤 |
+| [系统架构](docs/architecture.md) | 前后端、数据模型、权限、事务、AI 与 Docker 网络 |
+| [配置说明](docs/configuration.md) | 本地 / PostgreSQL / AI / 地图 / 服务器环境变量及常见问题 |
+| [API 接口](docs/api.md) | 路由、权限、请求示例、行驶证字段与状态 |
+| [部署说明](docs/deployment.md) | 京东云、Portainer、端口、初始化、升级与回滚 |
+| [六人协作与验收](docs/development.md) | 分工、迭代、提交约定、测试与演示交付 |
+| [验证记录](docs/verification.md) | 已执行结果、当前线上版本与后续验收边界 |
+| [设计规范](design-system/autovoyage/MASTER.md) / [图片署名](docs/image-attribution.md) | UI 设计约定、照片作者、来源及许可 |
+
 ## 本地运行
 
-需要 Node.js 22+（推荐 24）和 npm。
+推荐 Node.js 24 和 npm（Docker 与 CI 均使用 Node.js 24）。以下命令在项目根目录执行：
 
 ```bash
+git clone https://github.com/gexiaobin/mem-car-information-system.git
+cd mem-car-information-system
 npm ci
-# 首次运行：复制 .env.example 为 .env，再填写自己的配置。
+```
+
+首次运行复制 `.env.example` 为 `.env`：Windows PowerShell 执行 `Copy-Item .env.example .env`，macOS / Linux 执行 `cp .env.example .env`。已有 `.env` 时保留自己的配置；本地开发至少将 `SESSION_SECRET` 换成自己生成的 32 字符以上随机值。保留默认 PGlite 可直接体验演示数据。
+
+```bash
 npm run dev
 ```
 
@@ -22,13 +58,27 @@ npm run dev
 
 仅本地演示环境会显示演示账号。默认邮箱 `owner@autovoyage.demo`、`store@autovoyage.demo`、`expert@autovoyage.demo`、`admin@autovoyage.demo`，分别对应车主、门店、专家和平台。初次种子的密码由 `DEMO_PASSWORD` 设置；修改环境变量不会自动重置已存在账号。示例密码仅用于本地开发，不能沿用于公网部署。
 
-```bash
-npm run typecheck
-npm test
-npm run build
-# 或一次运行以上检查
-npm run check
-```
+## 行驶证识别怎么使用
+
+1. 新车：车主首页 → **添加爱车 → 行驶证识别建档**。已有车辆：**我的服务 → 车辆档案 → 上传行驶证并识别**。
+2. 选择行驶证正页照片（JPEG / PNG / WebP，最大 8 MB），明确同意发送至已配置的 AI 服务后上传。
+3. 核对车牌、车辆类型、所有人、使用性质、品牌型号、VIN、发动机号码、注册日期、发证日期，可逐项修改。
+4. 新车需另选平台已有的准确保养车型，填写昵称、车辆启用日期与启用时里程；勾选核对确认后保存。
+
+上传与识别不会直接修改车辆；行驶证不提供当前里程，不替代仪表里程更新。已有车辆补证须与原车牌匹配，保留原车型和里程基准。照片与证件字段仅本人可见，本流程不提取住址字段；原图仍可能含住址，上传前可自行遮挡无关信息。详细步骤与失败处理见 [操作手册](docs/user-guide.md)。
+
+## 开发命令
+
+| 命令 | 用途 |
+| --- | --- |
+| `npm run dev` | 同时启动本地前端与 API |
+| `npm run typecheck` | 全项目 TypeScript 检查 |
+| `npm test` | 27 项后端回归，使用隔离数据和合成 AI 响应 |
+| `npm run build` | 构建 API 和 Web 生产产物 |
+| `npm run check` | 依次执行类型检查、测试与构建；GitHub Actions 同样执行 |
+| `npm run test:postgres` | 7 项真实 PostgreSQL 交易联调，只操作新建的临时 schema |
+
+行驶证的 6 项真实 PostgreSQL 测试启用方式见 [六人协作与验收](docs/development.md)。真实 AI 请求与真实 PostgreSQL 验证不属于默认 CI 的外部依赖；CI 通过不代表真实照片准确率或公网部署已通过验收。
 
 ## 接入真实服务
 
