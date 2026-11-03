@@ -26,7 +26,7 @@
 | 前后端生产构建 | `npm run build` | 通过 |
 | PostgreSQL 事务联调 | `npm run test:postgres` | 7 项通过；仅操作独立临时 schema |
 | 桌面与手机宽度浏览器检查 | 登录、车主与各管理角色、表单及核心业务闭环 | 桌面完成新增车辆、纯电保养范围、多项目同口径排序、双项目 ¥208 预约及门店接单；手机宽度及其他管理角色待独立验收 |
-| IP + HTTP 部署 | `compose.preview.yml`、58083、`/healthz`、`/api/v1/health` | 待执行者填写部署与公网可达性结果 |
+| IP + HTTP 部署 | `compose.preview.yml`、58083、`/healthz`、`/api/v1/health` | 尚未启动：服务器从 GitHub 获取仓库时出现 unexpected EOF；已生成不含秘密的源码构建归档，Portainer 上传等待 Chrome 扩展文件网址权限 |
 | 云安全组 / 防火墙 | TCP 58083 精确规则及访问结果 | 待执行者填写，不从配置文件推断已放行 |
 | HTTPS | 后续 `compose.yml` + 有效证书 | 本阶段未作为已完成部署项 |
 
