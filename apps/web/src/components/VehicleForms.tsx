@@ -7,6 +7,10 @@ import {
   RefreshCw,
   ScanLine,
   Upload,
+  ArrowLeft,
+  ArrowRight,
+  PencilLine,
+  ShieldCheck,
 } from "lucide-react";
 import type {
   Bootstrap,
@@ -25,6 +29,7 @@ import {
   messageOf,
   Loading,
 } from "./UI";
+import RegistrationCertificate from "./RegistrationCertificate";
 
 export function VehicleEditor({
   models,
@@ -35,11 +40,90 @@ export function VehicleEditor({
   onClose: () => void;
   onSaved: () => Promise<void>;
 }) {
+  const [method, setMethod] = useState<"choose" | "registration" | "manual">(
+    "choose",
+  );
+  if (method === "registration")
+    return (
+      <RegistrationCertificate
+        models={models}
+        onClose={onClose}
+        onSaved={onSaved}
+      />
+    );
+  if (method === "manual")
+    return (
+      <ManualVehicleEditor
+        models={models}
+        onClose={onClose}
+        onSaved={onSaved}
+        onBack={() => setMethod("choose")}
+      />
+    );
+  return (
+    <Modal
+      title="添加我的爱车"
+      subtitle="从一张行驶证开始，为爱车建立完整档案。"
+      onClose={onClose}
+    >
+      <div className="vehicle-entry-options">
+        <button
+          className="vehicle-entry-option"
+          onClick={() => setMethod("registration")}
+        >
+          <ScanLine size={26} aria-hidden="true" />
+          <span>
+            <strong>行驶证识别建档</strong>
+            <small>
+              上传正页，自动读取车辆信息
+              <br />
+              核对后再保存，省去逐项输入
+            </small>
+          </span>
+          <ArrowRight size={18} aria-hidden="true" />
+        </button>
+        <button
+          className="vehicle-entry-option"
+          onClick={() => setMethod("manual")}
+        >
+          <PencilLine size={26} aria-hidden="true" />
+          <span>
+            <strong>手动填写车辆信息</strong>
+            <small>
+              选择车型，填写车牌与车辆启用信息
+              <br />
+              行驶证资料可以稍后补充
+            </small>
+          </span>
+          <ArrowRight size={18} aria-hidden="true" />
+        </button>
+      </div>
+      <p className="vehicle-entry-privacy">
+        <ShieldCheck size={18} aria-hidden="true" />
+        <span>
+          行驶证照片和证件档案仅本人可查看。识别内容需经你核对确认，不会直接成为有效里程。
+        </span>
+      </p>
+    </Modal>
+  );
+}
+
+function ManualVehicleEditor({
+  models,
+  onClose,
+  onSaved,
+  onBack,
+}: {
+  models: CarModel[];
+  onClose: () => void;
+  onSaved: () => Promise<void>;
+  onBack: () => void;
+}) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   return (
     <Modal
-      title="添加我的爱车"
+      title="手动建立车辆档案"
       subtitle="建立车辆档案，让每一次服务都有据可查。"
       onClose={onClose}
     >
@@ -66,6 +150,10 @@ export function VehicleEditor({
           }
         }}
       >
+        <button type="button" className="text-btn" onClick={onBack}>
+          <ArrowLeft size={16} aria-hidden="true" />
+          选择其他建档方式
+        </button>
         <label>
           车型配置
           <select name="modelId" required>

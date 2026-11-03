@@ -52,6 +52,8 @@ import {
 import { expireAppointments, registerBookings } from "./bookings.js";
 import { registerAdmin } from "./admin.js";
 import { registerImages } from "./images.js";
+import { registerRegistration } from "./registration.js";
+import { ensureUniqueOwnerPlate } from "./vehicle-identity.js";
 import { effectiveOffers } from "./prices.js";
 export async function createApp(
   options: { config?: Config; db?: Database; logger?: boolean } = {},
@@ -440,16 +442,13 @@ export async function createApp(
       observedAt: null,
       isDemo: model.isDemo,
     };
-    await put(db, "vehicles", vehicle);
-    await audit(
-      db,
-      user.id,
-      "vehicle.created",
-      "vehicle",
-      vehicle.id,
-      "创建车辆档案，等待图片里程确认",
-    );
-    return vehicle;
+    return db.transaction(async sql => {
+      await get(sql, "users", user.id, true);
+      await ensureUniqueOwnerPlate(sql, user.id, input.plate);
+      await put(sql, "vehicles", vehicle);
+      await audit(sql, user.id, "vehicle.created", "vehicle", vehicle.id, "创建车辆档案，等待图片里程确认");
+      return vehicle;
+    });
   });
   app.patch<{ Params: { id: string } }>(
     route("/vehicles/:id"),
@@ -457,6 +456,7 @@ export async function createApp(
       const user = owner(request);
       const input = vehicleSchema.partial().parse(request.body);
       return db.transaction(async (sql) => {
+        await get(sql, "users", user.id, true);
         const old = await ownVehicle<Vehicle>(
           sql,
           request.params.id,
@@ -482,6 +482,7 @@ export async function createApp(
           "启用日期不能在未来",
         );
         const updated = { ...old, ...input };
+        await ensureUniqueOwnerPlate(sql, user.id, updated.plate, old.id);
         await put(sql, "vehicles", updated);
         await audit(
           sql,
@@ -539,12 +540,13 @@ export async function createApp(
         "INVALID_IMAGE",
         "故障照片必须先上传",
       );
-      const file = await get<{ ownerId: string }>(
+      const file = await get<{ ownerId: string; purpose?: string }>(
         db,
         "files",
         url.split("/").pop()!,
       );
       ensure(file?.ownerId === user.id, 403, "FORBIDDEN", "不能使用他人的图片");
+      ensure(file.purpose !== "registration", 400, "PRIVATE_DOCUMENT", "行驶证不能用作向门店共享的故障照片");
     }
     const fault: Fault = {
       ...input,
@@ -741,7 +743,9 @@ export async function createApp(
   registerBookings({ app, db, config });
   registerAdmin({ app, db, config });
   const images = registerImages({ app, db, config });
+  const registrations = registerRegistration({ app, db, config });
   await images.resume();
+  await registrations.resume();
   const timer = setInterval(() => {
     void db
       .transaction(async (sql) => {
@@ -755,6 +759,7 @@ export async function createApp(
   app.addHook("onClose", async () => {
     clearInterval(timer);
     await images.wait();
+    await registrations.wait();
     await db.close();
   });
   return { app, db, config };

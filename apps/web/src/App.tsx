@@ -22,7 +22,8 @@ import {
 } from "lucide-react";
 import type { Bootstrap, PublicConfig, User } from "@autovoyage/shared";
 import { api, post, ApiError } from "./lib/api";
-import { Brand, CarArt, ErrorBox, Loading, messageOf } from "./components/UI";
+import { Brand, ErrorBox, Loading, messageOf } from "./components/UI";
+import { VehiclePhoto } from "./components/VehiclePhoto";
 import { VehicleEditor, ImportMileage } from "./components/VehicleForms";
 import HomePage from "./pages/HomePage";
 const StoresPage = lazy(() => import("./pages/StoresPage"));
@@ -120,24 +121,24 @@ function Login({
   return (
     <div className="login-page">
       <section className="login-story">
-        <Brand inverse />
+        <Brand />
         <div className="login-story-copy">
-          <span className="login-kicker">把日常交给安心，把远方留给自己</span>
+          <span className="login-kicker">车辆档案 · 养护提醒 · 服务预约</span>
           <h1>
-            每一程，
+            让养车，
             <br />
-            都有照应。
+            更有把握。
           </h1>
           <p>
-            从下一次保养，到下一段旅途。
+            一份清楚的爱车档案，
             <br />
-            让汽车信息更清楚，让养车选择更从容。
+            每一次服务都有据可查。
           </p>
         </div>
-        <CarArt />
+        <VehiclePhoto model={{ id: "model-electric", brand: "比亚迪", name: "海豹" }} priority className="login-vehicle-photo" />
         <div className="login-story-footer">
           <span>中国海洋大学 MEM · 软件工程管理</span>
-          <span>AUTOVOYAGE / 2026</span>
+          <span>云程 AutoVoyage</span>
         </div>
       </section>
       <main className="login-form-side">
@@ -145,7 +146,7 @@ function Login({
           <Brand />
         </div>
         <div className="login-card">
-          <p className="eyebrow">WELCOME TO AUTOVOYAGE</p>
+          <p className="eyebrow">云程 · 车主服务</p>
           <h2>你好，欢迎来到云程</h2>
           <p className="muted">登录，开启你的安心养车之旅。</p>
           <form
@@ -278,7 +279,6 @@ function OwnerShell({
       </a>
       <aside className="sidebar">
         <Brand />
-        <p className="sidebar-eyebrow">让每一程都有照应</p>
         <nav aria-label="主要导航">
           {navigation.map(({ to, desktop, Icon }) => (
             <NavLink key={to} to={to} end={to === "/"}>
@@ -291,15 +291,6 @@ function OwnerShell({
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <div className="sidebar-note">
-            <span className="note-line" />
-            <p>
-              车与生活，
-              <br />
-              皆有好风景。
-            </p>
-            <small>YOUR CAR. YOUR JOURNEY.</small>
-          </div>
           {data.config.demoMode && (
             <span className="demo-environment">课程演示环境</span>
           )}

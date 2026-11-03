@@ -5400,3 +5400,238 @@ label textarea {
     font-size: 13px;
   }
 }
+
+/* Owner refresh: real model photographs, quiet surfaces and clear vehicle data. */
+.owner-app,
+.login-page {
+  --color-primary: #175cd3;
+  --color-primary-hover: #124aa8;
+  --color-primary-soft: #edf4ff;
+  --color-background: #f5f6f8;
+  --color-surface-subtle: #f2f4f7;
+  --color-text: #1d2939;
+  --color-text-muted: #596579;
+  --color-border: #e4e7ec;
+  --shadow-card: 0 2px 6px rgb(16 24 40 / 2%);
+  background: var(--color-background);
+}
+.owner-app .page-intro h1 { font-size: 30px; letter-spacing: -.6px; }
+.owner-app .page-intro { margin-bottom: 24px; align-items: flex-end; }
+.owner-app .owner-greeting { font-size: 13px; letter-spacing: 0; font-weight: 500; margin-bottom: 9px; color: var(--color-text-muted); }
+.garage-count { display: inline-block; font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--color-text-muted); margin-left: 14px; vertical-align: middle; }
+.owner-app .page-intro > div > p:last-child { margin-top: 8px; }
+.owner-app .dashboard-hero { grid-template-columns: minmax(0, 1.9fr) minmax(300px, 1fr); gap: 22px; }
+.owner-app .photo-vehicle-hero { background: #fff; color: var(--color-text); border: 1px solid var(--color-border); border-radius: 16px; padding: 22px 24px 0; min-height: 0; }
+.owner-app .photo-vehicle-hero::before { display: none; }
+.garage-label { font-size: 13px; color: var(--color-text-muted); display: inline-flex; align-items: center; gap: 7px; }
+.owner-app .vehicle-switch { max-width: 185px; }
+.owner-app .vehicle-switch select { background: #f8fafc; color: var(--color-text); border: 1px solid #c7ced8; font-size: 13px; min-height: 44px; padding: 8px 30px 8px 12px; border-radius: 8px; }
+.owner-app .vehicle-switch option { background: #fff; color: var(--color-text); }
+.owner-app .vehicle-title { margin-top: 15px; }
+.vehicle-title-line { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.owner-app .vehicle-title h2 { font-size: 26px; font-weight: 750; line-height: 1.5; margin: 0; color: var(--color-text); }
+.owner-app .vehicle-title > p { font-size: 13px; color: var(--color-text-muted); margin-top: 6px; }
+.owner-app .vehicle-title .plate { color: #344054; border-left: 1px solid #cfd5df; padding-left: 12px; font-size: 13px; letter-spacing: .6px; }
+.owner-app .vehicle-title-line > .badge-demo { background: #f5f6f8; color: #596579; border: 1px solid #e4e7ec; font-size: 11px; margin: 0; }
+.vehicle-photo { display: block; position: relative; margin: 0; overflow: hidden; background: #f6f7f9; }
+.vehicle-photo > img { width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; }
+.vehicle-photo > figcaption { position: absolute; bottom: 10px; right: 12px; font-size: 11px; line-height: 1.5; color: #475467; border-radius: 4px; padding: 3px 6px; background: rgb(255 255 255 / 93%); }
+.photo-vehicle-hero > .vehicle-photo { height: 250px; margin: 17px -24px 0; }
+.vehicle-photo-fallback { display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; height: 100%; min-height: 180px; color: #667085; font-size: 13px; }
+.owner-app .vehicle-data { grid-template-columns: minmax(0,1fr) minmax(0,1fr) auto; padding: 18px 0 20px; gap: 15px; border-top: 1px solid var(--color-border); }
+.owner-app .vehicle-data > div + div { border-left: 1px solid var(--color-border); padding-left: 20px; }
+.owner-app .vehicle-data > div > span { color: var(--color-text-muted); font-size: 12px; gap: 6px; }
+.owner-app .vehicle-data strong { font-size: 30px; font-weight: 720; color: var(--color-text); line-height: 1.65; letter-spacing: -.8px; }
+.owner-app .vehicle-data strong small { font-size: 12px; color: var(--color-text-muted); letter-spacing: 0; }
+.owner-app .vehicle-data .date-value { font-size: 17px; line-height: 2.9; letter-spacing: -.1px; }
+.owner-app .vehicle-data p { font-size: 11px; color: var(--color-text-muted); }
+.owner-app .hero-update { background: var(--color-primary-soft); color: var(--color-primary); border: 1px solid #bad3fa; font-size: 13px; padding: 10px 13px; min-height: 44px; }
+.owner-app .hero-update > svg:last-child { display: none; }
+.owner-app .hero-update:hover { background: #dfeaff; }
+.owner-app .care-card { display: flex; flex-direction: column; align-items: stretch; gap: 0; border-radius: 16px; border-color: var(--color-border); padding: 25px; }
+.owner-app .care-card-heading { margin-bottom: 22px; }
+.care-heading-label { font-size: 14px; font-weight: 650; color: #475467; }
+.owner-app .care-card h2 { font-size: 23px; letter-spacing: -.3px; margin-bottom: 10px; }
+.owner-app .care-summary { font-size: 14px; line-height: 1.8; }
+.owner-app .next-care-detail { margin: 25px 0; padding: 19px 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+.owner-app .next-care-detail > strong { font-size: 16px; }
+.owner-app .next-care-detail > .badge { font-size: 12px; }
+.owner-app .next-care-detail > p { font-size: 13px; margin-top: 13px; }
+.owner-app .thresholds { gap: 12px; margin-top: 18px; }
+.owner-app .thresholds > span { font-size: 12px; gap: 6px; }
+.owner-app .thresholds strong { font-size: 15px; }
+.owner-app .thresholds strong small { font-size: 11px; }
+.owner-app .care-card > .btn { align-self: stretch; min-height: 46px; font-size: 14px; }
+.owner-app .care-footnote { justify-content: center; font-size: 11px; color: var(--color-text-muted); margin-top: 13px; }
+.owner-app .quick-actions { gap: 14px; margin: 22px 0 28px; }
+.owner-app .quick-actions > button { border-radius: 12px; padding: 19px 17px; }
+.owner-app .quick-actions strong { font-size: 15px; margin-bottom: 3px; }
+.owner-app .quick-actions small { font-size: 12px; line-height: 1.7; }
+.owner-app .quick-actions .icon-tile { width: 42px; height: 42px; border-radius: 11px; }
+.owner-app .quick-actions > button > svg { width: 17px; }
+.owner-app .dashboard-bottom { grid-template-columns: minmax(0, 1.9fr) minmax(300px, 1fr); }
+.owner-app .maintenance-section { padding: 25px; }
+.owner-app .maintenance-section .section-heading h2,
+.owner-app .dashboard-side .section-heading h2 { font-size: 19px; }
+.owner-app .maintenance-section .section-heading .text-btn,
+.owner-app .dashboard-side .text-btn { font-size: 13px; }
+.owner-app .maintenance-row { padding: 22px 0; align-items: flex-start; }
+.owner-app .maintenance-row-title h3 { font-size: 16px; }
+.owner-app .maintenance-row-title { gap: 8px; flex-wrap: wrap; }
+.owner-app .maintenance-row-title .badge-demo { font-size: 10px; }
+.owner-app .maintenance-main > p { font-size: 13px; margin: 8px 0; }
+.owner-app .maintenance-main > small { font-size: 12px; color: var(--color-text-muted); line-height: 1.8; }
+.owner-app .maintenance-row-right > .badge { font-size: 11px; }
+.owner-app .section-note { font-size: 12px; }
+.owner-app .dashboard-side { display: flex; flex-direction: column; gap: 20px; }
+.owner-app .appointment-glance, .owner-app .nearby-glance { padding: 24px; }
+.owner-app .quiet-state { padding: 8px 0 0; }
+.owner-app .quiet-state > p { font-size: 14px; }
+.owner-app .quiet-state > small { font-size: 12px; }
+.owner-app .small-store { padding: 17px 0; }
+.owner-app .small-store strong { font-size: 14px; }
+.owner-app .small-store small { font-size: 12px; }
+.owner-app .topbar { background: transparent; border: 0; }
+.owner-app .topbar-date, .owner-app .breadcrumb { font-size: 12px; }
+.owner-app .page-footer { font-size: 12px; padding-top: 24px; padding-bottom: 24px; }
+.login-page { grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); background: #fff; }
+.login-story { display: flex; background: #eef1f5; color: var(--color-text); min-height: 780px; padding: 42px 48px 32px; }
+.login-story::before { display: none; }
+.login-story-copy { margin-top: 54px; }
+.login-kicker { font-size: 13px; color: var(--color-text-muted); letter-spacing: .4px; }
+.login-story-copy h1 { font-size: clamp(40px, 4.1vw, 64px); font-weight: 750; letter-spacing: -1.5px; margin: 18px 0; }
+.login-story-copy p { font-size: 15px; color: var(--color-text-muted); line-height: 1.9; }
+.login-vehicle-photo { height: 300px; margin: 20px -48px 28px; background: #eef1f5; }
+.login-story-footer { font-size: 11px; color: #596579; flex-wrap: wrap; }
+.login-card > .eyebrow { font-size: 13px; letter-spacing: 1px; color: #475467; }
+.login-card > h2 { font-size: 28px; }
+.login-card label { font-size: 14px; }
+.login-trust { font-size: 12px; color: #596579; }
+.login-bottom { font-size: 12px; color: #596579; }
+@media (min-width: 768px) {
+  .owner-app .sidebar { width: 100%; height: 82px; bottom: auto; padding: 0 max(24px, calc((100vw - 1280px)/2)); flex-direction: row; align-items: center; border-right: 0; border-bottom: 1px solid var(--color-border); gap: 34px; background: #fff; }
+  .owner-app .sidebar > .brand { margin: 0; flex-shrink: 0; }
+  .owner-app .sidebar .brand-type { font-size: 28px; }
+  .owner-app .sidebar .brand-mark { width: 32px; height: 36px; }
+  .owner-app .sidebar .brand-type > span { font-size: 7px; letter-spacing: 1.5px; }
+  .owner-app .sidebar nav { flex-direction: row; align-items: center; gap: 5px; flex: 1; }
+  .owner-app .sidebar nav > a { padding: 13px 16px; border-radius: 8px; min-height: 46px; font-size: 14px; gap: 7px; white-space: nowrap; }
+  .owner-app .sidebar nav > a > svg { width: 18px; }
+  .owner-app .sidebar-bottom { margin: 0 0 0 auto; min-width: 0; }
+  .owner-app .sidebar-user { border: 0; padding: 0; min-height: 46px; gap: 10px; }
+  .owner-app .sidebar-user strong { font-size: 13px; max-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .owner-app .sidebar-user small { font-size: 11px; }
+  .owner-app .sidebar .demo-environment { display: none; }
+  .owner-app .owner-workspace { margin-left: 0; padding-top: 82px; }
+  .owner-app .topbar { max-width: 1328px; margin: auto; height: 56px; padding: 0 24px; }
+  .owner-app .main-content { max-width: 1328px; padding: 16px 24px 40px; }
+  .owner-app .page-footer { max-width: 1280px; }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .owner-app .sidebar { gap: 24px; padding-left: 24px; padding-right: 24px; }
+  .owner-app .sidebar nav { gap: 2px; }
+  .owner-app .sidebar nav > a { padding: 12px 10px; font-size: 13px; }
+  .owner-app .sidebar nav > a > svg { display: none; }
+  .owner-app .sidebar-user > span:not(.avatar), .owner-app .sidebar-user > svg { display: none; }
+  .owner-app .sidebar-user .avatar { height: 38px; width: 38px; }
+  .owner-app .dashboard-hero, .owner-app .dashboard-bottom { grid-template-columns: minmax(0,1.4fr) minmax(260px,1fr); gap: 18px; }
+  .owner-app .photo-vehicle-hero { padding-left: 20px; padding-right: 20px; }
+  .photo-vehicle-hero > .vehicle-photo { margin-left: -20px; margin-right: -20px; height: 230px; }
+  .owner-app .vehicle-data { grid-template-columns: 1fr 1fr; }
+  .owner-app .vehicle-data .hero-update { grid-column: 1/-1; }
+  .owner-app .quick-actions > button { flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px; position: relative; }
+  .owner-app .quick-actions > button > svg { position: absolute; top: 24px; right: 18px; }
+  .owner-app .care-card { padding: 22px; }
+}
+@media (max-width: 767px) {
+  .owner-app .sidebar { display: none; }
+  .owner-app .owner-workspace { margin-left: 0; padding-top: 0; }
+  .owner-app .topbar { height: 68px; background: #fff; border-bottom: 1px solid var(--color-border); padding: 0 20px; }
+  .owner-app .main-content { padding: 24px 16px 30px; }
+  .owner-app .page-intro { margin-bottom: 20px; gap: 12px; align-items: center; }
+  .owner-app .page-intro h1 { font-size: 25px; }
+  .owner-app .owner-greeting { font-size: 12px; margin-bottom: 7px; }
+  .garage-count { font-size: 12px; margin-left: 10px; }
+  .owner-app .page-intro > div > p:last-child { font-size: 13px; line-height: 1.75; }
+  .owner-app .page-intro > .add-car { font-size: 12px; min-height: 44px; padding: 10px 12px; white-space: nowrap; }
+  .owner-app .dashboard-hero, .owner-app .dashboard-bottom { grid-template-columns: minmax(0,1fr); gap: 18px; }
+  .owner-app .photo-vehicle-hero { padding: 17px 18px 0; border-radius: 13px; }
+  .owner-app .vehicle-switch { max-width: 160px; }
+  .owner-app .vehicle-switch select { font-size: 12px; min-height: 44px; }
+  .garage-label { font-size: 12px; }
+  .owner-app .vehicle-title { margin-top: 15px; }
+  .owner-app .vehicle-title h2 { font-size: 23px; }
+  .owner-app .vehicle-title > p { font-size: 12px; gap: 9px; margin-top: 5px; }
+  .owner-app .vehicle-title .plate { font-size: 12px; padding-left: 9px; }
+  .photo-vehicle-hero > .vehicle-photo { height: 210px; margin: 13px -18px 0; }
+  .vehicle-photo > figcaption { font-size: 10px; bottom: 8px; right: 10px; }
+  .owner-app .vehicle-data { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 14px; padding: 16px 0; }
+  .owner-app .vehicle-data > div + div { padding-left: 16px; }
+  .owner-app .vehicle-data > div > span { font-size: 11px; }
+  .owner-app .vehicle-data strong { font-size: 28px; }
+  .owner-app .vehicle-data .date-value { font-size: 16px; line-height: 2.9; }
+  .owner-app .vehicle-data p { font-size: 11px; }
+  .owner-app .hero-update { grid-column: 1/-1; font-size: 13px; min-height: 44px; justify-content: center; }
+  .owner-app .care-card { padding: 21px; border-radius: 13px; }
+  .owner-app .care-card-heading { margin-bottom: 16px; }
+  .owner-app .care-card h2 { font-size: 22px; }
+  .owner-app .care-summary { font-size: 13px; }
+  .owner-app .next-care-detail { margin: 18px 0; padding: 17px 0; }
+  .owner-app .next-care-detail > strong { font-size: 16px; }
+  .owner-app .thresholds > span { font-size: 12px; }
+  .owner-app .care-card > .btn { font-size: 14px; }
+  .owner-app .quick-actions { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 11px; margin: 18px 0 24px; }
+  .owner-app .quick-actions > button { padding: 16px 13px; flex-direction: column; align-items: flex-start; gap: 11px; position: relative; }
+  .owner-app .quick-actions .icon-tile { width: 39px; height: 39px; }
+  .owner-app .quick-actions strong { font-size: 15px; }
+  .owner-app .quick-actions small { font-size: 11px; }
+  .owner-app .quick-actions > button > svg { position: absolute; top: 22px; right: 13px; }
+  .owner-app .maintenance-section, .owner-app .appointment-glance, .owner-app .nearby-glance { padding: 21px 18px; border-radius: 13px; }
+  .owner-app .maintenance-row { gap: 10px; flex-wrap: wrap; }
+  .owner-app .maintenance-main { flex: 1 1 calc(100% - 45px); }
+  .owner-app .maintenance-row-title h3 { font-size: 16px; }
+  .owner-app .maintenance-row-right { margin-left: 45px; margin-top: 3px; width: calc(100% - 45px); justify-content: space-between; }
+  .owner-app .maintenance-section .section-heading h2, .owner-app .dashboard-side .section-heading h2 { font-size: 18px; }
+  .owner-app .maintenance-main > small { font-size: 11px; }
+  .owner-app .section-note { font-size: 11px; }
+  .owner-app .page-footer { font-size: 11px; padding: 20px 18px 22px; }
+  .login-page { display: block; }
+  .login-story { min-height: 0; padding: 26px 24px 18px; }
+  .login-story > .brand { display: flex; }
+  .login-story-copy { margin-top: 30px; }
+  .login-kicker { font-size: 12px; }
+  .login-story-copy h1 { font-size: 39px; line-height: 1.3; margin: 12px 0; }
+  .login-story-copy h1 br { display: none; }
+  .login-story-copy p { font-size: 13px; }
+  .login-vehicle-photo { height: 180px; margin: 13px -24px 8px; }
+  .login-story-footer { display: none; }
+  .login-form-side { padding: 28px 24px 26px; min-height: 0; }
+  .mobile-login-brand { display: none; }
+  .login-card > .eyebrow { display: none; }
+  .login-card > h2 { font-size: 25px; margin-bottom: 9px; }
+  .login-card > .muted { margin-bottom: 24px; }
+  .login-bottom { font-size: 11px; margin-top: 25px; }
+}
+@media (max-width: 375px) {
+  .owner-app .page-intro h1 { font-size: 24px; }
+  .owner-app .page-intro > .add-car { padding: 10px; }
+  .owner-app .page-intro > .add-car > svg { display: none; }
+  .garage-count { font-size: 11px; margin-left: 8px; }
+  .owner-app .vehicle-title .plate { border-left: 0; padding-left: 0; }
+  .owner-app .vehicle-title > p { column-gap: 10px; }
+}
+/* Keep the complete vehicle visible and its source credit readable. */
+.vehicle-photo:has(> figcaption) { display: grid; grid-template-rows: minmax(0,1fr) auto; }
+.vehicle-photo > img { min-height: 0; }
+.vehicle-photo > figcaption { position: static; padding: 7px 12px; border-radius: 0; right: auto; bottom: auto; color: #596579; background: #fff; font-size: 11px; line-height: 1.7; text-align: right; }
+.vehicle-photo > figcaption > span { display: block; }
+.photo-attribution { font-size: 10px; }
+.photo-attribution a { color: #596579; text-decoration: underline; text-underline-offset: 2px; }
+.photo-vehicle-hero > .vehicle-photo { height: 285px; }
+.login-vehicle-photo > figcaption { background: #eef1f5; }
+@media (max-width: 767px) {
+  .photo-vehicle-hero > .vehicle-photo { height: 240px; }
+  .login-vehicle-photo { height: 210px; }
+  .vehicle-photo > figcaption { font-size: 10px; padding: 6px 10px; }
+  .photo-attribution { font-size: 10px; }
+}

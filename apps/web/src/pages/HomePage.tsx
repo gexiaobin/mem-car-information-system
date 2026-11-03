@@ -14,16 +14,18 @@ import {
   FileClock,
   AlertCircle,
   CheckCircle2,
+  FileCheck2,
+  CarFront,
 } from "lucide-react";
 import type { Bootstrap, Vehicle } from "@autovoyage/shared";
 import { APPOINTMENT_NAMES, cents } from "@autovoyage/shared";
 import {
-  CarArt,
   DemoTag,
   Empty,
   SectionHeading,
   dateText,
 } from "../components/UI";
+import { VehiclePhoto } from "../components/VehiclePhoto";
 
 export default function HomePage({
   data,
@@ -60,11 +62,9 @@ export default function HomePage({
     <>
       <div className="page-intro">
         <div>
-          <p className="eyebrow">A LITTLE CARE, A LONGER JOURNEY</p>
-          <h1>
-            {data.user.name}，一路好心情<span className="title-dot">。</span>
-          </h1>
-          <p>把爱车照顾好，向更远处出发。</p>
+          <p className="eyebrow owner-greeting">{data.user.name}，欢迎回来</p>
+          <h1>我的车库<span className="garage-count">{data.vehicles.length} 辆爱车</span></h1>
+          <p>车辆资料、养护计划和服务进度，都在这里。</p>
         </div>
         <button className="btn btn-secondary add-car" onClick={onAddVehicle}>
           <Plus size={17} />
@@ -86,9 +86,9 @@ export default function HomePage({
       ) : (
         <>
           <div className="dashboard-hero">
-            <section className="vehicle-hero">
+            <section className="vehicle-hero photo-vehicle-hero">
               <div className="vehicle-hero-top">
-                <span className="overline-light">MY GARAGE / 我的爱车</span>
+                <span className="garage-label"><CarFront size={17} aria-hidden="true" /> 当前爱车</span>
                 <label className="vehicle-switch">
                   <span className="sr-only">切换车辆</span>
                   <select
@@ -104,16 +104,13 @@ export default function HomePage({
                 </label>
               </div>
               <div className="vehicle-title">
-                <h2>
-                  {model?.brand} {model?.name}
-                </h2>
+                <div className="vehicle-title-line"><h2>{model?.brand} {model?.name.replace(/\s*·\s*课程演示车型$/, "")}</h2>{vehicle.isDemo && <DemoTag />}</div>
                 <p>
                   {model?.year}款 · {model?.power}{" "}
                   <span className="plate">{vehicle.plate}</span>
                 </p>
-                {vehicle.isDemo && <DemoTag />}
               </div>
-              <CarArt />
+              <VehiclePhoto model={model} priority />
               <div className="vehicle-data">
                 <div>
                   <span>
@@ -139,7 +136,7 @@ export default function HomePage({
                   <p>{vehicle.name}</p>
                 </div>
                 <button className="hero-update" onClick={onImport}>
-                  <Camera size={18} />
+                  <Camera size={18} aria-hidden="true" />
                   更新里程
                   <ArrowUpRight size={16} />
                 </button>
@@ -150,23 +147,23 @@ export default function HomePage({
                 <span className="icon-tile icon-tile-amber">
                   <Wrench size={22} />
                 </span>
-                <span className="eyebrow">YOUR NEXT CARE</span>
+                <span className="care-heading-label">养护提醒</span>
               </div>
               <h2>
                 {next?.status === "due"
-                  ? "爱车需要一点关照"
+                  ? "有保养项目已到期"
                   : next?.status === "missing"
-                    ? "补充资料，更懂爱车"
+                    ? "完善爱车资料"
                     : next?.status === "soon"
-                      ? "下一次保养，早作安排"
-                      : "有序养护，从容出发"}
+                      ? "该安排下一次保养了"
+                      : "按计划，安心养护"}
               </h2>
               <p className="care-summary">
                 {attention.length
                   ? next?.scope === "vehicle"
                     ? "车型保养依据需要补充核验"
                     : `${attention.length} 项保养需要关注`
-                  : "查看项目周期，为下一程做好准备"}
+                  : "当前项目未到期，查看下次养护节点"}
               </p>
               {next ? (
                 <div className="next-care-detail">
@@ -232,29 +229,29 @@ export default function HomePage({
           <div className="quick-actions">
             {[
               {
-                Icon: Camera,
-                title: "更新车辆里程",
-                description: "截图识别 · 核对确认",
-                action: onImport,
+                Icon: FileCheck2,
+                title: "车辆档案",
+                description: "行驶证识别 · 资料管理",
+                action: () => navigate("/account?tab=vehicles"),
                 color: "blue",
               },
               {
                 Icon: MapPin,
-                title: "发现附近门店",
-                description: "同项比价 · 从容选择",
+                title: "找店与比价",
+                description: "查看门店 · 明白消费",
                 action: () => navigate("/stores"),
                 color: "teal",
               },
               {
                 Icon: Wrench,
-                title: "向专家问一问",
-                description: "描述问题 · 获取建议",
+                title: "故障咨询",
+                description: "描述问题 · 专家建议",
                 action: () => navigate("/repairs"),
                 color: "amber",
               },
               {
                 Icon: FileClock,
-                title: "每次服务都有记录",
+                title: "服务记录",
                 description: "预约进度 · 养护档案",
                 action: () => navigate("/account"),
                 color: "violet",
@@ -275,7 +272,6 @@ export default function HomePage({
           <div className="dashboard-bottom">
             <section className="card maintenance-section">
               <SectionHeading
-                eyebrow="MAINTENANCE PLAN"
                 title="爱车保养计划"
                 action={missingRules ? "查看车辆资料" : "更新里程"}
                 onAction={
@@ -367,7 +363,6 @@ export default function HomePage({
             <div className="dashboard-side">
               <section className="card appointment-glance">
                 <SectionHeading
-                  eyebrow="UPCOMING SERVICE"
                   title="我的服务待办"
                   action="全部"
                   onAction={() => navigate("/account")}
@@ -408,7 +403,6 @@ export default function HomePage({
               </section>
               <section className="card nearby-glance">
                 <SectionHeading
-                  eyebrow="EXPLORE NEARBY"
                   title="发现服务门店"
                   action="更多"
                   onAction={() => navigate("/stores")}

@@ -16,13 +16,14 @@ import {
   sha256,
   recalculateMaintenance,
 } from "./domain.js";
-interface ImageFile {
+export interface ImageFile {
   id: string;
   ownerId: string;
   path: string;
   hash: string;
   mime: string;
   createdAt: string;
+  purpose?: "registration";
 }
 interface StoredImport extends ImportJob {
   fileId: string;
@@ -30,7 +31,7 @@ interface StoredImport extends ImportJob {
   attempts: number;
   suppliedObservedAt: string | null;
 }
-async function receiveImage(request: Request, ctx: Context) {
+export async function receiveImage(request: Request, ctx: Context, purpose?: "registration") {
   const user = owner(request);
   let buffer: Buffer | undefined;
   const fields: Record<string, string> = {};
@@ -92,6 +93,7 @@ async function receiveImage(request: Request, ctx: Context) {
     hash,
     mime: "image/jpeg",
     createdAt: now(),
+    ...(purpose ? { purpose } : {}),
   };
   try {
     await put(ctx.db, "files", file);
@@ -101,7 +103,7 @@ async function receiveImage(request: Request, ctx: Context) {
   }
   return { file, fields, url: `/api/v1/files/${fileId}` };
 }
-async function discardNewFile(file: ImageFile, ctx: Context) {
+export async function discardNewFile(file: ImageFile, ctx: Context) {
   await remove(ctx.db, "files", file.id);
   await unlink(file.path).catch(() => {});
 }
@@ -177,7 +179,7 @@ export function registerImages(ctx: Context) {
       const file = await get<ImageFile>(db, "files", request.params.id);
       ensure(file, 404, "NOT_FOUND", "图片不存在");
       let allowed = file.ownerId === user.id;
-      if (!allowed && (user.role === "store_admin" || user.role === "expert")) {
+      if (!allowed && file.purpose !== "registration" && (user.role === "store_admin" || user.role === "expert")) {
         const faults = await list<Fault>(db, "faults");
         allowed = faults.some(
           (f) =>

@@ -1,0 +1,583 @@
+.registration-flow {
+  color: var(--color-text, #14243a);
+}
+.registration-steps {
+  list-style: none;
+  padding: 0 0 24px;
+  margin: 0 0 24px;
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-border, #dce5ef);
+}
+.registration-steps li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  color: var(--color-text-muted, #52647b);
+  font-size: 14px;
+  font-weight: 600;
+}
+.registration-steps li > span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: 1px solid var(--color-control-border, #70839a);
+  border-radius: 50%;
+  font-variant-numeric: tabular-nums;
+}
+.registration-steps .is-current {
+  color: var(--color-primary, #003288);
+}
+.registration-steps .is-current > span {
+  background: var(--color-primary, #003288);
+  color: #fff;
+  border-color: var(--color-primary, #003288);
+}
+.registration-steps .is-complete > span {
+  background: #e8f3ed;
+  color: #176b45;
+  border-color: #176b45;
+}
+.registration-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: 28px;
+}
+.registration-preview {
+  position: sticky;
+  top: 0;
+  min-width: 0;
+}
+.registration-document-frame {
+  min-height: 280px;
+  aspect-ratio: 1.32;
+  background: #f1f3f5;
+  border: 1px solid var(--color-border, #dce5ef);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.registration-document-frame > img {
+  width: 100%;
+  height: 100%;
+  max-height: 450px;
+  object-fit: contain;
+  background: #e8edf1;
+}
+.registration-placeholder {
+  text-align: center;
+  padding: 24px;
+}
+.registration-placeholder h3 {
+  margin: 22px 0 6px;
+  font-size: 18px;
+}
+.registration-placeholder p {
+  color: var(--color-text-muted, #52647b);
+  line-height: 1.7;
+  font-size: 14px;
+  margin: 0;
+}
+.registration-outline {
+  width: min(220px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #b1bdca;
+  border-radius: 8px;
+  color: #52647b;
+  padding: 16px 22px;
+  margin: auto;
+  transform: rotate(-3deg);
+  background: #fff;
+  box-shadow: 5px 6px 0 #e1e7ed;
+}
+.registration-outline span {
+  font-size: 10px;
+  margin: 6px 0 10px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.registration-outline i {
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: #dce5ef;
+  margin: 4px 0;
+}
+.registration-outline i:last-child {
+  width: 70%;
+  align-self: flex-start;
+}
+.registration-private {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 16px 2px 0;
+  color: var(--color-text-muted, #52647b);
+}
+.registration-private svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+.registration-private p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.registration-upload-time {
+  font-size: 12px;
+  color: var(--color-text-muted, #52647b);
+  margin: 10px 2px;
+}
+.registration-content {
+  min-width: 0;
+}
+.registration-heading h3 {
+  font-size: 23px;
+  line-height: 1.5;
+  letter-spacing: -0.7px;
+  margin: 7px 0 9px;
+}
+.registration-heading p,
+.registration-job-heading p {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--color-text-muted, #52647b);
+  margin: 8px 0 0;
+}
+.registration-file-picker {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 9px !important;
+  min-height: 145px;
+  padding: 20px 14px;
+  text-align: center;
+  border: 1.5px dashed var(--color-control-border, #70839a);
+  background: #f7faff;
+  border-radius: 12px;
+  color: var(--color-primary, #003288);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.registration-file-picker:hover {
+  background: #edf3fb;
+}
+.registration-file-picker:focus-within {
+  outline: 3px solid var(--color-primary, #003288);
+  outline-offset: 3px;
+}
+.registration-file-picker > span {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-weight: 650;
+}
+.registration-file-picker small {
+  color: var(--color-text-muted, #52647b);
+  font-weight: 400;
+  font-size: 13px;
+}
+.registration-file-picker input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.registration-check {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start;
+  gap: 10px !important;
+  min-height: 44px;
+  font-weight: 400 !important;
+  cursor: pointer;
+}
+.registration-check > input {
+  width: 19px !important;
+  min-height: 19px !important;
+  height: 19px;
+  margin: 3px 0 0;
+  flex: 0 0 19px;
+  accent-color: var(--color-primary, #003288);
+}
+.registration-check > span {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.registration-job-heading {
+  margin-bottom: 22px;
+}
+.registration-review-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #f0f5fb;
+  border-radius: 10px;
+  padding: 13px;
+}
+.registration-review-note svg {
+  flex: 0 0 auto;
+  color: var(--color-primary, #003288);
+  margin-top: 2px;
+}
+.registration-review-note p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-muted, #52647b);
+  line-height: 1.7;
+}
+.registration-bound-vehicle {
+  font-size: 13px;
+  line-height: 1.75;
+  margin: 0;
+  color: var(--color-text-muted, #52647b);
+}
+.registration-fieldset {
+  border: 0;
+  border-top: 1px solid var(--color-border, #dce5ef);
+  padding: 16px 0 0;
+  margin: 0;
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+}
+.registration-fieldset legend {
+  padding-right: 12px;
+  font-size: 15px;
+  font-weight: 650;
+}
+.registration-fieldset label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.registration-fieldset input,
+.registration-fieldset select {
+  width: 100%;
+  min-width: 0;
+}
+.registration-field-wide {
+  grid-column: 1 / -1;
+}
+.registration-back {
+  margin-top: 18px;
+}
+.registration-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
+  column-gap: 24px;
+}
+.registration-details > div {
+  border-bottom: 1px solid var(--color-border, #dce5ef);
+  padding: 11px 0;
+  min-width: 0;
+}
+.registration-details dt {
+  font-size: 12px;
+  color: var(--color-text-muted, #52647b);
+  margin-bottom: 4px;
+}
+.registration-details dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 550;
+  overflow-wrap: anywhere;
+}
+.registration-details .registration-vin {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.3px;
+}
+.registration-success {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--color-success, #176b45);
+}
+.registration-success svg {
+  flex: 0 0 auto;
+}
+.registration-success h3 {
+  font-size: 18px;
+  margin: 0 0 6px;
+}
+.registration-success p {
+  font-size: 13px;
+  margin: 0;
+  color: var(--color-text-muted, #52647b);
+}
+.vehicle-entry-options {
+  display: grid;
+  gap: 14px;
+}
+.vehicle-entry-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 108px;
+  padding: 22px;
+  text-align: left;
+  border: 1px solid var(--color-border, #dce5ef);
+  background: #fff;
+  border-radius: 13px;
+  cursor: pointer;
+  color: inherit;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.vehicle-entry-option:first-child {
+  background: #f1f6fc;
+  border-color: #a8bfdc;
+}
+.vehicle-entry-option:hover {
+  border-color: var(--color-primary, #003288);
+  background: #edf4fc;
+}
+.vehicle-entry-option > svg:first-child {
+  flex: 0 0 26px;
+  color: var(--color-primary, #003288);
+}
+.vehicle-entry-option > svg:last-child {
+  margin-left: auto;
+  flex: 0 0 18px;
+}
+.vehicle-entry-option strong {
+  display: block;
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+.vehicle-entry-option small {
+  display: block;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text-muted, #52647b);
+}
+.vehicle-entry-privacy {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  margin: 22px 0 0;
+  color: var(--color-text-muted, #52647b);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.vehicle-entry-privacy svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+.registration-card-panel {
+  margin: 18px 0;
+  padding: 16px;
+  background: #f5f7fa;
+  border: 1px solid var(--color-border, #dce5ef);
+  border-radius: 12px;
+}
+.registration-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+.registration-card-heading > span {
+  margin-left: auto;
+}
+.registration-card-panel .registration-details {
+  column-gap: 18px;
+}
+.registration-card-panel .registration-details > div {
+  padding: 8px 0;
+}
+.registration-card-panel .registration-details > div:nth-child(n + 5) {
+  display: none;
+}
+.registration-card-panel > .text-btn {
+  margin-top: 12px;
+}
+.registration-empty {
+  margin: 18px 0;
+  padding: 17px 14px;
+  border: 1px dashed #9babbc;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  background: #fafbfd;
+}
+.registration-empty > svg {
+  color: var(--color-text-muted, #52647b);
+  flex: 0 0 22px;
+}
+.registration-empty p {
+  margin: 0 0 5px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.registration-empty small {
+  display: block;
+  color: var(--color-text-muted, #52647b);
+  font-size: 12px;
+  line-height: 1.65;
+}
+.registration-task-list {
+  padding: 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--color-border, #dce5ef);
+  border-radius: 14px;
+  background: #fff;
+}
+.registration-task-list h3 {
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+.registration-task-list > p {
+  color: var(--color-text-muted, #52647b);
+  font-size: 13px;
+  margin: 0 0 14px;
+}
+.registration-task-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--color-border, #dce5ef);
+}
+.registration-task-row strong {
+  display: block;
+  font-size: 14px;
+}
+.registration-task-row small {
+  display: block;
+  margin-top: 4px;
+  color: var(--color-text-muted, #52647b);
+  font-size: 12px;
+}
+.registration-inline-error {
+  margin-bottom: 18px;
+}
+.vehicle-account-card > .archive-vehicle-photo {
+  height: 240px;
+  margin: 0 0 18px;
+  border-radius: 10px;
+}
+.vehicle-account-card > .btn {
+  font-size: 14px;
+  min-height: 44px;
+}
+@media (max-width: 700px) {
+  .registration-layout {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .registration-preview {
+    position: static;
+  }
+  .registration-document-frame {
+    min-height: 185px;
+    max-height: 245px;
+    aspect-ratio: auto;
+  }
+  .registration-document-frame > img {
+    max-height: 245px;
+  }
+  .registration-placeholder {
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    column-gap: 20px;
+    align-items: center;
+    text-align: left;
+  }
+  .registration-outline {
+    grid-row: span 2;
+    width: 112px;
+    padding: 12px;
+  }
+  .registration-outline span {
+    font-size: 6px;
+    letter-spacing: 0;
+  }
+  .registration-outline svg {
+    width: 29px;
+    height: 29px;
+  }
+  .registration-placeholder h3 {
+    margin: 0;
+    align-self: end;
+    font-size: 16px;
+  }
+  .registration-placeholder p {
+    align-self: start;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  .registration-private {
+    padding-top: 12px;
+  }
+  .registration-private p {
+    font-size: 12px;
+  }
+  .registration-steps {
+    gap: 8px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+  }
+  .registration-steps li {
+    font-size: 12px;
+    gap: 6px;
+  }
+  .registration-steps li > span {
+    width: 23px;
+    height: 23px;
+    flex-basis: 23px;
+  }
+  .registration-heading h3 {
+    font-size: 21px;
+  }
+  .registration-fieldset .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .registration-fieldset input,
+  .registration-fieldset select {
+    font-size: 16px;
+  }
+  .registration-details {
+    column-gap: 16px;
+  }
+  .vehicle-entry-option {
+    padding: 18px 15px;
+    gap: 12px;
+  }
+  .vehicle-entry-option strong {
+    font-size: 16px;
+  }
+  .registration-task-row {
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .registration-task-row > .text-btn {
+    flex-shrink: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .registration-file-picker,
+  .vehicle-entry-option {
+    transition: none;
+  }
+}

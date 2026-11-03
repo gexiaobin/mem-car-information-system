@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   CalendarDays,
@@ -14,8 +14,15 @@ import {
   AlertTriangle,
   ArrowRight,
   CheckCircle2,
+  FileCheck2,
+  ScanLine,
 } from "lucide-react";
-import type { Appointment, Bootstrap, Vehicle } from "@autovoyage/shared";
+import type {
+  Appointment,
+  Bootstrap,
+  RegistrationImport,
+  Vehicle,
+} from "@autovoyage/shared";
 import { APPOINTMENT_NAMES, cents } from "@autovoyage/shared";
 import { api, patch, post } from "../lib/api";
 import {
@@ -26,6 +33,11 @@ import {
   dateText,
   messageOf,
 } from "../components/UI";
+import RegistrationCertificate, {
+  RegistrationDetails,
+  registrationStatusLabel,
+} from "../components/RegistrationCertificate";
+import { VehiclePhoto } from "../components/VehiclePhoto";
 const inactive = ["completed", "cancelled", "expired", "rejected"];
 export default function AccountPage({
   data,
@@ -58,6 +70,39 @@ export default function AccountPage({
   const [error, setError] = useState("");
   const [closing, setClosing] = useState(false);
   const [editing, setEditing] = useState<Vehicle | null>(null);
+  const [registrations, setRegistrations] = useState<RegistrationImport[]>([]);
+  const [registrationTarget, setRegistrationTarget] = useState<{
+    vehicleId?: string;
+    job?: RegistrationImport;
+  } | null>(null);
+  const [registrationError, setRegistrationError] = useState("");
+  const [registrationLoading, setRegistrationLoading] = useState(false);
+  const refreshRegistrations = useCallback(async () => {
+    const results = await api<RegistrationImport[]>("/registration-imports");
+    setRegistrations(results);
+    setRegistrationError("");
+  }, []);
+  useEffect(() => {
+    if (tab !== "vehicles") return;
+    let alive = true;
+    setRegistrationLoading(true);
+    api<RegistrationImport[]>("/registration-imports")
+      .then((results) => {
+        if (alive) {
+          setRegistrations(results);
+          setRegistrationError("");
+        }
+      })
+      .catch((e) => {
+        if (alive) setRegistrationError(messageOf(e));
+      })
+      .finally(() => {
+        if (alive) setRegistrationLoading(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [tab]);
   const navigate = useNavigate();
   const appointment = data.appointments.find((a) => a.id === selected);
   const appointments = data.appointments.filter(
@@ -107,7 +152,7 @@ export default function AccountPage({
         {[
           { id: "appointments", label: "我的预约", Icon: CalendarDays },
           { id: "history", label: "养护档案", Icon: FileClock },
-          { id: "vehicles", label: "车辆与里程", Icon: CarFront },
+          { id: "vehicles", label: "车辆档案", Icon: CarFront },
         ].map((item) => (
           <button
             key={item.id}
@@ -285,11 +330,75 @@ export default function AccountPage({
               添加车辆
             </button>
           </div>
+          {registrationError && (
+            <div className="registration-inline-error">
+              <ErrorBox message={`行驶证档案加载失败：${registrationError}`} />
+              <button
+                className="text-btn"
+                onClick={() =>
+                  refreshRegistrations().catch((e) =>
+                    setRegistrationError(messageOf(e)),
+                  )
+                }
+              >
+                重新加载档案
+              </button>
+            </div>
+          )}
+          {registrations.some((item) => item.status !== "confirmed") && (
+            <section className="registration-task-list">
+              <h3>行驶证识别记录</h3>
+              <p>
+                已上传的照片可在这里继续核对。完成确认前不会创建或修改车辆。
+              </p>
+              {registrations
+                .filter((item) => item.status !== "confirmed")
+                .map((item) => (
+                  <div className="registration-task-row" key={item.id}>
+                    <div>
+                      <strong>
+                        {item.vehicleId
+                          ? data.vehicles.find(
+                              (car) => car.id === item.vehicleId,
+                            )?.plate || "爱车行驶证"
+                          : "新车建档"}{" "}
+                        · {registrationStatusLabel(item.status)}
+                      </strong>
+                      <small>{dateText(item.createdAt, true)}</small>
+                    </div>
+                    <button
+                      className="text-btn"
+                      onClick={() =>
+                        setRegistrationTarget({
+                          vehicleId: item.vehicleId || undefined,
+                          job: item,
+                        })
+                      }
+                    >
+                      查看任务
+                      <ChevronRight size={16} aria-hidden="true" />
+                    </button>
+                  </div>
+                ))}
+            </section>
+          )}
           <div className="vehicle-account-grid">
             {data.vehicles.map((car) => {
               const model = data.models.find((m) => m.id === car.modelId);
+              const registration = registrations.find(
+                (item) =>
+                  item.vehicleId === car.id && item.status === "confirmed",
+              );
+              const registrationTask = registrations.find(
+                (item) =>
+                  item.vehicleId === car.id && item.status !== "confirmed",
+              );
               return (
                 <section className="card vehicle-account-card" key={car.id}>
+                  <VehiclePhoto
+                    model={model}
+                    className="archive-vehicle-photo"
+                  />
                   <div className="vehicle-account-top">
                     <span className="icon-tile icon-tile-blue">
                       <CarFront size={25} />
@@ -324,6 +433,46 @@ export default function AccountPage({
                       <dd>{dateText(car.observedAt, true)}</dd>
                     </div>
                   </dl>
+                  {registration ? (
+                    <div className="registration-card-panel">
+                      <div className="registration-card-heading">
+                        <FileCheck2 size={18} aria-hidden="true" />
+                        <strong>行驶证档案</strong>
+                        <span className="badge badge-success">本人已核对</span>
+                      </div>
+                      <RegistrationDetails
+                        fields={
+                          registration.confirmedFields || registration.candidate
+                        }
+                      />
+                      <button
+                        className="text-btn"
+                        onClick={() =>
+                          setRegistrationTarget({
+                            vehicleId: car.id,
+                            job: registration,
+                          })
+                        }
+                      >
+                        查看完整行驶证档案
+                        <ChevronRight size={16} aria-hidden="true" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="registration-empty">
+                      <FileCheck2 size={22} aria-hidden="true" />
+                      <div>
+                        <p>
+                          {registrationLoading
+                            ? "正在读取行驶证档案…"
+                            : "补全行驶证，让档案更完整"}
+                        </p>
+                        <small>
+                          可识别号牌、VIN、车辆类型与注册日期，核对后保存。证件资料仅本人可查看。
+                        </small>
+                      </div>
+                    </div>
+                  )}
                   <details className="vehicle-rules-info">
                     <summary>查看此车型的保养依据</summary>
                     {data.rules.some(
@@ -365,6 +514,22 @@ export default function AccountPage({
                       </p>
                     )}
                   </details>
+                  <button
+                    className="btn btn-primary btn-full"
+                    onClick={() =>
+                      setRegistrationTarget({
+                        vehicleId: car.id,
+                        job: registrationTask || undefined,
+                      })
+                    }
+                  >
+                    <ScanLine size={17} aria-hidden="true" />
+                    {registrationTask
+                      ? "继续行驶证识别任务"
+                      : registration
+                        ? "上传新的行驶证"
+                        : "上传行驶证并识别"}
+                  </button>
                   <button
                     className="btn btn-secondary btn-full"
                     onClick={() => setEditing(car)}
@@ -484,6 +649,35 @@ export default function AccountPage({
           }}
         />
       )}{" "}
+      {registrationTarget && (
+        <RegistrationCertificate
+          key={
+            registrationTarget.job?.id ||
+            registrationTarget.vehicleId ||
+            "registration-new"
+          }
+          models={data.models}
+          vehicle={data.vehicles.find(
+            (car) =>
+              car.id ===
+              (registrationTarget.vehicleId ||
+                registrationTarget.job?.vehicleId),
+          )}
+          initialJob={registrationTarget.job}
+          aiConfigured={data.config.aiConfigured}
+          onClose={() => {
+            setRegistrationTarget(null);
+            refreshRegistrations().catch((e) =>
+              setRegistrationError(messageOf(e)),
+            );
+          }}
+          onSaved={async () => {
+            await onRefresh();
+            await refreshRegistrations();
+            onSuccess("行驶证信息已核对保存，爱车档案已更新");
+          }}
+        />
+      )}
       {closing && (
         <CloseAccount
           email={data.user.email}
