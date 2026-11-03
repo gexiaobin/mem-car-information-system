@@ -2,6 +2,8 @@
 
 ## 当前部署选择
 
+V0.4 前端代码 `44d5c73` 与上传构建包已准备，计划使用 `autovoyage-web:44d5c73` 更新现有 Stack，API 保持 `autovoyage-api:2e6107d`。Portainer 原会话已过期，等待部署者重新登录；以下记录的 V0.3 仍为当前线上版本。升级仅替换 Web 镜像，保留原有环境变量、网络、上传卷和数据库，无需新增端口。回滚可恢复 Web `a0a690c`。
+
 用户已选择本阶段先不用域名，采用 **IP + 58083 端口的 HTTP 课程预览**，配置文件为 `compose.preview.yml`。2026-11-03 已部署到 Portainer 的 `autovoyage` Stack，实际入口为 [http://117.72.124.241:58083/](http://117.72.124.241:58083/)。主页、`/healthz`、`/api/v1/health` 与 `/api/v1/config` 均返回 HTTP 200；API 报告使用 PostgreSQL，AI 已配置。Portainer 中 `autovoyage-api-1` 与 `autovoyage-web-1` 均为 `healthy`。
 
 `compose.yml` 保留为以后接入域名和有效证书的 HTTPS 方案。两份配置是互斥的部署方式，使用同一个 Stack 名称，不要同时启动。

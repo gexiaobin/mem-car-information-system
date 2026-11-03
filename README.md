@@ -2,13 +2,17 @@
 
 中国海洋大学 MEM《软件工程管理》课程项目：汽车信息管理系统。
 
-React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。采用原创 SVG 汽车插画、深蓝数字车库与浅色信息面板，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
+React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。V0.4 采用 Cybertruck 灵感原创 SVG、汽车服务站图标与海洋蓝主题，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
 
 课程预览已部署：[打开云程](http://117.72.124.241:58083/)。车主、门店、专家和平台账号的独立口令保存在部署者本机受控文件中，不提供公开通用密码。实际验收范围见 [验证记录](docs/verification.md)。
 
 ![云程车主首页：原创汽车插画、数字车库与养护计划](docs/images/owner-dashboard.png)
 
-截图使用课程演示车辆。V0.3 全部车型展示使用通用汽车插画，外观仅为示意；历史素材许可见 [图片来源](docs/image-attribution.md)。
+截图使用课程演示车辆。当前线上截图为 V0.3；V0.4 新版预览见下图。插画外观仅为示意，历史素材许可见 [图片来源](docs/image-attribution.md)。
+
+![V0.4 本地预览：Cybertruck 灵感插画与海洋蓝主题](docs/images/ocean-blue-preview.png)
+
+海洋蓝取自中国海洋大学海洋文化的设计灵感，色值为项目自定配色。
 
 ## 功能与当前进度
 
@@ -19,7 +23,7 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 | 门店专家 | 分配范围内的故障资料、补充信息、建议与费用预估 |
 | 平台管理员 | 标准项目、车型保养规则与资料来源、门店审核及审计记录 |
 
-V0.3 已部署原创汽车插画、数字车库与 OpenFreeMap 矢量地图，Web 镜像对应 `a0a690c`，API 保持 `2e6107d`。公网已确认地图道路、三家门店、选店、显隐及手机布局，截图见 [地图效果](docs/images/store-map.png)。完整代码检查及 GitHub Actions 通过，包含 27 项后端测试、类型检查和前后端构建。行驶证沿用此前完成的 6 项真实 PostgreSQL 测试与云端真实 AI 合成样本识别；详细范围见 [验证记录](docs/verification.md)。文档提交不触发 Portainer 自动发布。
+V0.4 代码 `44d5c73` 已完成海洋蓝主题、Cybertruck 灵感皮卡和共享门店服务站 SVG；本地完整检查通过，部署包已准备，等待 Portainer 恢复登录后发布。当前线上仍为 V0.3，Web `a0a690c`、API `2e6107d`，已确认 OpenFreeMap 道路、三家门店、选店、显隐及手机布局。行驶证沿用此前完成的 6 项真实 PostgreSQL 测试与云端真实 AI 合成样本识别；详细范围见 [验证记录](docs/verification.md)。文档提交不触发 Portainer 自动发布。
 
 课程数据包括演示车型、规则、门店、价格与记录；当前车型目录包含迈腾和海豹。真实车型手册、真实证件准确率、手机真机兼容性和压力测试仍需独立验证。
 
