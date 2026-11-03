@@ -1,0 +1,21 @@
+{
+  "name": "autovoyage",
+  "version": "0.1.0",
+  "private": true,
+  "description": "云程 AutoVoyage · 汽车信息管理系统",
+  "type": "module",
+  "workspaces": ["apps/*", "packages/*"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c blue,cyan \"npm run dev -w @autovoyage/api\" \"npm run dev -w @autovoyage/web\"",
+    "build": "npm run build -w @autovoyage/api && npm run build -w @autovoyage/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test -w @autovoyage/api",
+    "test:postgres": "tsx scripts/verify-postgres.ts",
+    "initialize:server": "tsx scripts/initialize-server.ts",
+    "check": "npm run typecheck && npm run test && npm run build",
+    "start": "npm run start -w @autovoyage/api"
+  },
+  "devDependencies": { "concurrently": "^9.2.1", "typescript": "^5.9.3", "@types/node": "^24.10.0", "esbuild": "^0.28.2" },
+  "overrides": { "esbuild": "$esbuild" }
+}

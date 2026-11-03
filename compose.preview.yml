@@ -1,0 +1,59 @@
+# IP + port course preview. HTTPS deployment uses compose.yml instead.
+name: autovoyage
+services:
+  api:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      ALLOW_HTTP_PREVIEW: "true"
+      HOST: 0.0.0.0
+      PORT: 3001
+      TZ: Asia/Shanghai
+      APP_ORIGIN: ${APP_ORIGIN:?Set the exact IP and port origin}
+      DATABASE_DRIVER: postgres
+      PGHOST: ${PGHOST_INTERNAL:-postgresql}
+      PGPORT: 5432
+      PGDATABASE: ${PGDATABASE:-mem_car_info}
+      PGUSER: ${PGUSER:-mem_car_app}
+      PGPASSWORD: ${PGPASSWORD:?Set the database password}
+      PGSSL: ${PGSSL:-false}
+      SESSION_SECRET: ${SESSION_SECRET:?Set a random session secret}
+      DEMO_MODE: "false"
+      SEED_DEMO: "false"
+      UPLOAD_DIR: /app/data/uploads
+      AI_BASE_URL: ${AI_BASE_URL:-}
+      AI_MODEL: ${AI_MODEL:-}
+      AI_API_KEY: ${AI_API_KEY:-}
+      MAP_PROVIDER: ${MAP_PROVIDER:-osm}
+      AMAP_WEB_KEY: ${AMAP_WEB_KEY:-}
+      AMAP_SECURITY_CODE: ${AMAP_SECURITY_CODE:-}
+    volumes: [uploads:/app/data/uploads]
+    networks: [app, database]
+    mem_limit: 512m
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+  web:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.web
+    restart: unless-stopped
+    depends_on:
+      api: { condition: service_healthy }
+    ports:
+      - "${APP_PORT:-58083}:8080"
+    networks: [app]
+    mem_limit: 128m
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+volumes:
+  uploads:
+networks:
+  app:
+  database:
+    external: true
+    name: ${DATABASE_NETWORK:-postgresql_default}
