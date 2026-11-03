@@ -40,7 +40,10 @@ before(async () => {
   const address = upstream.address();
   assert(address && typeof address !== "string");
   temporary = await mkdtemp(join(tmpdir(), "autovoyage-registration-"));
-  const base = loadConfig();
+  const base = loadConfig({
+    production: false, seedDemo: false,
+    sessionSecret: "registration-test-secret-at-least-32-characters",
+  });
   if (process.env.AV_REGISTRATION_PG_TEST === "1") {
     const { schema: _, ...connection } = base.pg;
     assert(connection.password, "PostgreSQL test requires configured credentials");
