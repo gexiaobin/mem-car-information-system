@@ -28,6 +28,8 @@ export interface Config {
   aiBaseUrl: string;
   aiKey: string;
   aiModel: string;
+  aiApiStyle: "chat_completions" | "responses";
+  aiTimeoutMs: number;
   mapProvider: "amap" | "osm";
   amapKey: string;
   amapSecurityCode: string;
@@ -72,6 +74,8 @@ export function loadConfig(overrides: Partial<Config> = {}): Config {
     aiBaseUrl: process.env.AI_BASE_URL || "",
     aiKey: process.env.AI_API_KEY || "",
     aiModel: process.env.AI_MODEL || "",
+    aiApiStyle: (process.env.AI_API_STYLE || "chat_completions") as Config["aiApiStyle"],
+    aiTimeoutMs: Number(process.env.AI_TIMEOUT_MS || 90000),
     mapProvider: process.env.MAP_PROVIDER === "amap" ? "amap" : "osm",
     amapKey: process.env.AMAP_WEB_KEY || "",
     amapSecurityCode: process.env.AMAP_SECURITY_CODE || "",
@@ -79,6 +83,10 @@ export function loadConfig(overrides: Partial<Config> = {}): Config {
   };
   if (cfg.pg.schema && !/^[a-z_][a-z0-9_]{0,62}$/.test(cfg.pg.schema))
     throw new Error("PGSCHEMA 必须是有效的小写SQL标识符");
+  if (!["chat_completions", "responses"].includes(cfg.aiApiStyle))
+    throw new Error("AI_API_STYLE 必须为 chat_completions 或 responses");
+  if (!Number.isInteger(cfg.aiTimeoutMs) || cfg.aiTimeoutMs < 1000 || cfg.aiTimeoutMs > 180000)
+    throw new Error("AI_TIMEOUT_MS 必须是 1000 至 180000 毫秒的整数");
   if (cfg.sessionSecret.length < 32)
     throw new Error("SESSION_SECRET 必须至少 32 个字符");
   if (cfg.seedDemo && cfg.demoPassword.length < 12)

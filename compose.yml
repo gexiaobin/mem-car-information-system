@@ -25,6 +25,8 @@ services:
       AI_BASE_URL: ${AI_BASE_URL:-}
       AI_MODEL: ${AI_MODEL:-}
       AI_API_KEY: ${AI_API_KEY:-}
+      AI_API_STYLE: ${AI_API_STYLE:-chat_completions}
+      AI_TIMEOUT_MS: ${AI_TIMEOUT_MS:-90000}
       MAP_PROVIDER: ${MAP_PROVIDER:-osm}
       AMAP_WEB_KEY: ${AMAP_WEB_KEY:-}
       AMAP_SECURITY_CODE: ${AMAP_SECURITY_CODE:-}
