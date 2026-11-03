@@ -12,7 +12,6 @@ import {
   ShieldCheck,
   X,
   CalendarDays,
-  Store as StoreIcon,
   ChevronRight,
 } from "lucide-react";
 import type {
@@ -25,6 +24,7 @@ import type {
 } from "@autovoyage/shared";
 import { cents } from "@autovoyage/shared";
 import { api, post } from "../lib/api";
+import { StoreIllustration } from "../components/StoreIllustration";
 import StoreMap, {
   distanceKm,
   storeWgs,
@@ -592,28 +592,14 @@ export default function StoresPage({
                       >
                         <div className="store-card-top">
                           <button
-                            className="store-image"
+                            className="store-image store-art-tile"
                             aria-label={`在地图查看${store.name}`}
                             onClick={() => setSelectedId(store.id)}
                           >
                             <span className="store-marker-number">
                               {index + 1}
                             </span>
-                            <svg viewBox="0 0 100 80" aria-hidden="true">
-                              <path d="M13 37h74v33H13z" fill="#d8e6f1" />
-                              <path d="M9 19h82v20H9z" fill="#6c8fab" />
-                              <path d="M18 22h64v8H18z" fill="#eff5fa" />
-                              <path
-                                d="M23 47h26v23H23zm36 0h16v23H59z"
-                                fill="#4b7596"
-                              />
-                              <path
-                                d="M0 72h100"
-                                stroke="#adc6d9"
-                                strokeWidth="3"
-                              />
-                            </svg>
-                            <span>{storeType(store)}</span>
+                            <StoreIllustration type={store.type} />
                           </button>
                           <div className="store-card-info">
                             <button

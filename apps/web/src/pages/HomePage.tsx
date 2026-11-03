@@ -26,6 +26,7 @@ import {
   dateText,
 } from "../components/UI";
 import { VehiclePhoto } from "../components/VehiclePhoto";
+import { StoreIllustration } from "../components/StoreIllustration";
 
 export default function HomePage({
   data,
@@ -113,7 +114,7 @@ export default function HomePage({
                 </p>
               </div>
               <VehiclePhoto model={model} priority caption={false} />
-              <span className="garage-art-label">车型示意</span>
+              <span className="garage-art-label">Cybertruck 灵感 · 示意</span>
               </div>
               <div className="vehicle-data">
                 <div>
@@ -426,8 +427,8 @@ export default function HomePage({
                       key={store.id}
                       onClick={() => navigate(`/stores?store=${store.id}`)}
                     >
-                      <span className="store-avatar">
-                        <Wrench size={20} />
+                      <span className="store-avatar store-art-avatar">
+                        <StoreIllustration type={store.type} compact />
                       </span>
                       <span>
                         <strong>{store.name}</strong>

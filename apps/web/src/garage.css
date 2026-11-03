@@ -1,28 +1,28 @@
-/* Digital garage. Original vector artwork, calm surfaces, one clear next action. */
+/* Ocean-blue garage: deep sea, clear water and restrained wave details. */
 .owner-app,
 .login-page {
-  --color-primary: #245eea;
-  --color-primary-hover: #1749c0;
-  --color-primary-soft: #edf2ff;
-  --color-background: #f3f6fb;
-  --color-text: #192b45;
-  --color-text-muted: #62718a;
-  --color-border: #e3e9f2;
-  --garage-navy: #10233e;
-  --garage-on-dark: #eef5ff;
-  --garage-muted-dark: #b9cce6;
-  --shadow-card: 0 8px 28px rgb(26 49 89 / 4%);
+  --color-primary: #0068b5;
+  --color-primary-hover: #005493;
+  --color-primary-soft: #e5f3fa;
+  --color-background: #f1f7fb;
+  --color-text: #12324a;
+  --color-text-muted: #536f80;
+  --color-border: #d9e9f1;
+  --garage-navy: #003b70;
+  --garage-on-dark: #f0faff;
+  --garage-muted-dark: #d2eaf5;
+  --shadow-card: 0 8px 28px rgb(0 59 112 / 4%);
   background: var(--color-background);
 }
 .owner-app .main-content { max-width: 1376px; }
 .owner-app .card { border-radius: 20px; box-shadow: var(--shadow-card); }
 .owner-app .btn { border-radius: 11px; font-weight: 600; }
-.owner-app .btn-primary { box-shadow: 0 4px 12px rgb(36 94 234 / 12%); }
+.owner-app .btn-primary { box-shadow: 0 4px 12px rgb(0 104 181 / 14%); }
 .owner-app .topbar { color: var(--color-text-muted); }
 .owner-app .page-intro h1 { letter-spacing: -.8px; font-weight: 750; }
 .owner-app .garage-dashboard .page-intro { margin-bottom: 28px; align-items: center; }
 .garage-dashboard .owner-greeting { display: flex; align-items: center; gap: 8px; }
-.garage-dashboard .owner-greeting > span { width: 6px; height: 6px; border-radius: 50%; background: #20866f; }
+.garage-dashboard .owner-greeting > span { width: 17px; height: 8px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 10'%3E%3Cpath d='M1 3C4 0 6 6 10 3S16 0 19 3M1 8C4 5 6 11 10 8S16 5 19 8' fill='none' stroke='%230068b5' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat; }
 .owner-app .garage-dashboard .page-intro h1 { font-size: clamp(26px, 2.4vw, 34px); line-height: 1.4; }
 .garage-dashboard .garage-count { border: 1px solid var(--color-border); background: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; margin-left: 14px; vertical-align: middle; }
 .owner-app .garage-dashboard .page-intro > div > p:last-child { font-size: 14px; color: var(--color-text-muted); margin-top: 9px; }
@@ -33,19 +33,19 @@
   isolation: isolate;
   overflow: hidden;
   border-radius: 23px;
-  background: radial-gradient(ellipse at 83% 53%, #254f7c 0%, transparent 55%), linear-gradient(120deg, #11233e, #132c4b);
+  background: radial-gradient(ellipse at 88% 58%, rgb(0 167 200 / 28%) 0%, transparent 55%), linear-gradient(115deg, #003257, #004f83 72%, #006895);
   color: var(--garage-on-dark);
-  border: 1px solid #1c3656;
+  border: 1px solid #14658b;
   padding: 23px 28px 0;
   min-height: 0;
   box-shadow: 0 13px 30px rgb(16 35 62 / 10%);
 }
-.owner-app .digital-vehicle-hero::before { content: ""; display: block; position: absolute; z-index: -1; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(125deg, transparent 65%, rgb(163 211 255 / 5%) 65.1%, transparent 65.3%), linear-gradient(125deg, transparent 74%, rgb(163 211 255 / 4%) 74.1%, transparent 74.3%); }
+.owner-app .digital-vehicle-hero::before { content: ""; display: block; position: absolute; z-index: -1; inset: 0; border-radius: inherit; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 520'%3E%3Cg fill='none' stroke='%237ad8ed'%3E%3Cpath d='M350 360C520 190 680 530 960 300' stroke-opacity='.16'/%3E%3Cpath d='M300 390C490 190 690 560 980 330' stroke-opacity='.12'/%3E%3Cpath d='M260 420C480 190 710 590 1000 360' stroke-opacity='.09'/%3E%3Cpath d='M200 455C450 190 730 620 1020 390' stroke-opacity='.07'/%3E%3C/g%3E%3C/svg%3E") center / cover no-repeat; }
 .digital-vehicle-hero .vehicle-hero-top { position: relative; z-index: 2; }
 .digital-vehicle-hero .garage-label { color: var(--garage-muted-dark); font-size: 13px; letter-spacing: .5px; }
-.garage-label-line { display: inline-block; width: 35px; height: 1px; margin-left: 6px; background: #426184; }
+.garage-label-line { display: inline-block; width: 35px; height: 1px; margin-left: 6px; background: #5098b7; }
 .owner-app .digital-vehicle-hero .vehicle-switch { max-width: 190px; }
-.owner-app .digital-vehicle-hero .vehicle-switch select { color: #e8f2ff; background: #233c5b; border: 1px solid #54749a; border-radius: 10px; min-height: 44px; font-size: 13px; padding: 9px 30px 9px 13px; }
+.owner-app .digital-vehicle-hero .vehicle-switch select { color: #f0faff; background: #195b81; border: 1px solid #76adc6; border-radius: 10px; min-height: 44px; font-size: 13px; padding: 9px 30px 9px 13px; }
 .owner-app .digital-vehicle-hero .vehicle-switch select:focus-visible { outline-color: #c5e4ff; }
 .owner-app .digital-vehicle-hero .vehicle-switch option { color: #192b45; background: #fff; }
 .garage-stage { position: relative; height: 278px; }
@@ -53,13 +53,13 @@
 .vehicle-nickname { font-size: 12px; color: var(--garage-muted-dark); letter-spacing: .6px; }
 .owner-app .digital-vehicle-hero .vehicle-title h2 { color: #f5f8ff; font-size: clamp(27px, 2.2vw, 34px); font-weight: 700; line-height: 1.55; letter-spacing: -.5px; }
 .owner-app .digital-vehicle-hero .vehicle-title-line { gap: 10px; }
-.owner-app .digital-vehicle-hero .vehicle-title-line .badge-demo { background: #283e59; color: #d4e2f5; border: 1px solid #526a86; font-size: 10px; }
+.owner-app .digital-vehicle-hero .vehicle-title-line .badge-demo { background: #195578; color: #d8edf7; border: 1px solid #6b9fb7; font-size: 10px; }
 .owner-app .digital-vehicle-hero .vehicle-title > p { color: var(--garage-muted-dark); font-size: 12px; margin-top: 4px; }
 .owner-app .digital-vehicle-hero .vehicle-title .plate { color: #e8f2ff; border-left-color: #527195; font-size: 12px; padding-left: 12px; }
 .vehicle-illustration { display: block; margin: 0; overflow: hidden; background: transparent; }
 .vehicle-illustration > svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .garage-stage > .vehicle-illustration { position: absolute; inset: 23px -37px -21px; height: auto; pointer-events: none; }
-.garage-art-label { position: absolute; bottom: 9px; right: 0; color: #c0d1e7; font-size: 10px; padding: 2px 7px; border: 1px solid #476583; border-radius: 5px; letter-spacing: .8px; }
+.garage-art-label { position: absolute; bottom: 9px; right: 0; color: #f0faff; background: rgb(0 50 87 / 85%); font-size: 11px; padding: 2px 7px; border: 1px solid #5794b1; border-radius: 5px; letter-spacing: .5px; }
 .owner-app .digital-vehicle-hero .vehicle-data { position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) auto; align-items: center; gap: 19px; padding: 21px 0 23px; margin: 0; border-top: 1px solid #38516e; }
 .owner-app .digital-vehicle-hero .vehicle-data > div + div { border-left: 1px solid #3d5674; padding-left: 23px; }
 .owner-app .digital-vehicle-hero .vehicle-data > div > span { color: var(--garage-muted-dark); font-size: 12px; }
@@ -67,8 +67,8 @@
 .owner-app .digital-vehicle-hero .vehicle-data strong small { font-size: 12px; color: var(--garage-muted-dark); margin-left: 4px; }
 .owner-app .digital-vehicle-hero .vehicle-data .date-value { font-size: 17px; line-height: 3.2; letter-spacing: 0; }
 .owner-app .digital-vehicle-hero .vehicle-data p { font-size: 11px; color: var(--garage-muted-dark); }
-.owner-app .digital-vehicle-hero .hero-update { border: 1px solid #fff; background: #f4f8ff; color: #153f87; min-height: 46px; padding: 12px 16px; border-radius: 11px; font-size: 13px; font-weight: 650; box-shadow: 0 4px 9px rgb(0 0 0 / 6%); white-space: nowrap; }
-.owner-app .digital-vehicle-hero .hero-update:hover { background: #dceaff; border-color: #dceaff; }
+.owner-app .digital-vehicle-hero .hero-update { border: 1px solid #fff; background: #f0faff; color: #004e83; min-height: 46px; padding: 12px 16px; border-radius: 11px; font-size: 13px; font-weight: 650; box-shadow: 0 4px 9px rgb(0 0 0 / 6%); white-space: nowrap; }
+.owner-app .digital-vehicle-hero .hero-update:hover { background: #d9f1fa; border-color: #d9f1fa; }
 .owner-app .digital-vehicle-hero .hero-update > svg:last-child { display: none; }
 .owner-app .garage-dashboard .care-card { position: relative; overflow: hidden; border-radius: 23px; border: 1px solid var(--color-border); padding: 28px; box-shadow: var(--shadow-card); }
 .owner-app .garage-dashboard .care-card::before { content: ""; position: absolute; top: 0; left: 28px; width: 45px; height: 3px; border-radius: 0 0 3px 3px; background: #568be9; }
@@ -80,7 +80,7 @@
 .care-heading-label > span { display: block; color: var(--color-text-muted); font-weight: 400; font-size: 11px; margin-top: 3px; }
 .owner-app .garage-dashboard .care-card h2 { font-size: 23px; letter-spacing: -.5px; margin-bottom: 8px; }
 .owner-app .garage-dashboard .care-summary { font-size: 13px; }
-.owner-app .garage-dashboard .next-care-detail { margin: 21px 0 22px; border: 0; border-radius: 14px; background: #f6f8fc; padding: 18px; }
+.owner-app .garage-dashboard .next-care-detail { margin: 21px 0 22px; border: 0; border-radius: 14px; background: #edf6fa; padding: 18px; }
 .owner-app .garage-dashboard .next-care-detail > strong { font-size: 15px; }
 .owner-app .garage-dashboard .next-care-detail > p { margin-top: 12px; font-size: 12px; }
 .owner-app .garage-dashboard .thresholds { margin-top: 16px; gap: 14px; }
@@ -93,7 +93,7 @@
 .garage-service-heading > span { color: var(--color-text-muted); font-size: 12px; }
 .owner-app .garage-dashboard .quick-actions { margin: 0 0 29px; gap: 16px; }
 .owner-app .garage-dashboard .quick-actions > button { position: relative; padding: 21px 19px; min-height: 103px; background: #fff; border: 1px solid var(--color-border); border-radius: 16px; box-shadow: 0 3px 12px rgb(26 49 89 / 2%); transition: background-color .18s, border-color .18s, box-shadow .18s; }
-.owner-app .garage-dashboard .quick-actions > button:hover { background: #fafcff; border-color: #b5c9ee; box-shadow: 0 5px 15px rgb(26 49 89 / 6%); }
+.owner-app .garage-dashboard .quick-actions > button:hover { background: #fafcff; border-color: #9dcada; box-shadow: 0 5px 15px rgb(26 49 89 / 6%); }
 .owner-app .garage-dashboard .quick-actions .icon-tile { border-radius: 13px; width: 44px; height: 44px; flex-shrink: 0; }
 .owner-app .garage-dashboard .quick-actions strong { font-size: 15px; margin-bottom: 5px; }
 .owner-app .garage-dashboard .quick-actions small { font-size: 11px; }
@@ -107,7 +107,7 @@
 .owner-app .garage-dashboard .maintenance-main > p { font-size: 13px; margin-top: 7px; }
 .owner-app .garage-dashboard .maintenance-main > small { display: block; font-size: 11px; margin-top: 7px; color: var(--color-text-muted); }
 .owner-app .garage-dashboard .maintenance-row .plan-status-icon { border-radius: 11px; }
-.owner-app .garage-dashboard .section-note { background: #f6f8fc; border-radius: 9px; border: 0; padding: 10px 13px; font-size: 11px; }
+.owner-app .garage-dashboard .section-note { background: #edf6fa; border-radius: 9px; border: 0; padding: 10px 13px; font-size: 11px; }
 .owner-app .garage-dashboard .dashboard-side { gap: 20px; }
 .owner-app .garage-dashboard .appointment-glance,
 .owner-app .garage-dashboard .nearby-glance { padding: 25px; }
@@ -122,14 +122,31 @@
 .owner-app .garage-dashboard .store-avatar { border-radius: 11px; background: #f0f4fa; color: #5e7698; }
 .owner-app .digital-vehicle-hero .hero-update:focus-visible { outline: 3px solid #c5e4ff; outline-offset: 3px; }
 .vehicle-illustration:has(> figcaption) { display: grid; grid-template-rows: minmax(0, 1fr) auto; }
-.vehicle-illustration > figcaption { color: #c0d1e7; background: transparent; padding: 0 16px 12px; font-size: 10px; text-align: center; }
-.owner-app .archive-vehicle-photo.vehicle-illustration { height: 205px; background: radial-gradient(ellipse at 70% 40%, #254c75, #142d4b 70%); border-radius: 14px; }
-.login-page .login-vehicle-photo.vehicle-illustration { min-height: 0; height: 280px; margin: 14px -20px 24px; background: radial-gradient(ellipse at 70% 40%, #254c75, #112640 70%); border-radius: 20px; }
+.vehicle-illustration > figcaption { color: #d2eaf5; background: transparent; padding: 0 16px 12px; font-size: 10px; text-align: center; }
+.owner-app .archive-vehicle-photo.vehicle-illustration { height: 205px; background: radial-gradient(ellipse at 70% 40%, #006c96, #003b62 70%); border-radius: 14px; }
+.login-page .login-vehicle-photo.vehicle-illustration { min-height: 0; height: 280px; margin: 14px -20px 24px; background: radial-gradient(ellipse at 70% 40%, #006c96, #003153 70%); border-radius: 20px; }
 .login-page .login-vehicle-photo.vehicle-illustration > figcaption { background: transparent; }
+.owner-app .brand, .login-page .brand { color: var(--ocean-deep); }
+.owner-app .brand-mark, .login-page .brand-mark { color: var(--color-primary); }
+.owner-app .sidebar { border-bottom: 1px solid #d7e9f2; background: linear-gradient(90deg, #ffffff, #f6fcff); }
+.owner-app .bottom-nav > a.active { color: var(--color-primary); }
+.owner-app .page-footer { color: #536f80; border-top-color: #d9e9f1; }
+.owner-app .icon-tile-blue { background: #e5f3fa; color: #0068b5; }
+.owner-app .quick-actions .icon-tile { background: #e5f3fa; color: #0068b5; }
+.owner-app .garage-dashboard .care-card::before { background: var(--ocean-cyan); }
+.owner-app .garage-dashboard .care-due::before { background: #c78226; }
+.owner-app .garage-dashboard .care-ok::before { background: #278a70; }
+.login-page .login-story { background: linear-gradient(150deg, #003257, #005c8b); color: #f0faff; position: relative; isolation: isolate; overflow: hidden; }
+.login-page .login-story::before { content: ""; display: block; position: absolute; z-index: -1; width: 760px; height: 760px; border: 1px solid rgb(139 224 245 / 20%); border-radius: 46%; top: 38%; left: 14%; box-shadow: 0 0 0 30px rgb(139 224 245 / 5%), 0 0 0 65px rgb(139 224 245 / 4%); transform: rotate(-18deg); }
+.login-page .login-story .brand, .login-page .login-story .brand-mark { color: #f0faff; }
+.login-page .login-story-copy h1 { color: #f0faff; }
+.login-page .login-story-copy p, .login-page .login-story .story-kicker, .login-page .login-story .login-kicker, .login-page .login-story-footer { color: #d2eaf5; }
+.login-page .login-vehicle-photo.vehicle-illustration { background: transparent; border: 0; }
+.ad-app { --ad-blue: var(--ocean-deep); }
 @media (min-width: 768px) {
   .owner-app .sidebar { height: 80px; padding-left: max(28px, calc((100vw - 1320px) / 2)); padding-right: max(28px, calc((100vw - 1320px) / 2)); box-shadow: 0 1px 10px rgb(26 49 89 / 2%); }
   .owner-app .sidebar nav > a { border-radius: 11px; padding: 12px 16px; font-size: 13px; font-weight: 500; }
-  .owner-app .sidebar nav > a.active { background: #edf2ff; color: #245eea; }
+  .owner-app .sidebar nav > a.active { background: var(--color-primary-soft); color: var(--color-primary); }
   .owner-app .owner-workspace { padding-top: 80px; }
   .owner-app .topbar { max-width: 1376px; height: 60px; padding: 0 28px; }
   .owner-app .main-content { padding: 15px 28px 44px; }
@@ -147,7 +164,7 @@
   .owner-app .garage-dashboard .quick-actions > button { padding: 18px 16px; }
 }
 @media (max-width: 767px) {
-  .owner-app .topbar { background: #f3f6fb; border: 0; padding: 0 20px; height: 69px; }
+  .owner-app .topbar { background: var(--color-background); border: 0; padding: 0 20px; height: 69px; }
   .owner-app .main-content { padding: 10px 18px 30px; }
   .owner-app .garage-dashboard .page-intro { margin-bottom: 23px; gap: 10px; align-items: center; }
   .owner-app .garage-dashboard .page-intro h1 { font-size: 27px; }
@@ -170,7 +187,7 @@
   .owner-app .digital-vehicle-hero .vehicle-title > p { font-size: 11px; gap: 9px; }
   .owner-app .digital-vehicle-hero .vehicle-title .plate { font-size: 11px; padding-left: 9px; }
   .garage-stage > .vehicle-illustration { inset: 64px -42px -15px; }
-  .garage-art-label { bottom: 5px; font-size: 9px; padding: 1px 6px; }
+  .garage-art-label { bottom: 5px; font-size: 10px; padding: 2px 6px; }
   .owner-app .digital-vehicle-hero .vehicle-data { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px 13px; padding: 18px 0 20px; }
   .owner-app .digital-vehicle-hero .vehicle-data > div + div { padding-left: 18px; }
   .owner-app .digital-vehicle-hero .vehicle-data > div > span { font-size: 11px; gap: 5px; }
