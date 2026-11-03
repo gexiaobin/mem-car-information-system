@@ -8,7 +8,11 @@
 
 2026-11-03 的只读环境检查确认服务器已有 Portainer、PostgreSQL 和 Nginx Proxy Manager。数据库网络为 `postgresql_default`，代理网络为 `nginx-proxy-manager_default`；现有代理入口为 HTTP 58080 / HTTPS 58082，管理入口为 58081。云程使用独立 `autovoyage` Stack 与上传卷，不替换现有服务。
 
-当前运行代码为 Git 提交 `592bd51`，镜像为 `autovoyage-api:592bd51`（`b861f8507150`）与 `autovoyage-web:592bd51`（`46456228a9e1`）。之后的文档提交不改变这两个应用镜像。服务器直接获取 GitHub 仓库时出现 `unexpected EOF`，本次通过 Portainer 上传源码归档构建镜像，再上传引用本地镜像的 Compose 完成部署；过程见下文。
+当前运行代码为 Git 提交 `2e6107d`，镜像为 `autovoyage-api:2e6107d`（`7c2b6466d918`）与 `autovoyage-web:2e6107d`（`9b3f2680a42d`）。之后的文档提交不改变这两个应用镜像。服务器直接获取 GitHub 仓库时出现 `unexpected EOF`，采用 Portainer 上传源码归档构建镜像，再用引用本地镜像的 Compose 更新既有 Stack；本次更新成功，两个容器均为 `healthy`。更新保留原有 17 个私有环境变量、网络与上传持久卷；行驶证功能不新增环境变量，数据库只执行新增证件表和索引的增量迁移。过程见下文。
+
+V0.2 上线后，主页、健康检查、API 配置与两张车型 WebP 图片均返回 HTTP 200，图片响应类型为 `image/webp`。浏览器已确认新版实拍图首页，以及“添加爱车 → 行驶证识别建档”入口。新版首页与容器健康截图为本机忽略目录 `.local/screenshots/cloud-v02-owner-desktop.jpg`、`.local/screenshots/cloud-v02-stack-health.jpg`；详细证据见 [验证记录](verification.md)。
+
+公网行驶证上传已通过真实 AI 服务完成虚构样本识别，九个字段进入人工核对页，未提交建档确认；原有两辆车辆及里程保持原值，待确认任务可从车辆档案继续查看。375×812 视口的新版首页和车辆档案无横向溢出，两张车型图加载完成，临时视口已恢复。该验证证明流程接通，真实证件的模糊、反光和多版式准确率仍需另行采样。
 
 ## 数据与配置隔离
 
