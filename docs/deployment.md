@@ -2,11 +2,13 @@
 
 ## 当前部署选择
 
-用户已选择本阶段先不用域名，采用 **IP + 58083 端口的 HTTP 课程预览**，配置文件为 `compose.preview.yml`。计划入口为 `http://117.72.124.241:58083`；这个地址是部署目标，本说明不代表已经部署或可访问。
+用户已选择本阶段先不用域名，采用 **IP + 58083 端口的 HTTP 课程预览**，配置文件为 `compose.preview.yml`。2026-11-03 已部署到 Portainer 的 `autovoyage` Stack，实际入口为 [http://117.72.124.241:58083/](http://117.72.124.241:58083/)。主页、`/healthz`、`/api/v1/health` 与 `/api/v1/config` 均返回 HTTP 200；API 报告使用 PostgreSQL，AI 已配置。Portainer 中 `autovoyage-api-1` 与 `autovoyage-web-1` 均为 `healthy`。
 
 `compose.yml` 保留为以后接入域名和有效证书的 HTTPS 方案。两份配置是互斥的部署方式，使用同一个 Stack 名称，不要同时启动。
 
 2026-11-03 的只读环境检查确认服务器已有 Portainer、PostgreSQL 和 Nginx Proxy Manager。数据库网络为 `postgresql_default`，代理网络为 `nginx-proxy-manager_default`；现有代理入口为 HTTP 58080 / HTTPS 58082，管理入口为 58081。云程使用独立 `autovoyage` Stack 与上传卷，不替换现有服务。
+
+当前运行代码为 Git 提交 `592bd51`，镜像为 `autovoyage-api:592bd51`（`b861f8507150`）与 `autovoyage-web:592bd51`（`46456228a9e1`）。之后的文档提交不改变这两个应用镜像。服务器直接获取 GitHub 仓库时出现 `unexpected EOF`，本次通过 Portainer 上传源码归档构建镜像，再上传引用本地镜像的 Compose 完成部署；过程见下文。
 
 ## 数据与配置隔离
 
@@ -34,6 +36,15 @@
 
 在 Portainer 的 local 环境新建或更新 `autovoyage` Stack，选择 Git repository，指定仓库与已经验证的分支或标签，**Compose path 填 `compose.preview.yml`**，然后填写对应环境变量。需要服务器可访问 GitHub、npm 与容器镜像源。
 
+如果服务器无法稳定拉取 GitHub，可使用本次验证通过的源码上传方式：
+
+1. 从确定的 Git 提交导出跟踪文件，为 API、Web 分别准备根目录含对应 `Dockerfile` 的源码归档；除无秘密的 `.env.example` 模板外，检查归档不包含实际 `.env` 配置、`.local`、口令、照片或数据库文件。
+2. 在 Portainer 的 Images → Build a new image → Upload 上传归档，分别构建带提交号的 API 与 Web 镜像。服务器仍需访问 Docker 镜像源与 npm。
+3. 从 `compose.preview.yml` 生成上传配置，将两个服务的 `build` 替换为已构建的镜像 `image`，保留网络、持久卷、健康检查和环境变量。在 Stacks 中上传该配置并部署 `autovoyage`。
+4. 导入环境变量后，逐项核对 Portainer 表单的实际值再部署。本次 Portainer 的 env 上传会保留值两侧的引号，因此专用导入文件使用不带外围引号的字面值；不能直接上传使用 JSON 引号的 dotenv 文件。不要在日志或截图中展示实际秘密值。
+
+本次共配置 17 个私有环境变量，已核对表单值与本地配置一致。源码归档及上传 Compose 保存在本机忽略目录中；公共仓库保留通用部署配置。
+
 也可在已有源码及 Docker Compose 的服务器执行：
 
 ```bash
@@ -42,17 +53,21 @@ docker compose -f compose.preview.yml --env-file /安全位置/autovoyage.env up
 docker compose -f compose.preview.yml --env-file /安全位置/autovoyage.env ps
 ```
 
-云安全组和宿主机防火墙只需按实际环境放行该预览使用的 TCP 58083；已有数据库连通不需要为了前端再次放行 5432，也不应额外发布 3001。是否已经完成规则配置和部署，由 [验证记录](verification.md) 的实际结果确认。
+云安全组和宿主机防火墙只需按实际环境放行该预览使用的 TCP 58083。2026-11-03 已核对京东云实例 `lavm-y76noe3tj0` 的公网 IP 与目标一致，防火墙已有 TCP 58083、来源 `0.0.0.0/0`、备注 `AutoVoyage` 的规则；本次未新增或修改防火墙规则，公网访问已成功。已有数据库连通不需要为了前端再次放行 5432，也不应额外发布 3001。
 
 API 健康检查为 `/api/v1/health`，Web 为 `/healthz`。API 健康后 Web 才启动。上传文件放在独立持久卷，正常重建容器保留图片。
 
 HTTP IP 预览可以验证网页、登录、普通文件选择上传和核心业务流程。浏览器定位通常要求安全上下文，公共 IP 的 HTTP 地址不能作为定位能力已验收的依据；手机文件输入的拍照入口还取决于具体浏览器。该模式不提供 HTTPS 传输保障，后续切换 HTTPS 后须重新验收安全会话、定位与真机兼容。
+
+本次公网浏览器验收已完成车主登录、375 像素宽度的首页与门店列表 / 地图、预约弹窗和合成仪表图的真实 AI 识别。门店页显示三家演示店，六张可见地图瓦片均加载成功；预约预览显示 ¥80 制动检查及按时间排序的可选时段。未提交公共预约，也未确认合成图的候选里程。验收后已恢复临时视口设置，详细证据与限制见 [验证记录](verification.md)。
 
 ## 一次性初始化
 
 根目录提供 `npm run initialize:server`，其用途是明确初始化公共预览所需的自有表、课程演示数据及账号；它不是每次启动前都运行的命令。该脚本会写入 public 中本项目的数据，应在目标与备份确认后执行。
 
 初始化脚本在本机生成未跟踪的 `.env.server`，新建账号的独立随机口令另存本机受控文件，不打印实际口令到日志。已有账号保持原口令，修改环境变量不会重置现有账号。日常服务器容器保持种子关闭。
+
+本次公共预览已完成一次性初始化，四类演示账号使用各自独立随机口令，访问资料仅保存在本机未跟踪的 `.local/server-access.md`。无需为正常启动再次初始化。云端车主、门店管理员账号已完成实际登录验证，车主退出登录后回到登录页。
 
 ## 以后切换 HTTPS
 
