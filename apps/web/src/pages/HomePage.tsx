@@ -59,12 +59,12 @@ export default function HomePage({
   const slot = data.slots.find((s) => s.id === latest?.slotId);
   const suggestedStores = data.stores.filter((s) => s.approved).slice(0, 2);
   return (
-    <>
+    <div className="garage-dashboard">
       <div className="page-intro">
         <div>
-          <p className="eyebrow owner-greeting">{data.user.name}，欢迎回来</p>
-          <h1>我的车库<span className="garage-count">{data.vehicles.length} 辆爱车</span></h1>
-          <p>车辆资料、养护计划和服务进度，都在这里。</p>
+          <p className="eyebrow owner-greeting"><span />{data.user.name}，开启安心的一程</p>
+          <h1>我的数字车库<span className="garage-count">{data.vehicles.length} 辆爱车</span></h1>
+          <p>看清爱车状态，把每次养护安排妥当。</p>
         </div>
         <button className="btn btn-secondary add-car" onClick={onAddVehicle}>
           <Plus size={17} />
@@ -86,9 +86,9 @@ export default function HomePage({
       ) : (
         <>
           <div className="dashboard-hero">
-            <section className="vehicle-hero photo-vehicle-hero">
+            <section className="vehicle-hero digital-vehicle-hero">
               <div className="vehicle-hero-top">
-                <span className="garage-label"><CarFront size={17} aria-hidden="true" /> 当前爱车</span>
+                <span className="garage-label"><CarFront size={17} aria-hidden="true" /> 我的爱车<span className="garage-label-line" /></span>
                 <label className="vehicle-switch">
                   <span className="sr-only">切换车辆</span>
                   <select
@@ -103,14 +103,18 @@ export default function HomePage({
                   </select>
                 </label>
               </div>
+              <div className="garage-stage">
               <div className="vehicle-title">
+                <span className="vehicle-nickname">{vehicle.name}</span>
                 <div className="vehicle-title-line"><h2>{model?.brand} {model?.name.replace(/\s*·\s*课程演示车型$/, "")}</h2>{vehicle.isDemo && <DemoTag />}</div>
                 <p>
                   {model?.year}款 · {model?.power}{" "}
                   <span className="plate">{vehicle.plate}</span>
                 </p>
               </div>
-              <VehiclePhoto model={model} priority />
+              <VehiclePhoto model={model} priority caption={false} />
+              <span className="garage-art-label">车型示意</span>
+              </div>
               <div className="vehicle-data">
                 <div>
                   <span>
@@ -142,12 +146,12 @@ export default function HomePage({
                 </button>
               </div>
             </section>
-            <section className="care-card">
+            <section className={`care-card care-${next?.status || "missing"}`}>
               <div className="care-card-heading">
                 <span className="icon-tile icon-tile-amber">
                   <Wrench size={22} />
                 </span>
-                <span className="care-heading-label">养护提醒</span>
+                <span className="care-heading-label">下一次养护<span>按项目追踪，每次都有依据</span></span>
               </div>
               <h2>
                 {next?.status === "due"
@@ -226,6 +230,7 @@ export default function HomePage({
               </p>
             </section>
           </div>
+          <div className="garage-service-heading"><h2>爱车服务</h2><span>从建档到养护，一站安排</span></div>
           <div className="quick-actions">
             {[
               {
@@ -444,6 +449,6 @@ export default function HomePage({
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }

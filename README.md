@@ -2,13 +2,13 @@
 
 中国海洋大学 MEM《软件工程管理》课程项目：汽车信息管理系统。
 
-React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。采用实拍车型参考图、浅灰底与海洋蓝操作色，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
+React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。采用原创 SVG 汽车插画、深蓝数字车库与浅色信息面板，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
 
 课程预览已部署：[打开云程](http://117.72.124.241:58083/)。车主、门店、专家和平台账号的独立口令保存在部署者本机受控文件中，不提供公开通用密码。实际验收范围见 [验证记录](docs/verification.md)。
 
-![云程车主首页：实拍车型参考图、里程与养护计划](docs/images/owner-dashboard.jpg)
+![云程车主首页：原创汽车插画、数字车库与养护计划](docs/images/owner-dashboard.png)
 
-截图使用课程演示车辆；车型照片为公开许可参考图，非车主实车，署名与许可见 [图片来源](docs/image-attribution.md)。
+截图使用课程演示车辆。V0.3 全部车型展示使用通用汽车插画，外观仅为示意；历史素材许可见 [图片来源](docs/image-attribution.md)。
 
 ## 功能与当前进度
 
@@ -84,10 +84,10 @@ npm run dev
 
 - PostgreSQL：在未跟踪的 `.env` 填写 `PGHOST`、`PGPORT`、`PGDATABASE`、`PGUSER`、`PGPASSWORD`，设 `DATABASE_DRIVER=postgres`。开发联调使用预先创建的 `PGSCHEMA=av_development`，与公共预览使用的 public schema 分开。应用只维护指定 schema 内 `av_` 前缀的自有表，不清空原数据库。真实 PostgreSQL 事务验证命令为 `npm run test:postgres`，只使用其新建的临时 `av_test_*` schema。
 - 图片识别：填写 `AI_BASE_URL`、`AI_MODEL`、`AI_API_KEY`。通过 `AI_API_STYLE=responses` 接入 Responses 视觉服务，或保留默认 `chat_completions` 兼容原接口；`AI_BASE_URL` 填 API 根地址（通常以 `/v1` 结尾），请求超时由 `AI_TIMEOUT_MS` 设置（默认 90000 毫秒，范围 1000–180000）。未配置时会保存受控上传并明确报告识别不可用，不生成候选里程。
-- 地图：本地支持带署名的 OpenStreetMap 真底图，其在目标网络的可达性需实测；中国大陆正式接入可配置 `MAP_PROVIDER=amap` 和高德 `AMAP_WEB_KEY`、`AMAP_SECURITY_CODE`。须按服务商要求配置实际访问来源与额度，不能假设 IP 预览已经满足 Key 限制。
+- 地图：`MAP_PROVIDER=osm` 使用 MapLibre GL 与 OpenFreeMap 提供的 OpenStreetMap 矢量底图，无需 Key，保留地图署名。浏览器需要 WebGL 和对地图样式、字体、瓦片的网络访问；加载失败可重试并继续使用门店列表。中国大陆正式接入可配置 `MAP_PROVIDER=amap` 和高德 `AMAP_WEB_KEY`、`AMAP_SECURITY_CODE`，按服务商要求配置实际访问来源与额度。
 - 部署：本阶段按用户选择先不用域名，使用 `compose.preview.yml` 提供 58083 端口的 HTTP 课程预览；部署是否完成以验证记录为准。`compose.yml` 保留为以后复用 Nginx Proxy Manager 的 HTTPS 方案。公共 IP 的 HTTP 预览不能代替要求安全上下文的浏览器定位及 HTTPS 安全会话验收；无定位时仍可手选搜索中心。
 
-`.env`、私人上传图片、数据库文件、密钥及服务器账号不会进入 Git；公开许可的车型参考图片随应用分发，来源与许可见 [图片署名](docs/image-attribution.md)。演示车型、手册周期、门店、价格与记录明确标识，不能用作真实车辆的保养依据。
+`.env`、私人上传图片、数据库文件、密钥及服务器账号不会进入 Git。V0.3 移除车型照片资源，保留 [历史图片署名](docs/image-attribution.md)。演示车型、手册周期、门店、价格与记录明确标识，不能用作真实车辆的保养依据。
 
 ## 项目结构
 

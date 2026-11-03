@@ -65,7 +65,15 @@ node -e "console.log(require('node:crypto').randomBytes(48).toString('hex'))"
 
 ## 地图
 
-默认 `MAP_PROVIDER=osm`，显示带署名的 OpenStreetMap 底图；网络可达性需实测。改用高德时设置 `MAP_PROVIDER=amap`、`AMAP_WEB_KEY`、`AMAP_SECURITY_CODE`，并在服务商控制台按实际访问来源配置权限与额度。
+V0.3 默认地图采用 OpenFreeMap 与 MapLibre GL。目标环境的地图加载、交互与故障恢复是否通过及实际发布版本，以 [验证记录](verification.md) 为准。
+
+保留 `MAP_PROVIDER=osm` 配置值，表示基于 OpenStreetMap 数据的真实地理底图；渲染器改为 MapLibre GL，样式、字体和矢量瓦片由浏览器直接请求 OpenFreeMap 的公开服务。OpenFreeMap 免费公开使用，无需 API Key，不要求新增地图密钥或部署 `/map-tiles/` 代理，也不再请求 OSM 标准栅格瓦片服务。地图按样式与数据源自动显示署名，发布时须保留。
+
+默认地图需要支持 WebGL 的现代浏览器及可访问 OpenFreeMap 的网络；浏览器禁用硬件加速、驱动或设备限制可能导致地图初始化失败。界面显示加载、失败或超时状态，可点击“重试”；门店列表和手动搜索中心仍可操作。公开服务的网络与可用性受外部条件影响，不能据此承诺离线地图或永久可用；部署后须在实际使用设备检查底图、文字、点位和交互。
+
+本地与生产使用相同的地图加载路径，无需由 Nginx 转发地图请求。修改地图组件后需重建 Web 产物与镜像；自行托管时仍应通过 HTTP / HTTPS 提供前端和同源 API，直接打开 `index.html` 不能代替应用部署。服务说明见 [OpenFreeMap](https://openfreemap.org/)，素材与署名见 [素材说明](image-attribution.md)。
+
+改用高德时设置 `MAP_PROVIDER=amap`、`AMAP_WEB_KEY`、`AMAP_SECURITY_CODE`，并在服务商控制台按实际访问来源配置权限与额度；高德 JS API 走浏览器直接加载，不使用 OpenFreeMap。
 
 地图 Web Key 和配套前端安全配置会通过公开配置提供给浏览器，应使用服务商规定的来源限制；AI 密钥与数据库密码不在该公开接口中返回。公共 IP 的 HTTP 地址通常不能使用浏览器定位，仍可手选搜索中心；定位验收应在有效 HTTPS 环境完成。
 
@@ -91,4 +99,5 @@ Portainer 环境变量导入文件使用不带外围引号的字面值；本项�
 | 修改后端后页面仍旧 | 普通 `npm run dev` 不监视重启后端；重启该命令，或按 README 使用后端 watch |
 | 图片识别失败 | 核对协议、模型是否支持图片、根地址、超时和上游额度；查看界面原因后再重试 |
 | 数据库目录被占用 | 同一本地持久 PGlite 目录只运行一个 API 进程，正常结束原进程后再启动 |
+| 地图加载失败、缺块或一直等待 | 检查浏览器 WebGL 支持及 OpenFreeMap 样式、字体、矢量瓦片请求；确认已部署新 Web 产物并点击“重试”；仍可使用门店列表和手动搜索中心 |
 | GitHub 更新后线上仍旧 | 当前 Portainer 按提交号构建本地镜像，未配置自动发布；按部署文档更新镜像与 Stack |

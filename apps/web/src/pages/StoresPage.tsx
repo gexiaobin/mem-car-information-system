@@ -325,14 +325,25 @@ export default function StoresPage({
           </h1>
           <p>同一项目，同一方案。把价格看清楚，再作选择。</p>
         </div>
-        <button
-          className="btn btn-secondary"
-          onClick={locate}
-          disabled={locating}
-        >
-          <LocateFixed size={17} />
-          {locating ? "正在定位…" : "使用我的位置"}
-        </button>
+        <div className="store-map-actions">
+          {vehicle && <button className="btn btn-secondary" onClick={() => {
+            setShowMap(true);
+            requestAnimationFrame(() => document.getElementById("store-map")?.scrollIntoView({
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+              block: "start",
+            }));
+          }}>
+            <MapPin size={17} />查看门店地图
+          </button>}
+          <button
+            className="btn btn-secondary"
+            onClick={locate}
+            disabled={locating}
+          >
+            <LocateFixed size={17} />
+            {locating ? "正在定位…" : "使用我的位置"}
+          </button>
+        </div>
       </div>
       <ErrorBox message={error} />
       {offersError && (
@@ -545,12 +556,13 @@ export default function StoresPage({
                 </select>
               </label>
               <button
-                className="icon-btn"
+                className="btn btn-secondary map-toggle"
                 aria-label={showMap ? "隐藏地图，查看列表" : "显示门店地图"}
                 aria-pressed={showMap}
                 onClick={() => setShowMap(!showMap)}
               >
                 <MapPin size={19} />
+                {showMap ? "隐藏地图" : "显示地图"}
               </button>
             </div>
           </div>
@@ -732,7 +744,7 @@ export default function StoresPage({
               )}
             </div>
             {showMap && (
-              <div className="store-map-column">
+              <div className="store-map-column" id="store-map">
                 <StoreMap
                   config={data.config}
                   stores={results.map((item) => item.store)}

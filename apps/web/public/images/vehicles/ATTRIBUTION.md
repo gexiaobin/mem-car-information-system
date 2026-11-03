@@ -1,4 +1,6 @@
-# Vehicle reference photographs
+# Historical vehicle reference photographs (V0.2)
+
+V0.3 removes these photo files from the application and uses original inline SVG illustrations. This record remains for V0.2 releases and historical screenshots.
 
 These photographs illustrate a vehicle model, not the signed-in owner's actual car. They do not establish a particular trim, model year, ownership, or service-provider endorsement. Application code is not covered by the image licenses.
 
@@ -20,4 +22,4 @@ These photographs illustrate a vehicle model, not the signed-in owner's actual c
 - Changes: resized proportionally to 1440 pixels wide, converted to WebP, metadata removed. No vehicle-body crop or generative modification.
 - This adapted image remains available under CC BY-SA 4.0.
 
-Source descriptions and licensing were checked on 2026-11-03. The files are served locally with the application to avoid third-party hotlink failures. The UI includes source and license links.
+Source descriptions and licensing were checked on 2026-11-03. V0.2 served the files locally and included source and license links.

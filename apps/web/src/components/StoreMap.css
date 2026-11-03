@@ -1,0 +1,108 @@
+.store-map-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.store-map-actions .btn { font-size: 13px; min-height: 44px; }
+.results-toolbar .map-toggle { font-size: 13px; min-height: 44px; white-space: nowrap; }
+#store-map { scroll-margin-top: 110px; }
+
+.map-frame .map-loading {
+  position: absolute;
+  top: 14px;
+  left: 56px;
+  z-index: 450;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 72px);
+  padding: 10px 13px;
+  border: 1px solid #d7e2ec;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 96%);
+  color: #344054;
+  font-size: 13px;
+  box-shadow: 0 3px 14px rgb(18 55 84 / 8%);
+  pointer-events: none;
+}
+
+.map-loading > svg {
+  animation: map-loading-spin 1s linear infinite;
+}
+
+.map-frame .map-error {
+  left: 56px;
+  top: 14px;
+  line-height: 1.65;
+  border: 1px solid #efcf9c;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.map-frame .map-error .text-btn {
+  min-width: 54px;
+  min-height: 44px;
+  font-size: 13px;
+}
+
+.map-frame .maplibregl-ctrl-attrib {
+  max-width: 100%;
+  padding: 4px 7px;
+  background: rgb(255 255 255 / 97%);
+  color: #344054;
+  font-size: 11px !important;
+  line-height: 1.5;
+}
+
+.map-frame .maplibregl-ctrl-attrib a {
+  color: #205599;
+}
+
+.map-frame .map-caption { bottom: 48px; }
+
+.map-frame .maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 1px solid #d7e2ec;
+  border-radius: 10px;
+  box-shadow: 0 3px 14px rgb(18 55 84 / 8%);
+}
+
+.map-frame .maplibregl-ctrl-group button {
+  width: 44px;
+  height: 44px;
+}
+
+.map-frame .map-number {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.map-frame .map-number:focus-visible {
+  outline: 3px solid #007a90;
+  outline-offset: 3px;
+}
+
+.map-center-dot {
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background: #003288;
+  box-shadow: 0 0 0 6px rgb(0 50 136 / 15%), 0 2px 7px rgb(0 0 0 / 18%);
+  pointer-events: none;
+}
+
+@keyframes map-loading-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-loading > svg { animation: none; }
+}
+
+@media (max-width: 600px) {
+  .page-intro:has(.store-map-actions) { flex-wrap: wrap; }
+  .store-map-actions { width: 100%; }
+  .store-map-actions .btn { flex: 1; padding-left: 10px; padding-right: 10px; }
+  #store-map { scroll-margin-top: 18px; }
+  .map-frame .map-error { flex-wrap: wrap; font-size: 12px; }
+  .map-frame .map-error > span { flex: 1 1 130px; }
+}

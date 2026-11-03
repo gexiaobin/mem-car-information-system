@@ -90,7 +90,7 @@ docker compose -f compose.yml --env-file /安全位置/autovoyage.env ps
 ## 真实 AI、地图与保养资料
 
 - **图片识别**：填写 `AI_BASE_URL`、`AI_MODEL`、`AI_API_KEY`，`AI_BASE_URL` 填 API 根地址（通常以 `/v1` 结尾），通过 `AI_API_STYLE=responses` 使用 Responses 视觉接口，默认 `chat_completions` 保持原接口兼容；`AI_TIMEOUT_MS` 默认 90000 毫秒，允许 1000–180000。两份 Compose 均透传该配置，密钥仅留在后端。未配置时，真实上传会保留受控图片并显示识别不可用，不能生成伪造候选值或有效里程。配置后仍须用真实截图和仪表照片验证“上传—识别—车主核对—入库”，记录字段修正、失败和单位兼容结果。
-- **地图**：本地提供带署名的 OpenStreetMap 真实底图；其在目标网络的可达性与服务使用条件需单独核查。中国大陆正式接入可配置高德 `MAP_PROVIDER=amap`、`AMAP_WEB_KEY`、`AMAP_SECURITY_CODE`，按服务商要求配置实际访问来源、调用权限与额度；当前采用 IP 并不等于 Key 已获允许。地图失败时列表可用，不代表正常地图功能已经通过验收。
+- **地图**：`MAP_PROVIDER=osm` 使用 MapLibre GL + OpenFreeMap 的 OpenStreetMap 矢量底图，无需新增 Key。浏览器直接加载公开样式、字体与瓦片；MapLibre Worker 随 Web 构建为同源 `/assets/*.js`，部署必须保留完整 `dist/assets`。地图保留自动署名，支持加载超时、失败提示与重试。需具备 WebGL，并实测目标网络。中国大陆正式接入仍可配置高德 `MAP_PROVIDER=amap`、`AMAP_WEB_KEY`、`AMAP_SECURITY_CODE`，按服务商要求设置来源、权限与额度。
 - **保养规则**：演示车型、周期、门店与价格均保留演示标识。实际车型需按年款及动力配置明确适用保养项目，并记录、人工复核官方手册来源。纯电车型不能从全局项目自动获得发动机机油保养要求；未知适用范围或未核验规则应提示资料待补充。
 
 ## 备份与回滚
