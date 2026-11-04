@@ -58,6 +58,7 @@ import { registerManuals } from "./manuals.js";
 import { registerManualFiles } from "./manual-files.js";
 import { ensureUniqueOwnerPlate } from "./vehicle-identity.js";
 import { effectiveOffers } from "./prices.js";
+import { registerReleases, runningRelease } from "./releases.js";
 export async function createApp(
   options: { config?: Config; db?: Database; logger?: boolean } = {},
 ) {
@@ -84,7 +85,7 @@ export async function createApp(
     }),
   });
   const publicConfig = (): PublicConfig => ({
-    version: "0.1.0",
+    version: runningRelease.version,
     demoMode: config.demoMode,
     database: config.driver,
     aiConfigured: !!(config.aiBaseUrl && config.aiKey && config.aiModel),
@@ -180,8 +181,9 @@ export async function createApp(
     });
   });
   app.get(route("/health"), async () => {
+    releases.assertHealthy();
     await db.query("SELECT 1");
-    return { status: "ok", version: "0.1.0", database: config.driver };
+    return { status: "ok", version: runningRelease.version, database: config.driver };
   });
   app.get(route("/config"), async () => publicConfig());
   app.get(route("/offers"), async (request) => {
@@ -746,6 +748,7 @@ export async function createApp(
   registerBookings({ app, db, config });
   registerAdmin({ app, db, config });
   registerCatalog({ app, db, config });
+  const releases = registerReleases({ app, db, config });
   const images = registerImages({ app, db, config });
   const registrations = registerRegistration({ app, db, config });
   registerManualFiles({ app, db, config });
@@ -770,5 +773,5 @@ export async function createApp(
     await manuals.wait();
     await db.close();
   });
-  return { app, db, config };
+  return { app, db, config, recordDeployment: releases.recordDeployment };
 }

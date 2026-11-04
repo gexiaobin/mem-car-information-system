@@ -160,5 +160,41 @@
     "revision": "2026-11-04 页面事实快照",
     "retrievedAt": "2026-11-04",
     "description": "2026-11-04 核对机油服务、轮胎与制动检查/更换等服务名称。仅短事实归纳，非中国车型保养规则。"
+  },
+  {
+    "id": "utf6-trims-201805",
+    "title": "Cars_Data 车型年款、动力与配置历史数据（2018-05）",
+    "url": "https://github.com/utf6/Cars_Data/blob/6ef6168838cf0ec9ebfb9442b4203e7706edbad8/sql/%E8%BD%A6%E5%9E%8B%E8%A1%A8.sql",
+    "license": "MIT",
+    "revision": "6ef6168838cf0ec9ebfb9442b4203e7706edbad8；SQL导出2018-05-06",
+    "retrievedAt": "2026-11-04",
+    "description": "同一原始车型行的年代款、名称、燃料、发动机或电机总功率、变速箱和厂商事实摘录；严筛保留29169条，明确年款1999–2019，含历史、进口与商用车型，不代表当前在售或全量配置；未把发布/登记/下载年份推断成年款。"
+  },
+  {
+    "id": "official-byd-qinl-2026-variants",
+    "title": "比亚迪官方2026款秦L DM-i参数配置表",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=148",
+    "license": "官方公开网页（少量短配置事实摘录，页面版权归原权利人）",
+    "revision": "2026-11-04 渲染表头明确2026款；4个配置列",
+    "retrievedAt": "2026-11-04",
+    "description": "实际核对表头及128KM进取型/领先型、210KM超越型/云辇型四列的插混专用1.5L发动机74kW、电机120/160/175/175kW、电池15.87/15.87/25.28/25.28kWh与EHS电混系统。只保留短事实，不导入报价、整表、图片或保养适用规则。"
+  },
+  {
+    "id": "official-byd-seagull-2026-variants",
+    "title": "比亚迪官方2026款海鸥参数配置表",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=10050",
+    "license": "官方公开网页（少量短配置事实摘录，页面版权归原权利人）",
+    "revision": "2026-11-04 渲染表头明确2026款；4个配置列",
+    "retrievedAt": "2026-11-04",
+    "description": "实际核对表头及活力版、自由版、自在版、飞翔版四列：交流永磁同步电机最大功率均55kW；动力电池容量依次30.08/30.08/38.88/38.88kWh。2026款不与无明确年款的第二代海鸥混合。"
+  },
+  {
+    "id": "official-byd-seal07-2026-variants",
+    "title": "比亚迪官方2026款海豹07 DM-i参数表及配置表",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=10038",
+    "license": "官方公开网页（少量短配置事实摘录，页面版权归原权利人）",
+    "revision": "2026-11-04 渲染表头明确2026款；4个配置列",
+    "retrievedAt": "2026-11-04",
+    "description": "实际核对1.5L135KM豪华型、1.5T135KM尊贵型、1.5T230KM尊荣型/旗舰型四列；发动机功率74/115/115/115kW，前电机160/200/200/200kW，EHS电混系统。绑定海豹07车系，不能用于普通海豹或海豹06。"
   }
 ]

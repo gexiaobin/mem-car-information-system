@@ -1,13 +1,13 @@
 import { z } from "zod";
 import type {
   CarModel, CatalogModelImportResult, CatalogModelsResponse, CatalogProjectImportResult,
-  CatalogProjectsResponse, CatalogProvenance, Project,
+  CatalogProjectsResponse, CatalogProvenance, CatalogVariantsResponse, Project,
 } from "@autovoyage/shared";
 import type { Context } from "./context.js";
 import { roles, route } from "./context.js";
 import { list, put } from "./db.js";
 import { audit, ensure, id, now } from "./domain.js";
-import { catalogModels, catalogProjects, catalogSources, catalogVersion } from "./data/public-catalog.js";
+import { catalogModels, catalogProjects, catalogSources, catalogVersion, variantsById, variantsByModel } from "./data/public-catalog.js";
 
 export const catalogText = (value: string) => value.normalize("NFKC").toLowerCase().replace(/\s+/gu, "");
 export const sameModelIdentity = (a: Pick<CarModel, "brand" | "name" | "year" | "power">, b: Pick<CarModel, "brand" | "name" | "year" | "power">) =>
@@ -29,12 +29,32 @@ export function registerCatalog({ app, db }: Context) {
     }).parse(request.query);
     const filtered = catalogModels.filter(model => (!query.brand || model.brand === query.brand) && matches(query.q, model.brand, model.name));
     const response: CatalogModelsResponse = {
-      items: filtered.slice(query.offset, query.offset + query.limit), total: filtered.length,
+      items: filtered.slice(query.offset, query.offset + query.limit).map(model => ({ ...model, variantCount: variantsByModel.get(model.id)?.length || 0 })), total: filtered.length,
       offset: query.offset, limit: query.limit,
       brands: [...new Set(catalogModels.map(model => model.brand))].sort((a, b) => a.localeCompare(b, "zh-CN")),
       sources: sourcesFor([...new Set(catalogModels.map(model => model.sourceId))]), version: catalogVersion,
     };
     return response;
+  });
+
+  app.get<{ Params: { id: string } }>(route("/admin/catalog/models/:id/variants"), async request => {
+    roles(request, ["platform_admin"]);
+    ensure(catalogModels.some(model => model.id === request.params.id), 404, "CATALOG_ENTRY_NOT_FOUND", "公开车型条目不存在，请刷新目录");
+    const query = z.object({
+      q: queryText, power: queryText, year: z.coerce.number().int().min(1950).max(2100).optional(),
+      offset: z.coerce.number().int().min(0).max(100000).default(0),
+      limit: z.coerce.number().int().min(1).max(100).default(40),
+    }).parse(request.query);
+    const all = variantsByModel.get(request.params.id) || [];
+    const byYear = all.filter(variant => !query.year || variant.year === query.year);
+    const filtered = byYear.filter(variant => (!query.power || variant.power === query.power) && matches(query.q, variant.trim, variant.power, variant.manufacturer || ""));
+    return {
+      items: filtered.slice(query.offset, query.offset + query.limit), total: filtered.length,
+      years: [...new Set(all.map(variant => variant.year))].sort((a, b) => b - a),
+      powers: [...new Set(byYear.map(variant => variant.power))].sort((a, b) => a.localeCompare(b, "zh-CN")),
+      sources: sourcesFor([...new Set(all.map(variant => variant.sourceId))]), version: catalogVersion,
+      offset: query.offset, limit: query.limit,
+    } satisfies CatalogVariantsResponse;
   });
 
   app.get(route("/admin/catalog/projects"), async request => {
@@ -50,25 +70,34 @@ export function registerCatalog({ app, db }: Context) {
 
   app.post(route("/admin/catalog/models/import"), async request => {
     const user = roles(request, ["platform_admin"]);
-    const input = z.object({
+    const input = z.union([z.object({
+      catalogId: z.string().trim().min(1).max(200),
+      variantId: z.string().trim().min(1).max(200),
+    }).strict(), z.object({
       catalogId: z.string().trim().min(1).max(200),
       year: z.number().int().min(1950).max(2100),
       power: z.string().trim().min(1).max(200),
-    }).strict().parse(request.body);
+    }).strict()]).parse(request.body);
     const entry = catalogModels.find(model => model.id === input.catalogId);
     ensure(entry, 404, "CATALOG_ENTRY_NOT_FOUND", "公开车型条目不存在，请刷新目录");
+    const selected = "variantId" in input ? variantsById.get(input.variantId) : undefined;
+    if ("variantId" in input) ensure(selected && selected.modelCatalogId === entry.id, 400, "CATALOG_VARIANT_MISMATCH", "配置不属于所选车系，请重新选择年款和配置");
+    const fields = selected ? { year: selected.year, power: `${selected.power} · ${selected.trim}` } : input as { year: number; power: string };
     return db.transaction(async sql => {
       await sql.query("LOCK TABLE av_models IN SHARE ROW EXCLUSIVE MODE");
       const models = await list<CarModel>(sql, "models");
-      const variant = { brand: entry.brand, name: entry.name, year: input.year, power: input.power };
-      const existing = models.find(model => (model.catalogSource?.catalogId === entry.id && model.year === input.year && catalogText(model.power) === catalogText(input.power)) || sameModelIdentity(model, variant));
+      const variant = { brand: entry.brand, name: entry.name, year: fields.year, power: fields.power };
+      const existing = models.find(model => (model.catalogSource?.catalogId === entry.id && model.year === fields.year && catalogText(model.power) === catalogText(fields.power)) || sameModelIdentity(model, variant));
       if (existing) return { model: existing, created: false } satisfies CatalogModelImportResult;
       const model: CarModel = {
         ...variant, id: id(), isDemo: false,
-        catalogSource: provenance(entry.id, [entry.sourceId]),
+        catalogSource: {
+          ...provenance(entry.id, selected ? [...new Set([entry.sourceId, selected.sourceId])] : [entry.sourceId]),
+          ...(selected ? { variantId: selected.id, sourceEvidence: selected.sourceEvidence, ...(selected.manufacturer ? { manufacturer: selected.manufacturer } : {}) } : {}),
+        },
       };
       await put(sql, "models", model);
-      await audit(sql, user.id, "catalog.model.imported", "model", model.id, `${entry.id}；目录${catalogVersion}；年款及动力由管理员补充；保养适用范围待核对`);
+      await audit(sql, user.id, "catalog.model.imported", "model", model.id, `${entry.id}；目录${catalogVersion}；${selected ? `公开配置${selected.id}` : "年款及动力由管理员补充"}；保养适用范围待核对`);
       return { model, created: true } satisfies CatalogModelImportResult;
     });
   });

@@ -5,6 +5,7 @@
 | 资源 | 方法与路径 | 用途 |
 | --- | --- | --- |
 | 健康/配置 | `GET /health`、`GET /config` | 数据库就绪、公开功能配置 |
+| 系统更新 | `GET /releases` | 已登录角色查看当前运行版本及分页更新日志 |
 | 身份 | `GET /auth/me`、`POST /auth/login`、`POST /auth/logout` | 查询会话、登录、撤销会话 |
 | 注销 | `DELETE /auth/account` | 注销本人账号并撤销会话，保留必要业务审计 |
 | 页面数据 | `GET /bootstrap` | 按角色、本人/本店筛选的页面数据 |
@@ -31,6 +32,21 @@
 | 手册证据 | `GET /manual-files/:id` | 平台读取；匹配本人车辆车型的车主读取已发布证据 |
 | 已发布手册 | `GET /manuals/:id` | 平台或拥有匹配车型的车主读取已发布手册及证据文件元数据 |
 | 门店 | `POST /admin/stores`、`PATCH /admin/stores/:id` | 本店资料、平台审核 |
+
+## 系统更新日志
+
+`GET /releases?offset=0&limit=20` 对四种已登录角色开放，匿名返回 401。`offset` 是 0–100000 的整数，`limit` 是 1–50 的整数，默认分别为 0 与 20。返回共享类型 `SystemReleasesResponse`：
+
+| 字段 | 类型与含义 |
+| --- | --- |
+| `currentVersion` | 当前运行构建的版本字符串，如 `0.8.0+0123456789`（格式示例） |
+| `currentReleaseId` | 当前运行构建的稳定 ID；与历史条目的 `id` 匹配以标记当前版本 |
+| `items` | `SystemRelease[]`，按首次上线时间从新到旧分页 |
+| `total`、`offset`、`limit` | 历史总条数、本次偏移与每页大小 |
+
+`SystemRelease` 包含 `id`、`version`、`title`、`changes: string[]`、`deployedAt` 和 `revision: string | null`。`deployedAt` 是该构建首次成功启动监听时记录的 ISO 时间，页面按北京时间显示；`revision` 为构建时可取得的 Git 提交 ID，无 `.git` 的源码包为 `null`。接口不返回内部模块摘要，不暴露配置或 Git 提交消息。
+
+查询不会创建或修改日志。回滚后 `currentVersion/currentReleaseId` 来自正在运行的构建，可能对应列表中的较早条目；不会把最新历史记录当成当前版本。`GET /config`、`GET /health` 和 `bootstrap.config.version` 使用同一构建版本。自动写入失败时健康接口返回 503、错误码 `RELEASE_RECORD_FAILED`，标准服务入口停止启动。构建、记录时机和说明维护见 [系统更新日志](system-releases.md)。
 
 创建预约示例：
 
@@ -106,16 +122,21 @@
 
 ## 公开车型与参考服务项目
 
-以下接口仅允许 `platform_admin`，静态候选随应用发布，无需运行时访问外站。目录版本、来源与使用边界见 [公开目录](public-catalog.md)。新建实体的可选 `catalogSource` 保存候选 ID、目录版本、来源快照及导入时间；已有实体被复用时不改写其来源或其他字段。
+以下接口仅允许 `platform_admin`，静态候选随应用发布，无需运行时访问外站。目录版本、来源与使用边界见 [公开目录](public-catalog.md)。新建实体的可选 `catalogSource` 保存候选 ID、目录版本、来源快照及导入时间；实际配置导入还保存 `variantId`、`sourceEvidence` 与可选 `manufacturer`。已有实体被复用时不改写其来源或其他字段。
 
 | 方法与路由 | 请求与返回 |
 | --- | --- |
-| `GET /admin/catalog/models` | `q`、`brand` 可选；`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,offset,limit,brands,sources,version`；品牌筛选为精确匹配，搜索忽略大小写、空白及全半角差异 |
+| `GET /admin/catalog/models` | `q`、`brand` 可选；`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,offset,limit,brands,sources,version`；每个车系含 `variantCount`。品牌筛选为精确匹配，搜索忽略大小写、空白及全半角差异 |
+| `GET /admin/catalog/models/:id/variants` | 所选车系的实际配置；可选 `year`、`power`、`q`，`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,years,powers,sources,version,offset,limit` |
 | `GET /admin/catalog/projects` | `q`、`category` 可选。返回 `items,total,categories,sources,version`，项目含 `action` 和参考来源 IDs |
-| `POST /admin/catalog/models/import` | `{ "catalogId": "目录条目ID", "year": 2024, "power": "管理员核对的实际动力与配置" }`；年份示例不代表来源提供该年款。返回 `{model,created}` |
+| `POST /admin/catalog/models/import` | 选择配置：`{ "catalogId": "车系候选ID", "variantId": "公开配置ID" }`；人工补充：`{ "catalogId": "车系候选ID", "year": 2024, "power": "管理员核对的实际动力与配置" }`。两种请求不能混用；返回 `{model,created}` |
 | `POST /admin/catalog/projects/import` | `{ "catalogIds": ["目录条目ID"] }`，1–100 条，重复 ID 去重。返回 `{projects,created,existing}` |
 
-车型候选仅含品牌与车系。导入必须显式填写 1950–2100 的整数年款和非空动力配置，建立非演示档案，保养适用项目保持未知。不会推断车型保养周期、材料、价格或适用范围；原有手册审核流程负责确认这些内容。
+`CatalogVariant` 含 `id`、`modelCatalogId`、`year`、`power`、`trim`、`sourceId`、`sourceEvidence`，以及可选 `manufacturer`。其中 `year` 是来源明确载明的车型年款，`power` 为动力事实，`trim` 为具体配置名称，`sourceEvidence` 保留该条配置的原文依据。年款、动力和配置来自同一条来源记录，不能任意组合。历史开源配置与官网事实分别记录来源、版本和查阅日期，不代表当前在售或全市场覆盖。
+
+配置查询的 `year` 为 1950–2100 整数；`power` 精确匹配；`q` 搜索配置、动力和厂商。`years` 返回该车系全部可用年款（降序），`powers` 返回所选年款下的可用动力，与当前关键字／动力过滤独立。分页 `offset` 为 0–100000 整数。车系无配置时返回空候选，未知车系返回 404。
+
+选择 `variantId` 导入时，服务端校验配置属于该车系，再派生档案 `year` 与 `power`（`公开动力 · 具体配置`），客户端不能覆盖这些值或夹带其他字段。不存在或跨车系的配置返回 400、`CATALOG_VARIANT_MISMATCH`。人工补充模式仍须明确填写 1950–2100 的整数年款和非空动力配置，不会伪装成有公开配置依据的导入。两种模式均建立非演示档案，保养适用项目保持未知；周期、材料、价格及适用范围通过原有手册审核流程确认。
 
 同候选、年款及归一化动力配置，或同品牌、名称、年款及动力的档案可幂等复用。普通车型新增／修改与候选导入共用表锁及身份重复检查。参考项目按候选来源、编码或归一化名称复用，保留已有停用状态与编辑。相同编码对应不同名称返回 `CATALOG_CODE_CONFLICT`，整批回滚；不存在的条目返回 `CATALOG_ENTRY_NOT_FOUND`。未知字段不能通过导入请求夹带来源、保养规则或演示标记。
 

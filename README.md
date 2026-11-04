@@ -2,7 +2,7 @@
 
 中国海洋大学 MEM《软件工程管理》课程项目：汽车信息管理系统。
 
-React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。V0.7 新增公开品牌／车系与参考服务项目选择导入，沿用保养手册下载／上传、AI 草稿与审核发布、授权概念跑车银白渲染图和海洋蓝主题，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
+React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。V0.8 增加自动系统更新日志，以及有公开来源的车型年款、动力与具体配置选择导入，沿用参考服务项目、保养手册下载／上传、AI 草稿与审核发布、授权概念跑车银白渲染图和海洋蓝主题，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
 
 课程预览已部署：[打开云程](http://117.72.124.241:58083/)。车主、门店、专家和平台账号的独立口令保存在部署者本机受控文件中，不提供公开通用密码。实际验收范围见 [验证记录](docs/verification.md)。
 
@@ -19,11 +19,14 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 | 车主 | 多车档案、行驶证识别与人工核对、仪表里程识别、分项目保养提醒、门店查询与比价预约、故障咨询、消息及服务记录 |
 | 门店管理员 | 本店资料、服务报价与版本、时段名额、预约接单及服务进度、项目与费用变更、专家分配 |
 | 门店专家 | 分配范围内的故障资料、补充信息、建议与费用预估 |
-| 平台管理员 | 公开品牌／车系与参考服务项目选择导入、标准项目、手册 PDF／图片导入及 AI 核对发布、车型保养规则与资料来源、门店审核及审计记录 |
+| 平台管理员 | 公开品牌／车系、实际年款／动力／配置及参考服务项目选择导入、标准项目、手册 PDF／图片导入及 AI 核对发布、车型保养规则与资料来源、门店审核及审计记录 |
+| 全部已登录角色 | 系统更新日志、当前运行版本与首次上线时间 |
 
-2026-11-04 已发布 V0.7：API 与 Web 均为 `eaa2e48`，两个容器均为 `healthy`。平台管理员从“车型档案 → 从公开车型库选择”与“标准服务项目 → 从参考项目库选择”进入预置目录。全项目类型检查、62 项后端测试、前后端构建、GitHub Actions 及 13 项真实 PostgreSQL 目录专项通过。截图、部署及历史真实手册识别边界见 [验证记录](docs/verification.md)；文档提交不触发 Portainer 自动发布。
+平台管理员从“车型档案 → 从公开车型库选择”与“标准服务项目 → 从参考项目库选择”进入预置目录。V0.8 在车系下按年款、动力筛选具体配置，选定后由服务端按同一来源记录导入；未覆盖的配置仍可人工核对补充。当前上线版本、容器状态、测试和截图以 [验证记录](docs/verification.md) 为准；文档提交不触发 Portainer 自动发布。
 
-课程业务数据包括迈腾、海豹两份演示车型档案，以及演示规则、门店、价格与记录。公开候选目录另预置 3,220 个车系名称（含 2018 年历史快照与 12 个品牌官网的 91 个补充车系）和 53 个参考服务项目，平台选择后才导入业务档案。车型年款、动力及保养适用性仍须核实；真实证件准确率、手机真机兼容性和压力测试需独立验证。
+课程业务数据包括迈腾、海豹两份演示车型档案，以及演示规则、门店、价格与记录。公开候选目录另预置 3,220 个车系名称和 53 个参考服务项目；实际配置包含从固定 MIT 历史快照筛选的 29,169 条年款／动力／配置记录，并逐项补充有明确依据的官网配置。数量与可用配置以目录查询为准，平台选择后才导入业务档案。历史配置覆盖 1999–2019 年款，不能视为当前在售或全车型配置库；资料年代、配置匹配和保养适用性仍须核实。真实证件准确率、手机真机兼容性和压力测试需独立验证。
+
+车主与管理端均可打开“系统更新日志”。构建自动生成 `0.8.0+源码摘要` 版本，API 首次成功监听时写入数据库；相同构建重启、回滚复用原记录。发布者可维护 `release.config.json` 中的功能说明；没有新说明的源码更新也会按变更模块生成摘要。机制、编辑步骤及接口见 [系统更新日志](docs/system-releases.md)。
 
 已上线保养手册导入：按车型查询 CarOBook 候选、从官方等补充来源取得 PDF／图片，AI 生成有页码和原文依据的草稿，平台管理员核对后发布到车型项目与规则。网盘或需登录的文件保留人工下载上传流程。操作、限制和本轮验证见 [手册导入](docs/manual-import.md) 与 [验证记录](docs/verification.md)。
 
@@ -36,7 +39,8 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 | [配置说明](docs/configuration.md) | 本地 / PostgreSQL / AI / 地图 / 服务器环境变量及常见问题 |
 | [API 接口](docs/api.md) | 路由、权限、请求示例、行驶证字段与状态 |
 | [保养手册导入](docs/manual-import.md) | CarOBook／官方来源、PDF 和图片、AI 草稿、人工审核与车型规则发布 |
-| [公开车型与服务目录](docs/public-catalog.md) / [资源来源](docs/public-catalog-sources.md) | 预置候选、搜索选择、年款动力确认、批量导入、数据年代与许可 |
+| [公开车型与服务目录](docs/public-catalog.md) / [资源来源](docs/public-catalog-sources.md) / [配置来源](docs/vehicle-variants-sources.md) | 预置候选、年款动力配置筛选与导入、批量项目、数据年代与许可 |
+| [系统更新日志](docs/system-releases.md) | 自动版本标识、上线记录、发布说明维护、重启与回滚 |
 | [部署说明](docs/deployment.md) | 京东云、Portainer、端口、初始化、升级与回滚 |
 | [六人协作与验收](docs/development.md) | 分工、迭代、提交约定、测试与演示交付 |
 | [验证记录](docs/verification.md) | 已执行结果、当前线上版本与后续验收边界 |
@@ -86,6 +90,8 @@ npm run dev
 
 行驶证的 6 项真实 PostgreSQL 测试启用方式见 [六人协作与验收](docs/development.md)。真实 AI 请求与真实 PostgreSQL 验证不属于默认 CI 的外部依赖；CI 通过不代表真实照片准确率或公网部署已通过验收。
 
+`npm run build` 会将本次源码版本嵌入 API；仅构建不会写入系统更新日志。源码或 `release.config.json` 变化后，应重新构建并部署 API 与 Web，启动成功后自动登记。完整发布流程见 [系统更新日志](docs/system-releases.md) 与 [部署说明](docs/deployment.md)。
+
 ## 接入真实服务
 
 - PostgreSQL：在未跟踪的 `.env` 填写 `PGHOST`、`PGPORT`、`PGDATABASE`、`PGUSER`、`PGPASSWORD`，设 `DATABASE_DRIVER=postgres`。开发联调使用预先创建的 `PGSCHEMA=av_development`，与公共预览使用的 public schema 分开。应用只维护指定 schema 内 `av_` 前缀的自有表，不清空原数据库。真实 PostgreSQL 事务验证命令为 `npm run test:postgres`，只使用其新建的临时 `av_test_*` schema。
@@ -103,6 +109,8 @@ apps/web/                     React 车主端与管理端
 packages/shared/              共享类型与金额/状态显示
 design-system/autovoyage/      设计规范、语义样式变量、页面规范
 deploy/                       Dockerfile、Nginx 配置
+release.config.json           发布版本、标题与人工功能说明
+scripts/release-manifest.mjs   可用于无 Git 源码包的版本摘要生成器
 compose.yml                   复用既有数据库与代理网络的部署配置
 compose.preview.yml           无域名的 IP + 58083 HTTP 课程预览配置
 docs/                         接口、部署、分工与验收记录

@@ -24,6 +24,7 @@ import type { Bootstrap, PublicConfig, User } from "@autovoyage/shared";
 import { api, post, ApiError } from "./lib/api";
 import { Brand, ErrorBox, Loading, messageOf } from "./components/UI";
 import { VehiclePhoto } from "./components/VehiclePhoto";
+import { SystemUpdateLogButton } from "./components/SystemUpdateLog";
 import { VehicleEditor, ImportMileage } from "./components/VehicleForms";
 import HomePage from "./pages/HomePage";
 const StoresPage = lazy(() => import("./pages/StoresPage"));
@@ -414,6 +415,7 @@ function OwnerShell({
           <span>
             让每一程都有照应{data.config.demoMode ? " · 课程演示数据" : ""}
           </span>
+          <SystemUpdateLogButton version={data.config.version} />
         </footer>
       </div>
       <nav className="bottom-navigation" aria-label="手机主要导航">

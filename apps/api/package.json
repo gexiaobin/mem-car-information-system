@@ -7,7 +7,7 @@
     "dev": "tsx src/server.ts",
     "dev:watch": "tsx watch src/server.ts",
     "start": "node dist/server.js",
-    "build": "esbuild src/server.ts --bundle --platform=node --format=esm --target=node24 --packages=external --outfile=dist/server.js",
+    "build": "node ../../scripts/build-api.mjs",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test --test-concurrency=1 tests/*.test.ts"
   },

@@ -5635,3 +5635,4 @@ label textarea {
   .vehicle-photo > figcaption { font-size: 10px; padding: 6px 10px; }
   .photo-attribution { font-size: 10px; }
 }
+.owner-app .vehicle-title,.owner-app .vehicle-title-line{min-width:0}.owner-app .vehicle-title h2,.owner-app .vehicle-title>p{overflow-wrap:anywhere}.modal .form-stack>label{min-width:0}.modal select[name="modelId"]{max-width:100%;text-overflow:ellipsis}.owner-app .page-footer{flex-wrap:wrap}.owner-app .page-footer>span{overflow-wrap:anywhere}@media(max-width:767px){.owner-app .page-footer{padding-bottom:calc(85px + env(safe-area-inset-bottom));justify-content:center;gap:8px 16px}.owner-app .page-footer>.sul-entry{flex-basis:100%}}

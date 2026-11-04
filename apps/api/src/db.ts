@@ -24,6 +24,7 @@ export const tables = [
   "observations",
   "logs",
   "files",
+  "releases",
 ] as const;
 export type Table = (typeof tables)[number];
 export interface Sql {
@@ -137,6 +138,7 @@ const migrationStatements = [
   `CREATE INDEX IF NOT EXISTS av_import_status ON av_imports((data->>'status'))`,
   `CREATE INDEX IF NOT EXISTS av_registration_owner ON av_registration_imports((data->>'ownerId'))`,
   `CREATE INDEX IF NOT EXISTS av_manual_model ON av_manual_imports((data->>'modelId'))`,
+  `CREATE INDEX IF NOT EXISTS av_release_deployed ON av_releases((data->>'deployedAt'))`,
   `CREATE UNIQUE INDEX IF NOT EXISTS av_import_image ON av_imports((data->>'ownerId'), (data->>'vehicleId'), (data->>'imageHash')) WHERE data->>'imageHash' IS NOT NULL`,
 ];
 function tableName(table: Table): string {

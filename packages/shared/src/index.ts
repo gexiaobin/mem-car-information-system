@@ -5,9 +5,11 @@ export interface Vehicle { id: string; ownerId: string; modelId: string; plate: 
 export interface Project { id: string; code: string; name: string; category: string; description: string; unit: string; active: boolean; catalogSource?: CatalogProvenance }
 export type MaintenanceAction = 'inspect' | 'replace' | 'clean' | 'lubricate' | 'other';
 export interface CatalogSource { id: string; title: string; url: string; license: string; revision: string; retrievedAt: string; description: string }
-export interface CatalogModel { id: string; brand: string; name: string; sourceId: string }
+export interface CatalogModel { id: string; brand: string; name: string; sourceId: string; variantCount?: number }
+export interface CatalogVariant { id: string; modelCatalogId: string; year: number; power: string; trim: string; sourceId: string; sourceEvidence: string; manufacturer?: string }
+export interface CatalogVariantsResponse { items: CatalogVariant[]; total: number; years: number[]; powers: string[]; sources: CatalogSource[]; version: string; offset: number; limit: number }
 export interface CatalogProject { id: string; code: string; name: string; category: string; description: string; unit: string; action: MaintenanceAction; sourceIds: string[] }
-export interface CatalogProvenance { catalogId: string; version: string; sources: CatalogSource[]; importedAt: string }
+export interface CatalogProvenance { catalogId: string; version: string; sources: CatalogSource[]; importedAt: string; variantId?: string; sourceEvidence?: string; manufacturer?: string }
 export interface CatalogModelsResponse { items: CatalogModel[]; total: number; offset: number; limit: number; brands: string[]; sources: CatalogSource[]; version: string }
 export interface CatalogProjectsResponse { items: CatalogProject[]; total: number; categories: string[]; sources: CatalogSource[]; version: string }
 export interface CatalogModelImportResult { model: CarModel; created: boolean }
@@ -41,6 +43,8 @@ export interface PublicConfig { version: string; demoMode: boolean; database: 'p
 export interface Bootstrap { user: User; config: PublicConfig; vehicles: Vehicle[]; models: CarModel[]; projects: Project[]; rules: MaintenanceRule[]; maintenance: MaintenanceItem[]; stores: Store[]; offers: Offer[]; slots: Slot[]; appointments: Appointment[]; changes: ServiceChange[]; faults: Fault[]; messages: Notice[]; imports: ImportJob[]; serviceRecords: ServiceRecord[]; observations: Observation[]; users: User[]; logs: AuditLog[] }
 export interface BookingInput { vehicleId: string; offerIds: string[]; slotId: string; expectedVersions: Record<string, number>; requestId: string; faultId?: string }
 export interface ApiErrorPayload { error: { code: string; message: string; details?: unknown } }
+export interface SystemRelease { id: string; version: string; title: string; changes: string[]; deployedAt: string; revision: string | null }
+export interface SystemReleasesResponse { currentVersion: string; currentReleaseId: string; items: SystemRelease[]; total: number; offset: number; limit: number }
 export const ROLE_NAMES: Record<Role, string> = { owner: '车主', store_admin: '门店管理员', expert: '维修专家', platform_admin: '平台管理员' };
 export const APPOINTMENT_NAMES: Record<AppointmentStatus, string> = { pending: '待门店确认', confirmed: '预约已确认', in_service: '服务中', awaiting_owner: '待完工确认', completed: '已完成', rejected: '已拒绝', cancelled: '已取消', expired: '已超时关闭' };
 export const cents = (value: number | null | undefined) => value == null ? '需询价' : new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value / 100);

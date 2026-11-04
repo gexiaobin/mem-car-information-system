@@ -5,12 +5,12 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import pg from "pg";
-import type { CarModel, CatalogModelImportResult, CatalogModelsResponse, CatalogProject, CatalogProjectImportResult, CatalogProjectsResponse, Project } from "@autovoyage/shared";
+import type { CarModel, CatalogModelImportResult, CatalogModelsResponse, CatalogProject, CatalogProjectImportResult, CatalogProjectsResponse, CatalogVariantsResponse, Project } from "@autovoyage/shared";
 import { createApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { get, list, put } from "../src/db.js";
 import { maintenanceFor } from "../src/domain.js";
-import { catalogModels, catalogProjects, catalogSources, catalogVersion } from "../src/data/public-catalog.js";
+import { catalogModels, catalogProjects, catalogSources, catalogVersion, catalogVariants, variantsByModel } from "../src/data/public-catalog.js";
 
 const origin = "http://localhost:5173";
 const password = "CatalogIntegrationTest2026!";
@@ -76,6 +76,7 @@ test("catalog browsing and importing require a platform administrator", async ()
     for (const [method, path, payload] of [
       ["GET", "/admin/catalog/models", undefined],
       ["GET", "/admin/catalog/projects", undefined],
+      ["GET", `/admin/catalog/models/${catalogModels[0].id}/variants`, undefined],
       ["POST", "/admin/catalog/models/import", modelInput(0, 2026)],
       ["POST", "/admin/catalog/projects/import", { catalogIds: [catalogProjects[0].id] }],
     ] as const) {
@@ -83,6 +84,59 @@ test("catalog browsing and importing require a platform administrator", async ()
       assert.equal(response.statusCode, who === "anonymous" ? 401 : 403, response.body);
     }
   }
+});
+
+test("exact configurations retain year, power and trim from one source record with bounded filters", async () => {
+  assert(catalogVariants.length > 0);
+  assert.equal(new Set(catalogVariants.map(variant => variant.id)).size, catalogVariants.length);
+  const entry = catalogVariants[0];
+  const all = variantsByModel.get(entry.modelCatalogId)!;
+  const response = await call("admin", "GET", `/admin/catalog/models/${entry.modelCatalogId}/variants?year=${entry.year}&power=${encodeURIComponent(entry.power)}&limit=1`);
+  assert.equal(response.statusCode, 200, response.body);
+  const page = response.json<CatalogVariantsResponse>();
+  assert(page.total > 0 && page.items.length === 1);
+  assert(page.items.every(item => item.year === entry.year && item.power === entry.power && item.modelCatalogId === entry.modelCatalogId));
+  assert.deepEqual(page.years, [...new Set(all.map(item => item.year))].sort((a, b) => b - a));
+  assert(page.sources.some(source => source.id === entry.sourceId));
+  assert(page.items[0].sourceEvidence && page.items[0].trim);
+  const missingYear = Array.from({ length: 151 }, (_, index) => 1950 + index).find(year => !page.years.includes(year))!;
+  assert.equal((await call("admin", "GET", `/admin/catalog/models/${entry.modelCatalogId}/variants?year=${missingYear}`)).json<CatalogVariantsResponse>().total, 0);
+  for (const query of ["year=1900", "limit=101", "offset=-1"]) assert.equal((await call("admin", "GET", `/admin/catalog/models/${entry.modelCatalogId}/variants?${query}`)).statusCode, 400);
+});
+
+test("configuration import derives all variant fields server-side, preserves evidence and remains idempotent", async () => {
+  const entry = catalogVariants[0];
+  const rules = await list(service.db, "rules");
+  const offers = await list(service.db, "offers");
+  const payload = { catalogId: entry.modelCatalogId, variantId: entry.id };
+  const responses = await Promise.all([call("admin", "POST", "/admin/catalog/models/import", payload), call("admin", "POST", "/admin/catalog/models/import", payload)]);
+  responses.forEach(response => assert.equal(response.statusCode, 200, response.body));
+  const results = responses.map(response => response.json<CatalogModelImportResult>());
+  assert.equal(results.filter(result => result.created).length, 1);
+  assert.equal(results[0].model.id, results[1].model.id);
+  const model = results[0].model;
+  assert.equal(model.year, entry.year);
+  assert.equal(model.power, `${entry.power} · ${entry.trim}`);
+  assert.equal(model.catalogSource?.variantId, entry.id);
+  assert.equal(model.catalogSource?.sourceEvidence, entry.sourceEvidence);
+  assert(model.catalogSource?.sources.some(source => source.id === entry.sourceId));
+  assert.equal(model.applicableProjectIds, undefined);
+  assert.equal(model.isDemo, false);
+  assert.deepEqual(await list(service.db, "rules"), rules);
+  assert.deepEqual(await list(service.db, "offers"), offers);
+});
+
+test("forged configuration combinations and cross-series candidates cannot be imported", async () => {
+  const entry = catalogVariants[0];
+  const other = catalogModels.find(model => model.id !== entry.modelCatalogId)!;
+  const before = await list(service.db, "models");
+  for (const payload of [
+    { catalogId: entry.modelCatalogId, variantId: entry.id, year: 2026 },
+    { catalogId: entry.modelCatalogId, variantId: entry.id, power: "伪造动力" },
+    { catalogId: other.id, variantId: entry.id },
+    { catalogId: entry.modelCatalogId, variantId: "unknown-variant" },
+  ]) assert.equal((await call("admin", "POST", "/admin/catalog/models/import", payload)).statusCode, 400);
+  assert.deepEqual(await list(service.db, "models"), before);
 });
 
 test("model search, brand filtering and bounded pagination stay within the matching set", async () => {
