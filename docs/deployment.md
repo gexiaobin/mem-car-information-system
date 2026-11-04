@@ -2,7 +2,11 @@
 
 ## 当前部署选择
 
-2026-11-04 V0.5 已通过 Portainer 更新现有 `autovoyage` Stack：Web 为 `autovoyage-web:4392486`（镜像 `efe15b2f9e9a`），API 继续使用 `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器均为 `healthy`。本次仅修改 Web 镜像标签，保留全部环境变量、网络、上传卷、数据库与端口。回滚可恢复 Web `autovoyage-web:44d5c73`。
+2026-11-04 V0.6 保养手册工作区更新：API `autovoyage-api:c72209c`（`198281c2f9e2`）、Web `autovoyage-web:c72209c`（`cf9cecd31d5d`）已构建并更新既有 Stack，两个容器均为 `healthy`。API 内存限额由 512 MiB 提高为 1 GiB，`AI_TIMEOUT_MS` 由 90000 调整为 180000；其余 16 项环境变量与端口、网络、数据库、上传卷经表单逐项比较保持原值。发布前只读备份了本项目 20 张表、160 行，备份仅存本机忽略目录。
+
+公网入口仍为 [http://117.72.124.241:58083/](http://117.72.124.241:58083/)。新版首页资源为 `index-0qpJTtpB.js`，平台管理员可进入“保养手册与规则 → 手册导入”。CarOBook 查询无可确认候选时会显示实际结果及官方补充入口；网盘分享仍须先取得原文件再上传。真实官方 PDF 与 AI 验证、上线健康结果见 [验证记录](verification.md)。回滚镜像为 API `autovoyage-api:2e6107d`、Web `autovoyage-web:4392486`；保留新建任务表和上传卷，不删除数据。
+
+V0.5 历史记录：2026-11-04 已通过 Portainer 更新现有 `autovoyage` Stack：Web 为 `autovoyage-web:4392486`（镜像 `efe15b2f9e9a`），API 继续使用 `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器均为 `healthy`。本次仅修改 Web 镜像标签，保留全部环境变量、网络、上传卷、数据库与端口。回滚可恢复 Web `autovoyage-web:44d5c73`。
 
 公网 `/`、`/healthz`、`/api/v1/health` 均返回 200；首页资源为 `index-Dgarqdbp.js`，主／小车图均返回 200、`image/webp`，分别为 69,370 与 31,214 字节。真实浏览器确认银白概念跑车渲染图与素材来源链接，原两辆车及海豹 1,680 km 保持；375×812 首页 `clientWidth=scrollWidth=360`，车辆图片完整加载。公网手机地图回归为 `ready`，3 枚门店图标正常，点击匠心汽车服务图标后对应标记选中。当前 [首页截图](images/owner-dashboard.png) 已更新为 V0.5；[门店地图截图](images/store-map.png) 保留 V0.4，本轮门店视觉未变。详细验收范围见 [验证记录](verification.md)。
 
