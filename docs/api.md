@@ -104,6 +104,21 @@
 
 发布读取已保存草稿，在同一事务内验证并创建规则版本、合并车型适用项目、记录审计。相同请求重试返回已发布结果，不重复创建；过期草稿版本或改写已发布内容返回冲突。原有规则历史保留，其他车型不变。失败任务可 `POST /admin/manual-imports/:id/retry`，最多三次识别尝试；未配置 AI、识别失败及未人工确认时均不能成为有效规则。
 
+## 公开车型与参考服务项目
+
+以下接口仅允许 `platform_admin`，静态候选随应用发布，无需运行时访问外站。目录版本、来源与使用边界见 [公开目录](public-catalog.md)。新建实体的可选 `catalogSource` 保存候选 ID、目录版本、来源快照及导入时间；已有实体被复用时不改写其来源或其他字段。
+
+| 方法与路由 | 请求与返回 |
+| --- | --- |
+| `GET /admin/catalog/models` | `q`、`brand` 可选；`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,offset,limit,brands,sources,version`；品牌筛选为精确匹配，搜索忽略大小写、空白及全半角差异 |
+| `GET /admin/catalog/projects` | `q`、`category` 可选。返回 `items,total,categories,sources,version`，项目含 `action` 和参考来源 IDs |
+| `POST /admin/catalog/models/import` | `{ "catalogId": "目录条目ID", "year": 2024, "power": "管理员核对的实际动力与配置" }`；年份示例不代表来源提供该年款。返回 `{model,created}` |
+| `POST /admin/catalog/projects/import` | `{ "catalogIds": ["目录条目ID"] }`，1–100 条，重复 ID 去重。返回 `{projects,created,existing}` |
+
+车型候选仅含品牌与车系。导入必须显式填写 1950–2100 的整数年款和非空动力配置，建立非演示档案，保养适用项目保持未知。不会推断车型保养周期、材料、价格或适用范围；原有手册审核流程负责确认这些内容。
+
+同候选、年款及归一化动力配置，或同品牌、名称、年款及动力的档案可幂等复用。普通车型新增／修改与候选导入共用表锁及身份重复检查。参考项目按候选来源、编码或归一化名称复用，保留已有停用状态与编辑。相同编码对应不同名称返回 `CATALOG_CODE_CONFLICT`，整批回滚；不存在的条目返回 `CATALOG_ENTRY_NOT_FOUND`。未知字段不能通过导入请求夹带来源、保养规则或演示标记。
+
 ## 行驶证识别与私人档案
 
 本组接口只允许车主访问本人资源，门店、专家及平台管理员不获得默认读取权限。证件记录单独保存在 `av_registration_imports`，不进入 `bootstrap` 或普通车辆字段；其图片带私人证件用途标记，即使被错误引用到故障单也不向门店或专家开放。`POST /faults` 同时拒绝将行驶证图片作为共享故障照片。

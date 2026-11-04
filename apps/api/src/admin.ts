@@ -14,6 +14,7 @@ import { roles, route, sameStore } from "./context.js";
 import { get, list, put } from "./db.js";
 import type { Sql } from "./db.js";
 import { audit, ensure, id, now, shanghaiDay } from "./domain.js";
+import { sameModelIdentity } from "./catalog.js";
 const money = z.number().int().min(0).max(100000000);
 async function validateScope(sql: Sql, ids?: string[]) {
   if (ids === undefined) return;
@@ -103,6 +104,8 @@ export function registerAdmin({ app, db }: Context) {
     const user = roles(request, ["platform_admin"]);
     const input = modelSchema.parse(request.body);
     return db.transaction(async (sql) => {
+      await sql.query("LOCK TABLE av_models IN SHARE ROW EXCLUSIVE MODE");
+      ensure(!(await list<CarModel>(sql, "models")).some(model => sameModelIdentity(model, input)), 409, "DUPLICATE_MODEL", "相同品牌、车型、年款及动力配置的档案已存在");
       await validateScope(sql, input.applicableProjectIds);
       const model: CarModel = { ...input, id: id() };
       await put(sql, "models", model);
@@ -123,8 +126,13 @@ export function registerAdmin({ app, db }: Context) {
       const user = roles(request, ["platform_admin"]);
       const input = modelSchema.partial().parse(request.body);
       return db.transaction(async (sql) => {
+        // Manual publication also locks the existing model row before writing it.
+        // Take that row first so a publication never waits on our table lock while
+        // we are waiting on its row lock.
         const old = await get<CarModel>(sql, "models", request.params.id, true);
         ensure(old, 404, "NOT_FOUND", "车型不存在");
+        await sql.query("LOCK TABLE av_models IN SHARE ROW EXCLUSIVE MODE");
+        ensure(!(await list<CarModel>(sql, "models")).some(model => model.id !== old.id && sameModelIdentity(model, { ...old, ...input })), 409, "DUPLICATE_MODEL", "相同品牌、车型、年款及动力配置的档案已存在");
         await validateScope(sql, input.applicableProjectIds);
         ensure(
           input.isDemo === undefined || input.isDemo === old.isDemo,

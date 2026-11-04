@@ -51,6 +51,7 @@ import {
 } from "./context.js";
 import { expireAppointments, registerBookings } from "./bookings.js";
 import { registerAdmin } from "./admin.js";
+import { registerCatalog } from "./catalog.js";
 import { registerImages } from "./images.js";
 import { registerRegistration } from "./registration.js";
 import { registerManuals } from "./manuals.js";
@@ -744,6 +745,7 @@ export async function createApp(
   });
   registerBookings({ app, db, config });
   registerAdmin({ app, db, config });
+  registerCatalog({ app, db, config });
   const images = registerImages({ app, db, config });
   const registrations = registerRegistration({ app, db, config });
   registerManualFiles({ app, db, config });

@@ -1,9 +1,17 @@
 export type Role = 'owner' | 'store_admin' | 'expert' | 'platform_admin';
 export interface User { id: string; name: string; email: string; role: Role; storeId: string | null }
-export interface CarModel { id: string; brand: string; name: string; year: number; power: string; isDemo: boolean; applicableProjectIds?: string[] }
+export interface CarModel { id: string; brand: string; name: string; year: number; power: string; isDemo: boolean; applicableProjectIds?: string[]; catalogSource?: CatalogProvenance }
 export interface Vehicle { id: string; ownerId: string; modelId: string; plate: string; name: string; startDate: string; initialKm: number; totalKm: number | null; observedAt: string | null; isDemo: boolean }
-export interface Project { id: string; code: string; name: string; category: string; description: string; unit: string; active: boolean }
+export interface Project { id: string; code: string; name: string; category: string; description: string; unit: string; active: boolean; catalogSource?: CatalogProvenance }
 export type MaintenanceAction = 'inspect' | 'replace' | 'clean' | 'lubricate' | 'other';
+export interface CatalogSource { id: string; title: string; url: string; license: string; revision: string; retrievedAt: string; description: string }
+export interface CatalogModel { id: string; brand: string; name: string; sourceId: string }
+export interface CatalogProject { id: string; code: string; name: string; category: string; description: string; unit: string; action: MaintenanceAction; sourceIds: string[] }
+export interface CatalogProvenance { catalogId: string; version: string; sources: CatalogSource[]; importedAt: string }
+export interface CatalogModelsResponse { items: CatalogModel[]; total: number; offset: number; limit: number; brands: string[]; sources: CatalogSource[]; version: string }
+export interface CatalogProjectsResponse { items: CatalogProject[]; total: number; categories: string[]; sources: CatalogSource[]; version: string }
+export interface CatalogModelImportResult { model: CarModel; created: boolean }
+export interface CatalogProjectImportResult { projects: Project[]; created: number; existing: number }
 export type MaintenanceTrigger = 'periodic' | 'condition' | 'as_needed';
 export interface MaintenanceRule { id: string; modelId: string; projectId: string; intervalMonths: number | null; intervalKm: number | null; firstMonths: number | null; firstKm: number | null; mileageType: 'total_km' | 'engine_km'; sourceTitle: string; sourceUrl: string; version: number; verified: boolean; isDemo: boolean; action?: MaintenanceAction; triggerType?: MaintenanceTrigger; condition?: string; notes?: string; manualImportId?: string; sourcePages?: number[]; sourceText?: string; edition?: string; applicability?: string; supersededBy?: string; supersededAt?: string }
 export interface ManualAsset { id: string; name: string; url: string; mimeType: string; pageNumber: number | null; original: boolean }

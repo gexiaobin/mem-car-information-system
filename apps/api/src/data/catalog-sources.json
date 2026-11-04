@@ -1,0 +1,164 @@
+[
+  {
+    "id": "utf6-cars-201805",
+    "title": "Cars_Data 品牌与车系历史数据（2018-05）",
+    "url": "https://github.com/utf6/Cars_Data/tree/6ef6168838cf0ec9ebfb9442b4203e7706edbad8",
+    "license": "MIT",
+    "revision": "6ef6168838cf0ec9ebfb9442b4203e7706edbad8",
+    "retrievedAt": "2026-11-04",
+    "description": "源 SQL 导出日期为 2018-05-06，仓库提交日期为 2020-10-15。仅保留品牌、车系短名称；剔除显式概念/原型名称，包含停产与历史车系，不代表当前在售或完整年款配置。"
+  },
+  {
+    "id": "official-byd",
+    "title": "比亚迪中国官网车型导航",
+    "url": "https://www.byd.com/cn",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对官方车型导航，按车系归并年款、EV/DM及营销版本；仅作车系候选，不提供配置或适用年款。"
+  },
+  {
+    "id": "official-denza",
+    "title": "腾势官网车型导航",
+    "url": "https://www.tengshiauto.com/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对车型导航中的 N、Z、D 系列；按车系归并动力与营销版本。"
+  },
+  {
+    "id": "official-fangchengbao",
+    "title": "方程豹官网车型导航",
+    "url": "https://www.fangchengbao.com/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对豹5、豹8、钛3、钛7；不纳入概念车栏目。"
+  },
+  {
+    "id": "official-yangwang",
+    "title": "仰望官网车型导航",
+    "url": "https://www.yangwangauto.com/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对 U7、U8、U8L、U9；按车系归并营销版本。"
+  },
+  {
+    "id": "official-tesla",
+    "title": "特斯拉中国官网",
+    "url": "https://www.tesla.cn/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对官网列示 Model 3、Model Y、Model S、Model X。仅表示曾或正由官网列示，不表示中国在售、交付或年款配置。"
+  },
+  {
+    "id": "official-li",
+    "title": "理想汽车官网",
+    "url": "https://www.lixiang.com/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对车型导航与车型入口中的 L6/L7/L8/L9、MEGA、i6、i8。"
+  },
+  {
+    "id": "official-nio",
+    "title": "蔚来中国官网车型导航",
+    "url": "https://www.nio.cn/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对 ET/EC/ES 量产车系导航；ES8 座位版本归并，未采集 EVE 概念车。"
+  },
+  {
+    "id": "official-xpeng",
+    "title": "小鹏汽车官网车型导航",
+    "url": "https://www.xiaopeng.com/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对车型导航；MONA L05/L03/M03 保留系列名，去除营销年款。"
+  },
+  {
+    "id": "official-xiaomi",
+    "title": "小米汽车官网所有车型",
+    "url": "https://www.xiaomiev.com/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对所有车型导航中的 SU7、YU7、SU7 Ultra；本版仅选择这三个明确名称。"
+  },
+  {
+    "id": "official-aito",
+    "title": "问界 AITO 官网车型导航",
+    "url": "https://aito.auto/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对 M5、M6、M7、M8、M9 车系；不继承页面年款或配置。"
+  },
+  {
+    "id": "official-zeekr",
+    "title": "极氪官网车型导航",
+    "url": "https://www.zeekrlife.com/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04，官网导航 app.4b09d485.js",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对网站公开导航资源中的 ZEEKR MIX/7X/007/007GT/001/009/9X/X/8X；009光辉归并009。"
+  },
+  {
+    "id": "official-leap",
+    "title": "零跑官网车型入口",
+    "url": "https://www.leapmotor.com/",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04，官网 main.3480088c.js",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对官网公开车型入口 C01/C11/C16/C10/T03/B10；合并增程版本，不采配置与价格。"
+  },
+  {
+    "id": "byd-seagull-maintenance",
+    "title": "比亚迪官方第二代海鸥用户手册 · 保养项目",
+    "url": "https://www.byd.com/material/__CN/domestic-official/user-manual/ocean/第二代海鸥用户手册260120.pdf",
+    "license": "官方公开手册（短项目事实归纳，手册版权归比亚迪）",
+    "revision": "官方PDF文件名260120；物理页318–322",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对官方 PDF 物理页318–322的保养项目；文件名260120不作为适用年款证明。只归纳短项目名称及动作，自行转述用途；周期、工况、配置必须另行审核。"
+  },
+  {
+    "id": "byd-qinl-maintenance",
+    "title": "比亚迪官方2026款秦L DM-i用户手册 · 发动机项目",
+    "url": "https://www.byd.com/material/domestic-official/user-manual/dynasty/2026款秦L DM-i用户手册20260417.pdf",
+    "license": "官方公开手册（短项目事实归纳，手册版权归比亚迪）",
+    "revision": "官网2026-04-17 PDF；物理页354–359",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 经官网手册搜索“秦L DM”找到 PDF，核对物理页354–359，尤其358页发动机项目。仅短项目事实归纳，不将 HEV 周期或该车型适用性赋给其他车型。"
+  },
+  {
+    "id": "tesla-maintenance",
+    "title": "特斯拉中国 · 车辆保养",
+    "url": "https://www.tesla.cn/support/vehicle-maintenance",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对空调滤清器、HEPA、轮胎换位/动平衡/定位、制动钳清洁润滑、制动液检测、散热器等项目；项目是否适用依车型与具体配置核对。"
+  },
+  {
+    "id": "vw-express",
+    "title": "大众美国官网 · Service Xpress",
+    "url": "https://www.vw.com/en/owners-and-services/service-and-maintenance/express-service.html",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对机油机滤、空气滤芯、座舱滤芯、雨刮、低压电池检测更换、外部灯泡等服务项目名称。仅用于通用服务名称参考，非中国车型官方周期。"
+  },
+  {
+    "id": "vw-genuine",
+    "title": "大众美国官网 · Genuine Volkswagen Service",
+    "url": "https://www.vw.com/en/owners-and-services/service-and-maintenance/genuine-volkswagen-service.html",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 页面事实快照",
+    "retrievedAt": "2026-11-04",
+    "description": "2026-11-04 核对机油服务、轮胎与制动检查/更换等服务名称。仅短事实归纳，非中国车型保养规则。"
+  }
+]

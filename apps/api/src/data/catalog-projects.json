@@ -1,0 +1,664 @@
+[
+  {
+    "id": "ref-engine-oil-filter",
+    "code": "REF-ENGINE-OIL-FILTER",
+    "name": "更换发动机机油及机油滤清器",
+    "category": "发动机",
+    "description": "发动机润滑系统的机油与机油滤芯更换项目；油液规格、用量及适用动力由车辆手册确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-qinl-maintenance",
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-engine-air-filter",
+    "code": "REF-ENGINE-AIR-FILTER",
+    "name": "更换发动机空气滤芯",
+    "category": "滤清器",
+    "description": "发动机进气过滤元件更换；配件型号与操作要求按具体车辆确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-qinl-maintenance",
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-spark-plug",
+    "code": "REF-SPARK-PLUG",
+    "name": "更换火花塞",
+    "category": "发动机",
+    "description": "发动机点火系统火花塞更换；仅在对应动力配备且手册要求时纳入。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-fuel-filter",
+    "code": "REF-FUEL-FILTER",
+    "name": "更换燃油滤清器",
+    "category": "发动机",
+    "description": "燃油过滤元件更换；部件形式和是否单独保养按具体车辆确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-pcv-inspection",
+    "code": "REF-PCV-INSPECTION",
+    "name": "检查曲轴箱通风系统",
+    "category": "发动机",
+    "description": "检查曲轴箱通风阀与相关软管状况；属于配备发动机车型的候选项目。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-engine-idle",
+    "code": "REF-ENGINE-IDLE",
+    "name": "检查发动机怠速",
+    "category": "发动机",
+    "description": "检查发动机怠速运行状况；检测条件与允许范围须另查对应手册。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-canister-filter",
+    "code": "REF-CANISTER-FILTER",
+    "name": "更换碳罐灰尘过滤器",
+    "category": "发动机",
+    "description": "蒸发排放系统灰尘过滤元件更换；先确认车辆是否配置该可维护部件。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-cabin-filter",
+    "code": "REF-CABIN-FILTER",
+    "name": "更换空调滤清器",
+    "category": "滤清器",
+    "description": "座舱空气过滤元件更换；按车辆配置确认普通滤芯或专用滤芯型号。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "tesla-maintenance",
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-hepa-filter",
+    "code": "REF-HEPA-FILTER",
+    "name": "更换HEPA及活性炭滤清器",
+    "category": "滤清器",
+    "description": "用于配备相应空气净化配置的过滤元件更换；不默认所有车型均有此配置。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "tesla-maintenance"
+    ]
+  },
+  {
+    "id": "ref-brake-fluid-inspection",
+    "code": "REF-BRAKE-FLUID-INSPECTION",
+    "name": "检查制动液",
+    "category": "制动系统",
+    "description": "检查制动液状态；检测方法及是否需要更换由对应手册和检测结果决定。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance",
+      "tesla-maintenance"
+    ]
+  },
+  {
+    "id": "ref-brake-fluid-replace",
+    "code": "REF-BRAKE-FLUID-REPLACE",
+    "name": "更换制动液",
+    "category": "制动系统",
+    "description": "制动液更换项目；液体标准、工艺和作业条件按具体车辆确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance",
+      "tesla-maintenance"
+    ]
+  },
+  {
+    "id": "ref-brake-pad-disc",
+    "code": "REF-BRAKE-PAD-DISC",
+    "name": "检查制动摩擦块和制动盘",
+    "category": "制动系统",
+    "description": "检查制动摩擦部件状态；允许磨损量与后续处理依据车型资料确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance",
+      "vw-genuine"
+    ]
+  },
+  {
+    "id": "ref-brake-pedal-parking",
+    "code": "REF-BRAKE-PEDAL-PARKING",
+    "name": "检查制动踏板和电子驻车开关",
+    "category": "制动系统",
+    "description": "检查制动踏板及电子驻车控制功能；不包含默认更换零件。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-brake-pipes",
+    "code": "REF-BRAKE-PIPES",
+    "name": "检查制动管路和软管",
+    "category": "制动系统",
+    "description": "检查制动系统管路、软管及连接部位状态。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-caliper-guide-pin",
+    "code": "REF-CALIPER-GUIDE-PIN",
+    "name": "检查制动钳导向销",
+    "category": "制动系统",
+    "description": "制动钳总成导向销检查项目；拆检范围与作业工艺依车型要求确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-caliper-clean",
+    "code": "REF-CALIPER-CLEAN",
+    "name": "清洁制动钳",
+    "category": "制动系统",
+    "description": "制动钳清洁候选项目；是否需要实施取决于工况和车辆资料。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-maintenance"
+    ]
+  },
+  {
+    "id": "ref-caliper-lubricate",
+    "code": "REF-CALIPER-LUBRICATE",
+    "name": "润滑制动钳",
+    "category": "制动系统",
+    "description": "对明确要求润滑的制动钳部位实施保养；部分车型不需要该项目，先核对适用配置。",
+    "unit": "次",
+    "action": "lubricate",
+    "sourceIds": [
+      "tesla-maintenance"
+    ]
+  },
+  {
+    "id": "ref-tire-pressure",
+    "code": "REF-TIRE-PRESSURE",
+    "name": "检查轮胎和胎压",
+    "category": "轮胎车轮",
+    "description": "检查轮胎气压与相关状态；目标胎压按车辆标牌或对应手册确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-tire-wear",
+    "code": "REF-TIRE-WEAR",
+    "name": "检查轮胎磨损",
+    "category": "轮胎车轮",
+    "description": "检查胎面深度和磨损形态；不默认检查结果要求换胎。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance",
+      "vw-genuine"
+    ]
+  },
+  {
+    "id": "ref-tire-rotation",
+    "code": "REF-TIRE-ROTATION",
+    "name": "轮胎换位",
+    "category": "轮胎车轮",
+    "description": "轮胎位置调整服务；先核对前后轮规格、方向性及对应车型是否允许换位。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "tesla-maintenance",
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-wheel-balance",
+    "code": "REF-WHEEL-BALANCE",
+    "name": "车轮动平衡",
+    "category": "轮胎车轮",
+    "description": "轮胎与轮毂总成动平衡服务；根据检测结果或手册要求实施。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "tesla-maintenance",
+      "vw-genuine"
+    ]
+  },
+  {
+    "id": "ref-wheel-alignment",
+    "code": "REF-WHEEL-ALIGNMENT",
+    "name": "车轮定位",
+    "category": "轮胎车轮",
+    "description": "车轮定位检测与调整服务；标准参数与是否调整依对应车型确认。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance",
+      "tesla-maintenance"
+    ]
+  },
+  {
+    "id": "ref-tpms-reset",
+    "code": "REF-TPMS-RESET",
+    "name": "胎压监测复位",
+    "category": "轮胎车轮",
+    "description": "维护后按车辆要求进行胎压监测或轮胎配置复位。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "tesla-maintenance"
+    ]
+  },
+  {
+    "id": "ref-wheel-bearing",
+    "code": "REF-WHEEL-BEARING",
+    "name": "检查车轮轴承游隙",
+    "category": "轮胎车轮",
+    "description": "检查车轮轴承状态及游隙；具体检测要求按车辆维修资料确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-steering-link",
+    "code": "REF-STEERING-LINK",
+    "name": "检查转向盘和转向拉杆",
+    "category": "底盘转向",
+    "description": "检查转向操纵和连接部件状态。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-drive-boot",
+    "code": "REF-DRIVE-BOOT",
+    "name": "检查传动轴防尘罩",
+    "category": "底盘转向",
+    "description": "检查传动轴防尘罩及连接部位的完整性。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-ball-joint",
+    "code": "REF-BALL-JOINT",
+    "name": "检查球销及防尘罩",
+    "category": "底盘转向",
+    "description": "检查悬架或转向球销相关防护件状态。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-suspension",
+    "code": "REF-SUSPENSION",
+    "name": "检查前后悬架",
+    "category": "底盘转向",
+    "description": "检查前后悬架部件状态；不包含默认调整或更换。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-coolant-level",
+    "code": "REF-COOLANT-LEVEL",
+    "name": "检查冷却液液位",
+    "category": "冷却系统",
+    "description": "检查冷却液液位及可见状态；不同回路应按车辆要求分别确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-coolant-hoses",
+    "code": "REF-COOLANT-HOSES",
+    "name": "检查冷却水管和连接部位",
+    "category": "冷却系统",
+    "description": "检查冷却管路状态和连接可靠性。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-motor-coolant",
+    "code": "REF-MOTOR-COOLANT",
+    "name": "更换驱动电机冷却液",
+    "category": "新能源系统",
+    "description": "驱动电机冷却回路的冷却液更换；回路、介质规格与用量必须按车型确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-gear-oil",
+    "code": "REF-GEAR-OIL",
+    "name": "更换变速器齿轮油",
+    "category": "传动系统",
+    "description": "变速器齿轮油更换；不代表全部变速器均适用同一油液或周期。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-powertrain-leaks",
+    "code": "REF-POWERTRAIN-LEAKS",
+    "name": "检查动力总成泄漏及磕碰",
+    "category": "传动系统",
+    "description": "检查动力总成外部是否存在泄漏、磕碰等异常。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-battery-protection",
+    "code": "REF-BATTERY-PROTECTION",
+    "name": "检查动力电池托盘和防护部件",
+    "category": "新能源系统",
+    "description": "检查动力电池托盘、护板等防护部件；紧固点与扭矩要求需另行核对。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-hv-harness",
+    "code": "REF-HV-HARNESS",
+    "name": "检查高压线束和接插件",
+    "category": "新能源系统",
+    "description": "高压线束及接插件状态检查，由具备相应资质的人员按车辆规程实施。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-hv-module",
+    "code": "REF-HV-MODULE",
+    "name": "检查高压模块外观",
+    "category": "新能源系统",
+    "description": "高压模块可见外观状态检查；不包含拆开电池或高压模块。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-charge-connector",
+    "code": "REF-CHARGE-CONNECTOR",
+    "name": "检查充电接口",
+    "category": "新能源系统",
+    "description": "检查充电连接接口可见状态；不包含默认拆检或更换。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-hv-water-marks",
+    "code": "REF-HV-WATER-MARKS",
+    "name": "检查高压部件涉水痕迹",
+    "category": "新能源系统",
+    "description": "检查高压部件的涉水相关可见迹象，后续处理依厂家规程判断。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-low-voltage-battery",
+    "code": "REF-LOW-VOLTAGE-BATTERY",
+    "name": "检测低压蓄电池",
+    "category": "电气系统",
+    "description": "低压蓄电池状态检测；与高压动力电池项目分开管理。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-low-voltage-battery-replace",
+    "code": "REF-LOW-VOLTAGE-BATTERY-REPLACE",
+    "name": "更换低压蓄电池",
+    "category": "电气系统",
+    "description": "低压蓄电池更换；电池类型、登记或匹配要求按车辆配置确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "tesla-maintenance",
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-exterior-lights",
+    "code": "REF-EXTERIOR-LIGHTS",
+    "name": "检查外部灯具",
+    "category": "电气系统",
+    "description": "检查外部灯具的点亮与相关功能。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-exterior-bulb",
+    "code": "REF-EXTERIOR-BULB",
+    "name": "更换外部灯泡",
+    "category": "电气系统",
+    "description": "可单独维护的外部灯泡更换；一体式LED等结构须先核对。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-headlight-level",
+    "code": "REF-HEADLIGHT-LEVEL",
+    "name": "检查前灯调光功能",
+    "category": "电气系统",
+    "description": "检查车辆所配备的前灯调节功能。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-headlight-calibration",
+    "code": "REF-HEADLIGHT-CALIBRATION",
+    "name": "近光灯下倾度校准",
+    "category": "电气系统",
+    "description": "近光灯照射方向相关校准服务；检测标准及工况按车型要求实施。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-eps-connectors",
+    "code": "REF-EPS-CONNECTORS",
+    "name": "检查电动助力转向电气连接",
+    "category": "底盘转向",
+    "description": "检查EPS搭铁、接插件及控制器外观等相关状态；具体检查点按手册核对。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance",
+      "byd-qinl-maintenance"
+    ]
+  },
+  {
+    "id": "ref-wiper-replace",
+    "code": "REF-WIPER-REPLACE",
+    "name": "更换雨刮片",
+    "category": "车身附件",
+    "description": "雨刮刮片更换服务；按车辆安装结构和尺寸选配。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-wiper-fasten",
+    "code": "REF-WIPER-FASTEN",
+    "name": "检查雨刮臂紧固",
+    "category": "车身附件",
+    "description": "检查雨刮臂相关紧固状态；扭矩值按车辆资料确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-door-check",
+    "code": "REF-DOOR-CHECK",
+    "name": "检查车门限位器",
+    "category": "车身附件",
+    "description": "检查车门限位器状态；清洁、润滑作为独立动作记录。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-door-clean",
+    "code": "REF-DOOR-CLEAN",
+    "name": "清洁车门限位器",
+    "category": "车身附件",
+    "description": "清洁车门限位器相关部位；材料与工艺按车辆要求确认。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-door-lubricate",
+    "code": "REF-DOOR-LUBRICATE",
+    "name": "润滑车门限位器",
+    "category": "车身附件",
+    "description": "车门限位器规定部位润滑；润滑材料和用量由车型资料确定。",
+    "unit": "次",
+    "action": "lubricate",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-hood-lock",
+    "code": "REF-HOOD-LOCK",
+    "name": "检查前舱盖锁和紧固件",
+    "category": "车身附件",
+    "description": "检查前舱盖锁、铰链及相关紧固件状态。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "byd-seagull-maintenance"
+    ]
+  },
+  {
+    "id": "ref-radiator-clean",
+    "code": "REF-RADIATOR-CLEAN",
+    "name": "清洁散热器",
+    "category": "冷却系统",
+    "description": "散热器清洁服务；是否需要及具体工艺按检查结果和车辆要求确认。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-maintenance"
+    ]
+  },
+  {
+    "id": "ref-ac-desiccant",
+    "code": "REF-AC-DESICCANT",
+    "name": "更换空调干燥剂包",
+    "category": "空调系统",
+    "description": "仅对明确要求更换干燥剂包的空调配置提供候选项目。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "tesla-maintenance"
+    ]
+  }
+]
