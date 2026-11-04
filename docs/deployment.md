@@ -2,9 +2,11 @@
 
 ## 当前部署选择
 
-2026-11-04 V0.4 已通过 Portainer 更新现有 `autovoyage` Stack：Web 为 `autovoyage-web:44d5c73`（镜像 `80a24e6e9a61`），API 保持 `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器均为 `healthy`。本次仅修改 Web 镜像标签，保留所有环境变量、网络、上传卷与数据库，端口不变。回滚可恢复 Web `autovoyage-web:a0a690c`。
+2026-11-04 V0.5 已通过 Portainer 更新现有 `autovoyage` Stack：Web 为 `autovoyage-web:4392486`（镜像 `efe15b2f9e9a`），API 继续使用 `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器均为 `healthy`。本次仅修改 Web 镜像标签，保留全部环境变量、网络、上传卷、数据库与端口。回滚可恢复 Web `autovoyage-web:44d5c73`。
 
-公网 `/`、`/healthz`、`/api/v1/health` 均返回 200；首页加载新资源 `index-DQmqT46I.js`，同源 Worker 返回 200、`application/javascript`、517,225 字节。浏览器确认海洋蓝首页与 Cybertruck 灵感插画，原两辆车及海豹 1,680 km 保持；门店页三枚服务站 SVG、真实底图 `ready` 和选店联动正常。375×812 首页与门店页均 `clientWidth=scrollWidth=360`，车身与两轮完整、示意标签可读、无车型图片；临时视口已恢复。当前公网截图与详细范围见 [验证记录](verification.md)。
+公网 `/`、`/healthz`、`/api/v1/health` 均返回 200；首页资源为 `index-Dgarqdbp.js`，主／小车图均返回 200、`image/webp`，分别为 69,370 与 31,214 字节。真实浏览器确认银白概念跑车渲染图与素材来源链接，原两辆车及海豹 1,680 km 保持；375×812 首页 `clientWidth=scrollWidth=360`，车辆图片完整加载。公网手机地图回归为 `ready`，3 枚门店图标正常，点击匠心汽车服务图标后对应标记选中。当前 [首页截图](images/owner-dashboard.png) 已更新为 V0.5；[门店地图截图](images/store-map.png) 保留 V0.4，本轮门店视觉未变。详细验收范围见 [验证记录](verification.md)。
+
+V0.4 历史部署记录：Web `autovoyage-web:44d5c73`（`80a24e6e9a61`），API `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器当时均为 `healthy`。该轮首页资源为 `index-DQmqT46I.js`，同源 Worker 返回 200、`application/javascript`、517,225 字节；公网确认 Cybertruck 灵感 SVG、海洋蓝主题、三枚服务站图标、真实底图与选店联动，375×812 首页与门店页均无横向溢出。该轮回滚目标为 `a0a690c`，完整历史证据保留在验证记录。
 
 用户已选择本阶段先不用域名，采用 **IP + 58083 端口的 HTTP 课程预览**，配置文件为 `compose.preview.yml`。2026-11-03 已部署到 Portainer 的 `autovoyage` Stack，实际入口为 [http://117.72.124.241:58083/](http://117.72.124.241:58083/)。主页、`/healthz`、`/api/v1/health` 与 `/api/v1/config` 均返回 HTTP 200；API 报告使用 PostgreSQL，AI 已配置。Portainer 中 `autovoyage-api-1` 与 `autovoyage-web-1` 均为 `healthy`。
 
@@ -69,7 +71,7 @@ API 健康检查为 `/api/v1/health`，Web 为 `/healthz`。API 健康后 Web �
 
 HTTP IP 预览可以验证网页、登录、普通文件选择上传和核心业务流程。浏览器定位通常要求安全上下文，公共 IP 的 HTTP 地址不能作为定位能力已验收的依据；手机文件输入的拍照入口还取决于具体浏览器。该模式不提供 HTTPS 传输保障，后续切换 HTTPS 后须重新验收安全会话、定位与真机兼容。
 
-V0.1/V0.2 历史公网验收还包括车主登录、375 像素宽度的首页与门店页、预约弹窗、合成仪表图真实 AI 识别。旧地图当时显示三家演示店和六张可见瓦片；当前地图结果以 V0.4 记录为准。预约预览显示 ¥80 制动检查及按时间排序的时段，未提交公共预约，也未确认合成图候选里程。
+V0.1/V0.2 历史公网验收还包括车主登录、375 像素宽度的首页与门店页、预约弹窗、合成仪表图真实 AI 识别。旧地图当时显示三家演示店和六张可见瓦片；当前地图结果以 V0.5 回归记录为准。预约预览显示 ¥80 制动检查及按时间排序的时段，未提交公共预约，也未确认合成图候选里程。
 
 ## 一次性初始化
 

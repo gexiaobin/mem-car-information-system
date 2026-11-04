@@ -2,7 +2,26 @@
 
 更新日期：2026-11-04，Asia/Shanghai；以下按版本保留历史验收证据。
 
-## V0.4 海洋蓝与插画更新（2026-11-04）
+## V0.5 银白概念跑车渲染（2026-11-04）
+
+代码 `4392486` 将车辆 SVG 替换为授权 Car Concept 模型离线渲染的透明 WebP，延续 V0.4 海洋蓝主题与服务站图标。模型署名为 Eric Chadwick / Darmstadt Graphics Group GmbH，2024，CC BY 4.0；改编内容与固定来源见 [素材署名](image-attribution.md)。Three.js、模型与中间文件只用于本地工作室，车辆组件运行时加载静态图片。
+
+| 检查项 | 实际结果 |
+| --- | --- |
+| 完整检查与 CI | `npm run check` 通过：全项目类型检查、27 项后端测试、前后端生产构建；[GitHub Actions](https://github.com/gexiaobin/mem-car-information-system/actions/runs/41756807342) 为 success |
+| 静态车图 | 主图 1440 × 504、69,370 字节；小图 720 × 252、31,214 字节。透明 WebP 由本地工作室生成，组件提供 720w／1440w `srcset`、固定宽高与异步解码；首屏 eager／high，档案 lazy |
+| 本地页面 | 桌面登录、首页及 375px 手机首页／车辆档案已截图目视核对；档案 lazy 图片滚入可见范围后正确加载 |
+| 目标环境发布 | Web `autovoyage-web:4392486`（镜像 `efe15b2f9e9a`），API 沿用 `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器均为 `healthy`；仅修改 Web 镜像标签，全部环境变量、网络、卷、数据库与端口保留 |
+| 公网资源 | `/`、`/healthz`、`/api/v1/health` 均返回 200；首页资源为 `index-Dgarqdbp.js`；两张车图均返回 200、`image/webp`，字节数分别为 69,370 与 31,214 |
+| 公网桌面首页 | 银白概念跑车渲染图加载成功，素材来源链接存在；原两辆车和海豹有效里程 1,680 km 保持原值 |
+| 公网手机首页 | 375×812 视口下 `clientWidth=scrollWidth=360`，无横向溢出，车辆图片完整加载；截图目视确认银白车身与两轮完整 |
+| 公网手机地图回归 | MapLibre 状态为 `ready`，3 枚地图标记与门店图标正常；点击“在地图查看匠心汽车服务 · 城阳店”后，对应地图标记 `aria-pressed=true`。临时 375×812 视口已恢复，页面回到桌面“我的数字车库” |
+
+当前 [首页截图](images/owner-dashboard.png) 已更新为 V0.5 实际公网页面；[门店地图截图](images/store-map.png) 继续保留 V0.4，该页面视觉本轮未改，不能将旧截图标为 V0.5 新验收。本机忽略目录 `.local/screenshots/` 保留 `cloud-v05-owner-desktop.png`、`cloud-v05-owner-mobile.png`、`cloud-v05-map-mobile.png` 与 `cloud-v05-stack-health.png`。
+
+本轮无需数据库迁移、新环境变量或端口；回滚 Web 可恢复 `44d5c73`。以下 V0.4 及更早记录保留为历史证据，不能将旧版验收自动算作本轮新执行结果。
+
+## V0.4 海洋蓝与插画更新（2026-11-04，历史）
 
 代码 `44d5c73` 使用原创 Cybertruck 灵感楔形皮卡，替换此前通用轿车插画；门店列表和首页共用汽车服务站 SVG。主题以中国海洋大学海洋文化为灵感，采用项目自定深海蓝、海水蓝、青蓝和海雾底色，不声明学校官方 VI。
 
@@ -19,7 +38,7 @@
 | 公网地图与门店 | 三家门店显示新服务站 SVG，真实底图状态为 `ready`；点击“在地图查看匠心…”图标按钮后，对应地图标记 `aria-pressed=true` |
 | 公网手机首页与门店 | 375×812 视口下两页均 `clientWidth=scrollWidth=360`，无横向溢出；Cybertruck 整车与两轮完整、示意标签可读，无车型 `<img>`；门店显示真实道路／海岸线、3 枚地图标记与 3 枚新服务站图标，地图状态 `ready`。临时视口已恢复 |
 
-当前公网截图为 [海洋蓝首页](images/owner-dashboard.png) 与 [门店地图](images/store-map.png)，均已替换为 V0.4 实际页面。发布前的 [本地预览](images/ocean-blue-preview.png) 作为历史记录保留。本次不需要数据库迁移、新环境变量或新端口；以下 V0.3 及更早记录均为历史证据，回滚 Web 可恢复 `a0a690c`。
+V0.4 发布时曾更新公共首页与地图截图；当前首页已替换为顶部记录的 V0.5，门店地图仍保留 V0.4。发布前的 [本地预览](images/ocean-blue-preview.png) 作为历史记录保留。该轮不需要数据库迁移、新环境变量或新端口，当时回滚 Web 可恢复 `a0a690c`。
 
 本机忽略目录 `.local/screenshots/` 保留 V0.4 公网截图：`cloud-v04-owner-desktop.png`、`cloud-v04-map-desktop.png`、`cloud-v04-owner-mobile.png`、`cloud-v04-map-mobile.png` 与 `cloud-v04-stack-health.png`。截图使用课程演示车辆和门店，无私人证件信息。
 
@@ -44,11 +63,11 @@
 
 本次默认地图不需要新增 Key 或修改服务器 DNS、防火墙、数据库。地图依赖浏览器 WebGL 与公开服务网络可达性；高德配置保留，尚未作为本次验收结果。
 
-V0.3 历史截图保存在本机忽略目录：`cloud-v03-owner-desktop.png`、`cloud-v03-owner-mobile.png`、`cloud-v03-map-mobile.png`、`cloud-v03-stack-health.png`，使用课程合成车辆和门店，无私人证件信息。公共首页与地图截图已更新为顶部记录的 V0.4；以下 V0.2 及更早验收记录保留为历史证据。
+V0.3 历史截图保存在本机忽略目录：`cloud-v03-owner-desktop.png`、`cloud-v03-owner-mobile.png`、`cloud-v03-map-mobile.png`、`cloud-v03-stack-health.png`，使用课程合成车辆和门店，无私人证件信息。公共首页截图现为 V0.5，地图截图保留 V0.4；以下 V0.2 及更早验收记录保留为历史证据。
 
 ## GitHub 交付与干净环境回归（2026-11-04 补充）
 
-完整工程与文档已同步到 GitHub 默认分支 `main`，包括操作手册、架构与 JSONB 数据设计、配置说明、六人协作、API、部署和实际验证记录。README 提供导航与界面截图；本段记录 V0.2 的文档与测试修复，当前生产版本以顶部 V0.4 记录为准。
+完整工程与文档已同步到 GitHub 默认分支 `main`，包括操作手册、架构与 JSONB 数据设计、配置说明、六人协作、API、部署和实际验证记录。README 提供导航与界面截图；本段记录 V0.2 的文档与测试修复，当前生产版本以顶部 V0.5 记录为准。
 
 GitHub Actions 的首次干净检出暴露出行驶证测试初始化依赖本机 `SESSION_SECRET` 的问题；已改为测试夹具自行提供隔离会话配置，生产配置校验保持原实现。在不含 `.env` 的 Git 文件导出目录中复用本机已安装依赖，重新执行 `npm run check`，类型检查、27 项后端测试、前后端生产构建全部通过。GitHub Actions 在每次推送执行相同检查，其具体结果以仓库 Actions 页面为准。
 
@@ -84,7 +103,7 @@ GitHub Actions 的首次干净检出暴露出行驶证测试初始化依赖本�
 
 用户已确定本阶段先不用域名，使用 `compose.preview.yml` 对应的 IP + TCP 58083 HTTP 课程预览，现已部署并可通过 [http://117.72.124.241:58083/](http://117.72.124.241:58083/) 访问。`compose.yml` 保留为后续域名与证书齐备时的 HTTPS 方案。
 
-Portainer Stack 为 `autovoyage`。V0.2 当时部署 API `2e6107d`（`7c2b6466d918`）与 Web `2e6107d`（`9b3f2680a42d`），通过无秘密源码归档上传构建；当前 Web 已升级为顶部记录的 V0.4，API 保持 `2e6107d`。文档提交不改变应用镜像。
+Portainer Stack 为 `autovoyage`。V0.2 当时部署 API `2e6107d`（`7c2b6466d918`）与 Web `2e6107d`（`9b3f2680a42d`），通过无秘密源码归档上传构建；当前 Web 已升级为顶部记录的 V0.5，API 保持 `2e6107d`。文档提交不改变应用镜像。
 
 ## 已有证据与范围
 
@@ -105,7 +124,7 @@ Portainer Stack 为 `autovoyage`。V0.2 当时部署 API `2e6107d`（`7c2b6466d9
 | PostgreSQL 事务联调 | `npm run test:postgres` | 先前 V0.1 的 7 项通过记录；V0.2 另有上表 6 项行驶证真实 PostgreSQL 验证，均只操作独立临时 schema |
 | 桌面与手机宽度浏览器检查 | 登录、车主与各管理角色、表单及核心业务闭环 | 本地桌面完成新增车辆、纯电保养范围、多项目同口径排序、双项目 ¥208 预约及门店接单；云端车主与门店管理员随机强口令登录通过，车主退出后回到登录页；375×812 视口首页、底部五项导航及门店页无横向溢出；公网 HTTP 预约弹窗打开成功，¥80 制动检查时段按 09 / 11 / 14 / 16 时排序，仅预览未提交公共预约；临时视口已恢复。云端专家、平台角色及真实手机浏览器仍需独立验收 |
 | IP + HTTP 部署 | 58083、`/`、`/healthz`、`/api/v1/health`、`/api/v1/config`、Portainer Stack | 已部署，四个入口均 HTTP 200；健康检查为 `ok`、数据库为 `postgres`，配置为 `demoMode=false`、`aiConfigured=true`、`mapProvider=osm`；`autovoyage-api-1` 与 `autovoyage-web-1` 均为 `healthy` |
-| V0.1/V0.2 历史云端地图 | 375 像素宽度门店页、Leaflet 可见瓦片 | 历史验收时显示三家演示门店，六张可见瓦片加载完成；页面 `scrollWidth=360`，小于 `innerWidth=375`；当前版本已切换 MapLibre，见顶部 V0.3 记录 |
+| V0.1/V0.2 历史云端地图 | 375 像素宽度门店页、Leaflet 可见瓦片 | 历史验收时显示三家演示门店，六张可见瓦片加载完成；页面 `scrollWidth=360`，小于 `innerWidth=375`；MapLibre 切换与故障调查见 V0.3 历史记录，当前公网回归见 V0.5 |
 | 云安全组 / 防火墙 | 京东云实例 `lavm-y76noe3tj0`、TCP 58083 精确规则及公网访问 | IP 与目标一致；已有来源 `0.0.0.0/0`、备注 `AutoVoyage` 的 TCP 58083 规则，本次未新增或修改规则；公网访问成功 |
 | HTTPS | 后续 `compose.yml` + 有效证书 | 本阶段未作为已完成部署项 |
 
