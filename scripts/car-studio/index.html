@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><title>云程 · 汽车素材渲染棚</title>
+<style>body{margin:0;padding:16px;background:#061a2d;color:#e7f6ff;font:14px system-ui}canvas{display:block;width:1280px;height:640px;background:radial-gradient(ellipse at 50% 80%,#19425b,#061a2d 75%)}nav{display:flex;gap:12px;align-items:center;margin-top:16px}button{padding:10px 18px;background:#e5f3fa;border:0;border-radius:6px;cursor:pointer}#status{margin-left:8px}</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+<canvas id="render" width="1600" height="800" aria-label="银白概念跑车的三维棚拍渲染"></canvas>
+<nav><button id="left">前左视角</button><button id="right">前右视角</button><button id="reverse">反转车头</button><button id="export" disabled>导出透明 PNG</button><span id="status" role="status">正在加载模型…</span></nav>
+<script type="module" src="/scene.js"></script>
+</html>

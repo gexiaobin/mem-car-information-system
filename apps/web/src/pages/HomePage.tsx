@@ -25,7 +25,7 @@ import {
   SectionHeading,
   dateText,
 } from "../components/UI";
-import { VehiclePhoto } from "../components/VehiclePhoto";
+import { VehiclePhoto, VEHICLE_ART_SOURCE, VEHICLE_ART_CREDIT } from "../components/VehiclePhoto";
 import { StoreIllustration } from "../components/StoreIllustration";
 
 export default function HomePage({
@@ -114,7 +114,7 @@ export default function HomePage({
                 </p>
               </div>
               <VehiclePhoto model={model} priority caption={false} />
-              <span className="garage-art-label">Cybertruck 灵感 · 示意</span>
+              <a className="garage-art-label" href={VEHICLE_ART_SOURCE} target="_blank" rel="noreferrer" title={VEHICLE_ART_CREDIT}>3D 概念车 · 外观示意</a>
               </div>
               <div className="vehicle-data">
                 <div>

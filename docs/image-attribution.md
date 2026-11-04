@@ -1,10 +1,30 @@
-# 汽车示意插画与历史图片署名
+# 汽车视觉素材、地图与历史图片署名
 
-## V0.4 原创皮卡与服务站插画
+## V0.5 授权概念跑车的离线渲染
+
+状态：V0.5 已完成离线渲染素材与静态 WebP 接入，尚待页面验收与发布；实际线上版本以 [验证记录](verification.md) 为准。
+
+视觉方向为银白车漆、烟黑玻璃、低视角前 3/4 构图与柔和接地阴影。用户提供的跑车画面仅作视觉参考；渲染所用三维资产为下列授权概念车，不能将其称为项目原创建模、Tesla Roadster 精确外观或车主实车。
+
+| 项目 | 来源与许可 |
+| --- | --- |
+| 原作品 | Car Concept |
+| 署名 | Eric Chadwick / Darmstadt Graphics Group GmbH，2024 |
+| 固定来源 | [Khronos glTF Sample Assets / CarConcept](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept)，使用 `glTF-Binary` 目录模型，提交 `8f492390ddc7a2ae221a1369ef560589cf8c70fb` |
+| 模型与贴图许可 | [Creative Commons Attribution 4.0 International（CC BY 4.0）](https://creativecommons.org/licenses/by/4.0/)，[上游 LICENSE](https://github.com/KhronosGroup/glTF-Sample-Assets/blob/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/LICENSE.md) |
+| 项目修改 | 银白／石墨车漆、烟黑玻璃与轮毂材质；棚拍光照、低视角构图与透明柔和阴影；隐藏 `License Plate`、`InteriorSteeringEmblem`，移除轮胎侧壁商标贴图，关闭原材质发光 |
+| 静态主图 | `apps/web/public/images/vehicles/studio-silver.webp`，1440 × 504，69,370 字节，透明 WebP |
+| 静态小图 | `apps/web/public/images/vehicles/studio-silver-small.webp`，720 × 252，31,214 字节，透明 WebP |
+
+原许可明确排除 logo 及相关商标，元数据另列 Khronos 与 3D Commerce 标识。项目通过隐藏相关部件、去除贴图处理其可见标识；不能把商标视为 CC BY 授权内容。继续分发模型改编渲染图时，保留原作品、作者、来源、CC BY 4.0 链接与上述修改说明；该素材许可不自动改变应用代码许可。
+
+模型、原许可与本地 Three.js／Sharp 依赖放在忽略目录 `.local/car-studio`，渲染工具源码位于 [scripts/car-studio](../scripts/car-studio/README.md)。导出按钮通过本机 POST 保存透明 PNG，再由 `optimize.mjs` 依据 alpha ≥ 200 的车身包围框，保留左右各 60px、上 20px、下 50px 的周边区域及少量软阴影，生成两张 WebP；不通过下载操作导出。车辆组件提供 720w／1440w 的 `srcset`，首屏使用 eager／high，车辆档案延迟加载，并固定图片尺寸。运行时只请求本地 WebP，不下载 GLB 或加载 Three.js；此约束仅指车辆视觉，地图仍独立使用 MapLibre GL。页面继续标明外观示意，档案车型与里程以业务数据为准。
+
+## V0.4 原创皮卡与服务站插画（历史）
 
 V0.4 登录页、车主首页和车辆档案使用项目内绘制的原创 SVG 皮卡，以 Tesla Cybertruck 的楔形轮廓为设计灵感：三角车顶、平直钢板、大轮拱与直线灯带。未使用 Tesla 商标、车型照片或第三方车辆图片热链。页面标注灵感示意；该通用插画不对应车主档案中的实际车型，不表示品牌授权、精确年款配置、车主实车或所有权，车辆信息以本人档案为准。
 
-门店列表和首页推荐共用项目内原创的 `StoreIllustration` SVG，包含海洋蓝檐口、玻璃工位、汽车与举升机；4S、连锁与综合维修三类通过招牌装饰区分。完整与紧凑版本均为服务场景示意，不表示商家真实门面、品牌标识或认证资质。店名、类型及审核状态以业务文字为准。
+门店列表和首页推荐共用项目内原创的 `StoreIllustration` SVG，包含海洋蓝檐口、玻璃工位、汽车与举升机；4S、连锁与综合维修三类通过招牌装饰区分。完整与紧凑版本均为服务场景示意，不表示商家真实门面、品牌标识或认证资质。店名、类型及审核状态以业务文字为准。V0.5 继续沿用这套门店插画。
 
 海洋蓝主题受中国海洋大学海洋文化启发；深海蓝 `#003B70`、主色 `#0068B5`、点缀 `#00A7C8` 与画布 `#F1F7FB` 是云程项目自定色值，不声称是学校官方 VI，也不以校徽代替项目标识。当前插画与色彩规范的线上状态以 [验证记录](verification.md) 为准。
 
