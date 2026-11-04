@@ -1,0 +1,3644 @@
+[
+  {
+    "id": "pylab-series-99cdc92fac0c",
+    "brand": "212",
+    "name": "212 T01",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6f761f48f66f",
+    "brand": "ARCFOX",
+    "name": "极狐 考拉",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2fb4009a08c7",
+    "brand": "ARCFOX",
+    "name": "极狐 考拉S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ac2723454b33",
+    "brand": "ARCFOX",
+    "name": "极狐 阿尔法S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-eaf681b19522",
+    "brand": "ARCFOX",
+    "name": "极狐 阿尔法S5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-81e4f76bb60e",
+    "brand": "ARCFOX",
+    "name": "极狐 阿尔法S6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e8dfdb102f6a",
+    "brand": "ARCFOX",
+    "name": "极狐 阿尔法T",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-cb30cad5fd8e",
+    "brand": "ARCFOX",
+    "name": "极狐 阿尔法T5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-bf6856bc844c",
+    "brand": "ARCFOX",
+    "name": "极狐 阿尔法T6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4ed663143baa",
+    "brand": "DS",
+    "name": "DS 3新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-95cd47df39c9",
+    "brand": "DS",
+    "name": "DS 9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-91fde8d4ab5d",
+    "brand": "DS",
+    "name": "DS 9新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a1dd5e6c4f20",
+    "brand": "Jeep",
+    "name": "大切诺基4xe(进口)",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9d8ddd382532",
+    "brand": "Jeep",
+    "name": "牧马人新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3a2f1ca964d2",
+    "brand": "MINI",
+    "name": "电动MINI ACEMAN",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d68b5702ff40",
+    "brand": "MINI",
+    "name": "电动MINI COOPER",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c1e1aa17c013",
+    "brand": "MINI",
+    "name": "电动MINI JCW",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7a089303f795",
+    "brand": "MINI",
+    "name": "电动MINI JCW ACEMAN",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e354d0344400",
+    "brand": "Polestar",
+    "name": "Polestar 2",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-23ce26c35027",
+    "brand": "Polestar",
+    "name": "Polestar 3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-38506eca1512",
+    "brand": "Polestar",
+    "name": "Polestar 4",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-dd68ad9365e4",
+    "brand": "WEY",
+    "name": "魏牌 摩卡新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-201666c59fab",
+    "brand": "WEY",
+    "name": "魏牌 蓝山",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-071c5f50b350",
+    "brand": "WEY",
+    "name": "魏牌 高山",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-842b53736906",
+    "brand": "smart",
+    "name": "smart精灵#1",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2610eb1b66e6",
+    "brand": "smart",
+    "name": "smart精灵#3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b9114d59d36d",
+    "brand": "smart",
+    "name": "smart精灵#5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-983a81a7543d",
+    "brand": "一汽",
+    "name": "森雅R7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-413fa11abb3e",
+    "brand": "东南",
+    "name": "东南DX8S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-95c5f7176d6a",
+    "brand": "东风",
+    "name": "帕拉索",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-acace187c589",
+    "brand": "东风奕派",
+    "name": "eπ007",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-091de4bd6f15",
+    "brand": "东风奕派",
+    "name": "eπ008",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-561e46f1598d",
+    "brand": "东风富康",
+    "name": "e爱丽舍",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fb4293dbdbd0",
+    "brand": "东风富康",
+    "name": "富康ES600",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8bc79f99156a",
+    "brand": "东风纳米",
+    "name": "东风纳米EX1",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f48d56379f20",
+    "brand": "东风纳米",
+    "name": "纳米01",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0b18a6320057",
+    "brand": "东风纳米",
+    "name": "纳米06",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8a41278a38f1",
+    "brand": "东风纳米",
+    "name": "纳米BOX",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-04d7cdb2aabc",
+    "brand": "丰田",
+    "name": "GR YARIS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c35236c8605a",
+    "brand": "丰田",
+    "name": "RAV4荣放双擎E+",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fbd48bd18150",
+    "brand": "丰田",
+    "name": "一汽丰田bZ4X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4acd81eb9c53",
+    "brand": "丰田",
+    "name": "丰田bZ3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-87d0cc9c77a1",
+    "brand": "丰田",
+    "name": "亚洲狮",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f2e715f80891",
+    "brand": "丰田",
+    "name": "亚洲龙",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6ddd51a769f7",
+    "brand": "丰田",
+    "name": "凌尚",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3718b6db1d7f",
+    "brand": "丰田",
+    "name": "凌放HARRIER",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0f7ca46455e8",
+    "brand": "丰田",
+    "name": "卡罗拉锐放",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-07212ba9ded5",
+    "brand": "丰田",
+    "name": "威兰达",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1cd35cdcf1e1",
+    "brand": "丰田",
+    "name": "威兰达新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3bcb93850170",
+    "brand": "丰田",
+    "name": "威尔法",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fbfc1fd7ad3d",
+    "brand": "丰田",
+    "name": "格瑞维亚",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ebcd8ef52252",
+    "brand": "丰田",
+    "name": "皇冠SportCross",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-47ad6b52c178",
+    "brand": "丰田",
+    "name": "皇冠陆放",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2cddb24fac8c",
+    "brand": "丰田",
+    "name": "赛那SIENNA",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-91f96d39cff9",
+    "brand": "丰田",
+    "name": "铂智3X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c189d832356a",
+    "brand": "丰田",
+    "name": "铂智4X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-86b8332610b8",
+    "brand": "丰田",
+    "name": "锋兰达",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-098f57b0fd63",
+    "brand": "乐道",
+    "name": "乐道L60",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-165757d993d5",
+    "brand": "云度",
+    "name": "云兔",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0bacea269563",
+    "brand": "五菱汽车",
+    "name": "五菱Air ev晴空",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-03d46d03e9b9",
+    "brand": "五菱汽车",
+    "name": "五菱E5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-21adb6be5a08",
+    "brand": "五菱汽车",
+    "name": "五菱NanoEV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6312fd4a6198",
+    "brand": "五菱汽车",
+    "name": "五菱佳辰",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7c8672697fdc",
+    "brand": "五菱汽车",
+    "name": "五菱凯捷",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-cb237d18758d",
+    "brand": "五菱汽车",
+    "name": "五菱宏光PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6a41904b7a16",
+    "brand": "五菱汽车",
+    "name": "五菱微旅车",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8206c26aa85a",
+    "brand": "五菱汽车",
+    "name": "五菱星云",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-720f664fc811",
+    "brand": "五菱汽车",
+    "name": "五菱星光",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9cf841f4a74c",
+    "brand": "五菱汽车",
+    "name": "五菱星光S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-03a3bb9069ce",
+    "brand": "五菱汽车",
+    "name": "五菱星辰",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d71a74610610",
+    "brand": "五菱汽车",
+    "name": "五菱星驰",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-079e4aae8622",
+    "brand": "五菱汽车",
+    "name": "五菱缤果",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7b03cfba5f04",
+    "brand": "五菱汽车",
+    "name": "五菱缤果Plus",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2dae464c63a6",
+    "brand": "五菱汽车",
+    "name": "宏光MINIEV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f7374ecf6a3a",
+    "brand": "享界",
+    "name": "S9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c3800d4fb463",
+    "brand": "保时捷",
+    "name": "Macan新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-afbc83aaffdf",
+    "brand": "保时捷",
+    "name": "Taycan",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f88cd03a1890",
+    "brand": "兰博基尼",
+    "name": "Huracán",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-de1f4b253b02",
+    "brand": "兰博基尼",
+    "name": "Revuelto",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-23cb917197ef",
+    "brand": "兰博基尼",
+    "name": "Urus SE",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-da6bd9098207",
+    "brand": "凯迪拉克",
+    "name": "IQ傲歌",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2c4bb1003c99",
+    "brand": "凯迪拉克",
+    "name": "IQ锐歌",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0c27d5e39809",
+    "brand": "凯迪拉克",
+    "name": "凯迪拉克CT4",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1940e2c68f3e",
+    "brand": "凯迪拉克",
+    "name": "凯迪拉克CT5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-33a7a7f4d3b5",
+    "brand": "凯迪拉克",
+    "name": "凯迪拉克GT4",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-41824082e179",
+    "brand": "凯迪拉克",
+    "name": "凯迪拉克XT6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1c700ac9b3f3",
+    "brand": "别克",
+    "name": "世纪",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4064c88720ee",
+    "brand": "别克",
+    "name": "别克E4",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c293cd19795c",
+    "brand": "别克",
+    "name": "别克E5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a999fd9eb39e",
+    "brand": "别克",
+    "name": "别克GL8新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-eedbed878835",
+    "brand": "别克",
+    "name": "微蓝6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e25700584918",
+    "brand": "别克",
+    "name": "昂扬",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f28bda9a7804",
+    "brand": "别克",
+    "name": "昂科威Plus",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8de3c37e20e0",
+    "brand": "别克",
+    "name": "昂科威S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fa5362d6acd6",
+    "brand": "别克",
+    "name": "昂科拉PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5f1d6ce4c695",
+    "brand": "别克",
+    "name": "昂科旗",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-50ac45782883",
+    "brand": "劳斯莱斯",
+    "name": "闪灵",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a9cace220d5e",
+    "brand": "北京汽车",
+    "name": "北京EU5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-73d14ec61fad",
+    "brand": "北京汽车",
+    "name": "北京EU5 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5df68e8dcba1",
+    "brand": "北京汽车",
+    "name": "北京EU7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b9fe61f6530a",
+    "brand": "北京汽车",
+    "name": "北京EX5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-22688ed90b1f",
+    "brand": "北京汽车",
+    "name": "北京U5 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-dbd37848b421",
+    "brand": "北京汽车",
+    "name": "北京U7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8e6fded5927d",
+    "brand": "北京汽车",
+    "name": "北京X3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-08805d27e802",
+    "brand": "北京汽车",
+    "name": "北京X7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c2f9914be5fe",
+    "brand": "北京汽车",
+    "name": "魔方",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-30d50c2fc7f8",
+    "brand": "北京越野",
+    "name": "北京越野BJ30",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-23389f25d912",
+    "brand": "北京越野",
+    "name": "北京越野BJ40",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6195df3ecb2d",
+    "brand": "北京越野",
+    "name": "北京越野BJ40增程",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1a19ce644f9a",
+    "brand": "北京越野",
+    "name": "北京越野BJ60",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-36f345eaf59d",
+    "brand": "北京越野",
+    "name": "北京越野BJ60雷霆",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e8239cb480e9",
+    "brand": "北京越野",
+    "name": "北京越野BJ80",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d1e4cb1310ae",
+    "brand": "北汽昌河",
+    "name": "昌河北斗星X5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-15348f2e7496",
+    "brand": "吉利几何",
+    "name": "吉利几何A",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-abc6de278a15",
+    "brand": "吉利几何",
+    "name": "吉利几何C",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-e5dfa8e22d02",
+    "brand": "吉利几何",
+    "name": "吉利几何E萤火虫",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9b1720e2b7e4",
+    "brand": "吉利几何",
+    "name": "吉利几何G6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a6963736210e",
+    "brand": "吉利几何",
+    "name": "吉利几何M6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4b14b429f2cb",
+    "brand": "吉利汽车",
+    "name": "博越L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-cc15098c9ca4",
+    "brand": "吉利汽车",
+    "name": "吉利ICON",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fe013f87f92f",
+    "brand": "吉利汽车",
+    "name": "吉利牛仔",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8cebded26f7c",
+    "brand": "吉利汽车",
+    "name": "嘉际",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1af9d0a6ce9b",
+    "brand": "吉利汽车",
+    "name": "帝豪L HiP",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d11ee0c76ba4",
+    "brand": "吉利汽车",
+    "name": "星瑞",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b85e401eddb6",
+    "brand": "吉利汽车",
+    "name": "星瑞L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c2833f60332e",
+    "brand": "吉利汽车",
+    "name": "星越L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-855f63f35bd3",
+    "brand": "吉利汽车",
+    "name": "星越L智擎",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7270b47026ef",
+    "brand": "吉利汽车",
+    "name": "缤瑞",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-456aa29fc617",
+    "brand": "吉利汽车",
+    "name": "缤越",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-075976660544",
+    "brand": "吉利汽车",
+    "name": "豪越L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-32894783bc4b",
+    "brand": "吉利汽车",
+    "name": "豪越PRO",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-48d861c2b0ed",
+    "brand": "吉利银河",
+    "name": "星愿",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-44f3111d8cab",
+    "brand": "吉利银河",
+    "name": "熊猫",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-71bc109914ca",
+    "brand": "吉利银河",
+    "name": "翼真L380",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-94b08edccc8c",
+    "brand": "吉利银河",
+    "name": "银河E5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4897995750c7",
+    "brand": "吉利银河",
+    "name": "银河E8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-11117ebaeca9",
+    "brand": "吉利银河",
+    "name": "银河L6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5683b504be7b",
+    "brand": "吉利银河",
+    "name": "银河L7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-70e54700d679",
+    "brand": "吉利银河",
+    "name": "银河星耀8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-97eee1911985",
+    "brand": "吉利银河",
+    "name": "银河星舰7 EM-i",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7b8caf4a550b",
+    "brand": "名爵",
+    "name": "MG Cyberster",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7df3d4281c6f",
+    "brand": "名爵",
+    "name": "MG ES5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9a05de49fed4",
+    "brand": "名爵",
+    "name": "MG ONE",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-35ed15af1990",
+    "brand": "名爵",
+    "name": "MG4 EV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d353e373b42a",
+    "brand": "名爵",
+    "name": "MG5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f37fb9f43d2a",
+    "brand": "名爵",
+    "name": "MG5天蝎座",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2ca8bbf47970",
+    "brand": "名爵",
+    "name": "MG6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-04eade17d7bd",
+    "brand": "名爵",
+    "name": "MG7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0f77d644f02a",
+    "brand": "启辰",
+    "name": "启辰D60EV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-614bee81c575",
+    "brand": "启辰",
+    "name": "启辰T60",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a4c0c047c6a7",
+    "brand": "启辰",
+    "name": "启辰T60EV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-15cacf8424f9",
+    "brand": "启辰",
+    "name": "启辰VX6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-042af7838a09",
+    "brand": "启辰",
+    "name": "启辰大V",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-59287607f057",
+    "brand": "启辰",
+    "name": "启辰大V DD-i",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b1cc9e16ebc8",
+    "brand": "启辰",
+    "name": "启辰星",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d6850960c779",
+    "brand": "哈弗",
+    "name": "哈弗H6新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-452ecb5a9b3f",
+    "brand": "哈弗",
+    "name": "哈弗二代大狗",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d8755630a6ac",
+    "brand": "哈弗",
+    "name": "哈弗二代大狗新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-25d1b88d26ce",
+    "brand": "哈弗",
+    "name": "哈弗大狗",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c9e989908293",
+    "brand": "哈弗",
+    "name": "哈弗枭龙",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-45cd60b0510e",
+    "brand": "哈弗",
+    "name": "哈弗枭龙MAX",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-bb369115250a",
+    "brand": "哈弗",
+    "name": "哈弗猛龙",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-006459455a38",
+    "brand": "哈弗",
+    "name": "哈弗猛龙新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1eab0b40f31b",
+    "brand": "哈弗",
+    "name": "哈弗神兽",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a484cdc19e6f",
+    "brand": "哈弗",
+    "name": "哈弗赤兔",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4e9fee7209c3",
+    "brand": "哪吒汽车",
+    "name": "哪吒AYA",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-bed33df820a5",
+    "brand": "哪吒汽车",
+    "name": "哪吒GT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-381a43e90505",
+    "brand": "哪吒汽车",
+    "name": "哪吒L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-55edcf58ec59",
+    "brand": "哪吒汽车",
+    "name": "哪吒S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c44d5c025b49",
+    "brand": "哪吒汽车",
+    "name": "哪吒S猎装",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-96c3310ddcb8",
+    "brand": "哪吒汽车",
+    "name": "哪吒U",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-16c6bb77e378",
+    "brand": "哪吒汽车",
+    "name": "哪吒V",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2da6b23613ec",
+    "brand": "哪吒汽车",
+    "name": "哪吒X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-12592cf399d8",
+    "brand": "坦克",
+    "name": "坦克300",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c5467621369d",
+    "brand": "坦克",
+    "name": "坦克300新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-81926d758a6d",
+    "brand": "坦克",
+    "name": "坦克400",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-44df31facfe8",
+    "brand": "坦克",
+    "name": "坦克400新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-463c869d7999",
+    "brand": "坦克",
+    "name": "坦克500",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a0c88b2664b3",
+    "brand": "坦克",
+    "name": "坦克500新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-55cae96ea1bc",
+    "brand": "坦克",
+    "name": "坦克700新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-63e627ebb2b4",
+    "brand": "埃安",
+    "name": "AION LX",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5a4ae400a395",
+    "brand": "埃安",
+    "name": "AION RT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3f8f191a18a3",
+    "brand": "埃安",
+    "name": "AION S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6bdb466bd49a",
+    "brand": "埃安",
+    "name": "AION S MAX",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-265c2dff8a3b",
+    "brand": "埃安",
+    "name": "AION S Plus",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-56c2e157f238",
+    "brand": "埃安",
+    "name": "AION UT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0368fe0f1680",
+    "brand": "埃安",
+    "name": "AION V",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4cff5dc90629",
+    "brand": "埃安",
+    "name": "AION Y",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-552bc2ece1bf",
+    "brand": "大众",
+    "name": "ID.4 CROZZ",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-76d22dda9171",
+    "brand": "大众",
+    "name": "ID.4 X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-096d03070633",
+    "brand": "大众",
+    "name": "ID.6 CROZZ",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3ba5e324e125",
+    "brand": "大众",
+    "name": "ID.6 X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2f99d978effe",
+    "brand": "大众",
+    "name": "T-Roc探歌",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c326d1cda954",
+    "brand": "大众",
+    "name": "与众06",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7dafee7aa0af",
+    "brand": "大众",
+    "name": "大众ID.3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-973e49168dcd",
+    "brand": "大众",
+    "name": "大众ID.7 S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1bfddfcac6ae",
+    "brand": "大众",
+    "name": "大众ID.7 VIZZION",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-365f47388278",
+    "brand": "大众",
+    "name": "威然",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d6a500ed2dbc",
+    "brand": "大众",
+    "name": "帕萨特新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4fa8c752aef9",
+    "brand": "大众",
+    "name": "探岳",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8bf8cafa3ba6",
+    "brand": "大众",
+    "name": "探岳GTE插电混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6ccf85a5aad6",
+    "brand": "大众",
+    "name": "探岳X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9cbcb367b16d",
+    "brand": "大众",
+    "name": "探影",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-99e05f6d9b6f",
+    "brand": "大众",
+    "name": "揽境",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0c69240f9cc8",
+    "brand": "大众",
+    "name": "揽巡",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6d30e19a51cf",
+    "brand": "大众",
+    "name": "迈腾GTE插电混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-feae887b06f9",
+    "brand": "大众",
+    "name": "途岳",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e1940bbe6b72",
+    "brand": "大众",
+    "name": "途昂X",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-051453412ee6",
+    "brand": "大众",
+    "name": "途观X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-da71448140e1",
+    "brand": "大众",
+    "name": "途铠",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-edbca7e35882",
+    "brand": "大众",
+    "name": "途锐新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e44863077bf8",
+    "brand": "大众",
+    "name": "高尔夫GTI",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-48d79c365e4f",
+    "brand": "奇瑞",
+    "name": "QQ冰淇淋",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ecdbd1997c91",
+    "brand": "奇瑞",
+    "name": "QQ多米",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f254443bbb7e",
+    "brand": "奇瑞",
+    "name": "小蚂蚁",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-cbdccdaa13ee",
+    "brand": "奇瑞",
+    "name": "探索06",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8d38036e346f",
+    "brand": "奇瑞",
+    "name": "探索06 C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-18297055127d",
+    "brand": "奇瑞",
+    "name": "欧萌达",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3e6f63690ff7",
+    "brand": "奇瑞",
+    "name": "瑞虎7 C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d9930302662b",
+    "brand": "奇瑞",
+    "name": "瑞虎7 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c77d89397344",
+    "brand": "奇瑞",
+    "name": "瑞虎7 PLUS新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-dd8ff12ef7f2",
+    "brand": "奇瑞",
+    "name": "瑞虎8 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ddabcb34bfd1",
+    "brand": "奇瑞",
+    "name": "瑞虎8 PLUS C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-53df3fec7b0d",
+    "brand": "奇瑞",
+    "name": "瑞虎8 PRO",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1108d142abe9",
+    "brand": "奇瑞",
+    "name": "瑞虎8 PRO新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-db1eac208132",
+    "brand": "奇瑞",
+    "name": "瑞虎8L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d84e72673fd3",
+    "brand": "奇瑞",
+    "name": "瑞虎9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-cb8280d56bbb",
+    "brand": "奇瑞",
+    "name": "瑞虎9 C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-abeddc3a120c",
+    "brand": "奇瑞",
+    "name": "艾瑞泽5 GT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8694decdf2a5",
+    "brand": "奇瑞",
+    "name": "艾瑞泽5 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fd2832b0ff4e",
+    "brand": "奇瑞",
+    "name": "艾瑞泽8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9b60a98c5722",
+    "brand": "奇瑞",
+    "name": "艾瑞泽8 PRO",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a7149a6d8634",
+    "brand": "奇瑞",
+    "name": "风云T9",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-8bfdce38ae1f",
+    "brand": "奇瑞新能源",
+    "name": "QQ冰淇淋",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-3b5a5a1be802",
+    "brand": "奇瑞新能源",
+    "name": "奇瑞无界Pro",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-7fbecec54320",
+    "brand": "奇瑞新能源",
+    "name": "奇瑞舒享家",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3e20acdcf15b",
+    "brand": "奇瑞新能源",
+    "name": "小蚂蚁",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-017641ee0978",
+    "brand": "奇瑞新能源",
+    "name": "艾瑞泽e",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ce49e5498918",
+    "brand": "奇瑞风云",
+    "name": "风云A8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-53c7089fe866",
+    "brand": "奇瑞风云",
+    "name": "风云A8L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-13cf87aab6b1",
+    "brand": "奇瑞风云",
+    "name": "风云A9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5b09e3f8733f",
+    "brand": "奇瑞风云",
+    "name": "风云T10",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-dbe0fb9e7b97",
+    "brand": "奇瑞风云",
+    "name": "风云T6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d282beea8f1e",
+    "brand": "奇瑞风云",
+    "name": "风云T8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6d00d72a807a",
+    "brand": "奇瑞风云",
+    "name": "风云T9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-281527db1f45",
+    "brand": "奔腾",
+    "name": "奔腾B70S",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6b6eb7a76d67",
+    "brand": "奔腾",
+    "name": "奔腾E01",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-59f479b4283b",
+    "brand": "奔腾",
+    "name": "奔腾M9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6e9a049a1a97",
+    "brand": "奔腾",
+    "name": "奔腾NAT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-07053144ca30",
+    "brand": "奔腾",
+    "name": "奔腾T55",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f8fa1240528c",
+    "brand": "奔腾",
+    "name": "奔腾T90",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-08d38052fd1b",
+    "brand": "奔腾",
+    "name": "奔腾T99",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b8b8e6ba3364",
+    "brand": "奔腾",
+    "name": "奔腾小马",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3e015ab5cb66",
+    "brand": "奔腾",
+    "name": "悦意03",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-13423487d75c",
+    "brand": "奔驰",
+    "name": "AMG GT新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-320a038df4d1",
+    "brand": "奔驰",
+    "name": "奔驰A级AMG(进口)",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7bdf64cbb919",
+    "brand": "奔驰",
+    "name": "奔驰CLA",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-c3d97e3a5b73",
+    "brand": "奔驰",
+    "name": "奔驰CLA AMG",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1918de541651",
+    "brand": "奔驰",
+    "name": "奔驰CLA(进口)",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6e4c3b987125",
+    "brand": "奔驰",
+    "name": "奔驰CLE",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-036d1590d233",
+    "brand": "奔驰",
+    "name": "奔驰CLE AMG",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-228ebcf1c544",
+    "brand": "奔驰",
+    "name": "奔驰CLS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2d8abfcbcc78",
+    "brand": "奔驰",
+    "name": "奔驰C级AMG新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e23b117227c5",
+    "brand": "奔驰",
+    "name": "奔驰EQB",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-39c3f8fdf40c",
+    "brand": "奔驰",
+    "name": "奔驰EQE",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-01e470747517",
+    "brand": "奔驰",
+    "name": "奔驰EQE AMG",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9bedb61db38d",
+    "brand": "奔驰",
+    "name": "奔驰EQE SUV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5f0db8a7bdb0",
+    "brand": "奔驰",
+    "name": "奔驰EQE SUV AMG",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3da21cf6cd72",
+    "brand": "奔驰",
+    "name": "奔驰EQS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-64dc9d1de1af",
+    "brand": "奔驰",
+    "name": "奔驰EQS AMG",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6e6ed00622e1",
+    "brand": "奔驰",
+    "name": "奔驰EQS SUV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-357376fccba4",
+    "brand": "奔驰",
+    "name": "奔驰E级新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e1f2c73f896e",
+    "brand": "奔驰",
+    "name": "奔驰GLB",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8fa2d24198bc",
+    "brand": "奔驰",
+    "name": "奔驰GLB AMG",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5f6154f589cf",
+    "brand": "奔驰",
+    "name": "奔驰GLC新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c9c0ccf3a54f",
+    "brand": "奔驰",
+    "name": "奔驰GLC轿跑",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e07a135c3e8d",
+    "brand": "奔驰",
+    "name": "奔驰GLC轿跑 AMG",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1c65ce37d516",
+    "brand": "奔驰",
+    "name": "奔驰GLE轿跑",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2fae020b9116",
+    "brand": "奔驰",
+    "name": "奔驰GLE轿跑 AMG",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6651db69f1f9",
+    "brand": "奔驰",
+    "name": "奔驰GLE轿跑新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5857a21b553c",
+    "brand": "奔驰",
+    "name": "奔驰G级新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7a91de4c2cdc",
+    "brand": "奔驰",
+    "name": "奔驰S级AMG新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9003cde6d5a3",
+    "brand": "奔驰",
+    "name": "迈巴赫EQS SUV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-31dadb9c4537",
+    "brand": "奔驰",
+    "name": "迈巴赫GLS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-49c436f5306a",
+    "brand": "奔驰",
+    "name": "迈巴赫S级新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-692dbf5abc26",
+    "brand": "奥迪",
+    "name": "一汽奥迪A5L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e09365171230",
+    "brand": "奥迪",
+    "name": "上汽奥迪A5L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-20c3aa53fdb5",
+    "brand": "奥迪",
+    "name": "奥迪A5(进口)",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d3cc93998909",
+    "brand": "奥迪",
+    "name": "奥迪A7L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4bd34b418589",
+    "brand": "奥迪",
+    "name": "奥迪Q2L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-049e533740dc",
+    "brand": "奥迪",
+    "name": "奥迪Q2L e-tron",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6e6cfbac92f6",
+    "brand": "奥迪",
+    "name": "奥迪Q3 Sportback",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9da65894405e",
+    "brand": "奥迪",
+    "name": "奥迪Q4 e-tron",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a42c3083cf66",
+    "brand": "奥迪",
+    "name": "奥迪Q5 e-tron",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f18af96a0237",
+    "brand": "奥迪",
+    "name": "奥迪Q5L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a6a3c0a69f25",
+    "brand": "奥迪",
+    "name": "奥迪Q5L Sportback",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1f1bbe3b290c",
+    "brand": "奥迪",
+    "name": "奥迪Q6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2315b2a97a1f",
+    "brand": "奥迪",
+    "name": "奥迪Q6L e-tron",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4dfc9782842e",
+    "brand": "奥迪",
+    "name": "奥迪RS Q8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b2cd5ef5a3d2",
+    "brand": "奥迪",
+    "name": "奥迪SQ5 Sportback",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9f4373c00136",
+    "brand": "宝马",
+    "name": "宝马2系(进口)",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8035a9f93aea",
+    "brand": "宝马",
+    "name": "宝马M240i",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b0507cbeb392",
+    "brand": "宝马",
+    "name": "宝马M5新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e372efae4dbf",
+    "brand": "宝马",
+    "name": "宝马X1 M35Li",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-49fa8440301f",
+    "brand": "宝马",
+    "name": "宝马X2(进口)",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-adcbb39a278e",
+    "brand": "宝马",
+    "name": "宝马X3 M",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e798518dd68e",
+    "brand": "宝马",
+    "name": "宝马X4 M",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-dfde22c2c7f6",
+    "brand": "宝马",
+    "name": "宝马XM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-24d8840b3efb",
+    "brand": "宝马",
+    "name": "宝马i4",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-54c4af757a5b",
+    "brand": "宝马",
+    "name": "宝马i5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0bcd910899ad",
+    "brand": "宝马",
+    "name": "宝马i7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-583e06c35ca7",
+    "brand": "宝马",
+    "name": "宝马iX",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-18de48269f16",
+    "brand": "宝马",
+    "name": "宝马iX1",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d2a711cd82f2",
+    "brand": "宝骏",
+    "name": "宝骏KiWi EV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0fe7dcd7a682",
+    "brand": "宝骏",
+    "name": "宝骏云朵",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ee02b6604c1e",
+    "brand": "宝骏",
+    "name": "宝骏云海",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5714fd93ac92",
+    "brand": "宝骏",
+    "name": "宝骏享境",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c01a919ac607",
+    "brand": "宝骏",
+    "name": "宝骏悦也",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-429345f5824e",
+    "brand": "宝骏",
+    "name": "宝骏悦也PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ad2098ec8ca1",
+    "brand": "宾利",
+    "name": "欧陆插电混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d59681f38379",
+    "brand": "宾利",
+    "name": "添越插电混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4e42817f2d28",
+    "brand": "宾利",
+    "name": "飞驰插电混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f2cda8cb7e1c",
+    "brand": "尊界",
+    "name": "S800",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8c3600d92ce2",
+    "brand": "小鹏汽车",
+    "name": "P5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-178572cbdd1f",
+    "brand": "岚图汽车",
+    "name": "岚图FREE",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b32917253606",
+    "brand": "岚图汽车",
+    "name": "岚图梦想家",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-23fff17aa37c",
+    "brand": "岚图汽车",
+    "name": "岚图知音",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-447a3fe44019",
+    "brand": "岚图汽车",
+    "name": "岚图追光",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1596fba8877c",
+    "brand": "广汽传祺",
+    "name": "传祺E8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-be94337eafda",
+    "brand": "广汽传祺",
+    "name": "传祺E8新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c7436ec64fc1",
+    "brand": "广汽传祺",
+    "name": "传祺E9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-aca23a602551",
+    "brand": "广汽传祺",
+    "name": "传祺ES9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1dfe618ca57c",
+    "brand": "广汽传祺",
+    "name": "传祺GS4 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f876e85272db",
+    "brand": "广汽传祺",
+    "name": "传祺M6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0546e0cb3ae2",
+    "brand": "广汽传祺",
+    "name": "传祺M8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9e0c80c9e105",
+    "brand": "广汽传祺",
+    "name": "传祺向往M8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f57d1c457494",
+    "brand": "广汽传祺",
+    "name": "传祺向往S7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6015825bd90a",
+    "brand": "广汽传祺",
+    "name": "影豹",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a0d7814f314d",
+    "brand": "广汽传祺",
+    "name": "影酷",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-11c256e40aa5",
+    "brand": "思皓",
+    "name": "思皓A5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b13b4053efe8",
+    "brand": "思皓",
+    "name": "思皓E40X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-33f9447f8c24",
+    "brand": "思皓",
+    "name": "思皓E50A",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-31aeb476f62d",
+    "brand": "思皓",
+    "name": "思皓QX",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5ec20792dd60",
+    "brand": "思皓",
+    "name": "思皓X4",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-13b5de26f959",
+    "brand": "思皓",
+    "name": "思皓X6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ebad6b75f64e",
+    "brand": "思皓",
+    "name": "思皓X7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-698c3f1f9075",
+    "brand": "思皓",
+    "name": "思皓X8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a58cc8b0e838",
+    "brand": "思皓",
+    "name": "思皓X8 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-85ed1cf9ae42",
+    "brand": "思皓",
+    "name": "思皓曜",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e3affcc41ff1",
+    "brand": "思皓",
+    "name": "花仙子",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-29fe70ecea66",
+    "brand": "捷尼赛思",
+    "name": "捷尼赛思G70",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2031d6f8b15c",
+    "brand": "捷尼赛思",
+    "name": "捷尼赛思G80",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-513596d3d3bd",
+    "brand": "捷尼赛思",
+    "name": "捷尼赛思G90",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-42848a252b7c",
+    "brand": "捷尼赛思",
+    "name": "捷尼赛思GV60",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-51ba26daed06",
+    "brand": "捷尼赛思",
+    "name": "捷尼赛思GV70",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f912b31b813a",
+    "brand": "捷尼赛思",
+    "name": "捷尼赛思GV80",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4dffea2b602e",
+    "brand": "捷尼赛思",
+    "name": "捷尼赛思GV80轿跑",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-85599bebf7c0",
+    "brand": "捷尼赛思",
+    "name": "捷尼赛思纯电GV70",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-afc6b7bb1ed5",
+    "brand": "捷达",
+    "name": "捷达VA3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-159638e42500",
+    "brand": "捷达",
+    "name": "捷达VA7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-83c0e416317f",
+    "brand": "捷达",
+    "name": "捷达VS5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4693c1311f9c",
+    "brand": "捷达",
+    "name": "捷达VS7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-63fdee95982a",
+    "brand": "捷途",
+    "name": "捷途X70 C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f6a70785d932",
+    "brand": "捷途",
+    "name": "捷途X70 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5779509f097e",
+    "brand": "捷途",
+    "name": "捷途X70 PLUS C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e28c3f956d2a",
+    "brand": "捷途",
+    "name": "捷途X70 PRO",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-bc7f564a48b5",
+    "brand": "捷途",
+    "name": "捷途X70M",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-3479a12b4ab6",
+    "brand": "捷途",
+    "name": "捷途X70S",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-819526d15472",
+    "brand": "捷途",
+    "name": "捷途X90 C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-725a1cb3f5ea",
+    "brand": "捷途",
+    "name": "捷途X90 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-84bd53852591",
+    "brand": "捷途",
+    "name": "捷途X90 PRO",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-de3f0f46a724",
+    "brand": "捷途",
+    "name": "捷途X95",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-504b2c7ca0cd",
+    "brand": "捷途",
+    "name": "捷途大圣",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1c39895075d9",
+    "brand": "捷途",
+    "name": "捷途大圣i-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5a7d1db64eb3",
+    "brand": "捷途",
+    "name": "捷途山海L6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c2fa60d5e911",
+    "brand": "捷途",
+    "name": "捷途山海L7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-60ed590da6ac",
+    "brand": "捷途",
+    "name": "捷途山海L9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-91d721004dfb",
+    "brand": "捷途",
+    "name": "捷途山海T1",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-06165ca4f373",
+    "brand": "捷途",
+    "name": "捷途山海T2",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0203b4550047",
+    "brand": "捷途",
+    "name": "捷途旅行者",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-07b4228f8948",
+    "brand": "捷途",
+    "name": "捷途自由者",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f8ca940aabdd",
+    "brand": "斯巴鲁",
+    "name": "旭豹",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-be05d6bd4ebd",
+    "brand": "斯柯达",
+    "name": "柯迪亚克GT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-50943b35e4f9",
+    "brand": "日产",
+    "name": "Ariya艾睿雅",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-24558f6e7578",
+    "brand": "日产",
+    "name": "探陆",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-40b4141477e5",
+    "brand": "日产",
+    "name": "日产N7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6c5a68894c4d",
+    "brand": "日产",
+    "name": "骐达TIIDA",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-99cb6f2bdaac",
+    "brand": "昊铂",
+    "name": "昊铂GT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-066b9731a2a6",
+    "brand": "昊铂",
+    "name": "昊铂HL",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e359a0ea8cae",
+    "brand": "昊铂",
+    "name": "昊铂HT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fd15f9ff95c1",
+    "brand": "昊铂",
+    "name": "昊铂SSR",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-55e5f457d0e7",
+    "brand": "星途",
+    "name": "星纪元 ES",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5f5f2cf15367",
+    "brand": "星途",
+    "name": "星纪元 ET",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-36c074d4aa9e",
+    "brand": "星途",
+    "name": "星途凌云",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-52064c6a9af6",
+    "brand": "星途",
+    "name": "星途揽月",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1bf7a80da228",
+    "brand": "星途",
+    "name": "星途揽月C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-89bb2c7e2029",
+    "brand": "星途",
+    "name": "星途瑶光",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-52663f87a1b1",
+    "brand": "星途",
+    "name": "星途追风",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-15f8de11decf",
+    "brand": "星途",
+    "name": "星途追风C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5a30cdb30c7c",
+    "brand": "星途",
+    "name": "瑶光C-DM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-08b47ca80cd7",
+    "brand": "智己汽车",
+    "name": "智己L6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e30e1ac8fa70",
+    "brand": "智己汽车",
+    "name": "智己L7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5402a181dc1e",
+    "brand": "智己汽车",
+    "name": "智己LS6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d7f14553afcc",
+    "brand": "智己汽车",
+    "name": "智己LS7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e434e05f3f8c",
+    "brand": "智界",
+    "name": "R7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d22c774314a0",
+    "brand": "智界",
+    "name": "S7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-16679ef3f228",
+    "brand": "本田",
+    "name": "LIFE",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e648f547f617",
+    "brand": "本田",
+    "name": "ZR-V 致在",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1d8c77a5937c",
+    "brand": "本田",
+    "name": "东风本田S7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9916750de941",
+    "brand": "本田",
+    "name": "享域",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-bdf65eb218fc",
+    "brand": "本田",
+    "name": "型格",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-337284b3c67a",
+    "brand": "本田",
+    "name": "广汽本田P7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8cd9c37500ed",
+    "brand": "本田",
+    "name": "思域(进口)",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-646976ca31b1",
+    "brand": "本田",
+    "name": "本田CR-V新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3875b0ed61e6",
+    "brand": "本田",
+    "name": "皓影",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-55cf79df5520",
+    "brand": "本田",
+    "name": "皓影新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e6b2e0dc0f7c",
+    "brand": "本田",
+    "name": "英仕派",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fb9f897a5b54",
+    "brand": "本田",
+    "name": "英仕派新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-48f174d7f64b",
+    "brand": "本田",
+    "name": "雅阁新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-99eb4eb27e47",
+    "brand": "极氪",
+    "name": "001 FR",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-858d83a466e1",
+    "brand": "极石",
+    "name": "极石01",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c199aa01fbab",
+    "brand": "林肯",
+    "name": "冒险家",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2d15d2e01a55",
+    "brand": "林肯",
+    "name": "林肯Z",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d598f78d064f",
+    "brand": "标致",
+    "name": "标致408X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-10cc0b57c15c",
+    "brand": "欧拉",
+    "name": "欧拉好猫",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9aa28b6384a7",
+    "brand": "欧拉",
+    "name": "欧拉好猫GT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-64bd46353383",
+    "brand": "欧拉",
+    "name": "欧拉芭蕾猫",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0fb1118a58cd",
+    "brand": "欧拉",
+    "name": "欧拉闪电猫",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-44806271f755",
+    "brand": "比亚迪",
+    "name": "元Pro",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8eb64bb6f785",
+    "brand": "比亚迪",
+    "name": "护卫舰07",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-23623216afbe",
+    "brand": "比亚迪",
+    "name": "比亚迪D1",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3bfdc455818b",
+    "brand": "比亚迪",
+    "name": "比亚迪e2",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f1eb6f7dd7ff",
+    "brand": "比亚迪",
+    "name": "比亚迪e3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-66389c13bef5",
+    "brand": "比亚迪",
+    "name": "比亚迪e9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-853865ec6525",
+    "brand": "比亚迪",
+    "name": "海豹05 DM-i",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-25046e5dddbe",
+    "brand": "比亚迪",
+    "name": "海豹06GT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-42aaa0c0801a",
+    "brand": "比亚迪",
+    "name": "秦新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6c3cd07ef67c",
+    "brand": "比亚迪",
+    "name": "驱逐舰05",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-35db32dc2282",
+    "brand": "江淮",
+    "name": "江淮A5 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-be364680b022",
+    "brand": "江淮",
+    "name": "江淮QX PHEV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3346edbc47d1",
+    "brand": "江淮",
+    "name": "江淮X8 E家",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f306e7cdca0b",
+    "brand": "江淮",
+    "name": "江淮X8 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e1bbda802870",
+    "brand": "江淮",
+    "name": "江淮iEV7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-50a91bc0e176",
+    "brand": "江铃",
+    "name": "域虎9多功能车",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2911f0f3fcbf",
+    "brand": "沃尔沃",
+    "name": "沃尔沃EM90",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c574dd373f9b",
+    "brand": "沃尔沃",
+    "name": "沃尔沃EX30",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f1b799080289",
+    "brand": "沃尔沃",
+    "name": "沃尔沃S60插电式混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-21ec843046d3",
+    "brand": "沃尔沃",
+    "name": "沃尔沃S90插电式混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-09afe843e314",
+    "brand": "沃尔沃",
+    "name": "沃尔沃XC60插电式混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d4d5ecf59563",
+    "brand": "沃尔沃",
+    "name": "沃尔沃XC90插电式混动",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8c030cb61a58",
+    "brand": "法拉利",
+    "name": "Purosangue",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-faf150cc212d",
+    "brand": "法拉利",
+    "name": "Roma",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-84323b103d53",
+    "brand": "法拉利",
+    "name": "法拉利12Cilindri",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-934280a2d1c6",
+    "brand": "法拉利",
+    "name": "法拉利296",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-99bfd83ef3d7",
+    "brand": "深蓝汽车",
+    "name": "深蓝G318",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-73c49198d54b",
+    "brand": "深蓝汽车",
+    "name": "深蓝L07",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b3852b1a0c54",
+    "brand": "深蓝汽车",
+    "name": "深蓝S05",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-80fc595f2dc6",
+    "brand": "深蓝汽车",
+    "name": "深蓝S07",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a10bd752b5c9",
+    "brand": "深蓝汽车",
+    "name": "深蓝S09",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7b35d45bb508",
+    "brand": "深蓝汽车",
+    "name": "深蓝SL03",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f88af060a899",
+    "brand": "灵悉",
+    "name": "灵悉L",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-03daa624dcbe",
+    "brand": "玛莎拉蒂",
+    "name": "GranTurismo 新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-150bd87501c6",
+    "brand": "玛莎拉蒂",
+    "name": "Grecale格雷嘉",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-50e829b7dd32",
+    "brand": "玛莎拉蒂",
+    "name": "Grecale格雷嘉新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9c090696f90e",
+    "brand": "玛莎拉蒂",
+    "name": "玛莎拉蒂MC20",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-209d532415c5",
+    "brand": "现代",
+    "name": "伊兰特Elantra N",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e54989732734",
+    "brand": "现代",
+    "name": "帕里斯帝",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-866503419f07",
+    "brand": "现代",
+    "name": "库斯途",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c7b53dc75bab",
+    "brand": "现代",
+    "name": "胜达",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-91e2d597960b",
+    "brand": "现代",
+    "name": "菲斯塔",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-155cdd341bce",
+    "brand": "知豆",
+    "name": "知豆彩虹",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5d08cbbbaac6",
+    "brand": "福特",
+    "name": "福特烈马",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-406f1263ecf5",
+    "brand": "福特",
+    "name": "福特电马",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-212220b6c32a",
+    "brand": "福特",
+    "name": "锐际",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e4dc8ffa9d1d",
+    "brand": "福特",
+    "name": "锐际新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ad1cead5cdc2",
+    "brand": "福特",
+    "name": "领界",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-e3b21beed1ab",
+    "brand": "福特",
+    "name": "领界EV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-081581b0363a",
+    "brand": "福特",
+    "name": "领睿",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-794f99b66a83",
+    "brand": "福特",
+    "name": "领睿新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b92ad82b9934",
+    "brand": "福特",
+    "name": "领裕",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-7576bd092e97",
+    "brand": "福特",
+    "name": "领裕新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-424bee0c5aee",
+    "brand": "红旗",
+    "name": "红旗E-HS9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fe238d9a213c",
+    "brand": "红旗",
+    "name": "红旗E-QM5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-183eaf907571",
+    "brand": "红旗",
+    "name": "红旗EH7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-baedb8459eba",
+    "brand": "红旗",
+    "name": "红旗H5 PHEV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-68b5b1cad8e6",
+    "brand": "红旗",
+    "name": "红旗H6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b002ba8d8b0c",
+    "brand": "红旗",
+    "name": "红旗H9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2034f1582dc0",
+    "brand": "红旗",
+    "name": "红旗HQ9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a115c3d5dd1a",
+    "brand": "红旗",
+    "name": "红旗HQ9 PHEV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8a16c3d9cc12",
+    "brand": "红旗",
+    "name": "红旗HS3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-02a76517fb2d",
+    "brand": "红旗",
+    "name": "红旗HS3 PHEV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-46acb34fe72c",
+    "brand": "红旗",
+    "name": "红旗HS5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-984111071d0d",
+    "brand": "红旗",
+    "name": "红旗HS7 PHEV",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5efa8046fe08",
+    "brand": "红旗",
+    "name": "红旗国礼",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-be0e3ded1af2",
+    "brand": "红旗",
+    "name": "红旗国耀",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d994030db299",
+    "brand": "红旗",
+    "name": "红旗国雅",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-daef1d0dcb71",
+    "brand": "红旗",
+    "name": "红旗天工05",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c64ec19f7225",
+    "brand": "红旗",
+    "name": "红旗天工06",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-aaa0a419fe95",
+    "brand": "红旗",
+    "name": "红旗天工08",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-cd996918fd3f",
+    "brand": "腾势",
+    "name": "腾势N7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b137cea4ea57",
+    "brand": "腾势",
+    "name": "腾势Z9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-94e32a915205",
+    "brand": "荣威",
+    "name": "科莱威CLEVER",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5ad533b6800f",
+    "brand": "荣威",
+    "name": "荣威D5X DMH",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-27e473909d38",
+    "brand": "荣威",
+    "name": "荣威D6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2a46f5e85d07",
+    "brand": "荣威",
+    "name": "荣威D7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ac50b3dd5d42",
+    "brand": "荣威",
+    "name": "荣威RX5 MAX",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6fd3f007d120",
+    "brand": "荣威",
+    "name": "荣威RX9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e6a4ccaaa3dc",
+    "brand": "荣威",
+    "name": "荣威i5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0db2fd2f7b5b",
+    "brand": "荣威",
+    "name": "荣威i6 MAX新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-89a87e32ebb9",
+    "brand": "荣威",
+    "name": "荣威iMAX8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-66c84c368f7e",
+    "brand": "荣威",
+    "name": "荣威iMAX8新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-08b17c173c8e",
+    "brand": "莲花跑车",
+    "name": "ELETRE",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f30b88e23bbd",
+    "brand": "莲花跑车",
+    "name": "EMEYA繁花",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-fa23cd0729dc",
+    "brand": "莲花跑车",
+    "name": "EMIRA",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-24319105d206",
+    "brand": "蓝电",
+    "name": "蓝电E3",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1ddb0c285e87",
+    "brand": "蓝电",
+    "name": "蓝电E5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b9f7a9629bec",
+    "brand": "蓝电",
+    "name": "蓝电E5 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ccd03180ded7",
+    "brand": "蔚来",
+    "name": "ES7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-cde85fa512cd",
+    "brand": "起亚",
+    "name": "狮铂拓界",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-28280ea53a3a",
+    "brand": "起亚",
+    "name": "索奈",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0d8cdaef5294",
+    "brand": "起亚",
+    "name": "赛图斯",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0177700f5f52",
+    "brand": "起亚",
+    "name": "起亚EV5",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f6882ae3d875",
+    "brand": "起亚",
+    "name": "起亚EV6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1c02824cc73b",
+    "brand": "路虎",
+    "name": "发现运动版",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ac34227163d9",
+    "brand": "路虎",
+    "name": "发现运动版新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3da2a5e4f605",
+    "brand": "路虎",
+    "name": "揽胜极光新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3d3978920200",
+    "brand": "路虎",
+    "name": "路虎卫士新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-83307ecd8211",
+    "brand": "迈凯伦",
+    "name": "Artura",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0bf293c8c7c6",
+    "brand": "迈凯伦",
+    "name": "迈凯伦GT",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4fd9144f4b5c",
+    "brand": "远航汽车",
+    "name": "远航H8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-84730e78b5ea",
+    "brand": "远航汽车",
+    "name": "远航H9",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d5cfe73c2d17",
+    "brand": "远航汽车",
+    "name": "远航Y6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-830ec23f7d59",
+    "brand": "远航汽车",
+    "name": "远航Y7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-428065c4ee37",
+    "brand": "长安",
+    "name": "逸达",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-505bc07af0e6",
+    "brand": "长安",
+    "name": "锐程CC",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-3d126266e3da",
+    "brand": "长安",
+    "name": "锐程PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a37e12ac8720",
+    "brand": "长安",
+    "name": "长安CS35PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f15ea2b4be2f",
+    "brand": "长安",
+    "name": "长安CS55PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-ff7df0dfac08",
+    "brand": "长安",
+    "name": "长安CS75 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-777af084c71d",
+    "brand": "长安",
+    "name": "长安CS75 PLUS 智电iDD",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5d4c19e62cb1",
+    "brand": "长安",
+    "name": "长安CS75 PRO",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c6bff734a493",
+    "brand": "长安",
+    "name": "长安CS85 COUPE",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-529c9ac9d488",
+    "brand": "长安",
+    "name": "长安Lumin",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e6083372b8fe",
+    "brand": "长安",
+    "name": "长安UNI-K",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-a51bb9aea075",
+    "brand": "长安",
+    "name": "长安UNI-K 智电iDD",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4a81a78391ee",
+    "brand": "长安",
+    "name": "长安UNI-T",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f655256c5d5d",
+    "brand": "长安",
+    "name": "长安UNI-V",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6351134d9d69",
+    "brand": "长安",
+    "name": "长安UNI-V 智电iDD",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-bf6266cb4f20",
+    "brand": "长安",
+    "name": "长安UNI-Z",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4c498a179f8e",
+    "brand": "长安",
+    "name": "长安UNI-Z新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9a1631250bb1",
+    "brand": "长安",
+    "name": "长安X5 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0b46c7fe0b37",
+    "brand": "长安",
+    "name": "长安X7 PLUS",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-20fef4d34108",
+    "brand": "长安启源",
+    "name": "长安启源A05",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-85a2d1c50606",
+    "brand": "长安启源",
+    "name": "长安启源A07",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d2fa456ba44e",
+    "brand": "长安启源",
+    "name": "长安启源E07",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-418612073265",
+    "brand": "长安启源",
+    "name": "长安启源Q05",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1ef986fb8e23",
+    "brand": "长安启源",
+    "name": "长安启源Q07",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1a88829ca079",
+    "brand": "长安欧尚",
+    "name": "奔奔E-Star",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-9399dfa57033",
+    "brand": "长安欧尚",
+    "name": "长安欧尚520",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b80a6333b41b",
+    "brand": "长安欧尚",
+    "name": "长安欧尚X5",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-fc0db93e0426",
+    "brand": "长安欧尚",
+    "name": "长安欧尚X5 PLUS",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-b0ad7f111ff1",
+    "brand": "长安欧尚",
+    "name": "长安欧尚X7 PLUS",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-2330aa2c4493",
+    "brand": "长安欧尚",
+    "name": "长安欧尚Z6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-db506e0d833b",
+    "brand": "长安欧尚",
+    "name": "长安欧尚Z6新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-beaa2937a611",
+    "brand": "阿尔法·罗密欧",
+    "name": "Giulia朱丽叶",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-d8161f666d53",
+    "brand": "阿尔法·罗密欧",
+    "name": "Stelvio斯坦维",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-11770c8c86f4",
+    "brand": "阿尔法·罗密欧",
+    "name": "Tonale托纳利",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-5b2f65b4780f",
+    "brand": "阿斯顿·马丁",
+    "name": "阿斯顿·马丁DB12",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-02b7d282df29",
+    "brand": "阿维塔",
+    "name": "阿维塔06",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-886d860e554c",
+    "brand": "阿维塔",
+    "name": "阿维塔07",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e6349a594dda",
+    "brand": "阿维塔",
+    "name": "阿维塔11",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-312aa059193e",
+    "brand": "阿维塔",
+    "name": "阿维塔12",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1d3a75e1ac6e",
+    "brand": "雪佛兰",
+    "name": "开拓者",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-60c7b0d402d4",
+    "brand": "雪佛兰",
+    "name": "探界者Plus",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-0d0f8c045aec",
+    "brand": "雪佛兰",
+    "name": "星迈罗",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-42bb01a19362",
+    "brand": "雪佛兰",
+    "name": "畅巡",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-152ab48bda87",
+    "brand": "雪佛兰",
+    "name": "科鲁泽",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6f198f12f92d",
+    "brand": "雪铁龙",
+    "name": "凡尔赛C5 X",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-2b6b1ed608ef",
+    "brand": "零跑汽车",
+    "name": "B01",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-46c6a82d4fa1",
+    "brand": "雷克萨斯",
+    "name": "雷克萨斯LM",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-951a884fa74f",
+    "brand": "雷克萨斯",
+    "name": "雷克萨斯NX新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b2f590934047",
+    "brand": "雷克萨斯",
+    "name": "雷克萨斯RX新能源",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-bc2e3365c4d5",
+    "brand": "雷克萨斯",
+    "name": "雷克萨斯RZ",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-11957a6c2263",
+    "brand": "领克",
+    "name": "领克01 EM-P",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c97e7f80d29c",
+    "brand": "领克",
+    "name": "领克05",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c71529fcb14a",
+    "brand": "领克",
+    "name": "领克05 EM-P",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-460ea5c0fb61",
+    "brand": "领克",
+    "name": "领克06",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-49f1663d5ea4",
+    "brand": "领克",
+    "name": "领克06 EM-P",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6b46580b082e",
+    "brand": "领克",
+    "name": "领克06新能源",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-bbd52c52321a",
+    "brand": "领克",
+    "name": "领克07",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-b393c9fe06f3",
+    "brand": "领克",
+    "name": "领克07 EM-P",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-aff3ebe8004d",
+    "brand": "领克",
+    "name": "领克08 EM-P",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-73ae534c2bbb",
+    "brand": "领克",
+    "name": "领克08新能源",
+    "sourceId": "pylab-autohome-history-202412"
+  },
+  {
+    "id": "pylab-series-6c68f759910d",
+    "brand": "领克",
+    "name": "领克09",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-78a166f5912e",
+    "brand": "领克",
+    "name": "领克09 EM-P",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-6a1268d9347f",
+    "brand": "领克",
+    "name": "领克900",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-4eb4efbcd5fe",
+    "brand": "领克",
+    "name": "领克Z10",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-f99eba0073bf",
+    "brand": "领克",
+    "name": "领克Z20",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-75e370a3260e",
+    "brand": "领途汽车",
+    "name": "缤纷",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-e591b44a37af",
+    "brand": "领途汽车",
+    "name": "领途E-M8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-793e9b995df8",
+    "brand": "领途汽车",
+    "name": "领途M8",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-db6866b2cf69",
+    "brand": "飞凡汽车",
+    "name": "飞凡F7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b0e18656d30e",
+    "brand": "飞凡汽车",
+    "name": "飞凡R7",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-c3683fccef25",
+    "brand": "马自达",
+    "name": "马自达3 昂克赛拉",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-b75afa9b94c7",
+    "brand": "马自达",
+    "name": "马自达CX-30",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-8b16e494ad9e",
+    "brand": "马自达",
+    "name": "马自达CX-50行也",
+    "sourceId": "pylab-autohome-modern-20261016"
+  },
+  {
+    "id": "pylab-series-1f45d905f2d1",
+    "brand": "马自达",
+    "name": "马自达EZ-6",
+    "sourceId": "pylab-autohome-modern-20261016"
+  }
+]

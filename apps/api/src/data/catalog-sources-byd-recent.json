@@ -1,0 +1,317 @@
+[
+  {
+    "id": "autohome-byd-6762-recent",
+    "title": "汽车之家比亚迪海鸥公开车型列表（车系6762）",
+    "url": "https://www.autohome.com.cn/6762/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 3c792e43a57bebaf69ef2a81664cbd54e68f33588e063ec05192ce867fe52b8d",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=6762，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；10条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-6139-recent",
+    "title": "汽车之家比亚迪海豚公开车型列表（车系6139）",
+    "url": "https://www.autohome.com.cn/6139/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 2a71f801f248c77f9954f1be3042fdcc26bc1a482ccb92da002d8b9b4eb2d122",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=6139，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；7条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-5964-recent",
+    "title": "汽车之家比亚迪秦PLUS公开车型列表（车系5964）",
+    "url": "https://www.autohome.com.cn/5964/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 a6a994f024533bf8cb378ea123fe8359c4b48d4d6611b33dcc12c6df3ddd533e",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=5964，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；23条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7588-recent",
+    "title": "汽车之家比亚迪海豹06公开车型列表（车系7588）",
+    "url": "https://www.autohome.com.cn/7588/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 8e08f1e0e0c9d97b154c90e1b0ea55fdeba1b422565d14b6a705ea569fc460cb",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7588，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；17条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7822-recent",
+    "title": "汽车之家比亚迪海豹07公开车型列表（车系7822）",
+    "url": "https://www.autohome.com.cn/7822/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 55876dfd41d2e631ccbdedb0036de1ad7e4254288f942c7b115653cdff4f4c18",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7822，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；11条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-8462-recent",
+    "title": "汽车之家比亚迪海豹07公开车型列表（车系8462）",
+    "url": "https://www.autohome.com.cn/8462/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 5418a20adfca044d7767e84d33fe809cf0b8b433d8587004282013488ae608cf",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=8462，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；3条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7578-recent",
+    "title": "汽车之家比亚迪秦L公开车型列表（车系7578）",
+    "url": "https://www.autohome.com.cn/7578/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 90c682eab64d4e82014a3d7d40d6934c24646df5c3f435453d2f8af2244a5332",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7578，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；17条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-8463-recent",
+    "title": "汽车之家比亚迪秦MAX公开车型列表（车系8463）",
+    "url": "https://www.autohome.com.cn/8463/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 b3df83c9d51b01040c7ed4afbb7dc97dfe80f26f61c2fdbf64cf1de941437cc2",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=8463，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；10条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-8485-recent",
+    "title": "汽车之家比亚迪海豹08公开车型列表（车系8485）",
+    "url": "https://www.autohome.com.cn/8485/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 3ce736d4430810927a6e6aecd36115020c6ea91b21f97190aaf8dbd66e937edf",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=8485，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；6条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-5499-recent",
+    "title": "汽车之家比亚迪汉公开车型列表（车系5499）",
+    "url": "https://www.autohome.com.cn/5499/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 da76602156ebb7e645a4f5133fb3fdb21a586a1d05cfc4f05a7a323b7c2f4a35",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=5499，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；43条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7859-recent",
+    "title": "汽车之家比亚迪汉L公开车型列表（车系7859）",
+    "url": "https://www.autohome.com.cn/7859/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 24ecd9a8b465cbe6ef5c70458a14af71e5caab84309094eada98a09da7afae59",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7859，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；6条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7538-recent",
+    "title": "汽车之家比亚迪元UP公开车型列表（车系7538）",
+    "url": "https://www.autohome.com.cn/7538/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 0981220b5d654de34e279d037ed2c42e84e842082cbafb2c2e6c1185c44873d3",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7538，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；8条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7807-recent",
+    "title": "汽车之家比亚迪海狮05公开车型列表（车系7807）",
+    "url": "https://www.autohome.com.cn/7807/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 d2b6ee89a5cb30bba5c4adb1e134a72096ffaf304660eefe160e7fe31e415839",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7807，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；13条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7982-recent",
+    "title": "汽车之家比亚迪海狮05公开车型列表（车系7982）",
+    "url": "https://www.autohome.com.cn/7982/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 a1a20e5e686fa62f2025080ffb1fdaeeeeb68507d235fe9d303312fd5136fb93",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7982，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；7条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-5279-recent",
+    "title": "汽车之家比亚迪宋Pro公开车型列表（车系5279）",
+    "url": "https://www.autohome.com.cn/5279/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 632c8d4ef055bf9be5fb09403443aa036320fc79c6d1bce5e1b2f43b956c9ccc",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=5279，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；23条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-6298-recent",
+    "title": "汽车之家比亚迪元PLUS公开车型列表（车系6298）",
+    "url": "https://www.autohome.com.cn/6298/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 163063fa1856ac7e302dde78f3dfe73fe2252939377995b8e0b93f3a63be7508",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=6298，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；14条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-8087-recent",
+    "title": "汽车之家比亚迪海狮06公开车型列表（车系8087）",
+    "url": "https://www.autohome.com.cn/8087/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 fb34894bc8b7c9c71a56f4a6a2cae625044325f5d7fdbabda3092a0eb2294760",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=8087，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；7条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7815-recent",
+    "title": "汽车之家比亚迪宋L公开车型列表（车系7815）",
+    "url": "https://www.autohome.com.cn/7815/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 df6a2c47f61d7dbee233d4760044d7803b24447d1eb46dfb263ba39763595948",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7815，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；10条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7220-recent",
+    "title": "汽车之家比亚迪宋L公开车型列表（车系7220）",
+    "url": "https://www.autohome.com.cn/7220/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 090e142e80b8f316c925496adae3569447fc30bcaa541952a29264e465063002",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7220，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；13条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-8511-recent",
+    "title": "汽车之家比亚迪宋Ultra公开车型列表（车系8511）",
+    "url": "https://www.autohome.com.cn/8511/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 ad5e3bd1c30a7a54d6310db222df84c635dc9045f0ec8690b311383b16169d32",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=8511，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；9条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-3430-recent",
+    "title": "汽车之家比亚迪唐公开车型列表（车系3430）",
+    "url": "https://www.autohome.com.cn/3430/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 c9fce3a9b93c8f6b92a28b38ba898f18e7531ad7dd8b3d9e2977a629080e5e15",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=3430，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；29条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-8484-recent",
+    "title": "汽车之家比亚迪海狮08公开车型列表（车系8484）",
+    "url": "https://www.autohome.com.cn/8484/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 b227ecf2d0a8d29dce38204af2feb27a6c00c9723524ddaa152df76d9e99f146",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=8484，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；8条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-8005-recent",
+    "title": "汽车之家比亚迪唐L公开车型列表（车系8005）",
+    "url": "https://www.autohome.com.cn/8005/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 723781f9e2ca93a346a6d8ee4128fdb4f21dbafb2494b3d53b30852afefa7f1c",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=8005，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；6条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7851-recent",
+    "title": "汽车之家比亚迪夏公开车型列表（车系7851）",
+    "url": "https://www.autohome.com.cn/7851/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 55f4dcea171ab61c4a09f3b9efed80d2cfc4240b2f2ccb6417c2f851fae6d1d6",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7851，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；5条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-6394-recent",
+    "title": "汽车之家比亚迪海豹公开车型列表（车系6394）",
+    "url": "https://www.autohome.com.cn/6394/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 05f69b5b36c0a1c90ba56011723c8cc83e001855b8e6cb769ec15b8f0bb95f82",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=6394，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；19条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-5761-recent",
+    "title": "汽车之家比亚迪宋PLUS公开车型列表（车系5761）",
+    "url": "https://www.autohome.com.cn/5761/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 22dc89289768ac5a99e057bb03a3a1993936417166fccd06a581862d547ba22f",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=5761，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；27条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-5760-recent",
+    "title": "汽车之家比亚迪宋PLUS公开车型列表（车系5760）",
+    "url": "https://www.autohome.com.cn/5760/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 ac778db3b83d54a04cac08a6b3745eb0f59302dfb3653868d80d25ad7c24e3ad",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=5760，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；0条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-7977-recent",
+    "title": "汽车之家比亚迪海狮07公开车型列表（车系7977）",
+    "url": "https://www.autohome.com.cn/7977/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 a14c080d64fefbfe1366b055695ce42158caf35733a3a43bf9af308f1143ca26",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=7977，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；3条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "autohome-byd-6851-recent",
+    "title": "汽车之家比亚迪海狮07公开车型列表（车系6851）",
+    "url": "https://www.autohome.com.cn/6851/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表事实快照；输入SHA-256 4ceeafb7e5e30282a9d0cd11e458349e46240aed79a60e1e6c9196df0759e311",
+    "retrievedAt": "2026-11-04",
+    "description": "从该页面自身公开调用的 /web-main/car/series/getspeclistresponse 取得逐车型短事实；seriesid=6851，tagid=1及页面列示的2024–2026停售年款。只保留明确YYYY款且与year字段一致、已上市或停售的型号，按同一车型ID绑定年款/燃料/马力/变速箱/驱动/配置。剔除未售与待售；8条。本地构建后静态提供，不在运行时抓取，不导入图片、报价或销售状态，不代表全量或现售。"
+  },
+  {
+    "id": "official-byd-152-2026-recent-variants",
+    "title": "比亚迪官网2026款秦PLUS DM-i",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=152",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 官网参数事实快照；输入SHA-256 271e612636d76a3019dcafada9ed068794e117fa10bda151d0a9d68ad61fda91",
+    "retrievedAt": "2026-11-04",
+    "description": "官网公开参数页自身调用 goodsParams?goodsId=152；明确2026款表头，配置与发动机/电机/电池按同列绑定。只保存短名称与少量事实；同一配置已从汽车之家补充数据剔除，保留官方数据。不代表全部年款，不导入整表、价格、图片或保养周期。"
+  },
+  {
+    "id": "official-byd-150-2026-recent-variants",
+    "title": "比亚迪官网2026款宋L DM-i",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=150",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 官网参数事实快照；输入SHA-256 e9b00e597031ed7a23fcdbc9e9ce86ebaa62edfa8ca3e6024e5a07c83e595b76",
+    "retrievedAt": "2026-11-04",
+    "description": "官网公开参数页自身调用 goodsParams?goodsId=150；明确2026款表头，配置与发动机/电机/电池按同列绑定。只保存短名称与少量事实；同一配置已从汽车之家补充数据剔除，保留官方数据。不代表全部年款，不导入整表、价格、图片或保养周期。"
+  },
+  {
+    "id": "official-byd-151-2026-recent-variants",
+    "title": "比亚迪官网2026款夏",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=151",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 官网参数事实快照；输入SHA-256 c324cfb5f01c61b949d3c7ed436379caedcebc2ab9b7a6524ec431061017092d",
+    "retrievedAt": "2026-11-04",
+    "description": "官网公开参数页自身调用 goodsParams?goodsId=151；明确2026款表头，配置与发动机/电机/电池按同列绑定。只保存短名称与少量事实；同一配置已从汽车之家补充数据剔除，保留官方数据。不代表全部年款，不导入整表、价格、图片或保养周期。"
+  },
+  {
+    "id": "official-byd-10051-2026-recent-variants",
+    "title": "比亚迪官网2026款海狮06DM-i配置表及参数表",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=10051",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 官网参数事实快照；输入SHA-256 cbc37b704d7989f6db792d834eb81779ba007cb41ad7a6a0a8130f93241a4dd4",
+    "retrievedAt": "2026-11-04",
+    "description": "官网公开参数页自身调用 goodsParams?goodsId=10051；明确2026款表头，配置与发动机/电机/电池按同列绑定。只保存短名称与少量事实；同一配置已从汽车之家补充数据剔除，保留官方数据。不代表全部年款，不导入整表、价格、图片或保养周期。"
+  },
+  {
+    "id": "official-byd-10041-2026-recent-variants",
+    "title": "比亚迪官网2026款海狮06EV配置表及参数表",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=10041",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 官网参数事实快照；输入SHA-256 4c5229324632cc60f15b38c2fcf5020c01f08e2c81c5fa5b229f6e42d28b9cfc",
+    "retrievedAt": "2026-11-04",
+    "description": "官网公开参数页自身调用 goodsParams?goodsId=10041；明确2026款表头，配置与发动机/电机/电池按同列绑定。只保存短名称与少量事实；同一配置已从汽车之家补充数据剔除，保留官方数据。不代表全部年款，不导入整表、价格、图片或保养周期。"
+  },
+  {
+    "id": "official-byd-10011-2025-recent-variants",
+    "title": "比亚迪官网2025款海豚参数表及配置表",
+    "url": "https://www.byd.com/cn/parameter-comparison?goodsId=10011",
+    "license": "官方公开网页（事实摘录，原页面版权归原权利人）",
+    "revision": "2026-11-04 官网参数事实快照；输入SHA-256 1d3ab264d0620ca9d22b10d03b7d731ae0b4f588a01baf20a4de7588268ac6bc",
+    "retrievedAt": "2026-11-04",
+    "description": "官网公开参数页自身调用 goodsParams?goodsId=10011；明确2025款表头，配置与发动机/电机/电池按同列绑定。只保存短名称与少量事实；同一配置已从汽车之家补充数据剔除，保留官方数据。不代表全部年款，不导入整表、价格、图片或保养周期。"
+  }
+]

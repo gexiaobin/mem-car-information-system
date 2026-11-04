@@ -1,0 +1,502 @@
+[
+  {
+    "id": "autohome-latest-spec-79133",
+    "modelCatalogId": "official-li-396ee89382ef",
+    "year": 2026,
+    "power": "纯电动 · 电机340马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "两驱标准版",
+    "sourceId": "autohome-latest-8183",
+    "sourceEvidence": "汽车之家车系ID=8183；具体车型ID=79133；原名=2026款 两驱标准版；year=2026；燃料=电动；列表马力=340；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "理想"
+  },
+  {
+    "id": "autohome-latest-spec-79134",
+    "modelCatalogId": "official-li-396ee89382ef",
+    "year": 2026,
+    "power": "纯电动 · 电机544马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "四驱标准版",
+    "sourceId": "autohome-latest-8183",
+    "sourceEvidence": "汽车之家车系ID=8183；具体车型ID=79134；原名=2026款 四驱标准版；year=2026；燃料=电动；列表马力=544；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "理想"
+  },
+  {
+    "id": "autohome-latest-spec-73544",
+    "modelCatalogId": "official-li-396ee89382ef",
+    "year": 2025,
+    "power": "纯电动 · 电机340马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "两驱标准版",
+    "sourceId": "autohome-latest-8183",
+    "sourceEvidence": "汽车之家车系ID=8183；具体车型ID=73544；原名=2025款 两驱标准版；year=2025；燃料=电动；列表马力=340；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "理想"
+  },
+  {
+    "id": "autohome-latest-spec-73545",
+    "modelCatalogId": "official-li-396ee89382ef",
+    "year": 2025,
+    "power": "纯电动 · 电机544马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "四驱标准版",
+    "sourceId": "autohome-latest-8183",
+    "sourceEvidence": "汽车之家车系ID=8183；具体车型ID=73545；原名=2025款 四驱标准版；year=2025；燃料=电动；列表马力=544；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "理想"
+  },
+  {
+    "id": "autohome-latest-spec-78130",
+    "modelCatalogId": "official-li-4c1dc1f491eb",
+    "year": 2026,
+    "power": "纯电动 · 电机340马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "后驱长续航",
+    "sourceId": "autohome-latest-7727",
+    "sourceEvidence": "汽车之家车系ID=7727；具体车型ID=78130；原名=2026款 后驱长续航；year=2026；燃料=电动；列表马力=340；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "理想"
+  },
+  {
+    "id": "autohome-latest-spec-78761",
+    "modelCatalogId": "official-li-4c1dc1f491eb",
+    "year": 2026,
+    "power": "纯电动 · 电机544马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "四驱高性能",
+    "sourceId": "autohome-latest-7727",
+    "sourceEvidence": "汽车之家车系ID=7727；具体车型ID=78761；原名=2026款 四驱高性能；year=2026；燃料=电动；列表马力=544；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "理想"
+  },
+  {
+    "id": "autohome-latest-spec-74102",
+    "modelCatalogId": "official-li-4c1dc1f491eb",
+    "year": 2025,
+    "power": "纯电动 · 电机544马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "标准版",
+    "sourceId": "autohome-latest-7727",
+    "sourceEvidence": "汽车之家车系ID=7727；具体车型ID=74102；原名=2025款 标准版；year=2025；燃料=电动；列表马力=544；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "理想"
+  },
+  {
+    "id": "autohome-latest-spec-77261",
+    "modelCatalogId": "official-nio-950f283d7223",
+    "year": 2026,
+    "power": "纯电动 · 电机707马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "102kWh 地平线通道特别版",
+    "sourceId": "autohome-latest-8509",
+    "sourceEvidence": "汽车之家车系ID=8509；具体车型ID=77261；原名=2026款 102kWh 地平线通道特别版；year=2026；燃料=电动；列表马力=707；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "蔚来"
+  },
+  {
+    "id": "autohome-latest-spec-76204",
+    "modelCatalogId": "official-nio-950f283d7223",
+    "year": 2026,
+    "power": "纯电动 · 电机707马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "102kWh 地平线中岛特别版",
+    "sourceId": "autohome-latest-8509",
+    "sourceEvidence": "汽车之家车系ID=8509；具体车型ID=76204；原名=2026款 102kWh 地平线中岛特别版；year=2026；燃料=电动；列表马力=707；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "蔚来"
+  },
+  {
+    "id": "autohome-latest-spec-77259",
+    "modelCatalogId": "official-nio-950f283d7223",
+    "year": 2026,
+    "power": "纯电动 · 电机707马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "102kWh 行政通道豪华版",
+    "sourceId": "autohome-latest-8509",
+    "sourceEvidence": "汽车之家车系ID=8509；具体车型ID=77259；原名=2026款 102kWh 行政通道豪华版；year=2026；燃料=电动；列表马力=707；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "蔚来"
+  },
+  {
+    "id": "autohome-latest-spec-77260",
+    "modelCatalogId": "official-nio-950f283d7223",
+    "year": 2026,
+    "power": "纯电动 · 电机707马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "102kWh 行政通道签名版",
+    "sourceId": "autohome-latest-8509",
+    "sourceEvidence": "汽车之家车系ID=8509；具体车型ID=77260；原名=2026款 102kWh 行政通道签名版；year=2026；燃料=电动；列表马力=707；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "蔚来"
+  },
+  {
+    "id": "autohome-latest-spec-77226",
+    "modelCatalogId": "official-nio-950f283d7223",
+    "year": 2026,
+    "power": "纯电动 · 电机707马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "102kWh 行政中岛豪华版",
+    "sourceId": "autohome-latest-8509",
+    "sourceEvidence": "汽车之家车系ID=8509；具体车型ID=77226；原名=2026款 102kWh 行政中岛豪华版；year=2026；燃料=电动；列表马力=707；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "蔚来"
+  },
+  {
+    "id": "autohome-latest-spec-77051",
+    "modelCatalogId": "official-nio-950f283d7223",
+    "year": 2026,
+    "power": "纯电动 · 电机707马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "102kWh 行政中岛签名版",
+    "sourceId": "autohome-latest-8509",
+    "sourceEvidence": "汽车之家车系ID=8509；具体车型ID=77051；原名=2026款 102kWh 行政中岛签名版；year=2026；燃料=电动；列表马力=707；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "蔚来"
+  },
+  {
+    "id": "autohome-latest-spec-75119",
+    "modelCatalogId": "official-tesla-36f3213683ff",
+    "year": 2026,
+    "power": "纯电动 · 电机466马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "高性能全轮驱动版",
+    "sourceId": "autohome-latest-5346",
+    "sourceEvidence": "汽车之家车系ID=5346；具体车型ID=75119；原名=2026款 高性能全轮驱动版；year=2026；燃料=电动；列表马力=466；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-75116",
+    "modelCatalogId": "official-tesla-36f3213683ff",
+    "year": 2026,
+    "power": "纯电动 · 电机264马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "后轮驱动版",
+    "sourceId": "autohome-latest-5346",
+    "sourceEvidence": "汽车之家车系ID=5346；具体车型ID=75116；原名=2026款 后轮驱动版；year=2026；燃料=电动；列表马力=264；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-75117",
+    "modelCatalogId": "official-tesla-36f3213683ff",
+    "year": 2026,
+    "power": "纯电动 · 电机306马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "长续航后轮驱动版",
+    "sourceId": "autohome-latest-5346",
+    "sourceEvidence": "汽车之家车系ID=5346；具体车型ID=75117；原名=2026款 长续航后轮驱动版；year=2026；燃料=电动；列表马力=306；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-75118",
+    "modelCatalogId": "official-tesla-36f3213683ff",
+    "year": 2026,
+    "power": "纯电动 · 电机450马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "长续航全轮驱动版",
+    "sourceId": "autohome-latest-5346",
+    "sourceEvidence": "汽车之家车系ID=5346；具体车型ID=75118；原名=2026款 长续航全轮驱动版；year=2026；燃料=电动；列表马力=450；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-76157",
+    "modelCatalogId": "official-tesla-e03f09a61665",
+    "year": 2026,
+    "power": "纯电动 · 电机306马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "改款 长续航后轮驱动版",
+    "sourceId": "autohome-latest-5769",
+    "sourceEvidence": "汽车之家车系ID=5769；具体车型ID=76157；原名=2026款 改款 长续航后轮驱动版；year=2026；燃料=电动；列表马力=306；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-78533",
+    "modelCatalogId": "official-tesla-e03f09a61665",
+    "year": 2026,
+    "power": "纯电动 · 电机635马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "高性能全轮驱动版",
+    "sourceId": "autohome-latest-5769",
+    "sourceEvidence": "汽车之家车系ID=5769；具体车型ID=78533；原名=2026款 高性能全轮驱动版；year=2026；燃料=电动；列表马力=635；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-76156",
+    "modelCatalogId": "official-tesla-e03f09a61665",
+    "year": 2026,
+    "power": "纯电动 · 电机299马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "后轮驱动版",
+    "sourceId": "autohome-latest-5769",
+    "sourceEvidence": "汽车之家车系ID=5769；具体车型ID=76156；原名=2026款 后轮驱动版；year=2026；燃料=电动；列表马力=299；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-75154",
+    "modelCatalogId": "official-tesla-e03f09a61665",
+    "year": 2026,
+    "power": "纯电动 · 电机306马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "长续航后轮驱动版",
+    "sourceId": "autohome-latest-5769",
+    "sourceEvidence": "汽车之家车系ID=5769；具体车型ID=75154；原名=2026款 长续航后轮驱动版；year=2026；燃料=电动；列表马力=306；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-76158",
+    "modelCatalogId": "official-tesla-e03f09a61665",
+    "year": 2026,
+    "power": "纯电动 · 电机450马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "长续航全轮驱动版",
+    "sourceId": "autohome-latest-5769",
+    "sourceEvidence": "汽车之家车系ID=5769；具体车型ID=76158；原名=2026款 长续航全轮驱动版；year=2026；燃料=电动；列表马力=450；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "特斯拉中国"
+  },
+  {
+    "id": "autohome-latest-spec-77835",
+    "modelCatalogId": "official-xiaomi-79235e8ebeee",
+    "year": 2026,
+    "power": "纯电动 · 电机320马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "后驱标准版",
+    "sourceId": "autohome-latest-7793",
+    "sourceEvidence": "汽车之家车系ID=7793；具体车型ID=77835；原名=2026款 后驱标准版；year=2026；燃料=电动；列表马力=320；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小米汽车"
+  },
+  {
+    "id": "autohome-latest-spec-76544",
+    "modelCatalogId": "official-xiaomi-79235e8ebeee",
+    "year": 2026,
+    "power": "纯电动 · 电机1003马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "四驱GT",
+    "sourceId": "autohome-latest-7793",
+    "sourceEvidence": "汽车之家车系ID=7793；具体车型ID=76544；原名=2026款 四驱GT；year=2026；燃料=电动；列表马力=1003；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小米汽车"
+  },
+  {
+    "id": "autohome-latest-spec-76173",
+    "modelCatalogId": "official-xiaomi-90cd6c81d1a4",
+    "year": 2026,
+    "power": "纯电动 · 电机320马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "后驱标准版",
+    "sourceId": "autohome-latest-6962",
+    "sourceEvidence": "汽车之家车系ID=6962；具体车型ID=76173；原名=2026款 后驱标准版；year=2026；燃料=电动；列表马力=320；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小米汽车"
+  },
+  {
+    "id": "autohome-latest-spec-75667",
+    "modelCatalogId": "official-xiaomi-90cd6c81d1a4",
+    "year": 2026,
+    "power": "纯电动 · 电机320马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "后驱Pro版",
+    "sourceId": "autohome-latest-6962",
+    "sourceEvidence": "汽车之家车系ID=6962；具体车型ID=75667；原名=2026款 后驱Pro版；year=2026；燃料=电动；列表马力=320；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小米汽车"
+  },
+  {
+    "id": "autohome-latest-spec-75668",
+    "modelCatalogId": "official-xiaomi-90cd6c81d1a4",
+    "year": 2026,
+    "power": "纯电动 · 电机690马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "四驱Max版",
+    "sourceId": "autohome-latest-6962",
+    "sourceEvidence": "汽车之家车系ID=6962；具体车型ID=75668；原名=2026款 四驱Max版；year=2026；燃料=电动；列表马力=690；变速箱=电动车单速变速箱；驱动=双电机四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小米汽车"
+  },
+  {
+    "id": "autohome-latest-spec-76187",
+    "modelCatalogId": "official-xpeng-3a5357e2b967",
+    "year": 2026,
+    "power": "纯电动 · 电机296马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "纯电 602 Max 旗舰版",
+    "sourceId": "autohome-latest-8014",
+    "sourceEvidence": "汽车之家车系ID=8014；具体车型ID=76187；原名=2026款 纯电 602 Max 旗舰版；year=2026；燃料=电动；列表马力=296；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小鹏汽车"
+  },
+  {
+    "id": "autohome-latest-spec-76139",
+    "modelCatalogId": "official-xpeng-3a5357e2b967",
+    "year": 2026,
+    "power": "纯电动 · 电机296马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "纯电 702 Max 旗舰版",
+    "sourceId": "autohome-latest-8014",
+    "sourceEvidence": "汽车之家车系ID=8014；具体车型ID=76139；原名=2026款 纯电 702 Max 旗舰版；year=2026；燃料=电动；列表马力=296；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小鹏汽车"
+  },
+  {
+    "id": "autohome-latest-spec-76188",
+    "modelCatalogId": "official-xpeng-3a5357e2b967",
+    "year": 2026,
+    "power": "增程式 · 发动机150马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "增程 1704 Max 科技版",
+    "sourceId": "autohome-latest-8014",
+    "sourceEvidence": "汽车之家车系ID=8014；具体车型ID=76188；原名=2026款 增程 1704 Max 科技版；year=2026；燃料=增程式；列表马力=150；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小鹏汽车"
+  },
+  {
+    "id": "autohome-latest-spec-74686",
+    "modelCatalogId": "official-xpeng-3a5357e2b967",
+    "year": 2026,
+    "power": "增程式 · 发动机150马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "增程 1704 Max 旗舰版",
+    "sourceId": "autohome-latest-8014",
+    "sourceEvidence": "汽车之家车系ID=8014；具体车型ID=74686；原名=2026款 增程 1704 Max 旗舰版；year=2026；燃料=增程式；列表马力=150；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小鹏汽车"
+  },
+  {
+    "id": "autohome-latest-spec-73712",
+    "modelCatalogId": "official-xpeng-3a5357e2b967",
+    "year": 2025,
+    "power": "纯电动 · 电机296马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "602 长续航 Max",
+    "sourceId": "autohome-latest-8014",
+    "sourceEvidence": "汽车之家车系ID=8014；具体车型ID=73712；原名=2025款 602 长续航 Max；year=2025；燃料=电动；列表马力=296；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小鹏汽车"
+  },
+  {
+    "id": "autohome-latest-spec-73373",
+    "modelCatalogId": "official-xpeng-3a5357e2b967",
+    "year": 2025,
+    "power": "纯电动 · 电机296马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "702 超长续航 Max",
+    "sourceId": "autohome-latest-8014",
+    "sourceEvidence": "汽车之家车系ID=8014；具体车型ID=73373；原名=2025款 702 超长续航 Max；year=2025；燃料=电动；列表马力=296；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小鹏汽车"
+  },
+  {
+    "id": "autohome-latest-spec-71365",
+    "modelCatalogId": "official-xpeng-3a5357e2b967",
+    "year": 2025,
+    "power": "纯电动 · 电机296马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "702 超长续航 Ultra",
+    "sourceId": "autohome-latest-8014",
+    "sourceEvidence": "汽车之家车系ID=8014；具体车型ID=71365；原名=2025款 702 超长续航 Ultra；year=2025；燃料=电动；列表马力=296；变速箱=电动车单速变速箱；驱动=后置后驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "小鹏汽车"
+  },
+  {
+    "id": "autohome-latest-spec-75101",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "曜黑版 70kWh 六座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=75101；原名=2026款 曜黑版 70kWh 六座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-78682",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "曜黑版 70kWh 五座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=78682；原名=2026款 曜黑版 70kWh 五座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-73246",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Hyper版 70kWh 六座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=73246；原名=2026款 Hyper版 70kWh 六座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-78414",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Hyper版 70kWh 五座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=78414；原名=2026款 Hyper版 70kWh 五座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-74471",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Max版 55kWh 六座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=74471；原名=2026款 Max版 55kWh 六座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-74432",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Ultra版 55kWh 六座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=74432；原名=2026款 Ultra版 55kWh 六座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-78680",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Ultra版 55kWh 五座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=78680；原名=2026款 Ultra版 55kWh 五座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-75103",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Ultra版 70kWh 六座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=75103；原名=2026款 Ultra版 70kWh 六座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-78681",
+    "modelCatalogId": "official-zeekr-1bac8a935dc7",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Ultra版 70kWh 五座",
+    "sourceId": "autohome-latest-7835",
+    "sourceEvidence": "汽车之家车系ID=7835；具体车型ID=78681；原名=2026款 Ultra版 70kWh 五座；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-76554",
+    "modelCatalogId": "official-zeekr-4d6ede7592c9",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "曜影 70kWh",
+    "sourceId": "autohome-latest-8148",
+    "sourceEvidence": "汽车之家车系ID=8148；具体车型ID=76554；原名=2026款 曜影 70kWh；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-76850",
+    "modelCatalogId": "official-zeekr-4d6ede7592c9",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Max版 55kWh",
+    "sourceId": "autohome-latest-8148",
+    "sourceEvidence": "汽车之家车系ID=8148；具体车型ID=76850；原名=2026款 Max版 55kWh；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-76233",
+    "modelCatalogId": "official-zeekr-4d6ede7592c9",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Max版 70kWh",
+    "sourceId": "autohome-latest-8148",
+    "sourceEvidence": "汽车之家车系ID=8148；具体车型ID=76233；原名=2026款 Max版 70kWh；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-77402",
+    "modelCatalogId": "official-zeekr-4d6ede7592c9",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Ultra+版 55kWh",
+    "sourceId": "autohome-latest-8148",
+    "sourceEvidence": "汽车之家车系ID=8148；具体车型ID=77402；原名=2026款 Ultra+版 55kWh；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-76140",
+    "modelCatalogId": "official-zeekr-4d6ede7592c9",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Ultra+版 70kWh",
+    "sourceId": "autohome-latest-8148",
+    "sourceEvidence": "汽车之家车系ID=8148；具体车型ID=76140；原名=2026款 Ultra+版 70kWh；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-76851",
+    "modelCatalogId": "official-zeekr-4d6ede7592c9",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Ultra版 55kWh",
+    "sourceId": "autohome-latest-8148",
+    "sourceEvidence": "汽车之家车系ID=8148；具体车型ID=76851；原名=2026款 Ultra版 55kWh；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  },
+  {
+    "id": "autohome-latest-spec-76856",
+    "modelCatalogId": "official-zeekr-4d6ede7592c9",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机279马力 · 1挡DHT · 前置四驱",
+    "trim": "Ultra版 70kWh",
+    "sourceId": "autohome-latest-8148",
+    "sourceEvidence": "汽车之家车系ID=8148；具体车型ID=76856；原名=2026款 Ultra版 70kWh；year=2026；燃料=插电式混合动力；列表马力=279；变速箱=1挡DHT；驱动=前置四驱。同一具体车型原行；插混/增程马力为发动机参数，不是系统总功率；状态已核对为已上市或停售。",
+    "manufacturer": "极氪"
+  }
+]

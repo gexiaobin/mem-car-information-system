@@ -7,7 +7,7 @@ import type { Context } from "./context.js";
 import { roles, route } from "./context.js";
 import { list, put } from "./db.js";
 import { audit, ensure, id, now } from "./domain.js";
-import { catalogModels, catalogProjects, catalogSources, catalogVersion, variantsById, variantsByModel } from "./data/public-catalog.js";
+import { catalogModels, catalogProjects, catalogSources, catalogVersion, catalogYears, variantsById, variantsByModel, yearsByModel } from "./data/public-catalog.js";
 
 export const catalogText = (value: string) => value.normalize("NFKC").toLowerCase().replace(/\s+/gu, "");
 export const sameModelIdentity = (a: Pick<CarModel, "brand" | "name" | "year" | "power">, b: Pick<CarModel, "brand" | "name" | "year" | "power">) =>
@@ -24,13 +24,19 @@ export function registerCatalog({ app, db }: Context) {
     roles(request, ["platform_admin"]);
     const query = z.object({
       q: queryText, brand: queryText,
+      year: z.coerce.number().int().min(1950).max(2100).optional(),
+      availableOnly: z.enum(["true", "false"]).default("false").transform(value => value === "true"),
       offset: z.coerce.number().int().min(0).max(100000).default(0),
       limit: z.coerce.number().int().min(1).max(100).default(40),
     }).parse(request.query);
-    const filtered = catalogModels.filter(model => (!query.brand || model.brand === query.brand) && matches(query.q, model.brand, model.name));
+    const filtered = catalogModels.filter(model => (!query.brand || model.brand === query.brand) &&
+      (!query.availableOnly || variantsByModel.has(model.id)) && (!query.year || yearsByModel.get(model.id)?.includes(query.year)) &&
+      matches(query.q, model.brand, model.name));
+    if (query.availableOnly) filtered.sort((a, b) => (yearsByModel.get(b.id)?.[0] || 0) - (yearsByModel.get(a.id)?.[0] || 0) || a.brand.localeCompare(b.brand, "zh-CN") || a.name.localeCompare(b.name, "zh-CN"));
     const response: CatalogModelsResponse = {
-      items: filtered.slice(query.offset, query.offset + query.limit).map(model => ({ ...model, variantCount: variantsByModel.get(model.id)?.length || 0 })), total: filtered.length,
+      items: filtered.slice(query.offset, query.offset + query.limit).map(model => ({ ...model, variantCount: variantsByModel.get(model.id)?.length || 0, years: yearsByModel.get(model.id) || [] })), total: filtered.length,
       offset: query.offset, limit: query.limit,
+      years: catalogYears,
       brands: [...new Set(catalogModels.map(model => model.brand))].sort((a, b) => a.localeCompare(b, "zh-CN")),
       sources: sourcesFor([...new Set(catalogModels.map(model => model.sourceId))]), version: catalogVersion,
     };

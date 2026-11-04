@@ -71,6 +71,34 @@ test("bundled candidates have traceable sources and do not auto-populate operati
   assert.equal((await list<Project>(service.db, "projects")).some(project => project.catalogSource), false);
 });
 
+test("recent model years are selectable for the reported Sea Lion 06 and common brands", async () => {
+  const seaLion = catalogModels.find(model => model.brand === "比亚迪" && model.name === "海狮06");
+  assert(seaLion, "reported car series must be present");
+  for (const year of [2025, 2026]) {
+    const response = await call("admin", "GET", `/admin/catalog/models/${seaLion.id}/variants?year=${year}&limit=100`);
+    assert.equal(response.statusCode, 200, response.body);
+    const page = response.json<CatalogVariantsResponse>();
+    assert(page.items.length >= 6, `Sea Lion 06 ${year} requires complete production configurations`);
+    assert(page.items.some(item => item.trim.startsWith("DM-i ")));
+    assert(page.items.some(item => item.trim.startsWith("EV ")));
+    assert(page.items.every(item => item.year === year && item.power && item.sourceEvidence));
+    assert(page.items.every(item => page.sources.some(source => source.id === item.sourceId)));
+    assert(page.items.every(item => !/基本版|高配版/.test(item.trim)), "unreleased placeholder names must not be offered as actual trims");
+  }
+  for (const [brand, name, year] of [
+    ["大众", "迈腾", 2025], ["丰田", "凯美瑞", 2025], ["特斯拉", "Model 3", 2025],
+    ["理想", "L6", 2025], ["小米汽车", "SU7", 2024], ["问界", "M9", 2025],
+    ["理想", "i8", 2026], ["小鹏汽车", "G7", 2025], ["极氪", "8X", 2026],
+    ["蔚来", "ES9", 2026], ["小米汽车", "SU7", 2026],
+  ] as const) {
+    const response = await call("admin", "GET", `/admin/catalog/models?availableOnly=true&brand=${encodeURIComponent(brand)}&q=${encodeURIComponent(name)}&year=${year}`);
+    assert.equal(response.statusCode, 200, response.body);
+    const entry = response.json<CatalogModelsResponse>().items.find(item => item.name === name);
+    assert(entry?.years?.includes(year), `${brand} ${name} must expose its verified ${year} configurations`);
+    assert(variantsByModel.get(entry.id)?.some(item => item.year === year && item.power && item.trim));
+  }
+});
+
 test("catalog browsing and importing require a platform administrator", async () => {
   for (const who of ["anonymous", "owner", "store", "expert"]) {
     for (const [method, path, payload] of [
@@ -154,6 +182,31 @@ test("model search, brand filtering and bounded pagination stay within the match
   const empty = await call("admin", "GET", "/admin/catalog/models?q=__不存在的合成车型__");
   assert.equal(empty.json<CatalogModelsResponse>().total, 0);
   for (const query of ["limit=101", "offset=-1", "limit=1.5", "offset=100001"]) {
+    assert.equal((await call("admin", "GET", `/admin/catalog/models?${query}`)).statusCode, 400);
+  }
+});
+
+test("catalog year and availability filters disclose actual coverage without inventing model years", async () => {
+  const year = catalogVariants.reduce((latest, variant) => Math.max(latest, variant.year), 0);
+  const response = await call("admin", "GET", `/admin/catalog/models?year=${year}&availableOnly=true&limit=100`);
+  assert.equal(response.statusCode, 200, response.body);
+  const page = response.json<CatalogModelsResponse>();
+  assert(page.items.length > 0);
+  assert(page.years);
+  assert.deepEqual(page.years, [...new Set(catalogVariants.map(variant => variant.year))].sort((a, b) => b - a));
+  for (const model of page.items) {
+    const variants = variantsByModel.get(model.id)!;
+    assert(variants.some(variant => variant.year === year));
+    assert.equal(model.variantCount, variants.length);
+    assert.deepEqual(model.years, [...new Set(variants.map(variant => variant.year))].sort((a, b) => b - a));
+  }
+  const available = (await call("admin", "GET", "/admin/catalog/models?availableOnly=true&limit=1")).json<CatalogModelsResponse>();
+  assert.equal(available.total, variantsByModel.size);
+  assert.equal(available.items[0].years?.[0], year);
+  assert.equal((await call("admin", "GET", "/admin/catalog/models?availableOnly=false&limit=1")).json<CatalogModelsResponse>().total, catalogModels.length);
+  const missingYear = Array.from({ length: 151 }, (_, index) => 1950 + index).find(value => !page.years.includes(value))!;
+  assert.equal((await call("admin", "GET", `/admin/catalog/models?year=${missingYear}`)).json<CatalogModelsResponse>().total, 0);
+  for (const query of ["year=1900", "year=2025.5", "availableOnly=yes", "availableOnly=1"]) {
     assert.equal((await call("admin", "GET", `/admin/catalog/models?${query}`)).statusCode, 400);
   }
 });

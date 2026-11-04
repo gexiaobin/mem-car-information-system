@@ -8,7 +8,7 @@ const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const roots = ['apps/api/src', 'apps/web/src', 'apps/web/public', 'packages/shared/src', 'design-system', 'deploy', 'scripts'];
 const rootFiles = ['package.json', 'package-lock.json', 'tsconfig.base.json', 'compose.yml', 'compose.preview.yml', '.dockerignore', 'apps/api/package.json', 'apps/api/tsconfig.json', 'apps/web/package.json', 'apps/web/tsconfig.json', 'apps/web/vite.config.ts', 'apps/web/index.html', 'packages/shared/package.json', 'release.config.json'];
 const skipped = new Set(['node_modules', 'dist', '.git', '.local', 'uploads', 'coverage', 'test-results', 'playwright-report']);
-const textExtensions = new Set(['.ts', '.tsx', '.js', '.mjs', '.mts', '.cjs', '.json', '.css', '.html', '.md', '.txt', '.yml', '.yaml', '.svg', '.conf', '.sh', '']);
+const textExtensions = new Set(['.ts', '.tsx', '.js', '.mjs', '.mts', '.cjs', '.py', '.json', '.css', '.html', '.md', '.txt', '.yml', '.yaml', '.svg', '.conf', '.sh', '']);
 const digest = value => createHash('sha256').update(value).digest('hex');
 const order = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "autohome-latest-8183",
+    "title": "汽车之家理想i6公开具体车型事实",
+    "url": "https://www.autohome.com.cn/8183/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 8b730d233fab12bfbdd88134556a638e5143dcedbed3495e1d655e7865b1b21b",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系8183，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2025/2026年款；基本型、预售和未售占位剔除。4条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-7727",
+    "title": "汽车之家理想i8公开具体车型事实",
+    "url": "https://www.autohome.com.cn/7727/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 c65febd744d2e3bc164222e37f8ee7ea48af5a28d31ed57a8840ada0a6db3cdd",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系7727，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2025/2026年款；基本型、预售和未售占位剔除。3条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-8014",
+    "title": "汽车之家小鹏G7公开具体车型事实",
+    "url": "https://www.autohome.com.cn/8014/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 f6e35f896325a245a61ae343d39ebcd02de4ade0af565eb9e29e508a25256870",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系8014，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2025/2026年款；基本型、预售和未售占位剔除。7条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-8148",
+    "title": "汽车之家极氪8X公开具体车型事实",
+    "url": "https://www.autohome.com.cn/8148/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 2779d30623deae49f4c07e0c49b0c094328b925006b53db29d722aeea092f2c2",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系8148，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2026年款；基本型、预售和未售占位剔除。7条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-7835",
+    "title": "汽车之家极氪9X公开具体车型事实",
+    "url": "https://www.autohome.com.cn/7835/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 e254e5a32d916b8a71e0995d2f1dec26b2681c65f42bb84ded7ffdfc626b606f",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系7835，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2026年款；基本型、预售和未售占位剔除。9条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-8509",
+    "title": "汽车之家蔚来ES9公开具体车型事实",
+    "url": "https://www.autohome.com.cn/8509/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 259c0ec8c134fc21ab9b2345600b1fac751a91fce13a8ed7a8b6a5b667ed11ba",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系8509，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2026年款；基本型、预售和未售占位剔除。6条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-6962",
+    "title": "汽车之家小米SU7公开具体车型事实",
+    "url": "https://www.autohome.com.cn/6962/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 6d71d7eadd299c12a2c1ab219bcc88a325a6c16c1f23780a080d867b67cf2985",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系6962，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2026年款；基本型、预售和未售占位剔除。3条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-7793",
+    "title": "汽车之家小米YU7公开具体车型事实",
+    "url": "https://www.autohome.com.cn/7793/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 54d200ce798ea59d2623d83726ae93ee022d9675111277788074b3df6e98cf18",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系7793，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2026年款；基本型、预售和未售占位剔除。2条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-5346",
+    "title": "汽车之家Model 3公开具体车型事实",
+    "url": "https://www.autohome.com.cn/5346/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 47e20200b942abeae68cc5096ab507f3369054c9efd39411e1fc26ac495f84b3",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系5346，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2026年款；基本型、预售和未售占位剔除。4条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  },
+  {
+    "id": "autohome-latest-5769",
+    "title": "汽车之家Model Y公开具体车型事实",
+    "url": "https://www.autohome.com.cn/5769/",
+    "license": "公开页面车型短事实摘录（页面版权归原权利人；非开源整表许可）",
+    "revision": "2026-11-04 公开车型列表快照；输入SHA-256 de1a7dabbe091f7799f9d94c9d65d0c315eb22f534348b5cdae090ba5da7f351",
+    "retrievedAt": "2026-11-04",
+    "description": "由公开品牌列表/品牌SSR核实车系5769，读取车系页自身公开调用的 /web-main/car/series/getspeclistresponse，tagid=1及页面明确列出的停售年款。只保留原名YYYY款与year一致、已上市或停售的2026年款；基本型、预售和未售占位剔除。5条，年款/动力/配置不跨记录组合。只存短事实，不分发图片、报价、完整页面和配置表；不代表当前在售或全量覆盖。"
+  }
+]

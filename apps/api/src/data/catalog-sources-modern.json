@@ -1,0 +1,20 @@
+[
+  {
+    "id": "pylab-autohome-modern-20261016",
+    "title": "PyLab.me 汽车参数公开数据（近年年款与配置快照）",
+    "url": "https://github.com/swoiow/autohome/tree/a5eeb0dbecbbb007bb7ee1cd3afc0b7021f75a26",
+    "license": "CC BY 4.0（数据）；署名 PyLab.me；已筛选和转换字段",
+    "revision": "a5eeb0dbecbbb007bb7ee1cd3afc0b7021f75a26",
+    "retrievedAt": "2026-11-04",
+    "description": "源提交日期2026-10-16不等于车型年款或全部车型数据日期；逐列读取车型名称中明确的2019—2026款，保留同列能源、发动机、电机功率及变速箱事实。剔除错车文件、概念/预售及基本型/高低配等不能确认实际配置的占位记录。数据来源为PyLab.me维护的汽车之家参数快照，可能包含停产车型及源数据疏漏，不代表全部年款/当前在售或原厂保养依据。"
+  },
+  {
+    "id": "pylab-autohome-history-202412",
+    "title": "PyLab.me 汽车参数历史归档（202412标签）",
+    "url": "https://github.com/swoiow/autohome/tree/5d791c2241a1e48f3be9251b913e41e500563f99/vaults/202412",
+    "license": "CC BY 4.0（数据）；署名 PyLab.me；已筛选和转换字段",
+    "revision": "5d791c2241a1e48f3be9251b913e41e500563f99",
+    "retrievedAt": "2026-11-04",
+    "description": "源历史归档标签为202412，归档写入时间为2026-02-24；标签和归档时间都不作为车型年款。只补主快照缺失的明确YYYY款及同列动力/配置，按具体车型specid优先保留较新快照。包含历史/停产车型，非全量在售目录或原厂保养依据。"
+  }
+]

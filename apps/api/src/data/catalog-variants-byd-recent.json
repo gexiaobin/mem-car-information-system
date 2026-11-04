@@ -1,0 +1,3852 @@
+[
+  {
+    "id": "autohome-byd-spec-71069",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 双电机四驱",
+    "trim": "DM-i 135 高性能激光雷达版",
+    "sourceId": "autohome-byd-7977-recent",
+    "sourceEvidence": "汽车之家车系ID=7977；具体车型ID=71069；原名=2025款 135 高性能激光雷达版；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=双电机四驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71041",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 150 领航+版",
+    "sourceId": "autohome-byd-7977-recent",
+    "sourceEvidence": "汽车之家车系ID=7977；具体车型ID=71041；原名=2025款 150 领航+版；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72650",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 150 领航版",
+    "sourceId": "autohome-byd-7977-recent",
+    "sourceEvidence": "汽车之家车系ID=7977；具体车型ID=72650；原名=2025款 150 领航版；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71695",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2025,
+    "power": "纯电动 · 电机530马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 550四驱智驾版",
+    "sourceId": "autohome-byd-6851-recent",
+    "sourceEvidence": "汽车之家车系ID=6851；具体车型ID=71695；原名=2025款 550四驱智驾版；year=2025；燃料=电动；列表马力=530；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71692",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2025,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 550智航版",
+    "sourceId": "autohome-byd-6851-recent",
+    "sourceEvidence": "汽车之家车系ID=6851；具体车型ID=71692；原名=2025款 550智航版；year=2025；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71693",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 610智航版",
+    "sourceId": "autohome-byd-6851-recent",
+    "sourceEvidence": "汽车之家车系ID=6851；具体车型ID=71693；原名=2025款 610智航版；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71694",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 610智驾版",
+    "sourceId": "autohome-byd-6851-recent",
+    "sourceEvidence": "汽车之家车系ID=6851；具体车型ID=71694；原名=2025款 610智驾版；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66475",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2024,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 550标准版",
+    "sourceId": "autohome-byd-6851-recent",
+    "sourceEvidence": "汽车之家车系ID=6851；具体车型ID=66475；原名=2024款 550标准版；year=2024；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-58503",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2024,
+    "power": "纯电动 · 电机530马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 550四驱智航版",
+    "sourceId": "autohome-byd-6851-recent",
+    "sourceEvidence": "汽车之家车系ID=6851；具体车型ID=58503；原名=2024款 550四驱智航版；year=2024；燃料=电动；列表马力=530；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-68250",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2024,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 610长续航版",
+    "sourceId": "autohome-byd-6851-recent",
+    "sourceEvidence": "汽车之家车系ID=6851；具体车型ID=68250；原名=2024款 610长续航版；year=2024；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66476",
+    "modelCatalogId": "autohome-byd-sealion07",
+    "year": 2024,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 610智航版",
+    "sourceId": "autohome-byd-6851-recent",
+    "sourceEvidence": "汽车之家车系ID=6851；具体车型ID=66476；原名=2024款 610智航版；year=2024；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69252",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 112KM 尊贵型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=69252；原名=2025款 DM-i 112KM 尊贵型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69253",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 112KM 尊荣型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=69253；原名=2025款 DM-i 112KM 尊荣型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69254",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 160KM 旗舰型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=69254；原名=2025款 DM-i 160KM 旗舰型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69210",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 160KM 旗舰PLUS",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=69210；原名=2025款 DM-i 160KM 旗舰PLUS；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69209",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 75KM 豪华型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=69209；原名=2025款 DM-i 75KM 豪华型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71470",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 112KM 尊贵型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=71470；原名=2025款 DM-i 智驾版 112KM 尊贵型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71525",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 112KM 尊荣型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=71525；原名=2025款 DM-i 智驾版 112KM 尊荣型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71480",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 160KM 旗舰型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=71480；原名=2025款 DM-i 智驾版 160KM 旗舰型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71657",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 160KM 旗舰PLUS",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=71657；原名=2025款 DM-i 智驾版 160KM 旗舰PLUS；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71656",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 75KM 豪华型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=71656；原名=2025款 DM-i 智驾版 75KM 豪华型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69512",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 520km 豪华型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=69512；原名=2025款 EV 520km 豪华型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69513",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 520km 尊贵型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=69513；原名=2025款 EV 520km 尊贵型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69514",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 605km 旗舰型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=69514；原名=2025款 EV 605km 旗舰型；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71520",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 520km 豪华型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=71520；原名=2025款 EV 智驾版 520km 豪华型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72520",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 520km 领航版",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=72520；原名=2025款 EV 智驾版 520km 领航版；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71524",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 520km 尊贵型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=71524；原名=2025款 EV 智驾版 520km 尊贵型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71481",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 605km 旗舰型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=71481；原名=2025款 EV 智驾版 605km 旗舰型；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66932",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 110km 旗舰型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66932；原名=2024款 荣耀版 DM-i 110km 旗舰型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66933",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 110km 旗舰PLUS",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66933；原名=2024款 荣耀版 DM-i 110km 旗舰PLUS；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66934",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 150km 旗舰PLUS",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66934；原名=2024款 荣耀版 DM-i 150km 旗舰PLUS；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66935",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 150km 旗舰PLUS 5G",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66935；原名=2024款 荣耀版 DM-i 150km 旗舰PLUS 5G；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66931",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 71km 豪华型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66931；原名=2024款 荣耀版 DM-i 71km 豪华型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66936",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 520km 豪华型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66936；原名=2024款 荣耀版 EV 520km 豪华型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66938",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 520km 旗舰型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66938；原名=2024款 荣耀版 EV 520km 旗舰型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66937",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 520km 尊贵型",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66937；原名=2024款 荣耀版 EV 520km 尊贵型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66939",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 605km 旗舰PLUS",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=66939；原名=2024款 荣耀版 EV 605km 旗舰PLUS；year=2024；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67259",
+    "modelCatalogId": "autohome-byd-songplus",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 520km领航荣耀版",
+    "sourceId": "autohome-byd-5761-recent",
+    "sourceEvidence": "汽车之家车系ID=5761；具体车型ID=67259；原名=2024款 EV 520km领航荣耀版；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78957",
+    "modelCatalogId": "official-byd-0a0af3b3b7fe",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-i 350KM 5座 四驱旗舰型",
+    "sourceId": "autohome-byd-8484-recent",
+    "sourceEvidence": "汽车之家车系ID=8484；具体车型ID=78957；原名=2026款 DM-i 350KM 5座 四驱旗舰型；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78857",
+    "modelCatalogId": "official-byd-0a0af3b3b7fe",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-i 350KM 6座 四驱旗舰型",
+    "sourceId": "autohome-byd-8484-recent",
+    "sourceEvidence": "汽车之家车系ID=8484；具体车型ID=78857；原名=2026款 DM-i 350KM 6座 四驱旗舰型；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76343",
+    "modelCatalogId": "official-byd-0a0af3b3b7fe",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 400KM 5座 尊荣型",
+    "sourceId": "autohome-byd-8484-recent",
+    "sourceEvidence": "汽车之家车系ID=8484；具体车型ID=76343；原名=2026款 DM-i 400KM 5座 尊荣型；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-79056",
+    "modelCatalogId": "official-byd-0a0af3b3b7fe",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 400KM 6座 尊荣型",
+    "sourceId": "autohome-byd-8484-recent",
+    "sourceEvidence": "汽车之家车系ID=8484；具体车型ID=79056；原名=2026款 DM-i 400KM 6座 尊荣型；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77791",
+    "modelCatalogId": "official-byd-0a0af3b3b7fe",
+    "year": 2026,
+    "power": "纯电动 · 电机796马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 800KM 5座 四驱旗舰型",
+    "sourceId": "autohome-byd-8484-recent",
+    "sourceEvidence": "汽车之家车系ID=8484；具体车型ID=77791；原名=2026款 EV 800KM 5座 四驱旗舰型；year=2026；燃料=电动；列表马力=796；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=电动 796马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77793",
+    "modelCatalogId": "official-byd-0a0af3b3b7fe",
+    "year": 2026,
+    "power": "纯电动 · 电机796马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 800KM 6座 四驱旗舰型",
+    "sourceId": "autohome-byd-8484-recent",
+    "sourceEvidence": "汽车之家车系ID=8484；具体车型ID=77793；原名=2026款 EV 800KM 6座 四驱旗舰型；year=2026；燃料=电动；列表马力=796；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=电动 796马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-79055",
+    "modelCatalogId": "official-byd-0a0af3b3b7fe",
+    "year": 2026,
+    "power": "纯电动 · 电机503马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 900KM 5座 尊荣型",
+    "sourceId": "autohome-byd-8484-recent",
+    "sourceEvidence": "汽车之家车系ID=8484；具体车型ID=79055；原名=2026款 EV 900KM 5座 尊荣型；year=2026；燃料=电动；列表马力=503；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 503马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77792",
+    "modelCatalogId": "official-byd-0a0af3b3b7fe",
+    "year": 2026,
+    "power": "纯电动 · 电机503马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 900KM 6座 尊荣型",
+    "sourceId": "autohome-byd-8484-recent",
+    "sourceEvidence": "汽车之家车系ID=8484；具体车型ID=77792；原名=2026款 EV 900KM 6座 尊荣型；year=2026；燃料=电动；列表马力=503；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 503马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78462",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 210KM领航版",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=78462；原名=2026款 DM-i 210KM领航版；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72525",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2026,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 545KM领航版",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=72525；原名=2026款 EV 545KM领航版；year=2026；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 218马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71472",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 120KM超越型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=71472；原名=2025款 DM-i 智驾版 120KM超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72526",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 120KM领航版",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=72526；原名=2025款 DM-i 智驾版 120KM领航版；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71471",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 120KM领先型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=71471；原名=2025款 DM-i 智驾版 120KM领先型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71678",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 120KM卓越型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=71678；原名=2025款 DM-i 智驾版 120KM卓越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71490",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 80KM超越型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=71490；原名=2025款 DM-i 智驾版 80KM超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71532",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 80KM领先型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=71532；原名=2025款 DM-i 智驾版 80KM领先型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71455",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "纯电动 · 电机150马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 470KM领先型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=71455；原名=2025款 EV 470KM领先型；year=2025；燃料=电动；列表马力=150；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 150马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72107",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 545KM超越型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=72107；原名=2025款 EV 545KM超越型；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 218马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-74467",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 545KM云辇型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=74467；原名=2025款 EV 545KM云辇型；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 218马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70666",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 545KM卓越型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=70666；原名=2025款 EV 545KM卓越型；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66646",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 120KM超越型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=66646；原名=2024款 DM-i 120KM超越型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-68231",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 120KM领先型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=68231；原名=2024款 DM-i 120KM领先型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66500",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 120KM卓越型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=66500；原名=2024款 DM-i 120KM卓越型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67873",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 80KM超越型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=67873；原名=2024款 DM-i 80KM超越型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66645",
+    "modelCatalogId": "official-byd-0a0b710489dc",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 80KM领先型",
+    "sourceId": "autohome-byd-7578-recent",
+    "sourceEvidence": "汽车之家车系ID=7578；具体车型ID=66645；原名=2024款 DM-i 80KM领先型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69392",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2025,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "510标准版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=69392；原名=2025款 510标准版；year=2025；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71663",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2025,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "510智航版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=71663；原名=2025款 510智航版；year=2025；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69394",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2025,
+    "power": "纯电动 · 电机530马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "600四驱智驾版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=69394；原名=2025款 600四驱智驾版；year=2025；燃料=电动；列表马力=530；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69345",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "650长续航版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=69345；原名=2025款 650长续航版；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71664",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "650智航版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=71664；原名=2025款 650智航版；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69393",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "650智驾版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=69393；原名=2025款 650智驾版；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71666",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2025,
+    "power": "纯电动 · 电机530马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "改款 600四驱智驾版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=71666；原名=2025款 改款 600四驱智驾版；year=2025；燃料=电动；列表马力=530；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71665",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "改款 650智驾版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=71665；原名=2025款 改款 650智驾版；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67380",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "荣耀版 550km 精英型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=67380；原名=2024款 荣耀版 550km 精英型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67381",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "荣耀版 550km 尊贵型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=67381；原名=2024款 荣耀版 550km 尊贵型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67384",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "纯电动 · 电机530马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "荣耀版 650km 四驱性能版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=67384；原名=2024款 荣耀版 650km 四驱性能版；year=2024；燃料=电动；列表马力=530；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67383",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "荣耀版 700km 性能版",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=67383；原名=2024款 荣耀版 700km 性能版；year=2024；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67382",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "荣耀版 700km 尊贵型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=67382；原名=2024款 荣耀版 700km 尊贵型；year=2024；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66926",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 1.5L 121km 豪华型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=66926；原名=2024款 荣耀版 DM-i 1.5L 121km 豪华型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66925",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 1.5L 121km 精英型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=66925；原名=2024款 荣耀版 DM-i 1.5L 121km 精英型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66927",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 1.5L 121km 尊贵型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=66927；原名=2024款 荣耀版 DM-i 1.5L 121km 尊贵型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66929",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 1.5T 121km 旗舰型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=66929；原名=2024款 荣耀版 DM-i 1.5T 121km 旗舰型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66928",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 1.5T 121km 尊荣型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=66928；原名=2024款 荣耀版 DM-i 1.5T 121km 尊荣型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66930",
+    "modelCatalogId": "official-byd-1c9a2d02946a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 1.5T 200km 旗舰型",
+    "sourceId": "autohome-byd-6394-recent",
+    "sourceEvidence": "汽车之家车系ID=6394；具体车型ID=66930；原名=2024款 荣耀版 DM-i 1.5T 200km 旗舰型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69068",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2025,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "305km 活力版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=69068；原名=2025款 305km 活力版；year=2025；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69069",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2025,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "305km 自由版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=69069；原名=2025款 305km 自由版；year=2025；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69070",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2025,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "405km 飞翔版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=69070；原名=2025款 405km 飞翔版；year=2025；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71690",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2025,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 305km 活力版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=71690；原名=2025款 智驾版 305km 活力版；year=2025；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71691",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2025,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 305km 自由版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=71691；原名=2025款 智驾版 305km 自由版；year=2025；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71065",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2025,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 405km 飞翔版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=71065；原名=2025款 智驾版 405km 飞翔版；year=2025；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73635",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2025,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 405km 自在版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=73635；原名=2025款 智驾版 405km 自在版；year=2025；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67024",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2024,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 305km 活力版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=67024；原名=2024款 荣耀版 305km 活力版；year=2024；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67025",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2024,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 305km 自由版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=67025；原名=2024款 荣耀版 305km 自由版；year=2024；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67026",
+    "modelCatalogId": "official-byd-249e59a0aa56",
+    "year": 2024,
+    "power": "纯电动 · 电机75马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 405km 飞翔版",
+    "sourceId": "autohome-byd-6762-recent",
+    "sourceEvidence": "汽车之家车系ID=6762；具体车型ID=67026；原名=2024款 荣耀版 405km 飞翔版；year=2024；燃料=电动；列表马力=75；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10011-9373d8d34905",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2025,
+    "power": "纯电动 · 交流永磁同步电机 70 kW",
+    "trim": "活力版",
+    "sourceId": "official-byd-10011-2025-recent-variants",
+    "sourceEvidence": "官方表头=2025款海豚参数表及配置表；车型列=1；配置=活力版；电机类型=交流永磁同步电机；电机最大功率=70 kW；电池容量=44.928 kWh。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10011-9d82038a10f6",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2025,
+    "power": "纯电动 · 交流永磁同步电机 150 kW",
+    "trim": "骑士版",
+    "sourceId": "official-byd-10011-2025-recent-variants",
+    "sourceEvidence": "官方表头=2025款海豚参数表及配置表；车型列=4；配置=骑士版；电机类型=交流永磁同步电机；电机最大功率=150 kW；电池容量=60.48 kWh。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10011-75e29f42eae6",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2025,
+    "power": "纯电动 · 交流永磁同步电机 70 kW",
+    "trim": "时尚版",
+    "sourceId": "official-byd-10011-2025-recent-variants",
+    "sourceEvidence": "官方表头=2025款海豚参数表及配置表；车型列=3；配置=时尚版；电机类型=交流永磁同步电机；电机最大功率=70 kW；电池容量=44.928 kWh。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71049",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2025,
+    "power": "纯电动 · 电机177马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 410km 时尚版",
+    "sourceId": "autohome-byd-6139-recent",
+    "sourceEvidence": "汽车之家车系ID=6139；具体车型ID=71049；原名=2025款 智驾版 410km 时尚版；year=2025；燃料=电动；列表马力=177；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 177马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71048",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2025,
+    "power": "纯电动 · 电机95马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 420km 自由版",
+    "sourceId": "autohome-byd-6139-recent",
+    "sourceEvidence": "汽车之家车系ID=6139；具体车型ID=71048；原名=2025款 智驾版 420km 自由版；year=2025；燃料=电动；列表马力=95；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 95马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71050",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 520km 骑士版",
+    "sourceId": "autohome-byd-6139-recent",
+    "sourceEvidence": "汽车之家车系ID=6139；具体车型ID=71050；原名=2025款 智驾版 520km 骑士版；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 204马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10011-4200ce5895b5",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2025,
+    "power": "纯电动 · 交流永磁同步电机 70 kW",
+    "trim": "自由版",
+    "sourceId": "official-byd-10011-2025-recent-variants",
+    "sourceEvidence": "官方表头=2025款海豚参数表及配置表；车型列=2；配置=自由版；电机类型=交流永磁同步电机；电机最大功率=70 kW；电池容量=44.928 kWh。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66812",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2024,
+    "power": "纯电动 · 电机95马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 302km 活力版",
+    "sourceId": "autohome-byd-6139-recent",
+    "sourceEvidence": "汽车之家车系ID=6139；具体车型ID=66812；原名=2024款 荣耀版 302km 活力版；year=2024；燃料=电动；列表马力=95；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66578",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2024,
+    "power": "纯电动 · 电机177马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 401km 骑士版",
+    "sourceId": "autohome-byd-6139-recent",
+    "sourceEvidence": "汽车之家车系ID=6139；具体车型ID=66578；原名=2024款 荣耀版 401km 骑士版；year=2024；燃料=电动；列表马力=177；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66577",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2024,
+    "power": "纯电动 · 电机95马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 420km 时尚版",
+    "sourceId": "autohome-byd-6139-recent",
+    "sourceEvidence": "汽车之家车系ID=6139；具体车型ID=66577；原名=2024款 荣耀版 420km 时尚版；year=2024；燃料=电动；列表马力=95；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66576",
+    "modelCatalogId": "official-byd-50d06054a2aa",
+    "year": 2024,
+    "power": "纯电动 · 电机95马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 420km 自由版",
+    "sourceId": "autohome-byd-6139-recent",
+    "sourceEvidence": "汽车之家车系ID=6139；具体车型ID=66576；原名=2024款 荣耀版 420km 自由版；year=2024；燃料=电动；列表马力=95；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-74038",
+    "modelCatalogId": "official-byd-593fee340770",
+    "year": 2025,
+    "power": "纯电动 · 电机95马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "301KM 领航型",
+    "sourceId": "autohome-byd-7538-recent",
+    "sourceEvidence": "汽车之家车系ID=7538；具体车型ID=74038；原名=2025款 301KM 领航型；year=2025；燃料=电动；列表马力=95；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 95马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71684",
+    "modelCatalogId": "official-byd-593fee340770",
+    "year": 2025,
+    "power": "纯电动 · 电机177马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 401KM 超越型",
+    "sourceId": "autohome-byd-7538-recent",
+    "sourceEvidence": "汽车之家车系ID=7538；具体车型ID=71684；原名=2025款 智驾版 401KM 超越型；year=2025；燃料=电动；列表马力=177；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 177马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71683",
+    "modelCatalogId": "official-byd-593fee340770",
+    "year": 2025,
+    "power": "纯电动 · 电机95马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 401KM 活力版",
+    "sourceId": "autohome-byd-7538-recent",
+    "sourceEvidence": "汽车之家车系ID=7538；具体车型ID=71683；原名=2025款 智驾版 401KM 活力版；year=2025；燃料=电动；列表马力=95；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 95马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71256",
+    "modelCatalogId": "official-byd-593fee340770",
+    "year": 2025,
+    "power": "纯电动 · 电机177马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 401KM 领先型",
+    "sourceId": "autohome-byd-7538-recent",
+    "sourceEvidence": "汽车之家车系ID=7538；具体车型ID=71256；原名=2025款 智驾版 401KM 领先型；year=2025；燃料=电动；列表马力=177；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 177马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66138",
+    "modelCatalogId": "official-byd-593fee340770",
+    "year": 2024,
+    "power": "纯电动 · 电机95马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "301KM 领先型",
+    "sourceId": "autohome-byd-7538-recent",
+    "sourceEvidence": "汽车之家车系ID=7538；具体车型ID=66138；原名=2024款 301KM 领先型；year=2024；燃料=电动；列表马力=95；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66139",
+    "modelCatalogId": "official-byd-593fee340770",
+    "year": 2024,
+    "power": "纯电动 · 电机177马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "401KM 超越型",
+    "sourceId": "autohome-byd-7538-recent",
+    "sourceEvidence": "汽车之家车系ID=7538；具体车型ID=66139；原名=2024款 401KM 超越型；year=2024；燃料=电动；列表马力=177；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69175",
+    "modelCatalogId": "official-byd-593fee340770",
+    "year": 2024,
+    "power": "纯电动 · 电机95马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "401KM 活力版",
+    "sourceId": "autohome-byd-7538-recent",
+    "sourceEvidence": "汽车之家车系ID=7538；具体车型ID=69175；原名=2024款  401KM 活力版；year=2024；燃料=电动；列表马力=95；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67007",
+    "modelCatalogId": "official-byd-593fee340770",
+    "year": 2024,
+    "power": "纯电动 · 电机177马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "401KM 领先型",
+    "sourceId": "autohome-byd-7538-recent",
+    "sourceEvidence": "汽车之家车系ID=7538；具体车型ID=67007；原名=2024款 401KM 领先型；year=2024；燃料=电动；列表马力=177；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71702",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "智驾版 DM-i 115KM 激光雷达旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=71702；原名=2025款 智驾版 DM-i 115KM 激光雷达旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71701",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "智驾版 DM-i 115KM 旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=71701；原名=2025款 智驾版 DM-i 115KM 旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71699",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "智驾版 DM-i 115KM 尊贵型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=71699；原名=2025款 智驾版 DM-i 115KM 尊贵型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71700",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "智驾版 DM-i 115KM 尊荣型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=71700；原名=2025款 智驾版 DM-i 115KM 尊荣型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-74551",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "智驾版 DM-i 175KM 激光雷达旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=74551；原名=2025款 智驾版 DM-i 175KM 激光雷达旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-74600",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "智驾版 DM-i 175KM 尊贵型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=74600；原名=2025款 智驾版 DM-i 175KM 尊贵型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-74564",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "智驾版 DM-i 175KM 尊荣型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=74564；原名=2025款 智驾版 DM-i 175KM 尊荣型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70476",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 115KM 旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=70476；原名=2025款 DM-i 115KM 旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70454",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 115KM 云辇旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=70454；原名=2025款 DM-i 115KM 云辇旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70475",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 115KM 尊贵型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=70475；原名=2025款 DM-i 115KM 尊贵型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70416",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 115KM 尊荣型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=70416；原名=2025款 DM-i 115KM 尊荣型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72478",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 175KM 领航版",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=72478；原名=2025款 DM-i 175KM 领航版；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67879",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "改款 DM-p 战神版",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=67879；原名=2024款 改款 DM-p 战神版；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-64461",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 冠军版 200KM 尊享型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=64461；原名=2024款 DM-i 冠军版 200KM 尊享型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66775",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 112KM 旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=66775；原名=2024款 DM-i 荣耀版 112KM 旗舰型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66857",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 112KM 尊贵型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=66857；原名=2024款 DM-i 荣耀版 112KM 尊贵型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66835",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 112KM 尊荣型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=66835；原名=2024款 DM-i 荣耀版 112KM 尊荣型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66858",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 200KM 旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=66858；原名=2024款 DM-i 荣耀版 200KM 旗舰型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-64322",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-p 冠军版 215KM 四驱旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=64322；原名=2024款 DM-p 冠军版 215KM 四驱旗舰型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-64459",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-p 冠军版 215KM 四驱尊享型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=64459；原名=2024款 DM-p 冠军版 215KM 四驱尊享型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67878",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-p 荣耀版 215KM 四驱旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=67878；原名=2024款 DM-p 荣耀版 215KM 四驱旗舰型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67877",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-p 荣耀版 215KM 四驱尊享型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=67877；原名=2024款 DM-p 荣耀版 215KM 四驱尊享型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-64320",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-p 战神版",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=64320；原名=2024款 DM-p 战神版；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-64460",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "纯电动 · 电机228马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 冠军版 600KM 尊享型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=64460；原名=2024款 EV 冠军版 600KM 尊享型；year=2024；燃料=电动；列表马力=228；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-64323",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "纯电动 · 电机517马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 冠军版 635KM 四驱旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=64323；原名=2024款 EV 冠军版 635KM 四驱旗舰型；year=2024；燃料=电动；列表马力=517；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-64321",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 冠军版 730KM 尊享型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=64321；原名=2024款 EV 冠军版 730KM 尊享型；year=2024；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67874",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "纯电动 · 电机228马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 荣耀版 600KM 尊享型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=67874；原名=2024款 EV 荣耀版 600KM 尊享型；year=2024；燃料=电动；列表马力=228；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67876",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "纯电动 · 电机517马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 荣耀版 635KM 四驱旗舰型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=67876；原名=2024款 EV 荣耀版 635KM 四驱旗舰型；year=2024；燃料=电动；列表马力=517；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67875",
+    "modelCatalogId": "official-byd-5ca5981535bf",
+    "year": 2024,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 荣耀版 730KM 尊享型",
+    "sourceId": "autohome-byd-3430-recent",
+    "sourceEvidence": "汽车之家车系ID=3430；具体车型ID=67875；原名=2024款 EV 荣耀版 730KM 尊享型；year=2024；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-152-8d94123f3911",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 电机120 kW · EHS电混系统",
+    "trim": "DM-i 128KM进取型",
+    "sourceId": "official-byd-152-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款秦PLUS DM-i；车型列=1；配置=128KM进取型；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；电机最大功率=120 kW；电池容量=15.87 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-152-04a34a2d5af0",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 电机120 kW · EHS电混系统",
+    "trim": "DM-i 210KM超越型",
+    "sourceId": "official-byd-152-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款秦PLUS DM-i；车型列=3；配置=210KM超越型；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；电机最大功率=120 kW；电池容量=25.28 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-152-082161f2f144",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 电机120 kW · EHS电混系统",
+    "trim": "DM-i 210KM进取型",
+    "sourceId": "official-byd-152-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款秦PLUS DM-i；车型列=2；配置=210KM进取型；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；电机最大功率=120 kW；电池容量=25.28 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71686",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 120KM超越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=71686；原名=2025款 DM-i 智驾版 120KM超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-74790",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 128KM进取型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=74790；原名=2025款 DM-i 智驾版 128KM进取型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71685",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 55KM超越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=71685；原名=2025款 DM-i 智驾版 55KM超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71504",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 55KM领先型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=71504；原名=2025款 DM-i 智驾版 55KM领先型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72103",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 510KM 标准版",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=72103；原名=2025款 EV 510KM 标准版；year=2025；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 136马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72442",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 510KM 畅行版",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=72442；原名=2025款 EV 510KM 畅行版；year=2025；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 136马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-74863",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 420KM进取型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=74863；原名=2025款 EV 智驾版 420KM进取型；year=2025；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 136马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71687",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 420KM领先型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=71687；原名=2025款 EV 智驾版 420KM领先型；year=2025；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 136马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71689",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 510KM超越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=71689；原名=2025款 EV 智驾版 510KM超越型；year=2025；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 136马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-74866",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 510KM进取型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=74866；原名=2025款 EV 智驾版 510KM进取型；year=2025；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 136马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72524",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 510KM领航版",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=72524；原名=2025款 EV 智驾版 510KM领航版；year=2025；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 136马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71688",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2025,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 510KM领先型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=71688；原名=2025款 EV 智驾版 510KM领先型；year=2025；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 136马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66746",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 120KM超越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66746；原名=2024款  荣耀版 DM-i 120KM超越型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66745",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 120KM领先型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66745；原名=2024款 荣耀版 DM-i 120KM领先型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66733",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 120KM卓越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66733；原名=2024款 荣耀版 DM-i 120KM卓越型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66744",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 55KM超越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66744；原名=2024款 荣耀版 DM-i 55KM超越型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66743",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 55KM领先型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66743；原名=2024款 荣耀版 DM-i 55KM领先型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66748",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 420KM超越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66748；原名=2024款 荣耀版 EV 420KM超越型；year=2024；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66747",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 420KM领先型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66747；原名=2024款 荣耀版 EV 420KM领先型；year=2024；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66750",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 510KM超越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66750；原名=2024款 荣耀版 EV 510KM超越型；year=2024；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66749",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 510KM领先型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66749；原名=2024款 荣耀版 EV 510KM领先型；year=2024；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66751",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "纯电动 · 电机136马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 EV 510KM卓越型",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=66751；原名=2024款 荣耀版 EV 510KM卓越型；year=2024；燃料=电动；列表马力=136；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67266",
+    "modelCatalogId": "official-byd-723bf5eeb0bb",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 120KM领航荣耀版",
+    "sourceId": "autohome-byd-5964-recent",
+    "sourceEvidence": "汽车之家车系ID=5964；具体车型ID=67266；原名=2024款 DM-i 120KM领航荣耀版；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77914",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2026,
+    "power": "纯电动 · 电机272马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "540KM 超越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=77914；原名=2026款 540KM 超越型；year=2026；燃料=电动；列表马力=272；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 272马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75165",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2026,
+    "power": "纯电动 · 电机272马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "540KM 领先型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=75165；原名=2026款 540KM 领先型；year=2026；燃料=电动；列表马力=272；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 272马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77869",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "630KM 超越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=77869；原名=2026款 630KM 超越型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76816",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "630KM 卓越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=76816；原名=2026款 630KM 卓越型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71427",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 430KM 超越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=71427；原名=2025款 智驾版 430KM 超越型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72031",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 430KM 领先型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=72031；原名=2025款 智驾版 430KM 领先型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71852",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 510KM 超越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=71852；原名=2025款 智驾版 510KM 超越型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71817",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 510KM 领先型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=71817；原名=2025款 智驾版 510KM 领先型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71918",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "智驾版 510KM 卓越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=71918；原名=2025款 智驾版 510KM 卓越型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66989",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 430KM 超越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=66989；原名=2024款 荣耀版 430KM 超越型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66988",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 430KM 领先型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=66988；原名=2024款 荣耀版 430KM 领先型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66991",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 510KM 超越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=66991；原名=2024款 荣耀版 510KM 超越型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66990",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 510KM 领先型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=66990；原名=2024款 荣耀版 510KM 领先型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66992",
+    "modelCatalogId": "official-byd-73a86fff992e",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "荣耀版 510KM 卓越型",
+    "sourceId": "autohome-byd-6298-recent",
+    "sourceEvidence": "汽车之家车系ID=6298；具体车型ID=66992；原名=2024款 荣耀版 510KM 卓越型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10051-9076d6641845",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 前电机160 kW · EHS电混系统",
+    "trim": "DM-i 205领航版",
+    "sourceId": "official-byd-10051-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款海狮06DM-i配置表及参数表；车型列=1；配置=205领航版；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；前电机最大功率=160 kW；电池容量=26.6 kWh；变速系统=EHS电混系统；驱动形式=前驱。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10051-76784aa5c9b1",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 前电机160 kW · EHS电混系统",
+    "trim": "DM-i 205领航Pro版",
+    "sourceId": "official-byd-10051-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款海狮06DM-i配置表及参数表；车型列=2；配置=205领航Pro版；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；前电机最大功率=160 kW；电池容量=26.6 kWh；变速系统=EHS电混系统；驱动形式=前驱。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10051-18a4a78e6f2f",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 前电机175 kW · EHS电混系统",
+    "trim": "DM-i 310旗舰版",
+    "sourceId": "official-byd-10051-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款海狮06DM-i配置表及参数表；车型列=4；配置=310旗舰版；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；前电机最大功率=175 kW；电池容量=38 kWh；变速系统=EHS电混系统；驱动形式=前驱。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10051-09806f1fa9f3",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 前电机175 kW · EHS电混系统",
+    "trim": "DM-i 310远航版",
+    "sourceId": "official-byd-10051-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款海狮06DM-i配置表及参数表；车型列=3；配置=310远航版；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；前电机最大功率=175 kW；电池容量=38 kWh；变速系统=EHS电混系统；驱动形式=前驱。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10041-184e8bef8feb",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "纯电动 · 永磁同步电机 240 kW · 后置后驱",
+    "trim": "EV 605领航版",
+    "sourceId": "official-byd-10041-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款海狮06EV配置表及参数表；车型列=1；配置=605领航版；电机类型=永磁同步电机；后电机最大功率=240 kW；电池容量=69.07 kWh；驱动形式=后置后驱。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10041-9758d70f71dc",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "纯电动 · 永磁同步电机 240 kW · 后置后驱",
+    "trim": "EV 605旗舰版",
+    "sourceId": "official-byd-10041-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款海狮06EV配置表及参数表；车型列=3；配置=605旗舰版；电机类型=永磁同步电机；后电机最大功率=240 kW；电池容量=69.07 kWh；驱动形式=后置后驱。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77915",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "纯电动 · 电机367马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 710领航闪充版",
+    "sourceId": "autohome-byd-8087-recent",
+    "sourceEvidence": "汽车之家车系ID=8087；具体车型ID=77915；原名=2026款 EV 710领航闪充版；year=2026；燃料=电动；列表马力=367；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 367马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10041-d4a29477ed3a",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "纯电动 · 永磁同步电机 270 kW · 后置后驱",
+    "trim": "EV 710远航版",
+    "sourceId": "official-byd-10041-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款海狮06EV配置表及参数表；车型列=2；配置=710远航版；电机类型=永磁同步电机；后电机最大功率=270 kW；电池容量=82.73 kWh；驱动形式=后置后驱。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-10041-fbcba0190470",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2026,
+    "power": "纯电动 · 永磁同步电机 270 kW · 后置后驱",
+    "trim": "EV 710远航旗舰版",
+    "sourceId": "official-byd-10041-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款海狮06EV配置表及参数表；车型列=4；配置=710远航旗舰版；电机类型=永磁同步电机；后电机最大功率=270 kW；电池容量=82.73 kWh；驱动形式=后置后驱。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72638",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 132领航版",
+    "sourceId": "autohome-byd-8087-recent",
+    "sourceEvidence": "汽车之家车系ID=8087；具体车型ID=72638；原名=2025款 DM-i 132领航版；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73631",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 205领航Plus版",
+    "sourceId": "autohome-byd-8087-recent",
+    "sourceEvidence": "汽车之家车系ID=8087；具体车型ID=73631；原名=2025款 DM-i 205领航Plus版；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73630",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 205领航Pro版",
+    "sourceId": "autohome-byd-8087-recent",
+    "sourceEvidence": "汽车之家车系ID=8087；具体车型ID=73630；原名=2025款 DM-i 205领航Pro版；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73709",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2025,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 520领航版",
+    "sourceId": "autohome-byd-8087-recent",
+    "sourceEvidence": "汽车之家车系ID=8087；具体车型ID=73709；原名=2025款 EV 520领航版；year=2025；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73633",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2025,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 605领航Plus版",
+    "sourceId": "autohome-byd-8087-recent",
+    "sourceEvidence": "汽车之家车系ID=8087；具体车型ID=73633；原名=2025款 EV 605领航Plus版；year=2025；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73632",
+    "modelCatalogId": "official-byd-7aaf1f2e1814",
+    "year": 2025,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 605领航Pro版",
+    "sourceId": "autohome-byd-8087-recent",
+    "sourceEvidence": "汽车之家车系ID=8087；具体车型ID=73632；原名=2025款 EV 605领航Pro版；year=2025；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76541",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 245KM领航版",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=76541；原名=2026款 DM-i 智驾版 245KM领航版；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76540",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2026,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 635KM领航版",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=76540；原名=2026款 EV 智驾版 635KM领航版；year=2026；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 231马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77297",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 705KM闪充尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=77297；原名=2026款 EV 智驾版 705KM闪充尊贵型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77668",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 705KM闪充尊荣型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=77668；原名=2026款 EV 智驾版 705KM闪充尊荣型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69144",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 125KM激光雷达智驾型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69144；原名=2025款 DM-i 125KM激光雷达智驾型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69143",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 125KM精英型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69143；原名=2025款 DM-i 125KM精英型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69815",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 125KM舒适型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69815；原名=2025款 DM-i 125KM舒适型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69816",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 125KM尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69816；原名=2025款 DM-i 125KM尊贵型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69817",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 125KM尊荣型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69817；原名=2025款 DM-i 125KM尊荣型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71707",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 125KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71707；原名=2025款 DM-i 智驾版 125KM激光雷达旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71533",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 125KM精英型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71533；原名=2025款 DM-i 智驾版 125KM精英型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72515",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 125KM领航版",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=72515；原名=2025款 DM-i 智驾版 125KM领航版；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71705",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 125KM舒适型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71705；原名=2025款 DM-i 智驾版 125KM舒适型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71534",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 125KM尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71534；原名=2025款 DM-i 智驾版 125KM尊贵型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71706",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 125KM尊荣型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71706；原名=2025款 DM-i 智驾版 125KM尊荣型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75192",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 245KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=75192；原名=2025款 DM-i 智驾版 245KM激光雷达旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75199",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 245KM舒适型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=75199；原名=2025款 DM-i 智驾版 245KM舒适型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75104",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 245KM尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=75104；原名=2025款 DM-i 智驾版 245KM尊贵型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75106",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 245KM尊荣型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=75106；原名=2025款 DM-i 智驾版 245KM尊荣型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69142",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 506KM尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69142；原名=2025款 EV 506KM尊贵型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69813",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机228马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 605KM尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69813；原名=2025款 EV 605KM尊贵型；year=2025；燃料=电动；列表马力=228；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69802",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 701KM激光雷达智驾型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69802；原名=2025款 EV 701KM激光雷达智驾型；year=2025；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69814",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 701KM尊享型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=69814；原名=2025款 EV 701KM尊享型；year=2025；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71535",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 506KM尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71535；原名=2025款 EV 智驾版 506KM尊贵型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 204马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72514",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机228马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 605KM领航版",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=72514；原名=2025款 EV 智驾版 605KM领航版；year=2025；燃料=电动；列表马力=228；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 228马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71591",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机228马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 605KM尊荣型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71591；原名=2025款 EV 智驾版 605KM尊荣型；year=2025；燃料=电动；列表马力=228；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 228马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75188",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 635KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=75188；原名=2025款 EV 智驾版 635KM激光雷达旗舰型；year=2025；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 231马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75061",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 635KM旗舰版",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=75061；原名=2025款 EV 智驾版 635KM旗舰版；year=2025；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 231马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71704",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 701KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71704；原名=2025款 EV 智驾版 701KM激光雷达旗舰型；year=2025；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71703",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 701KM激光雷达尊享型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71703；原名=2025款 EV 智驾版 701KM激光雷达尊享型；year=2025；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71623",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 701KM尊荣型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=71623；原名=2025款 EV 智驾版 701KM尊荣型；year=2025；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75198",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2025,
+    "power": "纯电动 · 电机231马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 智驾版 705KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=75198；原名=2025款 EV 智驾版 705KM激光雷达旗舰型；year=2025；燃料=电动；列表马力=231；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=电动 231马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-67270",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 121KM领航荣耀版",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=67270；原名=2024款 DM-i 121KM领航荣耀版；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66906",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 121KM 精英型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66906；原名=2024款 DM-i 荣耀版 121KM 精英型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66753",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 121KM 尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66753；原名=2024款 DM-i 荣耀版 121KM 尊贵型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66907",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 121KM 尊荣型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66907；原名=2024款 DM-i 荣耀版 121KM 尊荣型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66773",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 121KM 尊享型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66773；原名=2024款 DM-i 荣耀版 121KM 尊享型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66908",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 荣耀版 200KM 旗舰型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66908；原名=2024款 DM-i 荣耀版 200KM 旗舰型；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66909",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机139马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-p 战神版",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66909；原名=2024款 DM-p 战神版；year=2024；燃料=插电式混合动力；列表马力=139；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66902",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 荣耀版 506KM前驱尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66902；原名=2024款 EV 荣耀版 506KM前驱尊贵型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66903",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "纯电动 · 电机228马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 荣耀版 605KM前驱尊贵型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66903；原名=2024款 EV 荣耀版 605KM前驱尊贵型；year=2024；燃料=电动；列表马力=228；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66905",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "纯电动 · 电机517马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 荣耀版 610KM四驱天神之眼智驾型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66905；原名=2024款 EV 荣耀版 610KM四驱天神之眼智驾型；year=2024；燃料=电动；列表马力=517；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66774",
+    "modelCatalogId": "official-byd-80fa989e6884",
+    "year": 2024,
+    "power": "纯电动 · 电机245马力 · 电动车单速变速箱 · 前置前驱",
+    "trim": "EV 荣耀版 715KM前驱旗舰型",
+    "sourceId": "autohome-byd-5499-recent",
+    "sourceEvidence": "汽车之家车系ID=5499；具体车型ID=66774；原名=2024款 EV 荣耀版 715KM前驱旗舰型；year=2024；燃料=电动；列表马力=245；变速箱=电动车单速变速箱；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-151-da923f626fdc",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5T高效发动机 115 kW · 电机200 kW · EHS电混系统",
+    "trim": "DM-i 100KM超越型",
+    "sourceId": "official-byd-151-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款夏；车型列=2；配置=100KM超越型；发动机=插混专用1.5T高效发动机；发动机最大功率=115 kW；电机最大功率=200 kW；电池容量=20.39 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-151-99c728892fca",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5T高效发动机 115 kW · 电机200 kW · EHS电混系统",
+    "trim": "DM-i 100KM进取型",
+    "sourceId": "official-byd-151-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款夏；车型列=1；配置=100KM进取型；发动机=插混专用1.5T高效发动机；发动机最大功率=115 kW；电机最大功率=200 kW；电池容量=20.39 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-151-d60253a488ba",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5T高效发动机 115 kW · 电机200 kW · EHS电混系统",
+    "trim": "DM-i 218KM超越型",
+    "sourceId": "official-byd-151-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款夏；车型列=3；配置=218KM超越型；发动机=插混专用1.5T高效发动机；发动机最大功率=115 kW；电机最大功率=200 kW；电池容量=36.6 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-151-d5e1fa88aa20",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5T高效发动机 115 kW · 电机200 kW · EHS电混系统",
+    "trim": "DM-i 218KM卓越型",
+    "sourceId": "official-byd-151-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款夏；车型列=4；配置=218KM卓越型；发动机=插混专用1.5T高效发动机；发动机最大功率=115 kW；电机最大功率=200 kW；电池容量=36.6 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-151-dde660314abe",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5T高效发动机 115 kW · 电机200 kW · EHS电混系统",
+    "trim": "DM-i 218KM卓越型 舒享选装包",
+    "sourceId": "official-byd-151-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款夏；车型列=5；配置=218KM卓越型 舒享选装包；发动机=插混专用1.5T高效发动机；发动机最大功率=115 kW；电机最大功率=200 kW；电池容量=36.6 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71227",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5T 100km 超越型",
+    "sourceId": "autohome-byd-7851-recent",
+    "sourceEvidence": "汽车之家车系ID=7851；具体车型ID=71227；原名=2025款 DM-i 1.5T 100km 超越型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72517",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5T 100km 领航版",
+    "sourceId": "autohome-byd-7851-recent",
+    "sourceEvidence": "汽车之家车系ID=7851；具体车型ID=72517；原名=2025款 DM-i 1.5T 100km 领航版；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69726",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5T 100km 领先型",
+    "sourceId": "autohome-byd-7851-recent",
+    "sourceEvidence": "汽车之家车系ID=7851；具体车型ID=69726；原名=2025款 DM-i 1.5T 100km 领先型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71228",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5T 180km 超越型",
+    "sourceId": "autohome-byd-7851-recent",
+    "sourceEvidence": "汽车之家车系ID=7851；具体车型ID=71228；原名=2025款 DM-i 1.5T 180km 超越型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70346",
+    "modelCatalogId": "official-byd-8482432c0274",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5T 180km 卓越型",
+    "sourceId": "autohome-byd-7851-recent",
+    "sourceEvidence": "汽车之家车系ID=7851；具体车型ID=70346；原名=2025款 DM-i 1.5T 180km 卓越型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-79108",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5T 230km 领航版",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=79108；原名=2026款 DM-i 1.5T 230km 领航版；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-79109",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 705领航闪充版",
+    "sourceId": "autohome-byd-8462-recent",
+    "sourceEvidence": "汽车之家车系ID=8462；具体车型ID=79109；原名=2026款 705领航闪充版；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75935",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 705旗舰型",
+    "sourceId": "autohome-byd-8462-recent",
+    "sourceEvidence": "汽车之家车系ID=8462；具体车型ID=75935；原名=2026款 705旗舰型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76710",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 705尊荣型",
+    "sourceId": "autohome-byd-8462-recent",
+    "sourceEvidence": "汽车之家车系ID=8462；具体车型ID=76710；原名=2026款 705尊荣型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69391",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5L 125km 豪华型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=69391；原名=2025款 DM-i 1.5L 125km 豪华型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69390",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5L 125km 精英型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=69390；原名=2025款 DM-i 1.5L 125km 精英型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69348",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5L 125km 尊贵型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=69348；原名=2025款 DM-i 1.5L 125km 尊贵型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69347",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5L 70km 精英型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=69347；原名=2025款 DM-i 1.5L 70km 精英型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69349",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 1.5T 125km 旗舰型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=69349；原名=2025款 DM-i 1.5T 125km 旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71660",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 DM-i 1.5L 125km 豪华型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=71660；原名=2025款 智驾版 DM-i 1.5L 125km 豪华型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71659",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 DM-i 1.5L 125km 精英型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=71659；原名=2025款 智驾版 DM-i 1.5L 125km 精英型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71661",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 DM-i 1.5L 125km 尊贵型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=71661；原名=2025款 智驾版 DM-i 1.5L 125km 尊贵型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71658",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 DM-i 1.5L 70km 精英型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=71658；原名=2025款 智驾版 DM-i 1.5L 70km 精英型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71662",
+    "modelCatalogId": "official-byd-90662fd840e4",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 DM-i 1.5T 125km 旗舰型",
+    "sourceId": "autohome-byd-7822-recent",
+    "sourceEvidence": "汽车之家车系ID=7822；具体车型ID=71662；原名=2025款 智驾版 DM-i 1.5T 125km 旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78679",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 230KM超越型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=78679；原名=2026款 DM-i 230KM超越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78670",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 230KM领先型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=78670；原名=2026款 DM-i 230KM领先型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78693",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 320KM超越型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=78693；原名=2026款 DM-i 320KM超越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78683",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 320KM卓越型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=78683；原名=2026款 DM-i 320KM卓越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78720",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "纯电动 · 电机163马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 530KM超越型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=78720；原名=2026款 EV 530KM超越型；year=2026；燃料=电动；列表马力=163；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 163马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-79107",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "纯电动 · 电机163马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 530KM领航版",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=79107；原名=2026款 EV 530KM领航版；year=2026；燃料=电动；列表马力=163；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 163马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76812",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "纯电动 · 电机163马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 530KM领先型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=76812；原名=2026款 EV 530KM领先型；year=2026；燃料=电动；列表马力=163；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 163马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78722",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "纯电动 · 电机163马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 530KM卓越型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=78722；原名=2026款 EV 530KM卓越型；year=2026；燃料=电动；列表马力=163；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 163马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78704",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 630KM超越型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=78704；原名=2026款 EV 630KM超越型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75936",
+    "modelCatalogId": "official-byd-9c9df0a12433",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 630KM卓越型",
+    "sourceId": "autohome-byd-8463-recent",
+    "sourceEvidence": "汽车之家车系ID=8463；具体车型ID=75936；原名=2026款 EV 630KM卓越型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-150-8f906c6ef080",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 电机160 kW · EHS电混系统",
+    "trim": "DM-i 130KM超越型",
+    "sourceId": "official-byd-150-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款宋L DM-i；车型列=1；配置=130KM超越型；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；电机最大功率=160 kW；电池容量=18.3 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-150-a67dc50b10a5",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 电机160 kW · EHS电混系统",
+    "trim": "DM-i 200KM超越型",
+    "sourceId": "official-byd-150-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款宋L DM-i；车型列=2；配置=200KM超越型；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；电机最大功率=160 kW；电池容量=26.6 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "official-byd-recent-150-e2631f32b932",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2026,
+    "power": "插电混合动力 · 插混专用1.5L高效发动机 74 kW · 电机160 kW · EHS电混系统",
+    "trim": "DM-i 200KM卓越型",
+    "sourceId": "official-byd-150-2026-recent-variants",
+    "sourceEvidence": "官方表头=2026款宋L DM-i；车型列=3；配置=200KM卓越型；发动机=插混专用1.5L高效发动机；发动机最大功率=74 kW；电机最大功率=160 kW；电池容量=26.6 kWh；变速系统=EHS电混系统。全部参数来自同一配置列；不推断系统总功率或保养适用性。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71473",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 112km 超越型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=71473；原名=2025款 智驾版 112km 超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71603",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 112km 领先型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=71603；原名=2025款 智驾版 112km 领先型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71502",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 160km 超越型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=71502；原名=2025款 智驾版 160km 超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71628",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 160km 卓越型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=71628；原名=2025款 智驾版 160km 卓越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71676",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 75km 领先型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=71676；原名=2025款 智驾版 75km 领先型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69742",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 550km 卓越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=69742；原名=2025款 550km 卓越型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-68095",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "纯电动 · 电机517马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 602km 四驱智驾型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=68095；原名=2025款 602km 四驱智驾型；year=2025；燃料=电动；列表马力=517；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69743",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 662km 超越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=69743；原名=2025款 662km 超越型；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69744",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 662km 卓越智驾型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=69744；原名=2025款 662km 卓越智驾型；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71503",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 智驾版 550km 卓越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=71503；原名=2025款 智驾版 550km 卓越型；year=2025；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 204马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71536",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "纯电动 · 电机517马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 智驾版 602km 激光雷达四驱型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=71536；原名=2025款 智驾版 602km 激光雷达四驱型；year=2025；燃料=电动；列表马力=517；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=电动 517马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71679",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 智驾版 662km 超越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=71679；原名=2025款 智驾版 662km 超越型；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 313马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71508",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2025,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 智驾版 662km 激光雷达卓越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=71508；原名=2025款 智驾版 662km 激光雷达卓越型；year=2025；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 313马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69065",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 112km 超越型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=69065；原名=2024款 112km 超越型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-68737",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 112km 领先型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=68737；原名=2024款 112km 领先型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69066",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 160km 超越型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=69066；原名=2024款 160km 超越型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69067",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 160km 卓越型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=69067；原名=2024款 160km 卓越型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69265",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 75km 领先型",
+    "sourceId": "autohome-byd-7815-recent",
+    "sourceEvidence": "汽车之家车系ID=7815；具体车型ID=69265；原名=2024款 75km 领先型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-65516",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 550km 超越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=65516；原名=2024款 550km 超越型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-65517",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "纯电动 · 电机204马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 550km 卓越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=65517；原名=2024款 550km 卓越型；year=2024；燃料=电动；列表马力=204；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-65346",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "纯电动 · 电机517马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 602km 四驱卓越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=65346；原名=2024款 602km 四驱卓越型；year=2024；燃料=电动；列表马力=517；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-65518",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 662km 超越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=65518；原名=2024款 662km 超越型；year=2024；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-65345",
+    "modelCatalogId": "official-byd-bb2c813a0c0a",
+    "year": 2024,
+    "power": "纯电动 · 电机313马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 662km 卓越型",
+    "sourceId": "autohome-byd-7220-recent",
+    "sourceEvidence": "汽车之家车系ID=7220；具体车型ID=65345；原名=2024款 662km 卓越型；year=2024；燃料=电动；列表马力=313；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71292",
+    "modelCatalogId": "official-byd-c2ae24a2f5c3",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 200KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-7859-recent",
+    "sourceEvidence": "汽车之家车系ID=7859；具体车型ID=71292；原名=2025款 DM-i 200KM激光雷达旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72209",
+    "modelCatalogId": "official-byd-c2ae24a2f5c3",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 200KM激光雷达尊享型",
+    "sourceId": "autohome-byd-7859-recent",
+    "sourceEvidence": "汽车之家车系ID=7859；具体车型ID=72209；原名=2025款 DM-i 200KM激光雷达尊享型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71435",
+    "modelCatalogId": "official-byd-c2ae24a2f5c3",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-p 四驱激光雷达旗舰型",
+    "sourceId": "autohome-byd-7859-recent",
+    "sourceEvidence": "汽车之家车系ID=7859；具体车型ID=71435；原名=2025款 DM-p 四驱激光雷达旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71392",
+    "modelCatalogId": "official-byd-c2ae24a2f5c3",
+    "year": 2025,
+    "power": "纯电动 · 电机680马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 701KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-7859-recent",
+    "sourceEvidence": "汽车之家车系ID=7859；具体车型ID=71392；原名=2025款 EV 701KM激光雷达旗舰型；year=2025；燃料=电动；列表马力=680；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 680马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72523",
+    "modelCatalogId": "official-byd-c2ae24a2f5c3",
+    "year": 2025,
+    "power": "纯电动 · 电机680马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 701KM激光雷达尊享型",
+    "sourceId": "autohome-byd-7859-recent",
+    "sourceEvidence": "汽车之家车系ID=7859；具体车型ID=72523；原名=2025款 EV 701KM激光雷达尊享型；year=2025；燃料=电动；列表马力=680；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 680马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71393",
+    "modelCatalogId": "official-byd-c2ae24a2f5c3",
+    "year": 2025,
+    "power": "纯电动 · 电机1102马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 四驱激光雷达旗舰型",
+    "sourceId": "autohome-byd-7859-recent",
+    "sourceEvidence": "汽车之家车系ID=7859；具体车型ID=71393；原名=2025款 EV 四驱激光雷达旗舰型；year=2025；燃料=电动；列表马力=1102；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=电动 1102马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71390",
+    "modelCatalogId": "official-byd-d86203288c47",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM 175KM无人机玩家版",
+    "sourceId": "autohome-byd-8005-recent",
+    "sourceEvidence": "汽车之家车系ID=8005；具体车型ID=71390；原名=2025款 DM 175KM无人机玩家版；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71391",
+    "modelCatalogId": "official-byd-d86203288c47",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM 200KM四驱激光雷达旗舰型",
+    "sourceId": "autohome-byd-8005-recent",
+    "sourceEvidence": "汽车之家车系ID=8005；具体车型ID=71391；原名=2025款 DM 200KM四驱激光雷达旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72208",
+    "modelCatalogId": "official-byd-d86203288c47",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM 215KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-8005-recent",
+    "sourceEvidence": "汽车之家车系ID=8005；具体车型ID=72208；原名=2025款 DM 215KM激光雷达旗舰型；year=2025；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71291",
+    "modelCatalogId": "official-byd-d86203288c47",
+    "year": 2025,
+    "power": "纯电动 · 电机1102马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 600KM四驱激光雷达旗舰型",
+    "sourceId": "autohome-byd-8005-recent",
+    "sourceEvidence": "汽车之家车系ID=8005；具体车型ID=71291；原名=2025款 EV 600KM四驱激光雷达旗舰型；year=2025；燃料=电动；列表马力=1102；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=电动 1102马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71389",
+    "modelCatalogId": "official-byd-d86203288c47",
+    "year": 2025,
+    "power": "纯电动 · 电机680马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 670KM激光雷达旗舰型",
+    "sourceId": "autohome-byd-8005-recent",
+    "sourceEvidence": "汽车之家车系ID=8005；具体车型ID=71389；原名=2025款 EV 670KM激光雷达旗舰型；year=2025；燃料=电动；列表马力=680；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 680马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72468",
+    "modelCatalogId": "official-byd-d86203288c47",
+    "year": 2025,
+    "power": "纯电动 · 电机680马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 670KM激光雷达尊享型",
+    "sourceId": "autohome-byd-8005-recent",
+    "sourceEvidence": "汽车之家车系ID=8005；具体车型ID=72468；原名=2025款 EV 670KM激光雷达尊享型；year=2025；燃料=电动；列表马力=680；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 680马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77380",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 220领航版",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=77380；原名=2026款 DM-i 220领航版；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77379",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 220启航版",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=77379；原名=2026款 DM-i 220启航版；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77381",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 220智航版",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=77381；原名=2026款 DM-i 220智航版；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76211",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 305领航版",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=76211；原名=2026款 DM-i 305领航版；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76212",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 305智航版",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=76212；原名=2026款 DM-i 305智航版；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77372",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "纯电动 · 电机272马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 540领航版",
+    "sourceId": "autohome-byd-7982-recent",
+    "sourceEvidence": "汽车之家车系ID=7982；具体车型ID=77372；原名=2026款 540领航版；year=2026；燃料=电动；列表马力=272；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 272马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76213",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "纯电动 · 电机272马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 540智航版",
+    "sourceId": "autohome-byd-7982-recent",
+    "sourceEvidence": "汽车之家车系ID=7982；具体车型ID=76213；原名=2026款 540智航版；year=2026；燃料=电动；列表马力=272；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 272马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-79106",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "纯电动 · 电机272马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 540KM闪充领航版",
+    "sourceId": "autohome-byd-7982-recent",
+    "sourceEvidence": "汽车之家车系ID=7982；具体车型ID=79106；原名=2026款 540KM闪充领航版；year=2026；燃料=电动；列表马力=272；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 272马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76214",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 630智航版",
+    "sourceId": "autohome-byd-7982-recent",
+    "sourceEvidence": "汽车之家车系ID=7982；具体车型ID=76214；原名=2026款 630智航版；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69115",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 115KM旗舰型",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=69115；原名=2025款 DM-i 115KM旗舰型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70058",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 115KM尊荣型",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=70058；原名=2025款 DM-i 115KM尊荣型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69114",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 75KM豪华型",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=69114；原名=2025款 DM-i 75KM豪华型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70057",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 75KM尊贵型",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=70057；原名=2025款 DM-i 75KM尊贵型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71674",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 115KM旗舰型",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=71674；原名=2025款 DM-i 智驾版 115KM旗舰型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71673",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 115KM尊荣型",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=71673；原名=2025款 DM-i 智驾版 115KM尊荣型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71671",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 75KM豪华型",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=71671；原名=2025款 DM-i 智驾版 75KM豪华型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71672",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 75KM尊贵型",
+    "sourceId": "autohome-byd-7807-recent",
+    "sourceEvidence": "汽车之家车系ID=7807；具体车型ID=71672；原名=2025款 DM-i 智驾版 75KM尊贵型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71072",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "纯电动 · 电机190马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 430KM智航版",
+    "sourceId": "autohome-byd-7982-recent",
+    "sourceEvidence": "汽车之家车系ID=7982；具体车型ID=71072；原名=2025款 430KM智航版；year=2025；燃料=电动；列表马力=190；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-72236",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 520KM旗舰智航版",
+    "sourceId": "autohome-byd-7982-recent",
+    "sourceEvidence": "汽车之家车系ID=7982；具体车型ID=72236；原名=2025款 520KM旗舰智航版；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71057",
+    "modelCatalogId": "official-byd-d863d9a6647e",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 520KM智航版",
+    "sourceId": "autohome-byd-7982-recent",
+    "sourceEvidence": "汽车之家车系ID=7982；具体车型ID=71057；原名=2025款 520KM智航版；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77823",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 205KM 超越型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=77823；原名=2026款 DM-i 205KM 超越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77976",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 205KM 领先型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=77976；原名=2026款 DM-i 205KM 领先型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77981",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 310KM 超越型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=77981；原名=2026款 DM-i 310KM 超越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77982",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 310KM 领先型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=77982；原名=2026款 DM-i 310KM 领先型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77983",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 310KM 卓越型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=77983；原名=2026款 DM-i 310KM 卓越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76235",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 605KM 超越型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=76235；原名=2026款 EV 605KM 超越型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76723",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "纯电动 · 电机326马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 605KM 领先型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=76723；原名=2026款 EV 605KM 领先型；year=2026；燃料=电动；列表马力=326；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 326马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76234",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "纯电动 · 电机367马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 710KM 超越型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=76234；原名=2026款 EV 710KM 超越型；year=2026；燃料=电动；列表马力=367；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 367马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76676",
+    "modelCatalogId": "official-byd-e1328eb3c599",
+    "year": 2026,
+    "power": "纯电动 · 电机367马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 710KM 卓越型",
+    "sourceId": "autohome-byd-8511-recent",
+    "sourceEvidence": "汽车之家车系ID=8511；具体车型ID=76676；原名=2026款 EV 710KM 卓越型；year=2026；燃料=电动；列表马力=367；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 367马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77459",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "飞驰版 DM-i 220KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=77459；原名=2026款 飞驰版 DM-i 220KM超越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77458",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "飞驰版 DM-i 220KM领先型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=77458；原名=2026款 飞驰版 DM-i 220KM领先型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77460",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "飞驰版 DM-i 301KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=77460；原名=2026款 飞驰版 DM-i 301KM超越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77461",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "飞驰版 DM-i 301KM卓越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=77461；原名=2026款 飞驰版 DM-i 301KM卓越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75122",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 133KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=75122；原名=2026款 DM-i 133KM超越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2026款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75414",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 133KM进取型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=75414；原名=2026款 DM-i 133KM进取型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2026款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76542",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 133KM领航版",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=76542；原名=2026款 DM-i 133KM领航版；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 自然吸气 101马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75415",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 133KM卓越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=75415；原名=2026款 DM-i 133KM卓越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2026款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76155",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 220KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=76155；原名=2026款 DM-i 220KM超越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2026款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76242",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 220KM卓越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=76242；原名=2026款 DM-i 220KM卓越型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2026款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71682",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "第二代 智驾版 DM-i 115KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=71682；原名=2025款 第二代 智驾版 DM-i 115KM超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71627",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "第二代 智驾版 DM-i 115KM卓越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=71627；原名=2025款 第二代 智驾版 DM-i 115KM卓越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71681",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "第二代 智驾版 DM-i 75KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=71681；原名=2025款 第二代 智驾版 DM-i 75KM超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71680",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "第二代 智驾版 DM-i 75KM领先型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=71680；原名=2025款 第二代 智驾版 DM-i 75KM领先型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69113",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "第二代 DM-i 115KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=69113；原名=2025款 第二代 DM-i 115KM超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70060",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "第二代 DM-i 115KM卓越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=70060；原名=2025款 第二代 DM-i 115KM卓越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-70059",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "第二代 DM-i 75KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=70059；原名=2025款 第二代 DM-i 75KM超越型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-69112",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "第二代 DM-i 75KM领先型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=69112；原名=2025款 第二代 DM-i 75KM领先型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2025款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66966",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 110KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=66966；原名=2024款 荣耀版 DM-i 110KM超越型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66951",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 110KM卓越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=66951；原名=2024款 荣耀版 DM-i 110KM卓越型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66965",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 71KM超越型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=66965；原名=2024款 荣耀版 DM-i 71KM超越型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66963",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 71KM领航型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=66963；原名=2024款 荣耀版 DM-i 71KM领航型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66964",
+    "modelCatalogId": "official-byd-ecbbafe6e764",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机110马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "荣耀版 DM-i 71KM领先型",
+    "sourceId": "autohome-byd-5279-recent",
+    "sourceEvidence": "汽车之家车系ID=5279；具体车型ID=66964；原名=2024款 荣耀版 DM-i 71KM领先型；year=2024；燃料=插电式混合动力；列表马力=110；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78391",
+    "modelCatalogId": "official-byd-ee36e78cb675",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置四驱",
+    "trim": "DM-i 350KM四驱旗舰型",
+    "sourceId": "autohome-byd-8485-recent",
+    "sourceEvidence": "汽车之家车系ID=8485；具体车型ID=78391；原名=2026款 DM-i 350KM四驱旗舰型；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置四驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76014",
+    "modelCatalogId": "official-byd-ee36e78cb675",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 400KM旗舰型",
+    "sourceId": "autohome-byd-8485-recent",
+    "sourceEvidence": "汽车之家车系ID=8485；具体车型ID=76014；原名=2026款 DM-i 400KM旗舰型；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-78390",
+    "modelCatalogId": "official-byd-ee36e78cb675",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机156马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 400KM尊贵型",
+    "sourceId": "autohome-byd-8485-recent",
+    "sourceEvidence": "汽车之家车系ID=8485；具体车型ID=78390；原名=2026款 DM-i 400KM尊贵型；year=2026；燃料=插电式混合动力；列表马力=156；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=1.5升 涡轮增压 156马力 国VI。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77389",
+    "modelCatalogId": "official-byd-ee36e78cb675",
+    "year": 2026,
+    "power": "纯电动 · 电机347马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 775KM尊贵型",
+    "sourceId": "autohome-byd-8485-recent",
+    "sourceEvidence": "汽车之家车系ID=8485；具体车型ID=77389；原名=2026款 EV 775KM尊贵型；year=2026；燃料=电动；列表马力=347；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 347马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77391",
+    "modelCatalogId": "official-byd-ee36e78cb675",
+    "year": 2026,
+    "power": "纯电动 · 电机694马力 · 电动车单速变速箱 · 双电机四驱",
+    "trim": "EV 785KM四驱旗舰型",
+    "sourceId": "autohome-byd-8485-recent",
+    "sourceEvidence": "汽车之家车系ID=8485；具体车型ID=77391；原名=2026款 EV 785KM四驱旗舰型；year=2026；燃料=电动；列表马力=694；变速箱=电动车单速变速箱；驱动=双电机四驱；源分组=电动 694马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-77390",
+    "modelCatalogId": "official-byd-ee36e78cb675",
+    "year": 2026,
+    "power": "纯电动 · 电机435马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 905KM旗舰型",
+    "sourceId": "autohome-byd-8485-recent",
+    "sourceEvidence": "汽车之家车系ID=8485；具体车型ID=77390；原名=2026款 EV 905KM旗舰型；year=2026；燃料=电动；列表马力=435；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=电动 435马力。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75703",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 超享版 128KM豪华版",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=75703；原名=2026款 DM-i 超享版 128KM豪华版；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-75444",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 超享版 128KM智享型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=75444；原名=2026款 DM-i 超享版 128KM智享型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76201",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 超享版 210KM旗舰型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=76201；原名=2026款 DM-i 超享版 210KM旗舰型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-76200",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2026,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 超享版 210KM尊享型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=76200；原名=2026款 DM-i 超享版 210KM尊享型；year=2026；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71675",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 120KM旗舰型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=71675；原名=2025款 DM-i 智驾版 120KM旗舰型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71467",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 120KM尊荣型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=71467；原名=2025款 DM-i 智驾版 120KM尊荣型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71468",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 120KM尊享型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=71468；原名=2025款 DM-i 智驾版 120KM尊享型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71489",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 80KM豪华型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=71489；原名=2025款 DM-i 智驾版 80KM豪华型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-71469",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2025,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 智驾版 80KM尊贵型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=71469；原名=2025款 DM-i 智驾版 80KM尊贵型；year=2025；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73276",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2025,
+    "power": "纯电动 · 电机150马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 470KM尊荣型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=73276；原名=2025款 EV 470KM尊荣型；year=2025；燃料=电动；列表马力=150；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73251",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 545KM旗舰型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=73251；原名=2025款 EV 545KM旗舰型；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-73256",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2025,
+    "power": "纯电动 · 电机218马力 · 电动车单速变速箱 · 后置后驱",
+    "trim": "EV 545KM尊享型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=73256；原名=2025款 EV 545KM尊享型；year=2025；燃料=电动；列表马力=218；变速箱=电动车单速变速箱；驱动=后置后驱；源分组=停产在售。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66680",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 120KM旗舰型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=66680；原名=2024款 DM-i 120KM旗舰型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-68515",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 120KM尊荣型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=68515；原名=2024款 DM-i 120KM尊荣型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-68516",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 120KM尊享型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=68516；原名=2024款 DM-i 120KM尊享型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-66640",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 80KM豪华型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=66640；原名=2024款 DM-i 80KM豪华型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  },
+  {
+    "id": "autohome-byd-spec-68514",
+    "modelCatalogId": "official-byd-f8158b59fba8",
+    "year": 2024,
+    "power": "插电式混合动力 · 发动机101马力 · E-CVT无级变速 · 前置前驱",
+    "trim": "DM-i 80KM尊贵型",
+    "sourceId": "autohome-byd-7588-recent",
+    "sourceEvidence": "汽车之家车系ID=7588；具体车型ID=68514；原名=2024款 DM-i 80KM尊贵型；year=2024；燃料=插电式混合动力；列表马力=101；变速箱=E-CVT无级变速；驱动=前置前驱；源分组=2024款(停售)。同一具体车型记录；插混列表马力为发动机功率，不是油电系统总功率。",
+    "manufacturer": "比亚迪"
+  }
+]

@@ -5,12 +5,12 @@ export interface Vehicle { id: string; ownerId: string; modelId: string; plate: 
 export interface Project { id: string; code: string; name: string; category: string; description: string; unit: string; active: boolean; catalogSource?: CatalogProvenance }
 export type MaintenanceAction = 'inspect' | 'replace' | 'clean' | 'lubricate' | 'other';
 export interface CatalogSource { id: string; title: string; url: string; license: string; revision: string; retrievedAt: string; description: string }
-export interface CatalogModel { id: string; brand: string; name: string; sourceId: string; variantCount?: number }
+export interface CatalogModel { id: string; brand: string; name: string; sourceId: string; variantCount?: number; years?: number[] }
 export interface CatalogVariant { id: string; modelCatalogId: string; year: number; power: string; trim: string; sourceId: string; sourceEvidence: string; manufacturer?: string }
 export interface CatalogVariantsResponse { items: CatalogVariant[]; total: number; years: number[]; powers: string[]; sources: CatalogSource[]; version: string; offset: number; limit: number }
 export interface CatalogProject { id: string; code: string; name: string; category: string; description: string; unit: string; action: MaintenanceAction; sourceIds: string[] }
 export interface CatalogProvenance { catalogId: string; version: string; sources: CatalogSource[]; importedAt: string; variantId?: string; sourceEvidence?: string; manufacturer?: string }
-export interface CatalogModelsResponse { items: CatalogModel[]; total: number; offset: number; limit: number; brands: string[]; sources: CatalogSource[]; version: string }
+export interface CatalogModelsResponse { items: CatalogModel[]; total: number; offset: number; limit: number; brands: string[]; years?: number[]; sources: CatalogSource[]; version: string }
 export interface CatalogProjectsResponse { items: CatalogProject[]; total: number; categories: string[]; sources: CatalogSource[]; version: string }
 export interface CatalogModelImportResult { model: CarModel; created: boolean }
 export interface CatalogProjectImportResult { projects: Project[]; created: number; existing: number }
