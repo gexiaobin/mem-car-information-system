@@ -23,7 +23,7 @@ export interface ImageFile {
   hash: string;
   mime: string;
   createdAt: string;
-  purpose?: "registration";
+  purpose?: "registration" | "manual";
 }
 interface StoredImport extends ImportJob {
   fileId: string;
@@ -178,6 +178,7 @@ export function registerImages(ctx: Context) {
       const user = authenticated(request);
       const file = await get<ImageFile>(db, "files", request.params.id);
       ensure(file, 404, "NOT_FOUND", "图片不存在");
+      ensure(file.purpose !== 'manual', 403, 'FORBIDDEN', '手册文件须通过受控手册入口访问');
       let allowed = file.ownerId === user.id;
       if (!allowed && file.purpose !== "registration" && (user.role === "store_admin" || user.role === "expert")) {
         const faults = await list<Fault>(db, "faults");

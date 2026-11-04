@@ -1,4 +1,4 @@
-# 云程 API V0.2
+# 云程 API
 
 统一前缀 `/api/v1`，JSON 直接返回资源；错误形如 `{ "error": { "code": "...", "message": "..." } }`。登录使用 HttpOnly 会话 Cookie，写入校验请求来源。身份和资源归属由服务端判断，前端隐藏按钮不代替鉴权。共享字段定义见 `packages/shared/src/index.ts`。
 
@@ -24,6 +24,12 @@
 | 名额 | `POST /admin/slots`、`PATCH /admin/slots/:id` | 时段与容量，不得小于已占用数 |
 | 标准项目 | `POST /admin/projects`、`PATCH /admin/projects/:id` | 平台维护 |
 | 车型手册 | `POST /admin/rules`、`PATCH /admin/rules/:id` | 来源、版本、适用范围与复核 |
+| 手册来源 | `GET /admin/manual-sources?modelId=...&discover=true` | 平台管理员按车型查询 CarOBook 候选及官方补充入口；不传 discover 时仅返回入口 |
+| 手册导入 | `POST /admin/manual-imports`、`POST /admin/manual-imports/from-url` | 平台上传 PDF／图片，或获取允许来源的直接文件 |
+| 手册任务 | `GET /admin/manual-imports`、`GET /admin/manual-imports/:id`、`POST /admin/manual-imports/:id/retry` | 平台查询持久任务和有限重试 |
+| 手册审核发布 | `PATCH /admin/manual-imports/:id/draft`、`POST /admin/manual-imports/:id/publish` | 版本校验、保存草稿、人工确认后原子发布 |
+| 手册证据 | `GET /manual-files/:id` | 平台读取；匹配本人车辆车型的车主读取已发布证据 |
+| 已发布手册 | `GET /manuals/:id` | 平台或拥有匹配车型的车主读取已发布手册及证据文件元数据 |
 | 门店 | `POST /admin/stores`、`PATCH /admin/stores/:id` | 本店资料、平台审核 |
 
 创建预约示例：
@@ -43,6 +49,60 @@
 视觉适配通过 `AI_API_STYLE` 选择 `responses` 或默认的 `chat_completions`；Responses 请求关闭服务端保存，使用图片输入与 JSON 文本输出，只接受已完成且无拒绝的响应。两种协议均经过相同的字段校验与人工确认，模型接口错误或不完整输出不能自动生成有效观测。
 
 识别确认必须提供明确总里程、单位与数据时间。未配置视觉服务、无可识别里程或读取失败的任务不会伪造候选值和有效观测。上传体积、文件格式、当前任务状态、车辆归属和原图关联均由服务端校验。
+
+## 保养手册识别与车型规则
+
+本组接口仅平台管理员可写入。上传与识别产生持久草稿，不直接改变车型适用项目或车主保养计划。文件、证据页、来源、版次、适用范围和人工确认随任务保留；具体操作、来源限制与字段语义见 [手册导入说明](manual-import.md)。
+
+`GET /admin/manual-sources?modelId=...` 只返回来源入口，不发外部请求；显式附加 `discover=true` 才查询 CarOBook 公开目录并返回候选和补充入口。候选仍需核对年款、动力和市场版本；查询结果不是文件已下载或已适用的证明。
+
+`POST /admin/manual-imports` 使用 Multipart，字段为 `modelId`、`sourceTitle`、可选 `sourceUrl`／`edition`／`applicability`／`pageRange`，以及字面值 `consent=true` 和文件。一次为 1 份最大 32 MiB 的 PDF，或最多 12 张每张最大 8 MiB 的 JPEG／PNG／WebP，总量最多 32 MiB。PDF 最多 1000 页，每次只识别最多 12 个指定页序号；`pageRange` 如 `150-154,158`，按 PDF 页序号从 1 计。服务端解码并保存原件与选定页图片，不将文件名或 MIME 声明当作内容证明。
+
+`POST /admin/manual-imports/from-url` 使用相同元数据的 JSON，`sourceUrl` 必填、`consent` 为布尔 `true`。下载器仅访问公开 HTTPS，校验 DNS、重定向、内容及大小，支持直接 PDF／图片，以及只含一个 PDF 链接的页面。CarOBook 目录／网盘分享不等同于直接文件；需要登录或人工下载时返回明确原因，转为人工上传，不绕过第三方权限。
+
+返回 `ManualImport`，状态为 `uploaded`、`processing`、`awaiting_confirmation`、`published` 或 `failed`，包含 `files`、`rows`、`warnings`、`revision` 和发布的规则 ID。任务不进入普通 `bootstrap`；附件不暴露服务端路径。发布前仅平台可访问证据，发布后还需车主拥有匹配车型车辆才可读取。
+
+`GET /manuals/:id` 仅返回已发布的 `ManualDocument` 元数据：`id`、`modelId`、`sourceTitle`、`sourceUrl`、`edition`、`applicability`、`files`、`publishedAt`。平台或拥有匹配车型的车主可读；草稿返回 404，其他已登录角色／无匹配车辆车主返回 403。原件和页图通过 `GET /manual-files/:id` 采用相同权限读取，不能借用普通文件路由绕过权限。
+
+`PATCH /admin/manual-imports/:id/draft` 示例：
+
+```json
+{
+  "expectedRevision": 3,
+  "sourceTitle": "合成测试手册2024版",
+  "sourceUrl": "https://example.com/synthetic-manual.pdf",
+  "edition": "合成2024版",
+  "applicability": "中国版2024款某动力配置；仅为字段示例",
+  "rows": [{
+    "id": "服务端生成的草稿行ID",
+    "name": "合成空调滤清器更换",
+    "projectId": "管理员明确选择的标准项目ID",
+    "createProject": false,
+    "include": true,
+    "action": "replace",
+    "triggerType": "periodic",
+    "firstMonths": 12,
+    "firstKm": null,
+    "intervalMonths": 12,
+    "intervalKm": null,
+    "mileageType": "total_km",
+    "condition": "",
+    "notes": "正常使用条件；合成测试，不能作为实际保养依据",
+    "sourceText": "合成原文：每12个月更换。",
+    "pageNumbers": [1]
+  }]
+}
+```
+
+动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。周期数字可为空；周期规则的首次与后续各至少有一个有效阈值，且 `condition` 必须为空，正常使用说明放在 `notes`。有特殊适用条件的项目使用条件／按需类型，保留条件且不计算固定到期，这些候选默认不选中。未知值不能由 AI 补齐。每条需有有效证据页和原文摘录；选中行必须映射有效项目，或明确 `createProject=true` 且 `projectId=null`。重复项目与故障诊断范围不能发布。
+
+发布请求为 `POST /admin/manual-imports/:id/publish`：
+
+```json
+{ "expectedRevision": 4, "verified": true, "applicabilityConfirmed": true }
+```
+
+发布读取已保存草稿，在同一事务内验证并创建规则版本、合并车型适用项目、记录审计。相同请求重试返回已发布结果，不重复创建；过期草稿版本或改写已发布内容返回冲突。原有规则历史保留，其他车型不变。失败任务可 `POST /admin/manual-imports/:id/retry`，最多三次识别尝试；未配置 AI、识别失败及未人工确认时均不能成为有效规则。
 
 ## 行驶证识别与私人档案
 

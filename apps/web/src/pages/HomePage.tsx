@@ -44,8 +44,9 @@ export default function HomePage({
   const navigate = useNavigate();
   const model = data.models.find((m) => m.id === vehicle?.modelId);
   const plans = data.maintenance.filter((m) => m.vehicleId === vehicle?.id);
-  const attention = plans.filter((m) => m.status !== "ok");
-  const next = [...attention, ...plans][0];
+  const priority = { due: 0, soon: 1, missing: 2, ok: 3, conditional: 4 };
+  const attention = plans.filter((m) => ['due', 'soon', 'missing'].includes(m.status));
+  const next = [...plans].sort((a, b) => priority[a.status] - priority[b.status])[0];
   const missingRules =
     next?.scope === "vehicle" ||
     (next?.status === "missing" &&
@@ -161,6 +162,8 @@ export default function HomePage({
                     ? "完善爱车资料"
                     : next?.status === "soon"
                       ? "该安排下一次保养了"
+                      : next?.status === 'conditional'
+                        ? '依照条件，照应爱车'
                       : "按计划，安心养护"}
               </h2>
               <p className="care-summary">
@@ -168,7 +171,7 @@ export default function HomePage({
                   ? next?.scope === "vehicle"
                     ? "车型保养依据需要补充核验"
                     : `${attention.length} 项保养需要关注`
-                  : "当前项目未到期，查看下次养护节点"}
+                  : next?.status === 'conditional' ? '按手册要求检查，根据实际情况处理' : "当前项目未到期，查看下次养护节点"}
               </p>
               {next ? (
                 <div className="next-care-detail">
@@ -182,19 +185,20 @@ export default function HomePage({
                         soon: "临近保养",
                         missing: "资料待补充",
                         ok: "未到期",
+                        conditional: '按条件处理',
                       }[next.status]
                     }
                   </span>
                   <p>{next.reason}</p>
-                  {next.scope !== "vehicle" && (
+                  {next.scope !== "vehicle" && next.status !== 'conditional' && (
                     <div className="thresholds">
                       <span>
-                        时间阈值<strong>{dateText(next.dueAt)}</strong>
+                        时间阈值<strong>{next.dueAt ? dateText(next.dueAt) : next.status === 'missing' ? '待补充' : '无固定时间周期'}</strong>
                       </span>
                       <span>
                         里程阈值
                         <strong>
-                          {next.dueKm?.toLocaleString() ?? "待补充"}{" "}
+                          {next.dueKm?.toLocaleString() ?? (next.status === 'missing' ? '待补充' : '无固定里程周期')}{" "}
                           <small>{next.dueKm != null ? "km" : ""}</small>
                         </strong>
                       </span>
@@ -227,7 +231,7 @@ export default function HomePage({
               </button>
               <p className="care-footnote">
                 <ShieldCheck size={14} />
-                按项目计算，时间或里程先到为准
+                {next?.status === 'conditional' ? '按手册条件处理，不推定固定更换日期' : '按项目计算，时间或里程先到为准'}
               </p>
             </section>
           </div>
@@ -332,6 +336,7 @@ export default function HomePage({
                               soon: "临近保养",
                               missing: "待补充",
                               ok: "未到期",
+                              conditional: '按条件处理',
                             }[plan.status]
                           }
                         </span>

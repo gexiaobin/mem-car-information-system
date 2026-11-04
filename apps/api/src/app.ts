@@ -53,6 +53,8 @@ import { expireAppointments, registerBookings } from "./bookings.js";
 import { registerAdmin } from "./admin.js";
 import { registerImages } from "./images.js";
 import { registerRegistration } from "./registration.js";
+import { registerManuals } from "./manuals.js";
+import { registerManualFiles } from "./manual-files.js";
 import { ensureUniqueOwnerPlate } from "./vehicle-identity.js";
 import { effectiveOffers } from "./prices.js";
 export async function createApp(
@@ -546,7 +548,7 @@ export async function createApp(
         url.split("/").pop()!,
       );
       ensure(file?.ownerId === user.id, 403, "FORBIDDEN", "不能使用他人的图片");
-      ensure(file.purpose !== "registration", 400, "PRIVATE_DOCUMENT", "行驶证不能用作向门店共享的故障照片");
+      ensure(file.purpose !== "registration" && file.purpose !== "manual", 400, "PRIVATE_DOCUMENT", "行驶证与保养手册不能用作向门店共享的故障照片");
     }
     const fault: Fault = {
       ...input,
@@ -744,8 +746,11 @@ export async function createApp(
   registerAdmin({ app, db, config });
   const images = registerImages({ app, db, config });
   const registrations = registerRegistration({ app, db, config });
+  registerManualFiles({ app, db, config });
+  const manuals = registerManuals({ app, db, config });
   await images.resume();
   await registrations.resume();
+  await manuals.resume();
   const timer = setInterval(() => {
     void db
       .transaction(async (sql) => {
@@ -760,6 +765,7 @@ export async function createApp(
     clearInterval(timer);
     await images.wait();
     await registrations.wait();
+    await manuals.wait();
     await db.close();
   });
   return { app, db, config };

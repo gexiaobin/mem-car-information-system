@@ -19,6 +19,7 @@ export const tables = [
   "messages",
   "imports",
   "registration_imports",
+  "manual_imports",
   "records",
   "observations",
   "logs",
@@ -135,6 +136,7 @@ const migrationStatements = [
   `CREATE INDEX IF NOT EXISTS av_session_expiration ON av_sessions(expires_at)`,
   `CREATE INDEX IF NOT EXISTS av_import_status ON av_imports((data->>'status'))`,
   `CREATE INDEX IF NOT EXISTS av_registration_owner ON av_registration_imports((data->>'ownerId'))`,
+  `CREATE INDEX IF NOT EXISTS av_manual_model ON av_manual_imports((data->>'modelId'))`,
   `CREATE UNIQUE INDEX IF NOT EXISTS av_import_image ON av_imports((data->>'ownerId'), (data->>'vehicleId'), (data->>'imageHash')) WHERE data->>'imageHash' IS NOT NULL`,
 ];
 function tableName(table: Table): string {

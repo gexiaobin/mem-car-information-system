@@ -33,7 +33,7 @@ services:
     volumes:
       - uploads:/app/data/uploads
     networks: [app, database]
-    mem_limit: 512m
+    mem_limit: 1g
     logging:
       driver: json-file
       options: { max-size: "10m", max-file: "3" }

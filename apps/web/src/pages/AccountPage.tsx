@@ -38,6 +38,9 @@ import RegistrationCertificate, {
   registrationStatusLabel,
 } from "../components/RegistrationCertificate";
 import { VehiclePhoto } from "../components/VehiclePhoto";
+import PublishedManual from "../components/PublishedManual";
+const manualActions = { inspect: '检查', replace: '更换', clean: '清洁', lubricate: '润滑', other: '其他处理' };
+const maintenancePeriod = (months: number | null, km: number | null) => [months == null ? '' : `${months} 个月`, km == null ? '' : `${km.toLocaleString()} km`].filter(Boolean).join(' / ') || '未注明固定阈值';
 const inactive = ["completed", "cancelled", "expired", "rejected"];
 export default function AccountPage({
   data,
@@ -71,6 +74,7 @@ export default function AccountPage({
   const [closing, setClosing] = useState(false);
   const [editing, setEditing] = useState<Vehicle | null>(null);
   const [registrations, setRegistrations] = useState<RegistrationImport[]>([]);
+  const [manualDocumentId, setManualDocumentId] = useState<string | null>(null);
   const [registrationTarget, setRegistrationTarget] = useState<{
     vehicleId?: string;
     job?: RegistrationImport;
@@ -496,6 +500,16 @@ export default function AccountPage({
                               <p>
                                 {rule.sourceTitle} · 版本 {rule.version}
                               </p>
+                              <p>
+                                {rule.action ? `${manualActions[rule.action]} · ` : ''}
+                                {rule.triggerType && rule.triggerType !== 'periodic'
+                                  ? `${rule.triggerType === 'condition' ? '达到条件时处理' : '按需处理'}：${rule.condition || '请参阅原文'}`
+                                  : `首次 ${maintenancePeriod(rule.firstMonths, rule.firstKm)}；后续 ${maintenancePeriod(rule.intervalMonths, rule.intervalKm)}（先到为准）`}
+                              </p>
+                              {rule.triggerType === 'periodic' && rule.condition && <p>适用条件：{rule.condition}</p>}
+                              {rule.notes && <p>说明：{rule.notes}</p>}
+                              {rule.sourcePages?.length ? <p>原文第 {rule.sourcePages.join('、')} 页{rule.edition ? ` · ${rule.edition}` : ''}</p> : null}
+                              {rule.manualImportId && <button type="button" className="btn btn-secondary btn-sm" onClick={() => setManualDocumentId(rule.manualImportId!)}>查看手册原文</button>}
                               {rule.sourceUrl && (
                                 <a
                                   href={rule.sourceUrl}
@@ -649,6 +663,7 @@ export default function AccountPage({
           }}
         />
       )}{" "}
+      {manualDocumentId && <PublishedManual id={manualDocumentId} onClose={() => setManualDocumentId(null)} />}
       {registrationTarget && (
         <RegistrationCertificate
           key={

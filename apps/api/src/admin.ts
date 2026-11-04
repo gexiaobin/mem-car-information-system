@@ -431,6 +431,7 @@ export function registerAdmin({ app, db }: Context) {
     const user = roles(request, ["platform_admin"]);
     const input = projectSchema.parse(request.body);
     return db.transaction(async (sql) => {
+      await sql.query("LOCK TABLE av_projects IN SHARE ROW EXCLUSIVE MODE");
       ensure(
         !(await list<Project>(sql, "projects")).some(
           (p) => p.code === input.code,
@@ -451,6 +452,7 @@ export function registerAdmin({ app, db }: Context) {
       const user = roles(request, ["platform_admin"]);
       const input = projectSchema.partial().parse(request.body);
       return db.transaction(async (sql) => {
+        await sql.query("LOCK TABLE av_projects IN SHARE ROW EXCLUSIVE MODE");
         const old = await get<Project>(
           sql,
           "projects",
@@ -534,7 +536,13 @@ export function registerAdmin({ app, db }: Context) {
     async (request) => {
       const user = roles(request, ["platform_admin"]);
       const input = ruleSchema.partial().parse(request.body);
+      const observed = await get<MaintenanceRule>(db, "rules", request.params.id);
+      ensure(observed, 404, "NOT_FOUND", "规则不存在");
       return db.transaction(async (sql) => {
+        // Match manual publication: lock models before their rule rows.
+        // A move locks both source and destination in stable order.
+        const modelIds = [...new Set([observed.modelId, input.modelId || observed.modelId])].sort();
+        for (const modelId of modelIds) await get<CarModel>(sql, "models", modelId, true);
         const old = await get<MaintenanceRule>(
           sql,
           "rules",
@@ -542,8 +550,11 @@ export function registerAdmin({ app, db }: Context) {
           true,
         );
         ensure(old, 404, "NOT_FOUND", "规则不存在");
+        ensure(old.modelId === observed.modelId, 409, "RULE_MODEL_CHANGED", "规则所属车型已被更新，请刷新后重试");
+        ensure(!old.manualImportId, 409, 'MANUAL_RULE_IMMUTABLE', '导入规则请通过新手册任务发布新版本，原文与审核证据保持不变');
+        ensure(!old.supersededBy, 409, "RULE_SUPERSEDED", "该规则已被新手册版本替代，请发布新版本，不能改写历史依据");
         const rule = { ...old, ...input, version: old.version + 1 };
-        const model = await get<CarModel>(sql, "models", rule.modelId, true);
+        const model = await get<CarModel>(sql, "models", rule.modelId);
         ensure(model, 400, "MODEL_NOT_FOUND", "车型不存在");
         ensure(
           model.applicableProjectIds === undefined ||

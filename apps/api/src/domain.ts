@@ -123,6 +123,10 @@ export function maintenanceFor(
       sourceTitle: rule?.sourceTitle || "尚未核验适用车型的官方手册",
       sourceUrl: rule?.sourceUrl || "",
       isDemo: vehicle.isDemo || !!rule?.isDemo,
+      action: rule?.action,
+      triggerType: rule?.triggerType,
+      condition: rule?.condition,
+      notes: rule?.notes,
     };
     if (!rule)
       return {
@@ -132,12 +136,16 @@ export function maintenanceFor(
         dueKm: null,
         reason: "请补充并复核本年款车型的保养规则",
       };
+    if (rule.triggerType === 'condition' || rule.triggerType === 'as_needed')
+      return { ...common, status: 'conditional', dueAt: null, dueKm: null,
+        reason: [rule.condition || '按手册条件检查或处理，无固定到期时间', rule.notes].filter(Boolean).join('；') };
     const latest = records
       .filter((r) => r.vehicleId === vehicle.id && r.projectId === project.id)
       .sort((a, b) => b.completedAt.localeCompare(a.completedAt))[0];
-    const dueAt = addMonthsClamped(
+    const intervalMonths = latest ? rule.intervalMonths : rule.firstMonths;
+    const dueAt = intervalMonths === null ? null : addMonthsClamped(
       latest ? shanghaiDay(new Date(latest.completedAt)) : vehicle.startDate,
-      latest ? rule.intervalMonths : rule.firstMonths,
+      intervalMonths,
     );
     const intervalKm = latest ? rule.intervalKm : rule.firstKm;
     const dueKm =
@@ -145,7 +153,7 @@ export function maintenanceFor(
         ? null
         : (latest?.totalKm ?? vehicle.initialKm) + intervalKm;
     const today = shanghaiDay(date);
-    const days = Math.ceil(
+    const days = dueAt === null ? Infinity : Math.ceil(
       (new Date(`${dueAt}T00:00:00+08:00`).getTime() -
         new Date(`${today}T00:00:00+08:00`).getTime()) /
         86400000,
@@ -164,7 +172,7 @@ export function maintenanceFor(
         dueKm,
         reason: days <= 0 ? "已达到时间阈值" : "已达到里程阈值",
       };
-    if (rule.mileageType === "engine_km")
+    if (rule.mileageType === "engine_km" && dueKm !== null)
       return {
         ...common,
         status: "missing",
@@ -172,7 +180,7 @@ export function maintenanceFor(
         dueKm,
         reason: "本项目要求发动机累计里程，请补充核验；时间到期仍会提醒",
       };
-    if (latest && vehicle.totalKm !== null && vehicle.totalKm < latest.totalKm)
+    if (dueKm !== null && latest && vehicle.totalKm !== null && vehicle.totalKm < latest.totalKm)
       return {
         ...common,
         status: "missing",

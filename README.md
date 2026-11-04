@@ -25,6 +25,8 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 
 课程数据包括演示车型、规则、门店、价格与记录；当前车型目录包含迈腾和海豹。真实车型手册、真实证件准确率、手机真机兼容性和压力测试仍需独立验证。
 
+本地新增保养手册导入：按车型查询 CarOBook 候选、从官方等补充来源取得 PDF／图片，AI 生成有页码和原文依据的草稿，平台管理员核对后发布到车型项目与规则。网盘或需登录的文件保留人工下载上传流程。操作、限制和本轮验证见 [手册导入](docs/manual-import.md) 与 [验证记录](docs/verification.md)，不将本地实现视为公网已更新。
+
 ## 文档导航
 
 | 文档 | 内容 |
@@ -33,6 +35,7 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 | [系统架构](docs/architecture.md) | 前后端、数据模型、权限、事务、AI 与 Docker 网络 |
 | [配置说明](docs/configuration.md) | 本地 / PostgreSQL / AI / 地图 / 服务器环境变量及常见问题 |
 | [API 接口](docs/api.md) | 路由、权限、请求示例、行驶证字段与状态 |
+| [保养手册导入](docs/manual-import.md) | CarOBook／官方来源、PDF 和图片、AI 草稿、人工审核与车型规则发布 |
 | [部署说明](docs/deployment.md) | 京东云、Portainer、端口、初始化、升级与回滚 |
 | [六人协作与验收](docs/development.md) | 分工、迭代、提交约定、测试与演示交付 |
 | [验证记录](docs/verification.md) | 已执行结果、当前线上版本与后续验收边界 |
@@ -75,7 +78,7 @@ npm run dev
 | --- | --- |
 | `npm run dev` | 同时启动本地前端与 API |
 | `npm run typecheck` | 全项目 TypeScript 检查 |
-| `npm test` | 27 项后端回归，使用隔离数据和合成 AI 响应 |
+| `npm test` | 后端回归，使用隔离数据和合成 AI 响应；具体项数以当次输出为准 |
 | `npm run build` | 构建 API 和 Web 生产产物 |
 | `npm run check` | 依次执行类型检查、测试与构建；GitHub Actions 同样执行 |
 | `npm run test:postgres` | 7 项真实 PostgreSQL 交易联调，只操作新建的临时 schema |
