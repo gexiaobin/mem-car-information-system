@@ -8,6 +8,10 @@
 
 | 检查项 | 实际结果 |
 | --- | --- |
+| 京东云部署 | API `autovoyage-api:eaa2e48`（`cca4cfb42d36`）、Web `autovoyage-web:eaa2e48`（`0fe660764c88`）均 `healthy`；只更换两个镜像标签，17 项环境变量逐项一致，端口／网络／卷保持原配置 |
+| 公网入口 | 主页、`/healthz`、`/api/v1/health`、`/api/v1/config` 均 HTTP 200；首页加载 `index-Du_BOjgT.js`。原有业务仍为 2 份演示车型、4 个启用项目及 5 条规则，未将本地测试建档写到线上 |
+| 公网目录 UI | 实际平台会话进入两个新入口，按比亚迪与“海”筛得 9 条车系，海鸥来源指向官网；年款／动力为空、导入禁用。项目库显示 53 条，搜索“制动液”得到检查／更换两项，可多选；[车型截图](images/public-model-catalog.png)、[项目截图](images/public-service-catalog.png) |
+| GitHub CI | `eaa2e48` 的 main 与开发分支运行均 success：[main 运行记录](https://github.com/gexiaobin/mem-car-information-system/actions/runs/41779885697) |
 | 完整项目检查 | `npm run check` 通过：共享／API／Web 类型检查、62 项后端测试及两端生产构建；0 失败、0 跳过 |
 | 目录专项 | PGlite 13 项通过；另启用 `AV_CATALOG_PG_TEST=1` 在真实 PostgreSQL 运行 13 项通过，约 9.9 秒；随机 `av_test_catalog_*` schema 删除后查询确认不存在，未写 public |
 | 权限与事务 | 匿名、车主、门店、专家不能查询或导入候选；年款／配置必填；批量导入原子回滚；重复／并发与普通车型创建竞争不生成重复身份；复用已有编辑、来源和停用状态 |

@@ -2,7 +2,11 @@
 
 ## 当前部署选择
 
-2026-11-04 V0.6 保养手册工作区更新：API `autovoyage-api:c72209c`（`198281c2f9e2`）、Web `autovoyage-web:c72209c`（`cf9cecd31d5d`）已构建并更新既有 Stack，两个容器均为 `healthy`。API 内存限额由 512 MiB 提高为 1 GiB，`AI_TIMEOUT_MS` 由 90000 调整为 180000；其余 16 项环境变量与端口、网络、数据库、上传卷经表单逐项比较保持原值。发布前只读备份了本项目 20 张表、160 行，备份仅存本机忽略目录。
+2026-11-04 V0.7 公开目录更新：API `autovoyage-api:eaa2e48`（`cca4cfb42d36`）、Web `autovoyage-web:eaa2e48`（`0fe660764c88`）通过 Portainer 上传源码归档构建并更新既有 Stack，两个容器均为 `healthy`。本轮仅替换两个镜像标签，17 项环境变量逐项核对一致，保留网络、上传卷、数据库及 IP + 58083 端口。发布前只读备份 21 张自有表、161 行；目录无需新表、环境变量或端口。
+
+公网首页资源为 `index-Du_BOjgT.js`，车型和服务项目候选从 API 镜像中的固定快照读取。MIT 原始许可随镜像保存在 `/app/licenses/Cars_Data-LICENSE.txt`。公开界面已验证筛选、搜索、来源与项目多选；真实导入写入在隔离测试库完成。回滚可同时恢复 API／Web `c72209c`，新实体的可选来源字段与旧版兼容，保留既有数据和上传卷。详见 [验证记录](verification.md)。
+
+V0.6 历史记录：API `autovoyage-api:c72209c`（`198281c2f9e2`）、Web `autovoyage-web:c72209c`（`cf9cecd31d5d`）当时均为 `healthy`。API 内存限额由 512 MiB 提高为 1 GiB，`AI_TIMEOUT_MS` 由 90000 调整为 180000；其余 16 项环境变量与端口、网络、数据库、上传卷经表单逐项比较保持原值。发布前只读备份了本项目 20 张表、160 行，备份仅存本机忽略目录。
 
 公网入口仍为 [http://117.72.124.241:58083/](http://117.72.124.241:58083/)。新版首页资源为 `index-0qpJTtpB.js`，平台管理员可进入“保养手册与规则 → 手册导入”。CarOBook 查询无可确认候选时会显示实际结果及官方补充入口；网盘分享仍须先取得原文件再上传。真实官方 PDF 与 AI 验证、上线健康结果见 [验证记录](verification.md)。回滚镜像为 API `autovoyage-api:2e6107d`、Web `autovoyage-web:4392486`；保留新建任务表和上传卷，不删除数据。
 
