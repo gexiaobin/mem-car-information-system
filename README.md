@@ -28,7 +28,7 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 
 车主与管理端均可打开“系统更新日志”。构建自动生成 `基础版本+源码摘要` 版本，API 首次成功监听时写入数据库；相同构建重启、回滚复用原记录。发布者可维护 `release.config.json` 中的功能说明；没有新说明的源码更新也会按变更模块生成摘要。机制、编辑步骤及接口见 [系统更新日志](docs/system-releases.md)。
 
-V0.8.2 构建版本 `0.8.2+9a7ec56f24` 已通过86项测试、20项真实PostgreSQL手册专项，以及合成保养表的真实AI与浏览器验收；操作文档已同步。当前Portainer显示登录页，待恢复会话后将连同V0.8.1近年配置一起上线；公网仍为 `0.8.0+29b4f13741`。新版证据：[自动填写草稿](docs/images/manual-quick-ai-review.png)、[手机图片入口](docs/images/manual-quick-mobile.png)。
+V0.8.2 构建版本 `0.8.2+8f8553a803` 已通过86项测试、20项真实PostgreSQL手册专项，以及合成保养表的真实AI与浏览器验收；操作文档已同步。当前Portainer显示登录页，待恢复会话后将连同V0.8.1近年配置一起上线；公网仍为 `0.8.0+29b4f13741`。新版证据：[自动填写草稿](docs/images/manual-quick-ai-review.png)、[手机图片入口](docs/images/manual-quick-mobile.png)。
 
 保养资料推荐操作：**选车型 → 上传或粘贴保养公里数表截图 → AI 自动填写信息和周期草稿 → 核对发布**。名称、版本、范围在上传前均可留空；原文未说明的字段保留待核对。整本 PDF 默认尝试定位周期表及相邻说明，找不到时可改用截图或手动选页。按车型查询 CarOBook／官方来源仍可使用，目录和网盘不冒充可直接导入的手册。操作与实际发布状态见 [手册导入](docs/manual-import.md) 和 [验证记录](docs/verification.md)。
 
