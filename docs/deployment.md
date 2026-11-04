@@ -2,7 +2,9 @@
 
 ## 当前部署选择
 
-V0.4 前端代码 `44d5c73` 与上传构建包已准备，计划使用 `autovoyage-web:44d5c73` 更新现有 Stack，API 保持 `autovoyage-api:2e6107d`。Portainer 原会话已过期，等待部署者重新登录；以下记录的 V0.3 仍为当前线上版本。升级仅替换 Web 镜像，保留原有环境变量、网络、上传卷和数据库，无需新增端口。回滚可恢复 Web `a0a690c`。
+2026-11-04 V0.4 已通过 Portainer 更新现有 `autovoyage` Stack：Web 为 `autovoyage-web:44d5c73`（镜像 `80a24e6e9a61`），API 保持 `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器均为 `healthy`。本次仅修改 Web 镜像标签，保留所有环境变量、网络、上传卷与数据库，端口不变。回滚可恢复 Web `autovoyage-web:a0a690c`。
+
+公网 `/`、`/healthz`、`/api/v1/health` 均返回 200；首页加载新资源 `index-DQmqT46I.js`，同源 Worker 返回 200、`application/javascript`、517,225 字节。浏览器确认海洋蓝首页与 Cybertruck 灵感插画，原两辆车及海豹 1,680 km 保持；门店页三枚服务站 SVG、真实底图 `ready` 和选店联动正常。375×812 首页与门店页均 `clientWidth=scrollWidth=360`，车身与两轮完整、示意标签可读、无车型图片；临时视口已恢复。当前公网截图与详细范围见 [验证记录](verification.md)。
 
 用户已选择本阶段先不用域名，采用 **IP + 58083 端口的 HTTP 课程预览**，配置文件为 `compose.preview.yml`。2026-11-03 已部署到 Portainer 的 `autovoyage` Stack，实际入口为 [http://117.72.124.241:58083/](http://117.72.124.241:58083/)。主页、`/healthz`、`/api/v1/health` 与 `/api/v1/config` 均返回 HTTP 200；API 报告使用 PostgreSQL，AI 已配置。Portainer 中 `autovoyage-api-1` 与 `autovoyage-web-1` 均为 `healthy`。
 
@@ -10,7 +12,7 @@ V0.4 前端代码 `44d5c73` 与上传构建包已准备，计划使用 `autovoya
 
 2026-11-03 的只读环境检查确认服务器已有 Portainer、PostgreSQL 和 Nginx Proxy Manager。数据库网络为 `postgresql_default`，代理网络为 `nginx-proxy-manager_default`；现有代理入口为 HTTP 58080 / HTTPS 58082，管理入口为 58081。云程使用独立 `autovoyage` Stack 与上传卷，不替换现有服务。
 
-2026-11-04 V0.3 已更新 Web 为 `autovoyage-web:a0a690c`（镜像 `1b6874bea1e2`）；API 保留 `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器均为 `healthy`。本次仅发布前端插画、数字车库和矢量地图，保留原有 17 个私有环境变量、网络、上传持久卷与数据库。主页、两项健康检查和同源 Worker 均返回 200；Worker 为 `application/javascript`、517,225 字节。公网浏览器确认真实道路和门店标记、选店、显隐后重新加载及手机布局。实际证据见 [验证记录](verification.md)。
+V0.3 历史部署记录：2026-11-04 当时更新 Web 为 `autovoyage-web:a0a690c`（镜像 `1b6874bea1e2`）；API 保留 `autovoyage-api:2e6107d`（`7c2b6466d918`），两个容器均为 `healthy`。该轮发布前端插画、数字车库和矢量地图，保留原有 17 个私有环境变量、网络、上传持久卷与数据库。主页、两项健康检查和同源 Worker 均返回 200；Worker 为 `application/javascript`、517,225 字节。公网浏览器确认真实道路和门店标记、选店、显隐后重新加载及手机布局。实际证据见 [验证记录](verification.md)。
 
 服务器直接获取 GitHub 仓库曾出现 `unexpected EOF`，因此使用 Portainer 上传无秘密源码归档构建镜像，再以本地镜像更新既有 Stack。旧版 Web `autovoyage-web:2e6107d`（`9b3f2680a42d`）保留用于回滚；当前前端与同一 API 兼容。后续文档提交不自动改变应用镜像。
 
@@ -67,7 +69,7 @@ API 健康检查为 `/api/v1/health`，Web 为 `/healthz`。API 健康后 Web �
 
 HTTP IP 预览可以验证网页、登录、普通文件选择上传和核心业务流程。浏览器定位通常要求安全上下文，公共 IP 的 HTTP 地址不能作为定位能力已验收的依据；手机文件输入的拍照入口还取决于具体浏览器。该模式不提供 HTTPS 传输保障，后续切换 HTTPS 后须重新验收安全会话、定位与真机兼容。
 
-V0.1/V0.2 历史公网验收还包括车主登录、375 像素宽度的首页与门店页、预约弹窗、合成仪表图真实 AI 识别。旧地图当时显示三家演示店和六张可见瓦片；当前地图结果以 V0.3 记录为准。预约预览显示 ¥80 制动检查及按时间排序的时段，未提交公共预约，也未确认合成图候选里程。
+V0.1/V0.2 历史公网验收还包括车主登录、375 像素宽度的首页与门店页、预约弹窗、合成仪表图真实 AI 识别。旧地图当时显示三家演示店和六张可见瓦片；当前地图结果以 V0.4 记录为准。预约预览显示 ¥80 制动检查及按时间排序的时段，未提交公共预约，也未确认合成图候选里程。
 
 ## 一次性初始化
 
