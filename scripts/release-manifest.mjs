@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { dirname, extname, join, resolve } from 'node:path';
+import { basename, dirname, extname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
@@ -22,7 +22,8 @@ function filesIn(root, path) {
 }
 
 function normalizedBytes(path, bytes) {
-  return textExtensions.has(extname(path).toLowerCase()) ? Buffer.from(bytes.toString('utf8').replace(/^\uFEFF/, '').replace(/\r\n/g, '\n')) : bytes;
+  const text = textExtensions.has(extname(path).toLowerCase()) || /^Dockerfile(?:\..+)?$/i.test(basename(path));
+  return text ? Buffer.from(bytes.toString('utf8').replace(/^\uFEFF/, '').replace(/\r\n/g, '\n')) : bytes;
 }
 
 function moduleFor(path) {

@@ -66,15 +66,21 @@ test('source archive identity is deterministic across line endings and excludes 
   await mkdir(join(root, 'apps/api/src'), { recursive: true });
   await mkdir(join(root, 'apps/web/public'), { recursive: true });
   await mkdir(join(root, 'docs'), { recursive: true });
+  await mkdir(join(root, 'deploy'), { recursive: true });
   await mkdir(join(root, 'apps/api/src/uploads'), { recursive: true });
   await writeFile(join(root, 'release.config.json'), JSON.stringify({ version: '0.8.0', title: '测试更新', changes: ['添加功能'] }));
   const source = join(root, 'apps/api/src/example.ts');
   await writeFile(source, 'export const example = 1;\r\n// comment\r\n');
+  for (const name of ['Dockerfile.api', 'Dockerfile.web']) await writeFile(join(root, 'deploy', name), 'FROM node:24-alpine\r\nWORKDIR /app\r\n');
   const first = createReleaseManifest({ root, git: false });
   assert.equal(first.revision, null);
   assert.match(first.version, /^0\.8\.0\+[a-f0-9]{10}$/);
   await writeFile(source, 'export const example = 1;\n// comment\n');
   assert.equal(createReleaseManifest({ root, git: false }).id, first.id);
+  for (const name of ['Dockerfile.api', 'Dockerfile.web']) {
+    await writeFile(join(root, 'deploy', name), 'FROM node:24-alpine\nWORKDIR /app\n');
+    assert.equal(createReleaseManifest({ root, git: false }).id, first.id, `${name} must normalize CRLF and LF identically`);
+  }
   await writeFile(join(root, '.env'), 'PGPASSWORD=synthetic-fixture-value');
   await writeFile(join(root, 'apps/api/src/.env.private'), 'PRIVATE=synthetic-fixture-value');
   await writeFile(join(root, 'apps/api/src/uploads/private.txt'), 'synthetic-upload');
