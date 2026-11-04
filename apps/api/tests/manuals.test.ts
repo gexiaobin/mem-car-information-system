@@ -1,4 +1,4 @@
-import { after, before, test } from "node:test";
+import { after, before, beforeEach, test } from "node:test";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { once } from "node:events";
@@ -36,6 +36,11 @@ let upstreamResponse: unknown = completed();
 let upstreamStatus = 200;
 const requests: { path: string; body: any }[] = [];
 const cookies: Record<string, string> = {};
+let clientNumber = 1;
+let clientAddress = "127.0.0.1";
+// Cases share seeded data, but represent independent client workflows. Their
+// polling must not consume another case's production rate-limit allowance.
+beforeEach(() => { clientAddress = `127.0.0.${++clientNumber}`; });
 const upstream = createServer(async (request, reply) => {
   const chunks: Buffer[] = [];
   for await (const part of request) chunks.push(Buffer.from(part));
@@ -85,27 +90,29 @@ after(async () => {
   await control?.end();
   if (temporary) await rm(temporary, { recursive: true, force: true });
 });
-const call = (who: string, method: "GET" | "POST" | "PATCH", path: string, payload?: unknown) => service.app.inject({ method, url: `/api/v1${path}`, headers: { origin, cookie: cookies[who] || "" }, ...(payload === undefined ? {} : { payload: payload as Record<string, unknown> }) });
+const call = (who: string, method: "GET" | "POST" | "PATCH", path: string, payload?: unknown) => service.app.inject({ method, url: `/api/v1${path}`, remoteAddress: clientAddress, headers: { origin, cookie: cookies[who] || "" }, ...(payload === undefined ? {} : { payload: payload as Record<string, unknown> }) });
 let imageNumber = 0;
-async function upload(options: { who?: string; modelId?: string; fields?: Record<string, string>; bytes?: Buffer; mime?: string; name?: string; items?: Array<{ bytes: Buffer; mime: string; name: string }> } = {}) {
+async function upload(options: { who?: string; modelId?: string; simplified?: boolean; fields?: Record<string, string>; bytes?: Buffer; mime?: string; name?: string; items?: Array<{ bytes: Buffer; mime: string; name: string }> } = {}) {
   imageNumber++;
   const image = options.bytes || await sharp({ create: { width: 160, height: 100, channels: 3, background: { r: imageNumber, g: 65, b: 95 } } }).png().toBuffer();
   const boundary = `manual-${imageNumber}`;
-  const fields = { modelId: options.modelId || "model-electric", sourceTitle: "合成保养手册2024版 第1页", sourceUrl: "https://example.com/synthetic-manual.pdf", edition: "合成测试2024版", applicability: "中国版2024款纯电；合成测试", consent: "true", ...options.fields };
+  const fields = { modelId: options.modelId || "model-electric", ...(options.simplified ? {} : { sourceTitle: "合成保养手册2024版 第1页", sourceUrl: "https://example.com/synthetic-manual.pdf", edition: "合成测试2024版", applicability: "中国版2024款纯电；合成测试" }), consent: "true", ...options.fields };
   const extra = Object.entries(fields).map(([key, value]) => `--${boundary}\r\nContent-Disposition: form-data; name="${key}"\r\n\r\n${value}\r\n`).join("");
   const items = options.items || [{ bytes: image, mime: options.mime || "image/png", name: options.name || "synthetic-manual.png" }];
   const payload = Buffer.concat([Buffer.from(extra), ...items.flatMap(item => [Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="${item.name}"\r\nContent-Type: ${item.mime}\r\n\r\n`), item.bytes, Buffer.from("\r\n")]), Buffer.from(`--${boundary}--\r\n`)]);
-  return service.app.inject({ method: "POST", url: "/api/v1/admin/manual-imports", headers: { origin, cookie: cookies[options.who ?? "admin"] || "", "content-type": `multipart/form-data; boundary=${boundary}` }, payload });
+  return service.app.inject({ method: "POST", url: "/api/v1/admin/manual-imports", remoteAddress: clientAddress, headers: { origin, cookie: cookies[options.who ?? "admin"] || "", "content-type": `multipart/form-data; boundary=${boundary}` }, payload });
 }
 async function settled(id: string) {
-  const deadline = Date.now() + 6000;
+  const deadline = Date.now() + (control ? 15000 : 6000);
+  let delay = 25;
   let job: ManualImport | undefined;
   do {
     const response = await call("admin", "GET", `/admin/manual-imports/${id}`);
     assert.equal(response.statusCode, 200, response.body);
     job = response.json<ManualImport>();
     if (!["uploaded", "processing"].includes(job.status)) return job;
-    await new Promise(resolve => setTimeout(resolve, 10));
+    await new Promise(resolve => setTimeout(resolve, delay));
+    delay = Math.min(250, delay * 2);
   } while (Date.now() < deadline);
   assert.fail(`manual did not settle: ${job?.status}`);
 }
@@ -157,10 +164,14 @@ test("manual vision supports both wire formats and preserves unknown fields and 
   const recognized = await recognizeManual(service.config, images, model);
   assert.equal(recognized.rows[0]?.intervalMonths, null);
   assert.equal(recognized.rows[0]?.triggerType, "condition");
+  assert.equal(recognized.sourceTitle, "");
+  assert.equal(recognized.edition, "");
+  assert.equal(recognized.sourceExcerpt, "");
   assert.equal(requests.at(-1)!.path, "/v1/responses");
   assert.equal(requests.at(-1)!.body.store, false);
   assert.match(requests.at(-1)!.body.input[0].content[0].text, /json/i);
   assert.match(requests.at(-1)!.body.instructions, /命令|指令/);
+  assert.match(requests.at(-1)!.body.instructions, /目标车型.*不能当作手册内容/);
   upstreamResponse = { choices: [{ finish_reason: "stop", message: { content: JSON.stringify(data) } }] };
   assert.equal((await recognizeManual({ ...service.config, aiApiStyle: "chat_completions" }, images, model)).rows[0]?.action, "replace");
   assert.equal(requests.at(-1)!.path, "/v1/chat/completions");
@@ -180,8 +191,74 @@ test("manual import and source discovery are restricted to platform administrato
   const sources = await call("admin", "GET", "/admin/manual-sources?modelId=model-electric");
   assert.equal(sources.statusCode, 200, sources.body);
   assert.equal(sources.json()[0]?.kind, "carobook");
+  assert(sources.json().every((source: { isDirectory?: boolean }) => source.isDirectory === true));
   const invalid = await upload({ modelId: "missing-model" });
   assert.equal(invalid.statusCode, 404);
+});
+
+test("a real page image needs only a model and consent; AI fills document metadata while retaining the original as its source", async () => {
+  const excerpt = "合成汽车保养手册\n2024年第二版\n适用：中国市场2024款合成纯电车型\n每12个月或20000公里更换空调滤清器。";
+  upstreamResponse = completed({ ...candidate(), sourceTitle: "合成汽车保养手册", edition: "2024年第二版", sourceExcerpt: excerpt });
+  const response = await upload({ simplified: true, name: "uploaded-owner-page.png" });
+  assert.equal(response.statusCode, 200, response.body);
+  const queued = response.json<ManualImport>();
+  assert.match(queued.sourceTitle, /uploaded-owner-page.*待核对/);
+  assert.equal(queued.edition, "未知（待核对）");
+  assert.match(queued.applicability, /适用范围未知.*拟关联.*尚未证实适用/);
+  assert.deepEqual(queued.metadataOrigin, { sourceTitle: "filename", edition: "unknown", applicability: "target" });
+  assert.equal(queued.sourceUrl, queued.files.find(file => file.original)?.url);
+  const job = await settled(queued.id);
+  assert.equal(job.status, "awaiting_confirmation", job.reason);
+  assert.equal(job.sourceTitle, "合成汽车保养手册");
+  assert.equal(job.edition, "2024年第二版");
+  assert.equal(job.applicability, candidate().applicability);
+  assert.equal(job.sourceExcerpt, excerpt);
+  assert.deepEqual(job.metadataOrigin, { sourceTitle: "document", edition: "document", applicability: "document" });
+  assert.equal(job.sourceUrl, job.files.find(file => file.original)?.url);
+  assert.equal(job.pageSelection?.mode, "images");
+  assert.deepEqual(job.pageSelection?.pages, [1]);
+  const images = requests.at(-1)!.body.input[0].content.filter((item: { type: string }) => item.type === "input_image");
+  assert.equal(images.length, 1);
+  assert.match(images[0].image_url, /^data:image\/jpeg;base64,/);
+  assert.equal((await call("admin", "POST", `/admin/manual-imports/${job.id}/publish`, publishing(job))).statusCode, 400, "AI metadata does not skip project mapping or review");
+});
+
+test("unseen manual metadata stays explicitly unknown and cannot turn the selected model into verified applicability", async () => {
+  upstreamResponse = completed({ ...candidate(), applicability: "" });
+  const response = await upload({ simplified: true, name: "2026-target-photo.png" });
+  assert.equal(response.statusCode, 200, response.body);
+  let job = await settled(response.json<ManualImport>().id);
+  assert.equal(job.edition, "未知（待核对）", "a year in the filename is not a printed edition");
+  assert.match(job.sourceTitle, /待核对/);
+  assert.match(job.applicability, /适用范围未知.*尚未证实适用/);
+  assert.equal(job.metadataOrigin?.edition, "unknown");
+  assert.equal(job.metadataOrigin?.applicability, "target");
+  assert.equal(job.sourceExcerpt, "");
+  assert(job.warnings.some(warning => /目标车型不构成适用证据/.test(warning)));
+  job = await draft(job, job.rows.map(item => ({ ...item, include: true, projectId: "project-brake", createProject: false })));
+  const blocked = await call("admin", "POST", `/admin/manual-imports/${job.id}/publish`, publishing(job));
+  assert.equal(blocked.statusCode, 400, blocked.body);
+  assert.equal(blocked.json().error.code, "APPLICABILITY_REQUIRED");
+  job = await draft(job, job.rows, { edition: "人工核对的原件版本 A", applicability: "人工核对：中国市场合成测试车型" });
+  assert.equal(job.metadataOrigin?.edition, "provided");
+  assert.equal(job.metadataOrigin?.applicability, "provided");
+  assert.equal(job.metadataOrigin?.sourceTitle, "filename", "saving rows does not claim that the filename is a document title");
+});
+
+test("recognized metadata never overwrites human input and an excerpt can be retained in a revisioned draft", async () => {
+  upstreamResponse = completed({ ...candidate(), sourceTitle: "页面识别标题", edition: "页面识别版本", applicability: "页面识别适用范围", sourceExcerpt: "页面原文摘录" });
+  const response = await upload({ fields: { sourceExcerpt: "人工保留逐字原文" } });
+  assert.equal(response.statusCode, 200, response.body);
+  let job = await settled(response.json<ManualImport>().id);
+  assert.equal(job.sourceTitle, "合成保养手册2024版 第1页");
+  assert.equal(job.edition, "合成测试2024版");
+  assert.equal(job.applicability, "中国版2024款纯电；合成测试");
+  assert.equal(job.sourceExcerpt, "人工保留逐字原文");
+  assert.deepEqual(job.metadataOrigin, { sourceTitle: "provided", edition: "provided", applicability: "provided" });
+  job = await draft(job, job.rows, { sourceExcerpt: "人工对照原图修订逐字原文" });
+  assert.equal(job.sourceExcerpt, "人工对照原图修订逐字原文");
+  const oversized = await call("admin", "PATCH", `/admin/manual-imports/${job.id}/draft`, { expectedRevision: job.revision, rows: job.rows, sourceTitle: job.sourceTitle, sourceUrl: job.sourceUrl, edition: job.edition, applicability: job.applicability, sourceExcerpt: "字".repeat(16001) });
+  assert.equal(oversized.statusCode, 400, oversized.body);
 });
 
 test("AI drafts retain evidence without changing active rules or model scope before review", async () => {
@@ -427,6 +504,9 @@ test("PDF page selection retains original and selected-page evidence while rejec
   assert(job.files.some(file => file.original && file.mimeType === "application/pdf"));
   assert(job.files.some(file => !file.original && file.pageNumber === 2 && file.mimeType.startsWith("image/")));
   assert.equal(job.files.some(file => file.pageNumber === 1), false);
+  assert.equal(job.pageSelection?.mode, "manual");
+  assert.deepEqual(job.pageSelection?.pages, [2]);
+  assert.equal(job.pageSelection?.totalPages, 2);
   const fileCount = (await list(service.db, "files")).length;
   for (const range of ["0", "3", "2-1", "1-999", "bad"]) {
     const response = await upload({ bytes: syntheticPdf(), mime: "application/pdf", name: "synthetic-manual.pdf", fields: { pageRange: range } });
@@ -479,4 +559,20 @@ test("manual failures remain retryable without exposing provider messages or all
   service.config.aiKey = "fake-manual-key";
   const blocked = await call("admin", "POST", "/admin/manual-imports/from-url", { modelId: "model-electric", sourceTitle: "不应下载内部地址", sourceUrl: "http://127.0.0.1/internal.pdf", consent: true });
   assert.equal(blocked.statusCode, 400, blocked.body);
+});
+
+test("the production client quota returns 429 with a retry interval instead of becoming an internal error", async () => {
+  const address = "127.0.1.200";
+  for (let count = 1; count <= 180; count++) {
+    const allowed = await service.app.inject({ method: "GET", url: "/api/v1/config", remoteAddress: address });
+    assert.equal(allowed.statusCode, 200, `request ${count} must remain within the 180 request quota`);
+    if (count === 180) assert.equal(allowed.headers["x-ratelimit-remaining"], "0");
+  }
+  const blocked = await service.app.inject({ method: "GET", url: "/api/v1/config", remoteAddress: address });
+  assert.equal(blocked.statusCode, 429, blocked.body);
+  assert.equal(blocked.json().error.code, "RATE_LIMITED");
+  assert.equal(blocked.headers["x-ratelimit-remaining"], "0");
+  const retryAfter = Number(blocked.headers["retry-after"]);
+  assert(retryAfter > 0 && retryAfter <= 60, "preserve the limiter's Retry-After header");
+  assert.equal((await service.app.inject({ method: "GET", url: "/api/v1/config", remoteAddress: "127.0.1.201" })).statusCode, 200, "one client's quota does not block another client");
 });

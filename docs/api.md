@@ -72,9 +72,13 @@
 
 `GET /admin/manual-sources?modelId=...` 只返回来源入口，不发外部请求；显式附加 `discover=true` 才查询 CarOBook 公开目录并返回候选和补充入口。候选仍需核对年款、动力和市场版本；查询结果不是文件已下载或已适用的证明。
 
-`POST /admin/manual-imports` 使用 Multipart，字段为 `modelId`、`sourceTitle`、可选 `sourceUrl`／`edition`／`applicability`／`pageRange`，以及字面值 `consent=true` 和文件。一次为 1 份最大 32 MiB 的 PDF，或最多 12 张每张最大 8 MiB 的 JPEG／PNG／WebP，总量最多 32 MiB。PDF 最多 1000 页，每次只识别最多 12 个指定页序号；`pageRange` 如 `150-154,158`，按 PDF 页序号从 1 计。服务端解码并保存原件与选定页图片，不将文件名或 MIME 声明当作内容证明。
+`POST /admin/manual-imports` 使用Multipart，必填字段仅为 `modelId`、字面值 `consent=true` 及文件。`sourceTitle`、`sourceUrl`、`edition`、`applicability`均可省略或留空，上传后自动保留原件并生成资料草稿，AI只根据可见文档填充空白元数据，保留人工输入。一次为1份最大32 MiB的PDF，或最多12张每张最大8 MiB的JPEG／PNG／WebP，总量最多32 MiB；图片不需要页码。
+
+PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `manual`；明确 `pageRange` 时始终使用指定物理页。自动模式先尝试定位文字版的保养表及说明，无法可靠定位时返回 `PDF_AUTO_SELECTION_REQUIRED`，建议上传表格截图或指定物理页。短PDF可全选。`pageRange` 如 `150-154,158`，页序号从1开始，不能依据印刷页码猜测。服务端继续解码并执行像素／内容预算预检，不将文件名或MIME声明当作内容证明。
 
 `POST /admin/manual-imports/from-url` 使用相同元数据的 JSON，`sourceUrl` 必填、`consent` 为布尔 `true`。下载器仅访问公开 HTTPS，校验 DNS、重定向、内容及大小，支持直接 PDF／图片，以及只含一个 PDF 链接的页面。CarOBook 目录／网盘分享不等同于直接文件；需要登录或人工下载时返回明确原因，转为人工上传，不绕过第三方权限。
+
+来源条目的可选 `isDirectory=true` 表示品牌／目录入口，`false`表示查到的具体候选；入口名称不能当作实际手册标题。任务新增可选 `metadataOrigin` 记录名称／版本／适用范围来自人工、原文、文件名、目标建议或未知；`sourceExcerpt` 保存识别原文摘录，`pageSelection` 保存选页模式、物理页列表、总页数及说明。旧任务没有这些字段仍可读取。文件名和目标车型仅能生成待核对建议，不能证明版本或适用性。
 
 返回 `ManualImport`，状态为 `uploaded`、`processing`、`awaiting_confirmation`、`published` 或 `failed`，包含 `files`、`rows`、`warnings`、`revision` 和发布的规则 ID。任务不进入普通 `bootstrap`；附件不暴露服务端路径。发布前仅平台可访问证据，发布后还需车主拥有匹配车型车辆才可读取。
 

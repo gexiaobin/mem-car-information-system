@@ -126,7 +126,7 @@ export async function manualSources(model: CarModel): Promise<ManualSource[]> {
   if (/大众/.test(model.brand)) sources.push({ title: '上汽大众官方保养手册', url: 'https://www.svw-volkswagen.com/service/maintenancemanual/', kind: 'official', description: '仅适用上汽大众车型；一汽大众迈腾、速腾等不可套用。' });
   if (/特斯拉|Tesla/i.test(model.brand)) sources.push({ title: '特斯拉中国官方保养建议', url: 'https://www.tesla.cn/support/vehicle-maintenance', kind: 'official', description: '按生产时期和配置核对条件、检查与更换要求；可将相关原文截图上传。' });
   sources.push({ title: '车主手册 · 备用资料目录', url: 'https://www.chezhushouce.com/', kind: 'other', description: '按品牌、车型与年份找 PDF，需核对原厂来源；网站注明仅供个人参考、禁止商用。' });
-  return sources;
+  return sources.map(source => ({ ...source, isDirectory: true }));
 }
 
 const discoveryCache = new Map<string, { expires: number; sources: ManualSource[] }>();
@@ -148,7 +148,7 @@ export async function discoverManualSources(model: CarModel): Promise<ManualSour
       try { url = new URL($(node).attr('href') || '', result.url); } catch { return; }
       if (url.hostname !== 'www.carobook.com' && url.hostname !== 'carobook.com') return;
       if (candidates.some(item => item.url === url.href) || candidates.length >= 6) return;
-      candidates.push({ title, url: url.href, kind: 'carobook', description: title.includes(String(model.year)) ? '标题包含本车型年款，仍须核对中国版、动力与配置；有唯一 PDF 直链时可获取，网盘分享需下载后上传。' : '车系名称相符，但年款或动力尚未确认；仅作候选，核对适用范围后才可导入。' });
+      candidates.push({ title, url: url.href, kind: 'carobook', isDirectory: false, description: title.includes(String(model.year)) ? '标题包含本车型年款，仍须核对中国版、动力与配置；有唯一 PDF 直链时可获取，网盘分享需下载后上传。' : '车系名称相符，但年款或动力尚未确认；仅作候选，核对适用范围后才可导入。' });
     });
     candidates.sort((a, b) => Number(b.title.includes(String(model.year))) - Number(a.title.includes(String(model.year))));
     const sources = [...candidates, ...fallback];

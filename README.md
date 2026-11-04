@@ -2,7 +2,7 @@
 
 中国海洋大学 MEM《软件工程管理》课程项目：汽车信息管理系统。
 
-React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。V0.8.1 补齐近年车系、实际年款与配置，增加年款覆盖展示和筛选；沿用自动系统更新日志、参考服务项目、保养手册下载／上传、AI 草稿与审核发布、授权概念跑车银白渲染图和海洋蓝主题，覆盖行驶证识别建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
+React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，PostgreSQL 持久化。V0.8.2 简化保养表图片导入，支持截图粘贴、自动填写手册信息和 PDF 保养表定位，并包含 V0.8.1 的近年车系、实际年款与配置补充。沿用自动系统更新日志、参考服务项目、AI 草稿与审核发布、银白概念跑车和海洋蓝主题，覆盖行驶证建档、车辆档案、保养提醒、门店比价预约、故障咨询与服务记录。
 
 课程预览已部署：[打开云程](http://117.72.124.241:58083/)。车主、门店、专家和平台账号的独立口令保存在部署者本机受控文件中，不提供公开通用密码。实际验收范围见 [验证记录](docs/verification.md)。
 
@@ -28,9 +28,9 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 
 车主与管理端均可打开“系统更新日志”。构建自动生成 `基础版本+源码摘要` 版本，API 首次成功监听时写入数据库；相同构建重启、回滚复用原记录。发布者可维护 `release.config.json` 中的功能说明；没有新说明的源码更新也会按变更模块生成摘要。机制、编辑步骤及接口见 [系统更新日志](docs/system-releases.md)。
 
-V0.8.1 代码 `79cd663` 已通过74项测试、18项真实PostgreSQL目录专项及 [GitHub CI](https://github.com/gexiaobin/mem-car-information-system/actions/runs/41833145025)，构建版本 `0.8.1+20f785556d`。部署包已完成，Portainer登录恢复后继续上线；当前公网仍为V0.8版本 `0.8.0+29b4f13741`。已有公网证据：[更新日志截图](docs/images/system-updates.png)、[车型配置截图](docs/images/vehicle-variant-options.png)。
+V0.8.2 构建版本 `0.8.2+9a7ec56f24` 已通过86项测试、20项真实PostgreSQL手册专项，以及合成保养表的真实AI与浏览器验收；操作文档已同步。当前Portainer显示登录页，待恢复会话后将连同V0.8.1近年配置一起上线；公网仍为 `0.8.0+29b4f13741`。新版证据：[自动填写草稿](docs/images/manual-quick-ai-review.png)、[手机图片入口](docs/images/manual-quick-mobile.png)。
 
-已上线保养手册导入：按车型查询 CarOBook 候选、从官方等补充来源取得 PDF／图片，AI 生成有页码和原文依据的草稿，平台管理员核对后发布到车型项目与规则。网盘或需登录的文件保留人工下载上传流程。操作、限制和本轮验证见 [手册导入](docs/manual-import.md) 与 [验证记录](docs/verification.md)。
+保养资料推荐操作：**选车型 → 上传或粘贴保养公里数表截图 → AI 自动填写信息和周期草稿 → 核对发布**。名称、版本、范围在上传前均可留空；原文未说明的字段保留待核对。整本 PDF 默认尝试定位周期表及相邻说明，找不到时可改用截图或手动选页。按车型查询 CarOBook／官方来源仍可使用，目录和网盘不冒充可直接导入的手册。操作与实际发布状态见 [手册导入](docs/manual-import.md) 和 [验证记录](docs/verification.md)。
 
 ## 文档导航
 

@@ -1,8 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
-import { PDFDocument, PDFName, type PDFRef } from 'pdf-lib';
-import { prepareManualPdf } from '../src/manual-files.js';
+import { PDFDocument, PDFName, StandardFonts, type PDFRef } from 'pdf-lib';
+import { locateManualPdfPages, parsePageRange, prepareManualPdf } from '../src/manual-files.js';
+import { locateMaintenancePages, type PdfTextDocument } from '../src/manual-pdf-locator.js';
 
 const blue = { r: 23, g: 111, b: 145 };
 async function jpeg(width: number, height: number) {
@@ -85,4 +86,128 @@ test('inline images are explicitly rejected; BI in strings/comments does not tri
     if (reject) await assert.rejects(promise, (error: unknown) => (error as { code?: string }).code === 'PDF_INLINE_IMAGE_UNSUPPORTED');
     else assert.equal((await promise).length, 2);
   }
+});
+
+async function textPdf(count: number, text: Record<number, string> = {}) {
+  const doc = await PDFDocument.create();
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  for (let number = 1; number <= count; number++) {
+    const page = doc.addPage([600, 800]);
+    page.drawText(text[number] || `Owner handbook - page ${number}`, { x: 30, y: 750, size: 10, lineHeight: 18, font });
+  }
+  return Buffer.from(await doc.save());
+}
+const schedule = [
+  'Maintenance schedule',
+  'Replace engine oil every 12 months or 20000 km',
+  'Replace air filter every 24 months or 40000 km',
+  'Inspect brake fluid every 12 months or 20000 km',
+  'Inspect tire pressure every 6 months or 10000 km',
+].join('\n');
+const errorCode = (code: string) => (error: unknown) => (error as { code?: string }).code === code;
+
+test('long PDF auto selection finds actual schedules, surrounding notes and front matter, excluding contents and repair prose', async () => {
+  const pdf = await textPdf(24, {
+    1: 'Example model owner handbook 2025 edition',
+    2: 'Foreword. Verify model applicability before use.',
+    4: 'Table of contents\nMaintenance schedule ............ 18\nEngine oil .................... 20\nAir filter ................... 21\nBrake fluid ................... 22',
+    12: 'Repair instructions mention maintenance\nReplace the engine oil cap. Tighten 20 Nm.\nInspect the air filter cover. Use 4 screws.\nInspect brake fluid reservoir. Capacity 0.5 L.',
+    17: 'Maintenance notes: intervals apply to normal conditions.',
+    18: schedule,
+    19: schedule.replace('Maintenance schedule', 'Maintenance schedule continued'),
+    20: 'Legend: I means inspect; R means replace. Severe conditions require review. Notes: keep the maintenance record.',
+  });
+  const selected = await locateManualPdfPages(pdf);
+  assert.deepEqual(selected.pages, [1, 2, 17, 18, 19, 20]);
+  assert.equal(selected.mode, 'auto');
+  assert.equal(selected.totalPages, 24);
+  const prepared = await prepareManualPdf(pdf, 'synthetic-handbook.pdf');
+  assert(prepared[0].bytes.equals(pdf));
+  assert.deepEqual(prepared.slice(1).map(file => file.pageNumber), selected.pages);
+  assert(prepared.length <= 13, 'only at most twelve selected page images plus the original PDF are returned');
+});
+
+test('a long scanned PDF fails clearly instead of sampling arbitrary pages; an explicit range still works', async () => {
+  const pdf = await scanPdf(await jpeg(20, 20), 20, 20, { pages: 13 });
+  await assert.rejects(locateManualPdfPages(pdf), (error: unknown) => {
+    assert(errorCode('PDF_AUTO_SELECTION_REQUIRED')(error));
+    assert.match((error as Error).message, /截图.*物理页码/);
+    return true;
+  });
+  const selection = await locateManualPdfPages(pdf, '10,12', 'auto');
+  assert.deepEqual(selection.pages, [10, 12]);
+  assert.equal(selection.mode, 'manual', 'an explicit page range takes precedence over automatic mode');
+  const prepared = await prepareManualPdf(pdf, 'manual-scan.pdf', '10,12');
+  assert.deepEqual(prepared.slice(1).map(file => file.pageNumber), [10, 12]);
+  await assert.rejects(locateManualPdfPages(pdf, undefined, 'manual'), errorCode('PAGE_RANGE_REQUIRED'));
+});
+
+test('short documents select every physical page and retain original page-range validation', async () => {
+  const pdf = await textPdf(3);
+  assert.deepEqual(await locateManualPdfPages(pdf), {
+    mode: 'all', pages: [1, 2, 3], totalPages: 3,
+    notice: '这份 PDF 共 3 页，已选择全部页面。请继续核对车型、版次及适用范围。',
+  });
+  assert.deepEqual((await prepareManualPdf(pdf, 'short.pdf')).slice(1).map(file => file.pageNumber), [1, 2, 3]);
+  assert.deepEqual(parsePageRange('3,1-2', 3), [1, 2, 3]);
+  assert.throws(() => parsePageRange(undefined, 13), errorCode('PAGE_RANGE_REQUIRED'));
+  assert.throws(() => parsePageRange('1,1', 3), errorCode('DUPLICATE_PAGE'));
+  assert.throws(() => parsePageRange('1-13', 13), errorCode('PDF_SELECTION_LIMIT'));
+});
+
+test('long contents or repair-only text is insufficient evidence for automatic selection', async () => {
+  const pdf = await textPdf(13, {
+    3: 'Table of contents\nMaintenance schedule ............ 9\nReplace engine oil ............ 10\nReplace air filter ............ 11\nInspect brake fluid ............ 12',
+    9: 'Maintenance information\nReplace engine oil. Use 5 L. Torque 20 Nm.\nReplace air filter. Use 4 screws.\nInspect brake fluid. Capacity 0.5 L.',
+  });
+  await assert.rejects(locateManualPdfPages(pdf), errorCode('PDF_AUTO_SELECTION_REQUIRED'));
+});
+
+test('unlabelled neighboring legends and interval footnotes are retained even without recognized note headings', async () => {
+  const pdf = await textPdf(15, {
+    8: schedule,
+    9: 'R = Replace; I = Inspect; C = Clean. * After 100000 km change brake fluid every 24 months.',
+  });
+  assert.deepEqual((await locateManualPdfPages(pdf)).pages, [1, 2, 7, 8, 9]);
+});
+
+test('an oversized detected schedule is not silently truncated to twelve pages', async () => {
+  const text: Record<number, string> = {};
+  for (let page = 3; page <= 13; page++) text[page] = schedule;
+  await assert.rejects(locateManualPdfPages(await textPdf(15, text)), errorCode('PDF_AUTO_SELECTION_REQUIRED'));
+});
+
+function fakeTextDocument(items: unknown[], count = 13, cleanup = () => {}) : PdfTextDocument {
+  return { numPages: count, async getPage() { return { async getTextContent() { return { items }; }, cleanup }; } };
+}
+
+test('automatic text extraction enforces page, item, character and elapsed-time budgets', async () => {
+  let cleanups = 0;
+  await assert.rejects(locateMaintenancePages(fakeTextDocument([{ str: 'x'.repeat(101) }], 13, () => cleanups++), { maxPageCharacters: 100 }), errorCode('PDF_TEXT_SCAN_LIMIT'));
+  assert.equal(cleanups, 1);
+  await assert.rejects(locateMaintenancePages(fakeTextDocument([{ str: 'x'.repeat(10) }]), { maxTotalCharacters: 20 }), errorCode('PDF_TEXT_SCAN_LIMIT'));
+  await assert.rejects(locateMaintenancePages(fakeTextDocument([{ str: 'a' }, { str: 'b' }]), { maxPageItems: 1 }), errorCode('PDF_TEXT_SCAN_LIMIT'));
+  await assert.rejects(locateMaintenancePages(fakeTextDocument([], 1001)), errorCode('PDF_PAGE_LIMIT'));
+  const stalled: PdfTextDocument = { numPages: 13, async getPage() { return { getTextContent: () => new Promise(() => {}), cleanup() { cleanups++; } }; } };
+  await assert.rejects(locateMaintenancePages(stalled, { maxPageMilliseconds: 5 }), errorCode('PDF_TEXT_SCAN_LIMIT'));
+  assert.equal(cleanups, 2);
+  const stalledPage: PdfTextDocument = { numPages: 13, getPage: () => new Promise(() => {}) };
+  await assert.rejects(locateMaintenancePages(stalledPage, { maxMilliseconds: 10, maxPageMilliseconds: 5 }), errorCode('PDF_TEXT_SCAN_LIMIT'));
+});
+
+test('auto mode retains original selected-page image safety checks before rendering', async () => {
+  const doc = await PDFDocument.load(await textPdf(13, { 8: schedule }));
+  const page = doc.getPage(7);
+  const image = doc.context.register(doc.context.stream(await jpeg(20, 20), {
+    Type: 'XObject', Subtype: 'Image', Width: 6500, Height: 6500, ColorSpace: 'DeviceRGB', BitsPerComponent: 8, Filter: 'DCTDecode',
+  }));
+  page.node.setXObject(PDFName.of('Im'), image);
+  page.node.addContentStream(doc.context.register(doc.context.stream('q 100 0 0 100 0 0 cm /Im Do Q')));
+  await assert.rejects(prepareManualPdf(Buffer.from(await doc.save()), 'unsafe-schedule.pdf'), pixelError);
+  const scans = await PDFDocument.load(await scanPdf(await jpeg(20, 20), 5000, 4200, { pages: 13 }));
+  const font = await scans.embedFont(StandardFonts.Helvetica);
+  for (let pageNumber = 4; pageNumber <= 7; pageNumber++) scans.getPage(pageNumber - 1).drawText(schedule, { x: 20, y: 370, size: 8, lineHeight: 12, font });
+  // Extraction may inspect all thirteen pages without decoding images, but the
+  // eight selected pages must still respect the original 160 MP render budget.
+  await assert.rejects(prepareManualPdf(Buffer.from(await scans.save()), 'auto-selection-budget.pdf'), pixelError);
 });

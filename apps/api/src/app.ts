@@ -80,9 +80,8 @@ export async function createApp(
   await app.register(rateLimit, {
     max: 180,
     timeWindow: "1 minute",
-    errorResponseBuilder: () => ({
-      error: { code: "RATE_LIMITED", message: "请求过于频繁，请稍后再试" },
-    }),
+    errorResponseBuilder: (_request, context) =>
+      new AppError(context.statusCode, "RATE_LIMITED", "请求过于频繁，请稍后再试"),
   });
   const publicConfig = (): PublicConfig => ({
     version: runningRelease.version,

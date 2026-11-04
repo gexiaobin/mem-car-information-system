@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { CarModel, MaintenanceRule, ManualAsset, ManualDocument, ManualImport, ManualRuleDraft, Project, Vehicle } from "@autovoyage/shared";
+import type { CarModel, MaintenanceRule, ManualAsset, ManualDocument, ManualImport, ManualMetadataOrigin, ManualPageSelection, ManualRuleDraft, Project, Vehicle } from "@autovoyage/shared";
 import type { Context } from "./context.js";
 import { authenticated, roles, route } from "./context.js";
 import { get, list, put } from "./db.js";
@@ -21,11 +21,13 @@ const sourceUrlSchema = z.string().trim().max(2500).refine(value => {
 }, "请填写 HTTPS 手册来源链接，或上传原件保留来源");
 const metadataSchema = z.object({
   modelId: z.string().trim().min(1).max(80),
-  sourceTitle: z.string().trim().min(1).max(1000),
+  sourceTitle: z.string().trim().max(1000).default(""),
   sourceUrl: sourceUrlSchema.default(""),
   edition: z.string().trim().max(500).default(""),
   applicability: z.string().trim().max(3000).default(""),
+  sourceExcerpt: z.string().trim().max(16000).default(""),
   pageRange: z.string().trim().max(200).optional(),
+  pageMode: z.enum(["auto", "manual"]).default("auto"),
 });
 const draftSchema = z.object({
   expectedRevision: z.number().int().positive(),
@@ -34,11 +36,22 @@ const draftSchema = z.object({
   sourceUrl: sourceUrlSchema,
   edition: z.string().trim().max(500),
   applicability: z.string().trim().max(3000),
+  sourceExcerpt: z.string().trim().max(16000).optional(),
 }).strict();
 const publishSchema = z.object({ expectedRevision: z.number().int().positive(), verified: z.literal(true), applicabilityConfirmed: z.literal(true) }).strict();
 const identity = (model: CarModel) => sha256(JSON.stringify([model.brand, model.name, model.year, model.power, model.isDemo]));
 const latestVersions = (rules: MaintenanceRule[]) => Object.fromEntries([...new Set(rules.map(rule => rule.projectId))].map(projectId => [projectId, Math.max(0, ...rules.filter(rule => rule.projectId === projectId).map(rule => rule.version))]));
 const normalizedName = (name: string) => name.replace(/\s+/g, "").toLocaleLowerCase("zh-CN");
+const metadataKeys = ["sourceTitle", "edition", "applicability"] as const;
+// Older imports predate provenance; existing human-entered values remain owned
+// by the user and must never be replaced when such a job is retried.
+const originsFor = (job: Pick<ManualImport, "sourceTitle" | "edition" | "applicability" | "metadataOrigin">): ManualMetadataOrigin => ({
+  sourceTitle: job.sourceTitle.trim() ? "provided" : "unknown",
+  edition: job.edition.trim() ? "provided" : "unknown",
+  applicability: job.applicability.trim() ? "provided" : "unknown",
+  ...job.metadataOrigin,
+});
+const usableDocumentMetadata = (value: string) => !!value.trim() && !/^(?:未知|不详|不明|未见|未识别|未提供|未标注|无法确定|待核对|待确认|unknown|n\/?a|null|none)[。.!！]?$/i.test(value.trim());
 function publicManual(job: StoredManual): ManualImport {
   const { attempts: _, modelIdentity: __, baseRuleVersions: ___, publicationHash: ____, acquiredSourceUrl: _____, ...result } = job;
   return result;
@@ -88,12 +101,20 @@ export function registerManuals(ctx: Context) {
       const rows: ManualRuleDraft[] = result.rows.map(row => ({ ...row, id: id(), projectId: null, createProject: false, include: row.triggerType === "periodic" }));
       verifyEvidence(rows, job.files, false);
       const warnings = [...result.warnings];
-      if (!result.applicability) warnings.push("识别页面未明确给出适用车型与版本，请结合手册封面和原车资料核对。");
+      if (!usableDocumentMetadata(result.sourceTitle)) warnings.push("识别页面未明确给出手册标题；文件名只作待核对草稿，请结合原件核对。");
+      if (!usableDocumentMetadata(result.edition)) warnings.push("识别页面未明确给出手册版本；未知版本须核对后填写，不能用目标车型年款代替。");
+      if (!usableDocumentMetadata(result.applicability)) warnings.push("识别页面未明确给出适用车型与版本，请结合手册封面和原车资料核对；目标车型不构成适用证据。");
       if (rows.some(row => row.triggerType === "periodic" && ((row.firstMonths === null && row.firstKm === null) || (row.intervalMonths === null && row.intervalKm === null)))) warnings.push("部分周期字段未明确识别，须对照原文补全，不能凭经验补写。");
       await db.transaction(async sql => {
         const current = await get<StoredManual>(sql, "manual_imports", job!.id, true);
         if (!current || current.status !== "processing" || current.revision !== job!.revision) return;
-        await put(sql, "manual_imports", { ...current, rows, warnings, applicability: current.applicability || result.applicability, status: "awaiting_confirmation", revision: current.revision + 1, updatedAt: now(), reason: rows.length ? "识别仅生成草稿；请核对来源、适用范围、项目映射和每条周期后发布。" : "未识别到可用保养项目，请核对选页并重新导入保养表和图例。" });
+        const metadataOrigin = originsFor(current);
+        const metadata = { sourceTitle: current.sourceTitle, edition: current.edition, applicability: current.applicability };
+        for (const key of metadataKeys) if (metadataOrigin[key] !== "provided" && usableDocumentMetadata(result[key])) {
+          metadata[key] = result[key];
+          metadataOrigin[key] = "document";
+        }
+        await put(sql, "manual_imports", { ...current, ...metadata, metadataOrigin, sourceExcerpt: current.sourceExcerpt || result.sourceExcerpt, rows, warnings: [...new Set(warnings)], status: "awaiting_confirmation", revision: current.revision + 1, updatedAt: now(), reason: rows.length ? "识别仅生成草稿；请核对来源、适用范围、项目映射和每条周期后发布。" : "未识别到可用保养项目，请核对选页并重新导入保养表和图例。" });
       });
     } catch (error) {
       if (!job) return;
@@ -116,14 +137,24 @@ export function registerManuals(ctx: Context) {
       }
     })().finally(() => { draining = null; });
   }
-  async function createJob(userId: string, input: z.infer<typeof metadataSchema>, files: ManualAsset[]) {
+  async function createJob(userId: string, input: z.infer<typeof metadataSchema>, files: ManualAsset[], selection?: ManualPageSelection) {
     return db.transaction(async sql => {
       const model = await get<CarModel>(sql, "models", input.modelId, true);
       ensure(model, 404, "MODEL_NOT_FOUND", "请选择已有的准确车型、年款与动力配置");
       const rules = (await list<MaintenanceRule>(sql, "rules")).filter(rule => rule.modelId === model.id);
+      const original = files.find(file => file.original) || files[0];
+      ensure(original, 400, "SOURCE_REQUIRED", "请上传手册原件或页面图片");
+      const filename = original.name.replace(/\.[^.]+$/, "").trim().slice(0, 960);
+      const target = `${model.brand} ${model.name} ${model.year}款 ${model.power}`.trim().slice(0, 2000);
+      const sourceUrl = input.sourceUrl || original.url;
       const job: StoredManual = {
-        id: id(), createdBy: userId, modelId: model.id, sourceTitle: input.sourceTitle, sourceUrl: input.sourceUrl,
-        acquiredSourceUrl: input.sourceUrl, edition: input.edition, applicability: input.applicability,
+        id: id(), createdBy: userId, modelId: model.id,
+        sourceTitle: input.sourceTitle || `${filename || `${model.brand} ${model.name} 保养资料`}（待核对）`, sourceUrl,
+        acquiredSourceUrl: sourceUrl, edition: input.edition || "未知（待核对）",
+        applicability: input.applicability || `适用范围未知（待核对）；拟关联：${target}，尚未证实适用。`,
+        sourceExcerpt: input.sourceExcerpt,
+        metadataOrigin: { sourceTitle: input.sourceTitle ? "provided" : filename ? "filename" : "target", edition: input.edition ? "provided" : "unknown", applicability: input.applicability ? "provided" : "target" },
+        ...(selection ? { pageSelection: selection } : {}),
         status: configured() ? "uploaded" : "failed", files, rows: [], warnings: [], attempts: 0,
         reason: configured() ? "原件已保存，正在排队识别选定页面。" : "原件已保存；尚未配置手册AI识别服务，请配置后重试。",
         revision: 1, createdAt: now(), updatedAt: now(), publishedAt: null, publishedRuleIds: [], aiModel: config.aiModel,
@@ -151,7 +182,7 @@ export function registerManuals(ctx: Context) {
     ensure(job?.status === "published", 404, "NOT_FOUND", "已发布手册不存在");
     const allowed = user.role === "platform_admin" || user.role === "owner" && (await list<Vehicle>(db, "vehicles")).some(vehicle => vehicle.ownerId === user.id && vehicle.modelId === job.modelId);
     ensure(allowed, 403, "FORBIDDEN", "仅平台管理员及适用车型车主可查看已发布手册");
-    const document: ManualDocument = { id: job.id, modelId: job.modelId, sourceTitle: job.sourceTitle, sourceUrl: job.sourceUrl, edition: job.edition, applicability: job.applicability, files: job.files, publishedAt: job.publishedAt };
+    const document: ManualDocument = { id: job.id, modelId: job.modelId, sourceTitle: job.sourceTitle, sourceUrl: job.sourceUrl, edition: job.edition, applicability: job.applicability, sourceExcerpt: job.sourceExcerpt, metadataOrigin: job.metadataOrigin, pageSelection: job.pageSelection, files: job.files, publishedAt: job.publishedAt };
     return document;
   });
   app.get<{ Params: { id: string } }>(route("/admin/manual-imports/:id"), async request => {
@@ -167,7 +198,7 @@ export function registerManuals(ctx: Context) {
     try {
       ensure(received.fields.consent === "true", 400, "RECOGNITION_CONSENT_REQUIRED", "请确认使用已配置的AI服务识别这份保养手册");
       const input = metadataSchema.parse(received.fields);
-      const job = await createJob(user.id, input, received.files);
+      const job = await createJob(user.id, input, received.files, received.selection);
       committed = true;
       if (job.status === "uploaded") schedule(job.id);
       return publicManual(job);
@@ -177,10 +208,10 @@ export function registerManuals(ctx: Context) {
     const user = roles(request, ["platform_admin"]);
     const input = metadataSchema.extend({ consent: z.literal(true), sourceUrl: z.string().url().max(2500) }).strict().parse(request.body);
     const downloaded = await downloadManualSource(input.sourceUrl);
-    const received = await ingestManualBuffer(ctx, user.id, downloaded.buffer, downloaded.name, downloaded.mimeType, input.pageRange);
+    const received = await ingestManualBuffer(ctx, user.id, downloaded.buffer, downloaded.name, downloaded.mimeType, input.pageRange, input.pageMode);
     let committed = false;
     try {
-      const job = await createJob(user.id, { ...input, sourceUrl: downloaded.sourceUrl }, received.files);
+      const job = await createJob(user.id, { ...input, sourceUrl: downloaded.sourceUrl }, received.files, received.selection);
       committed = true;
       if (job.status === "uploaded") schedule(job.id);
       return publicManual(job);
@@ -211,7 +242,9 @@ export function registerManuals(ctx: Context) {
       ensure(job.revision === input.expectedRevision, 409, "REVISION_CONFLICT", "手册草稿已被更新，请刷新后重新核对");
       verifySourceLink(input.sourceUrl, job.files);
       verifyEvidence(input.rows, job.files, false);
-      const updated = await put(sql, "manual_imports", { ...job, rows: input.rows, sourceTitle: input.sourceTitle, sourceUrl: input.sourceUrl, edition: input.edition, applicability: input.applicability, revision: job.revision + 1, updatedAt: now() });
+      const metadataOrigin = originsFor(job);
+      for (const key of metadataKeys) if (input[key] !== job[key]) metadataOrigin[key] = input[key].trim() ? "provided" : "unknown";
+      const updated = await put(sql, "manual_imports", { ...job, rows: input.rows, sourceTitle: input.sourceTitle, sourceUrl: input.sourceUrl, edition: input.edition, applicability: input.applicability, sourceExcerpt: input.sourceExcerpt ?? job.sourceExcerpt, metadataOrigin, revision: job.revision + 1, updatedAt: now() });
       await audit(sql, user.id, "manual.draft.saved", "manual", job.id, `保存 ${input.rows.filter(row => row.include).length} 条候选规则，尚未发布`);
       return publicManual(updated);
     });
@@ -235,6 +268,8 @@ export function registerManuals(ctx: Context) {
       ensure(job.revision === input.expectedRevision, 409, "REVISION_CONFLICT", "手册草稿已更新，请刷新并重新核对");
       ensure(identity(model) === job.modelIdentity, 409, "MODEL_CHANGED", "车型名称、年款或动力配置已变更，请重新导入适用手册");
       ensure(!!job.edition.trim() && !!job.applicability.trim(), 400, "APPLICABILITY_REQUIRED", "请填写手册版本及已核对的车型、市场和动力适用范围");
+      const metadataOrigin = originsFor(job);
+      ensure(!["unknown", "target"].includes(metadataOrigin.edition) && !["unknown", "target"].includes(metadataOrigin.applicability), 400, "APPLICABILITY_REQUIRED", "手册版本或适用范围仍未知/待核对，请对照原件填写并保存；所选目标车型不能证明手册适用");
       verifySourceLink(job.sourceUrl, job.files);
       const selected = job.rows.filter(row => row.include);
       ensure(selected.length > 0, 400, "MANUAL_ROWS_REQUIRED", "请至少选中一条已核对的保养规则");
