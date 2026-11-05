@@ -30,7 +30,9 @@ V0.8.5 本轮补充67个通用服务参考项目，保留原53个，共120个、
 
 车主与管理端均可打开“系统更新日志”。构建自动生成 `基础版本+源码摘要` 版本，API 首次成功监听时写入数据库；相同构建重启、回滚复用原记录。发布者可维护 `release.config.json` 中的功能说明；没有新说明的源码更新也会按变更模块生成摘要。机制、编辑步骤及接口见 [系统更新日志](docs/system-releases.md)。
 
-当前版本 **V0.8.4 `0.8.4+22d57176e5` 已于2026-11-05北京时间18:43上线**：手册草稿可按原文批量补全空白首次保养、自动关联已有或参考标准项目，并按车型整理真实公开手册候选；车型卡片支持查看本车型规则和删除未被引用的条目。101项回归、真实PostgreSQL专项及真实公开检索／AI排序验证通过，两容器均healthy，原业务数据核对保留，自动生成本版更新日志。已有首次值、人工映射及业务引用保留，查询不会自动生成或发布保养周期。公网汽油版凯美瑞查询中出现双擎手册候选，页面明确年款动力尚未确认，不能当作适用手册。使用方式与限制见 [手册导入](docs/manual-import.md)；公网证据：[车型规则筛选](docs/images/manual-model-rules-cloud.png)、[AI候选查询](docs/images/manual-ai-search-cloud.png)、[更新日志](docs/images/manual-tools-cloud-updates.png)，详细结果见 [验证记录](docs/verification.md)。
+当前版本 **V0.8.5 `0.8.5+2be7c67710` 已于2026-11-05北京时间19:20上线**。通用参考目录120项、13分类；本轮从正式界面选择118个未导入候选，新增116、复用1、跳过1，业务标准项目由7项补至123项。原7项完整保留；现有“火花塞”操作未明确，跳过“更换火花塞”待核对。支持批量选择、分类筛选和冲突说明；车型规则与门店价格按原流程核对。106项回归、真实PostgreSQL／PGlite专项各31项通过，API／Web均healthy，已自动记录更新日志。来源、接口、备份与验收结果见 [验证记录](docs/verification.md)；[正式补入截图](docs/images/common-service-import-cloud.png)、[分类列表](docs/images/common-service-projects-cloud.png) 与 [更新日志](docs/images/common-service-updates-cloud.png)。
+
+历史版本 **V0.8.4 `0.8.4+22d57176e5` 已于2026-11-05北京时间18:43上线**：手册草稿可按原文批量补全空白首次保养、自动关联已有或参考标准项目，并按车型整理真实公开手册候选；车型卡片支持查看本车型规则和删除未被引用的条目。101项回归、真实PostgreSQL专项及真实公开检索／AI排序验证通过，两容器均healthy，原业务数据核对保留，自动生成本版更新日志。已有首次值、人工映射及业务引用保留，查询不会自动生成或发布保养周期。公网汽油版凯美瑞查询中出现双擎手册候选，页面明确年款动力尚未确认，不能当作适用手册。使用方式与限制见 [手册导入](docs/manual-import.md)；公网证据：[车型规则筛选](docs/images/manual-model-rules-cloud.png)、[AI候选查询](docs/images/manual-ai-search-cloud.png)、[更新日志](docs/images/manual-tools-cloud-updates.png)，详细结果见 [验证记录](docs/verification.md)。
 
 V0.8.3 历史版本 `0.8.3+2a620a9098` 于2026-11-05北京时间16:02上线，修复车型维护的保养项目复选框布局，功能在当前版本保留。该次全项目类型检查、86项测试与两端构建通过；[公网修复截图](docs/images/model-maintenance-fixed.png)。手机断点仅完成静态审查，未记为手机浏览器实测通过；详细结果见 [验证记录](docs/verification.md)。
 
