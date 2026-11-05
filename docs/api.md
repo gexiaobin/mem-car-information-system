@@ -24,11 +24,14 @@
 | 门店服务 | `POST /admin/offers`、`POST /admin/offers/:id/version`、`PATCH /admin/offers/:id` | 创建、发布新价版本、上下架 |
 | 名额 | `POST /admin/slots`、`PATCH /admin/slots/:id` | 时段与容量，不得小于已占用数 |
 | 标准项目 | `POST /admin/projects`、`PATCH /admin/projects/:id` | 平台维护 |
+| 车型档案 | `POST /admin/models`、`PATCH /admin/models/:id`、`DELETE /admin/models/:id` | 平台维护；仅未被引用的车型可删除 |
 | 车型手册 | `POST /admin/rules`、`PATCH /admin/rules/:id` | 来源、版本、适用范围与复核 |
 | 手册来源 | `GET /admin/manual-sources?modelId=...&discover=true` | 平台管理员按车型查询 CarOBook 候选及官方补充入口；不传 discover 时仅返回入口 |
+| AI手册查询 | `POST /admin/manual-imports/ai-search` | 真实公开查询后，仅由AI排序已有候选 |
 | 手册导入 | `POST /admin/manual-imports`、`POST /admin/manual-imports/from-url` | 平台上传 PDF／图片，或获取允许来源的直接文件 |
 | 手册任务 | `GET /admin/manual-imports`、`GET /admin/manual-imports/:id`、`POST /admin/manual-imports/:id/retry` | 平台查询持久任务和有限重试 |
 | 手册审核发布 | `PATCH /admin/manual-imports/:id/draft`、`POST /admin/manual-imports/:id/publish` | 版本校验、保存草稿、人工确认后原子发布 |
+| 手册项目关联 | `POST /admin/manual-imports/:id/auto-map` | 为空白映射匹配已有或参考项目，保留人工选择 |
 | 手册证据 | `GET /manual-files/:id` | 平台读取；匹配本人车辆车型的车主读取已发布证据 |
 | 已发布手册 | `GET /manuals/:id` | 平台或拥有匹配车型的车主读取已发布手册及证据文件元数据 |
 | 门店 | `POST /admin/stores`、`PATCH /admin/stores/:id` | 本店资料、平台审核 |
@@ -72,6 +75,8 @@
 
 `GET /admin/manual-sources?modelId=...` 只返回来源入口，不发外部请求；显式附加 `discover=true` 才查询 CarOBook 公开目录并返回候选和补充入口。候选仍需核对年款、动力和市场版本；查询结果不是文件已下载或已适用的证明。
 
+`POST /admin/manual-imports/ai-search` 接收严格JSON `{ "modelId": "准确车型ID", "consent": true }`，仅平台管理员可用。先执行真实公开查询并补充官方等目录，再由AI排序给定候选编号；不接受AI生成的URL、周期或适用性。返回 `query,sources,summary,warnings,aiStatus,searchedAt,evidenceMode`，`evidenceMode` 为 `public_search`，`aiStatus` 为 `completed`、`unavailable` 或 `not_configured`。未配置、拒绝、超时或无效编号时保留原候选或目录并说明原因。支持现有Responses和Chat Completions，AI步骤最多35秒，公开查询最多12秒；相同车型查询合并并缓存，正常15分钟、AI失败30秒，每分钟最多4次、同时最多3个不同查询；繁忙返回429。
+
 `POST /admin/manual-imports` 使用Multipart，必填字段仅为 `modelId`、字面值 `consent=true` 及文件。`sourceTitle`、`sourceUrl`、`edition`、`applicability`均可省略或留空，上传后自动保留原件并生成资料草稿，AI只根据可见文档填充空白元数据，保留人工输入。一次为1份最大32 MiB的PDF，或最多12张每张最大8 MiB的JPEG／PNG／WebP，总量最多32 MiB；图片不需要页码。
 
 PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `manual`；明确 `pageRange` 时始终使用指定物理页。自动模式先尝试定位文字版的保养表及说明，无法可靠定位时返回 `PDF_AUTO_SELECTION_REQUIRED`，建议上传表格截图或指定物理页。短PDF可全选。`pageRange` 如 `150-154,158`，页序号从1开始，不能依据印刷页码猜测。服务端继续解码并执行像素／内容预算预检，不将文件名或MIME声明当作内容证明。
@@ -114,7 +119,11 @@ PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `man
 }
 ```
 
-动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。周期数字可为空；周期规则的首次与后续各至少有一个有效阈值，且 `condition` 必须为空，正常使用说明放在 `notes`。有特殊适用条件的项目使用条件／按需类型，保留条件且不计算固定到期，这些候选默认不选中。未知值不能由 AI 补齐。每条需有有效证据页和原文摘录；选中行必须映射有效项目，或明确 `createProject=true` 且 `projectId=null`。重复项目与故障诊断范围不能发布。
+动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。周期数字可为空；周期规则的首次与后续各至少有一个有效阈值，且 `condition` 必须为空，正常使用说明放在 `notes`。有特殊适用条件的项目使用条件／按需类型，保留条件且不计算固定到期，这些候选默认不选中。未知值不能由 AI 补齐。每条需有有效证据页和原文摘录；选中行必须且只能选择有效 `projectId`、公开参考 `catalogProjectId` 或明确 `createProject=true` 三种映射之一。其他映射字段置空／false，`catalogProjectId` 可省略以兼容旧草稿。重复项目与故障诊断范围不能发布。
+
+首次识别只为唯一、同部件／明确同义词且同操作的行自动映射启用的非故障诊断项目，找不到时再匹配公开参考目录；不确定、冲突或重复目标留空，不默认新增。`POST /admin/manual-imports/:id/auto-map` 接收 `{ "expectedRevision": 3 }`，仅处理 `awaiting_confirmation` 的当前版本草稿，保留已有 `projectId`、`catalogProjectId` 或明确新增选择；返回更新后的任务并递增revision。过期版本返回409／`REVISION_CONFLICT`。参考项目在发布事务中才创建或复用并保留 `catalogSource`；多义匹配、停用项目或编码冲突会阻止发布，不静默复制。
+
+“通用首次保养”在客户端修改草稿后仍通过原PATCH保存，没有额外批量发布接口。只作用于已选、`periodic`、`condition`空白且 `firstMonths`／`firstKm`均为null的行，不改后续周期或任何已知首次值。月数为1–1200、公里数1–2000000的整数，至少填写一项；这些管理员提供的值仍须原文支持及发布前确认。
 
 发布请求为 `POST /admin/manual-imports/:id/publish`：
 
@@ -147,6 +156,8 @@ PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `man
 选择 `variantId` 导入时，服务端校验配置属于该车系，再派生档案 `year` 与 `power`（`公开动力 · 具体配置`），客户端不能覆盖这些值或夹带其他字段。不存在或跨车系的配置返回 400、`CATALOG_VARIANT_MISMATCH`。人工补充模式仍须明确填写 1950–2100 的整数年款和非空动力配置，不会伪装成有公开配置依据的导入。两种模式均建立非演示档案，保养适用项目保持未知；周期、材料、价格及适用范围通过原有手册审核流程确认。
 
 同候选、年款及归一化动力配置，或同品牌、名称、年款及动力的档案可幂等复用。普通车型新增／修改与候选导入共用表锁及身份重复检查。参考项目按候选来源、编码或归一化名称复用，保留已有停用状态与编辑。相同编码对应不同名称返回 `CATALOG_CODE_CONFLICT`，整批回滚；不存在的条目返回 `CATALOG_ENTRY_NOT_FOUND`。未知字段不能通过导入请求夹带来源、保养规则或演示标记。
+
+`DELETE /admin/models/:id` 仅平台管理员可用，成功返回 `{ "deleted": true, "id": "车型ID" }`。事务先锁定车型并检查车辆、报价、历史报价、规则和手册任务引用；任一引用返回409／`MODEL_IN_USE`，不存在返回404，不级联删除业务依据。界面的“查看规则”按所选 `modelId` 精确过滤并切到规则页，清除后恢复全部，不新增读取权限或改写规则。
 
 ## 行驶证识别与私人档案
 

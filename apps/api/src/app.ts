@@ -56,6 +56,7 @@ import { registerImages } from "./images.js";
 import { registerRegistration } from "./registration.js";
 import { registerManuals } from "./manuals.js";
 import { registerManualFiles } from "./manual-files.js";
+import { registerManualAiSearch } from "./manual-ai-search.js";
 import { ensureUniqueOwnerPlate } from "./vehicle-identity.js";
 import { effectiveOffers } from "./prices.js";
 import { registerReleases, runningRelease } from "./releases.js";
@@ -448,6 +449,9 @@ export async function createApp(
     };
     return db.transaction(async sql => {
       await get(sql, "users", user.id, true);
+      const currentModel = await get<CarModel>(sql, "models", input.modelId, true);
+      ensure(currentModel, 400, "MODEL_NOT_FOUND", "车型已删除，请重新选择车型");
+      vehicle.isDemo = currentModel.isDemo;
       await ensureUniqueOwnerPlate(sql, user.id, input.plate);
       await put(sql, "vehicles", vehicle);
       await audit(sql, user.id, "vehicle.created", "vehicle", vehicle.id, "创建车辆档案，等待图片里程确认");
@@ -751,6 +755,7 @@ export async function createApp(
   const images = registerImages({ app, db, config });
   const registrations = registerRegistration({ app, db, config });
   registerManualFiles({ app, db, config });
+  registerManualAiSearch({ app, db, config });
   const manuals = registerManuals({ app, db, config });
   await images.resume();
   await registrations.resume();

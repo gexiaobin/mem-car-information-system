@@ -153,7 +153,7 @@ export function registerRegistration(ctx: Context) {
         ensure(normalizePlate(vehicle.plate) === input.fields.plate, 409, "REGISTRATION_PLATE_MISMATCH", "行驶证车牌与所选车辆不一致，请选择正确车辆或先修改车辆车牌");
       } else {
         ensure(input.vehicle, 400, "VEHICLE_REQUIRED", "请明确选择车型、车辆启用日期及启用里程");
-        const model = await get<CarModel>(sql, "models", input.vehicle.modelId);
+        const model = await get<CarModel>(sql, "models", input.vehicle.modelId, true);
         ensure(model, 400, "MODEL_NOT_FOUND", "请选择已有的准确车型配置，不能由行驶证品牌型号推测保养规则");
         await ensureUniqueOwnerPlate(sql, user.id, input.fields.plate);
         vehicleId = id();

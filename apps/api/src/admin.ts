@@ -11,7 +11,7 @@ import type {
 } from "@autovoyage/shared";
 import type { Context } from "./context.js";
 import { roles, route, sameStore } from "./context.js";
-import { get, list, put } from "./db.js";
+import { get, list, put, remove } from "./db.js";
 import type { Sql } from "./db.js";
 import { audit, ensure, id, now, shanghaiDay } from "./domain.js";
 import { sameModelIdentity } from "./catalog.js";
@@ -154,6 +154,23 @@ export function registerAdmin({ app, db }: Context) {
       });
     },
   );
+  app.delete<{ Params: { id: string } }>(route("/admin/models/:id"), async request => {
+    const user = roles(request, ["platform_admin"]);
+    return db.transaction(async sql => {
+      // Every path creating model references takes this model row lock first.
+      const model = await get<CarModel>(sql, "models", request.params.id, true);
+      ensure(model, 404, "NOT_FOUND", "车型不存在，可能已被删除");
+      const references: string[] = [];
+      for (const [table, label] of [["vehicles", "车辆档案"], ["offers", "门店报价"], ["offer_versions", "历史报价"], ["rules", "保养规则"], ["manual_imports", "手册任务"]] as const) {
+        const count = (await list<{ modelId?: string }>(sql, table)).filter(item => item.modelId === model.id).length;
+        if (count) references.push(`${label}${count}条`);
+      }
+      ensure(!references.length, 409, "MODEL_IN_USE", `该车型已关联${references.join("、")}，不能删除。请保留已有档案及服务依据；仅未被使用的车型可以删除。`);
+      await remove(sql, "models", model.id);
+      await audit(sql, user.id, "model.deleted", "model", model.id, `删除未被使用的车型：${model.brand} ${model.name} ${model.year} ${model.power}`);
+      return { deleted: true, id: model.id };
+    });
+  });
   app.post(route("/admin/offers"), async (request) => {
     const user = roles(request, ["store_admin"]);
     const input = offerSchema.parse(request.body);
@@ -186,7 +203,7 @@ export function registerAdmin({ app, db }: Context) {
         "同一车型、项目、材料与服务范围已有重叠有效报价，请为原服务发布新版本",
       );
       ensure(
-        await get(sql, "models", input.modelId),
+        await get(sql, "models", input.modelId, true),
         400,
         "MODEL_NOT_FOUND",
         "车型不存在",

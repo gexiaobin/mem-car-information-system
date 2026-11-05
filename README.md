@@ -28,6 +28,8 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 
 车主与管理端均可打开“系统更新日志”。构建自动生成 `基础版本+源码摘要` 版本，API 首次成功监听时写入数据库；相同构建重启、回滚复用原记录。发布者可维护 `release.config.json` 中的功能说明；没有新说明的源码更新也会按变更模块生成摘要。机制、编辑步骤及接口见 [系统更新日志](docs/system-releases.md)。
 
+V0.8.4 `0.8.4+22d57176e5` 已完成101项回归、真实PostgreSQL专项及真实公开检索／AI排序验证，**尚未上线**：手册草稿可按原文批量补全空白首次保养、自动关联已有或参考标准项目，并按车型整理真实公开手册候选；车型卡片支持查看本车型规则和删除未被引用的条目。已有首次值、人工映射及业务引用保留，查询不会自动生成或发布保养周期。凯美瑞实样仅查到目录入口，没有定位具体手册。使用方式与限制见 [手册导入](docs/manual-import.md)，验证及发布状态见 [验证记录](docs/verification.md)。
+
 当前版本 **V0.8.3 `0.8.3+2a620a9098` 已于2026-11-05北京时间16:02上线**。车型维护的保养项目复选框恢复17×17像素，文字在右侧顶对齐并允许长文换行；不改变项目选择或车型保存逻辑。API／Web均healthy，原业务数据核对保留，自动新增本版更新日志。全项目类型检查、86项测试与两端构建通过；[公网修复截图](docs/images/model-maintenance-fixed.png)。本版手机断点完成静态审查，尚未完成手机浏览器实测；详细结果见 [验证记录](docs/verification.md)。
 
 V0.8.2 历史版本 `0.8.2+8f8553a803` 于2026-11-05北京时间15:39上线，包含V0.8.1近年配置和快捷图片导入，功能在当前版本中保留。该次发布前通过86项测试、20项真实PostgreSQL手册专项，以及合成保养表的真实AI与浏览器验收。公网证据：[图片导入入口](docs/images/manual-quick-cloud.png)、[自动更新日志](docs/images/manual-quick-cloud-updates.png)；隔离本地证据：[AI自动填写草稿](docs/images/manual-quick-ai-review.png)、[手机图片入口](docs/images/manual-quick-mobile.png)。

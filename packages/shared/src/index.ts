@@ -18,7 +18,7 @@ export type MaintenanceTrigger = 'periodic' | 'condition' | 'as_needed';
 export interface MaintenanceRule { id: string; modelId: string; projectId: string; intervalMonths: number | null; intervalKm: number | null; firstMonths: number | null; firstKm: number | null; mileageType: 'total_km' | 'engine_km'; sourceTitle: string; sourceUrl: string; version: number; verified: boolean; isDemo: boolean; action?: MaintenanceAction; triggerType?: MaintenanceTrigger; condition?: string; notes?: string; manualImportId?: string; sourcePages?: number[]; sourceText?: string; edition?: string; applicability?: string; supersededBy?: string; supersededAt?: string }
 export interface ManualAsset { id: string; name: string; url: string; mimeType: string; pageNumber: number | null; original: boolean }
 export interface ManualSource { title: string; url: string; kind: 'carobook' | 'official' | 'other'; description: string; isDirectory?: boolean }
-export interface ManualRuleDraft { id: string; name: string; projectId: string | null; createProject: boolean; include: boolean; action: MaintenanceAction; triggerType: MaintenanceTrigger; firstMonths: number | null; firstKm: number | null; intervalMonths: number | null; intervalKm: number | null; mileageType: 'total_km' | 'engine_km'; condition: string; notes: string; sourceText: string; pageNumbers: number[] }
+export interface ManualRuleDraft { id: string; name: string; projectId: string | null; catalogProjectId?: string | null; createProject: boolean; include: boolean; action: MaintenanceAction; triggerType: MaintenanceTrigger; firstMonths: number | null; firstKm: number | null; intervalMonths: number | null; intervalKm: number | null; mileageType: 'total_km' | 'engine_km'; condition: string; notes: string; sourceText: string; pageNumbers: number[] }
 export type ManualMetadataSource = 'provided' | 'document' | 'filename' | 'target' | 'unknown';
 export interface ManualMetadataOrigin { sourceTitle: ManualMetadataSource; edition: ManualMetadataSource; applicability: ManualMetadataSource }
 export interface ManualPageSelection { mode: 'auto' | 'manual' | 'all' | 'images'; pages: number[]; totalPages: number | null; notice: string }
@@ -51,3 +51,5 @@ export interface SystemReleasesResponse { currentVersion: string; currentRelease
 export const ROLE_NAMES: Record<Role, string> = { owner: '车主', store_admin: '门店管理员', expert: '维修专家', platform_admin: '平台管理员' };
 export const APPOINTMENT_NAMES: Record<AppointmentStatus, string> = { pending: '待门店确认', confirmed: '预约已确认', in_service: '服务中', awaiting_owner: '待完工确认', completed: '已完成', rejected: '已拒绝', cancelled: '已取消', expired: '已超时关闭' };
 export const cents = (value: number | null | undefined) => value == null ? '需询价' : new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value / 100);
+
+export { applyCommonFirstService } from './manual-draft.js';

@@ -7,6 +7,8 @@ import { AppError, audit, ensure, id, now, sha256 } from "./domain.js";
 import { ingestManualBuffer, readManualImages, receiveManualFiles } from "./manual-files.js";
 import { discoverManualSources, downloadManualSource, manualSources } from "./manual-sources.js";
 import { manualRowSchema, recognizeManual } from "./manual-vision.js";
+import { autoMapManualProjects, manualProjectSubject, standardProjectAction } from "./manual-project-mapping.js";
+import { catalogProjects, catalogSources, catalogVersion } from "./data/public-catalog.js";
 
 interface StoredManual extends ManualImport {
   attempts: number;
@@ -64,9 +66,16 @@ function verifyEvidence(rows: ManualRuleDraft[], files: ManualAsset[], publishin
   const available = new Set(files.filter(file => !file.original || file.mimeType.startsWith("image/")).map(file => file.pageNumber).filter(page => page !== null));
   for (const row of rows) {
     ensure(row.pageNumbers.every(page => available.has(page)), 400, "SOURCE_PAGE_INVALID", "来源页码必须对应本次上传且已渲染的原文页面");
+    const mappingCount = [!!row.projectId, !!row.catalogProjectId, row.createProject].filter(Boolean).length;
+    ensure(mappingCount <= 1, 400, "PROJECT_MAPPING_CONFLICT", "同一规则不能同时选择已有项目、参考项目和新建项目");
     if (!publishing || !row.include) continue;
     ensure(!!row.sourceText && row.pageNumbers.length > 0, 400, "SOURCE_EVIDENCE_REQUIRED", "每条发布规则都须保留原文摘录和来源页码");
-    ensure((!!row.projectId && !row.createProject) || (!row.projectId && row.createProject), 400, "PROJECT_MAPPING_REQUIRED", "每条规则请选择已有项目，或明确勾选新建标准项目");
+    ensure(mappingCount === 1, 400, "PROJECT_MAPPING_REQUIRED", "每条规则请选择已有项目、参考目录项目，或明确勾选新建标准项目");
+    if (row.catalogProjectId) {
+      const reference = catalogProjects.find(project => project.id === row.catalogProjectId);
+      ensure(reference && reference.category !== "diagnosis", 400, "CATALOG_PROJECT_NOT_FOUND", "参考服务项目不存在，请重新选择");
+      ensure(reference.action === row.action, 400, "PROJECT_ACTION_MISMATCH", "参考项目的操作与本行不一致，请区分检查、更换、清洁和润滑");
+    }
     if (row.triggerType === "periodic") {
       ensure(!row.condition.trim(), 400, "CONDITIONAL_INTERVAL", "带特殊适用条件的周期请标为按条件处理；正常工况说明请移至备注，不能自动套用于所有车辆");
       ensure(row.firstMonths !== null || row.firstKm !== null, 400, "FIRST_INTERVAL_REQUIRED", "周期保养规则需明确首次时间或里程；原文未知时请先核对，不能猜测");
@@ -98,7 +107,7 @@ export function registerManuals(ctx: Context) {
       ensure(model && identity(model) === job.modelIdentity, 409, "MODEL_CHANGED", "车型资料已变更，请核实后重新导入对应手册");
       const pages = await readManualImages(ctx, job.files);
       const result = await recognizeManual(config, pages, `${model.brand} ${model.name} ${model.year}款 ${model.power}`);
-      const rows: ManualRuleDraft[] = result.rows.map(row => ({ ...row, id: id(), projectId: null, createProject: false, include: row.triggerType === "periodic" }));
+      const rows = autoMapManualProjects(result.rows.map(row => ({ ...row, id: id(), projectId: null, catalogProjectId: null, createProject: false, include: row.triggerType === "periodic" })), await list<Project>(db, "projects"));
       verifyEvidence(rows, job.files, false);
       const warnings = [...result.warnings];
       if (!usableDocumentMetadata(result.sourceTitle)) warnings.push("识别页面未明确给出手册标题；文件名只作待核对草稿，请结合原件核对。");
@@ -249,6 +258,21 @@ export function registerManuals(ctx: Context) {
       return publicManual(updated);
     });
   });
+  app.post<{ Params: { id: string } }>(route("/admin/manual-imports/:id/auto-map"), async request => {
+    const user = roles(request, ["platform_admin"]);
+    const input = z.object({ expectedRevision: z.number().int().positive() }).strict().parse(request.body);
+    return db.transaction(async sql => {
+      const job = await get<StoredManual>(sql, "manual_imports", request.params.id, true);
+      ensure(job, 404, "NOT_FOUND", "手册导入任务不存在");
+      ensure(job.status === "awaiting_confirmation", 409, "INVALID_STATE", "仅未发布的待核对手册可以自动关联项目");
+      ensure(job.revision === input.expectedRevision, 409, "REVISION_CONFLICT", "手册草稿已更新，请刷新后重新关联");
+      const rows = autoMapManualProjects(job.rows, await list<Project>(sql, "projects"));
+      const mapped = rows.filter((row, index) => row !== job.rows[index]).length;
+      const updated = await put(sql, "manual_imports", { ...job, rows, revision: job.revision + 1, updatedAt: now() });
+      await audit(sql, user.id, "manual.projects.matched", "manual", job.id, `为${mapped}条空白映射关联标准或参考项目；未确定项目保持留空，未发布规则`);
+      return publicManual(updated);
+    });
+  });
   app.post<{ Params: { id: string } }>(route("/admin/manual-imports/:id/publish"), async request => {
     const user = roles(request, ["platform_admin"]);
     const input = publishSchema.parse(request.body);
@@ -278,16 +302,40 @@ export function registerManuals(ctx: Context) {
       const versions = latestVersions(allRules);
       // Different models can introduce the same standard project concurrently.
       // Serialize name lookup and creation across those model transactions.
-      if (selected.some(row => row.createProject)) await sql.query("LOCK TABLE av_projects IN SHARE ROW EXCLUSIVE MODE");
+      if (selected.some(row => row.createProject || row.catalogProjectId)) await sql.query("LOCK TABLE av_projects IN SHARE ROW EXCLUSIVE MODE");
       const projects = await list<Project>(sql, "projects");
       const projectIds = new Set<string>();
       const newNames = new Set<string>();
       const publishedRules: MaintenanceRule[] = [];
       for (const row of selected) {
         let projectId = row.projectId;
+        if (row.catalogProjectId) {
+          const entry = catalogProjects.find(project => project.id === row.catalogProjectId)!;
+          const sameSubject = projects.filter(project => project.category !== "diagnosis" && manualProjectSubject(project.name) === manualProjectSubject(entry.name));
+          const exact = projects.filter(project => project.catalogSource?.catalogId === entry.id || normalizedName(project.code) === normalizedName(entry.code) || normalizedName(project.name) === normalizedName(entry.name) || sameSubject.includes(project) && standardProjectAction(project) === entry.action);
+          ensure(exact.length <= 1, 409, "PROJECT_MAPPING_AMBIGUOUS", "参考项目对应多个已有标准项目，请在草稿中明确选择后再发布");
+          if (exact[0]) {
+            ensure(exact[0].active && exact[0].category !== "diagnosis", 409, "PROJECT_NOT_FOUND", "参考项目对应的标准项目已停用或属于故障诊断，请核对后选择");
+            ensure(manualProjectSubject(exact[0].name) === manualProjectSubject(entry.name) && standardProjectAction(exact[0]) === entry.action, 409, "CATALOG_CODE_CONFLICT", "参考项目编码或来源已用于其他名称或操作，请核对现有标准项目");
+            projectId = exact[0].id;
+          } else {
+            ensure(!sameSubject.some(project => !project.active || standardProjectAction(project) === null), 409, "PROJECT_MAPPING_AMBIGUOUS", "已有同名部件项目尚未明确操作或已停用，请在草稿中核对并选择已有标准项目");
+            const project: Project = {
+              id: id(), code: entry.code, name: entry.name, category: entry.category,
+              description: entry.description, unit: entry.unit, active: true,
+              catalogSource: { catalogId: entry.id, version: catalogVersion, sources: catalogSources.filter(source => entry.sourceIds.includes(source.id)), importedAt: now() },
+            };
+            await put(sql, "projects", project);
+            await audit(sql, user.id, "catalog.project.imported", "project", project.id, `${entry.id}；目录${catalogVersion}；手册规则发布时关联参考服务名称，周期仅来自已复核手册`);
+            projects.push(project);
+            projectId = project.id;
+          }
+        }
         if (projectId) {
           const project = projects.find(project => project.id === projectId);
           ensure(project?.active && project.category !== "diagnosis", 400, "PROJECT_NOT_FOUND", "请选择有效的保养项目，不能映射到故障诊断或停用项目");
+          const action = standardProjectAction(project);
+          ensure(!action || action === row.action, 400, "PROJECT_ACTION_MISMATCH", "标准项目的操作与本行不一致，请区分检查、更换、清洁和润滑");
           ensure(!projectIds.has(projectId), 400, "DUPLICATE_PROJECT", "同一任务不能将多行映射到同一标准项目；请区分检查、更换和不同工况");
           ensure((versions[projectId] || 0) === (job.baseRuleVersions[projectId] || 0), 409, "RULE_VERSION_CONFLICT", "该车型项目的规则已被其他任务更新，请核对最新版本后重新导入");
         } else {
