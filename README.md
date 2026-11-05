@@ -28,7 +28,9 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 
 车主与管理端均可打开“系统更新日志”。构建自动生成 `基础版本+源码摘要` 版本，API 首次成功监听时写入数据库；相同构建重启、回滚复用原记录。发布者可维护 `release.config.json` 中的功能说明；没有新说明的源码更新也会按变更模块生成摘要。机制、编辑步骤及接口见 [系统更新日志](docs/system-releases.md)。
 
-V0.8.2 构建版本 **`0.8.2+8f8553a803` 已于2026-11-05北京时间15:39上线**，包含V0.8.1近年配置。API／Web容器均为healthy，原业务数据和部署配置核对保留；系统自动生成本版更新日志。发布前已通过86项测试、20项真实PostgreSQL手册专项，以及合成保养表的真实AI与浏览器验收。公网证据：[图片导入入口](docs/images/manual-quick-cloud.png)、[自动更新日志](docs/images/manual-quick-cloud-updates.png)；隔离本地证据：[AI自动填写草稿](docs/images/manual-quick-ai-review.png)、[手机图片入口](docs/images/manual-quick-mobile.png)。
+当前版本 **V0.8.3 `0.8.3+2a620a9098` 已于2026-11-05北京时间16:02上线**。车型维护的保养项目复选框恢复17×17像素，文字在右侧顶对齐并允许长文换行；不改变项目选择或车型保存逻辑。API／Web均healthy，原业务数据核对保留，自动新增本版更新日志。全项目类型检查、86项测试与两端构建通过；[公网修复截图](docs/images/model-maintenance-fixed.png)。本版手机断点完成静态审查，尚未完成手机浏览器实测；详细结果见 [验证记录](docs/verification.md)。
+
+V0.8.2 历史版本 `0.8.2+8f8553a803` 于2026-11-05北京时间15:39上线，包含V0.8.1近年配置和快捷图片导入，功能在当前版本中保留。该次发布前通过86项测试、20项真实PostgreSQL手册专项，以及合成保养表的真实AI与浏览器验收。公网证据：[图片导入入口](docs/images/manual-quick-cloud.png)、[自动更新日志](docs/images/manual-quick-cloud-updates.png)；隔离本地证据：[AI自动填写草稿](docs/images/manual-quick-ai-review.png)、[手机图片入口](docs/images/manual-quick-mobile.png)。
 
 保养资料推荐操作：**选车型 → 上传或粘贴保养公里数表截图 → AI 自动填写信息和周期草稿 → 核对发布**。名称、版本、范围在上传前均可留空；原文未说明的字段保留待核对。整本 PDF 默认尝试定位周期表及相邻说明，找不到时可改用截图或手动选页。按车型查询 CarOBook／官方来源仍可使用，目录和网盘不冒充可直接导入的手册。操作与实际发布状态见 [手册导入](docs/manual-import.md) 和 [验证记录](docs/verification.md)。
 
