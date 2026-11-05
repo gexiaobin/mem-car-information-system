@@ -13,7 +13,7 @@ export interface CatalogProvenance { catalogId: string; version: string; sources
 export interface CatalogModelsResponse { items: CatalogModel[]; total: number; offset: number; limit: number; brands: string[]; years?: number[]; sources: CatalogSource[]; version: string }
 export interface CatalogProjectsResponse { items: CatalogProject[]; total: number; categories: string[]; sources: CatalogSource[]; version: string }
 export interface CatalogModelImportResult { model: CarModel; created: boolean }
-export interface CatalogProjectImportResult { projects: Project[]; created: number; existing: number }
+export interface CatalogProjectImportResult { projects: Project[]; created: number; existing: number; skipped?: { catalogId: string; name: string; reason: string }[] }
 export type MaintenanceTrigger = 'periodic' | 'condition' | 'as_needed';
 export interface MaintenanceRule { id: string; modelId: string; projectId: string; intervalMonths: number | null; intervalKm: number | null; firstMonths: number | null; firstKm: number | null; mileageType: 'total_km' | 'engine_km'; sourceTitle: string; sourceUrl: string; version: number; verified: boolean; isDemo: boolean; action?: MaintenanceAction; triggerType?: MaintenanceTrigger; condition?: string; notes?: string; manualImportId?: string; sourcePages?: number[]; sourceText?: string; edition?: string; applicability?: string; supersededBy?: string; supersededAt?: string }
 export interface ManualAsset { id: string; name: string; url: string; mimeType: string; pageNumber: number | null; original: boolean }

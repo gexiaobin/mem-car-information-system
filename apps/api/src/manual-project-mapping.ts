@@ -5,7 +5,9 @@ const actionWords: Record<MaintenanceAction, string[]> = {
   inspect: ["检查", "检测", "检验"], replace: ["更换", "替换"],
   clean: ["清洁", "清洗"], lubricate: ["润滑"], other: [],
 };
-const actionPattern = /检查|检测|检验|更换|替换|清洁|清洗|润滑/g;
+// Fluid/chemical names describe the component, not the service operation.
+// For example, topping up washer fluid is not a cleaning operation.
+const actionPattern = /检查|检测|检验|更换|替换|清洁(?!剂)|清洗(?!液|剂)|润滑(?!油|脂|剂)/g;
 const compact = (value: string) => value.normalize("NFKC").toLowerCase().replace(/[\s，,、。.;；:：()（）\-_/]/g, "");
 
 /** Exact normalized component names only; never use substring/fuzzy similarity. */
@@ -26,7 +28,7 @@ function statedAction(name: string, description = ""): MaintenanceAction | null 
   if (fromName.length) return fromName.length === 1 ? fromName[0] as MaintenanceAction : null;
   // Only a leading description verb is authoritative; later text often says
   // "检查……；更换零件另行确认", which must not become a replacement project.
-  const leading = description.trim().match(/^(检查|检测|检验|更换|替换|清洁|清洗|润滑)/)?.[1];
+  const leading = description.trim().match(/^(检查|检测|检验|更换|替换|清洁(?!剂)|清洗(?!液|剂)|润滑(?!油|脂|剂))/)?.[1];
   return leading ? Object.entries(actionWords).find(([, words]) => words.includes(leading))?.[0] as MaintenanceAction : null;
 }
 

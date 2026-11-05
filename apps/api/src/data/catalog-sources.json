@@ -196,5 +196,203 @@
     "revision": "2026-11-04 渲染表头明确2026款；4个配置列",
     "retrievedAt": "2026-11-04",
     "description": "实际核对1.5L135KM豪华型、1.5T135KM尊贵型、1.5T230KM尊荣型/旗舰型四列；发动机功率74/115/115/115kW，前电机160/200/200/200kW，EHS电混系统。绑定海豹07车系，不能用于普通海豹或海豹06。"
+  },
+  {
+    "id": "bosch-service-servicing",
+    "title": "博世汽车专业维修英国官网 · 常规服务项目",
+    "url": "https://www.boschcarservice.com/gb/en/services/inspection-and-checks/car-servicing/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对油液、滤清器、制动、轮胎、悬架及冷却液补充等服务范围。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-oil",
+    "title": "博世汽车专业维修英国官网 · 机油与机油滤清器服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/engine-service/oil-and-filter-change/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对机油检查、机油更换及机油滤清器更换的服务名称与独立记录范围。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-brakes",
+    "title": "博世汽车专业维修英国官网 · 制动服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/brake-service/brake-repair/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对制动摩擦块、制动盘更换与驻车制动检查等短服务事实。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-tyres",
+    "title": "博世汽车专业维修英国官网 · 轮胎服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/tyre-service/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对轮胎拆装、更换、修补与气门嘴服务；未导入英国法律阈值。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-ac",
+    "title": "博世汽车专业维修英国官网 · 空调服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/air-conditioning-service/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对制冷性能、制冷剂和检漏、滤清器检查、空调系统及冷凝器清洁等范围。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-transmission",
+    "title": "博世汽车专业维修英国官网 · 变速器油液服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/transmission-oil-replacement/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对变速器油液检查与更换；与自动变速器类型页面共同用于区分候选服务名称。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-automatic-transmission",
+    "title": "博世汽车专业维修英国官网 · 自动变速器服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/automatic-gearbox-service/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对手动、自动、DSG与CVT等结构名称及故障诊断范围；不同结构的油液与周期不互相套用。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-timing",
+    "title": "博世汽车专业维修英国官网 · 正时皮带服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/timing-belt-replacement/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对正时皮带检查与更换；未导入页面示例里程、年限或价格。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-suspension",
+    "title": "博世汽车专业维修英国官网 · 减振器服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/shock-absorber-replacement/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对减振器、支柱及相关安装部件检查和更换范围。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-clutch",
+    "title": "博世汽车专业维修英国官网 · 离合器服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/clutch-repair/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对离合器状态检查、诊断后更换等短服务事实。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-electric-hybrid",
+    "title": "博世汽车专业维修英国官网 · 电动与混动车辆服务",
+    "url": "https://www.boschcarservice.com/gb/en/services/electric-and-hybrid-car-servicing/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对动力电池健康、冷却和充电线缆检查、充电故障诊断及软件更新；不继承页面营销承诺或电池寿命示例。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-diagnostics",
+    "title": "博世汽车专业维修英国官网 · 车辆诊断",
+    "url": "https://www.boschcarservice.com/gb/en/services/engine-service/engine-and-car-diagnostic-check/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对故障信息读取、发动机及ABS等系统诊断；仅将诊断作为独立服务，不生成周期规则。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "bosch-service-adas",
+    "title": "博世汽车专业维修英国官网 · 驾驶辅助系统标定",
+    "url": "https://www.boschcarservice.com/gb/en/services/adas-calibration/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对摄像头、雷达及相关驾驶辅助设备标定服务；是否需要实施依车辆和维修情形确认。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "jiffy-service-catalog",
+    "title": "Jiffy Lube 美国官网 · 通用汽车服务目录",
+    "url": "https://www.jiffylube.com/auto-services",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对目录及其公开链接页面：附件传动皮带检查更换、燃油系统清洁、发动机冷却液更换、变速器滤清器、差速器与分动箱油、轮胎修补更换、蓄电池端子清洁、前灯清洁、风挡修补及柴油尾气处理液补充。只归纳短名称与范围，不导入价格、周期、修补尺寸或美国法规。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "jiffy-service-fluid-top-off",
+    "title": "Jiffy Lube 美国官网 · 油液检查与补充",
+    "url": "https://www.jiffylube.com/auto-services/fluids/fluid-top-off",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对机油、变速器油、转向助力液、差速器或分动箱油及风挡清洗液的检查补充名称；不继承其促销补液政策。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "jiffy-service-brake-inspection",
+    "title": "Jiffy Lube 美国官网 · 制动检查",
+    "url": "https://www.jiffylube.com/auto-services/brakes/brake-inspection",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对盘式与鼓式制动结构及制动检查范围；未导入页面推荐检查频率。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "jiffy-service-tpms",
+    "title": "Jiffy Lube 美国官网 · 胎压监测服务",
+    "url": "https://www.jiffylube.com/auto-services/tires/tire-pressure-monitoring-system-services",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对直接或间接式胎压监测检查、气门嘴相关服务；复位与传感器更换不等同。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "firestone-service-battery",
+    "title": "Firestone 美国官网 · 低压蓄电池与充电系统服务",
+    "url": "https://www.firestonecompleteautocare.com/maintain/batteries/",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对蓄电池连接、充电性能、电气状态与启动困难相关检测范围；未导入寿命示例、质保或价格。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "tesla-model3-wipers",
+    "title": "特斯拉中国 Model 3 车主手册 · 雨刮与清洗液",
+    "url": "https://www.tesla.cn/ownersmanual/model3/zh_cn/GUID-197C481B-B4D4-4973-9772-2AF488442CE1.html",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对雨刮片检查清洁、喷嘴清洁和清洗液补充；仅归纳通用项目名称，不将具体操作套给其他车型。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "tesla-model3-seat-belts",
+    "title": "特斯拉中国 Model 3 车主手册 · 座椅安全带",
+    "url": "https://www.tesla.cn/ownersmanual/model3/zh_cn/GUID-3319C55D-F148-4D9C-98A6-AD09BA7EED61.html",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对安全带织带、锁扣、回卷与锁止等检查范围；具体测试流程需另查适用车辆资料。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "tesla-model3-cleaning",
+    "title": "特斯拉中国 Model 3 车主手册 · 清洁",
+    "url": "https://www.tesla.cn/ownersmanual/model3/zh_cn/GUID-65384C1F-86F2-44E8-A8BC-8A12E7E00A40.html",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对外部、内饰、玻璃后视镜、底盘轮拱、摄像头及密封条等清洁范围；未复制图文或把清洁要求扩展成通用化学养护。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
+  },
+  {
+    "id": "tesla-model3-tire-care",
+    "title": "特斯拉中国 Model 3 车主手册 · 轮胎养护",
+    "url": "https://www.tesla.cn/ownersmanual/model3/zh_cn/GUID-94F63B13-EA2C-45D9-83AB-5DCA6295D587.html",
+    "license": "官方公开网页（仅服务名称等短事实归纳，原页面版权归原权利人）",
+    "revision": "2026-11-05 页面事实快照",
+    "retrievedAt": "2026-11-05",
+    "description": "核对轮胎传感器诊断后更换的短项目事实；未将特斯拉匹配方法、胎压或磨损标准赋给其他车型。 仅作通用服务候选参考，不代表中国国家标准、品牌授权、车型适用性或保养周期。"
   }
 ]

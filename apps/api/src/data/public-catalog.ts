@@ -14,7 +14,7 @@ import bydVariantData from "./catalog-variants-byd-recent.json" with { type: "js
 import latestVariantData from "./catalog-variants-latest.json" with { type: "json" };
 
 // Versioned, bundled snapshots: browsing the catalog never depends on a third-party request.
-export const catalogVersion = "2026-11-04.3";
+export const catalogVersion = "2026-11-05.1";
 const label = z.string().trim().min(1);
 export const catalogSources: CatalogSource[] = z.array(z.object({
   id: label, title: label, url: z.url(), license: label, revision: label,

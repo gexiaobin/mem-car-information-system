@@ -142,10 +142,13 @@ export default function PublicCatalog({ kind, models, projects, onRefresh, onClo
   const [selectedModel, setSelectedModel] = useState<CatalogModel | null>(null);
   const [selectedProjects, setSelectedProjects] = useState<CatalogProject[]>([]);
   const [localProjectIds, setLocalProjectIds] = useState<string[]>([]);
+  const [skippedProjects, setSkippedProjects] = useState<NonNullable<CatalogProjectImportResult['skipped']>>([]);
   const isModels = kind === 'models';
   const list = isModels ? modelList : projectList;
   const sources = list?.sources || [];
   const projectExists = (entry: CatalogProject) => localProjectIds.includes(entry.id) || projects.some(project => project.catalogSource?.catalogId === entry.id || normalize(project.name) === normalize(entry.name));
+  const selectableProjects = (projectList?.items || []).filter(entry => !projectExists(entry));
+  const unselectedCount = selectableProjects.filter(entry => !selectedProjects.some(selected => selected.id === entry.id)).length;
   const close = () => { if (!busy) onClose(); };
 
   useEffect(() => {
@@ -182,15 +185,17 @@ export default function PublicCatalog({ kind, models, projects, onRefresh, onClo
 
   async function importProjects() {
     if (!selectedProjects.length || busy) return;
-    setBusy(true); setResult(null);
+    setBusy(true); setResult(null); setSkippedProjects([]);
     let saved = false;
     try {
-      const response = await post<CatalogProjectImportResult>('/admin/catalog/projects/import', { catalogIds: selectedProjects.map(project => project.id) });
+      const response = await post<CatalogProjectImportResult>('/admin/catalog/projects/import', { catalogIds: selectedProjects.map(project => project.id), skipConflicts: true });
       saved = true;
-      setLocalProjectIds(previous => [...new Set([...previous, ...selectedProjects.map(project => project.id)])]);
+      const skipped = response.skipped || [];
+      setSkippedProjects(skipped);
+      setLocalProjectIds(previous => [...new Set([...previous, ...selectedProjects.filter(project => !skipped.some(item => item.catalogId === project.id)).map(project => project.id)])]);
       setSelectedProjects([]);
       await onRefresh();
-      setResult({ text: `已导入 ${response.created} 个服务项目${response.existing ? `，${response.existing} 个已有项目已保留` : ''}。可在标准服务项目中维护服务说明。`, error: false });
+      setResult({ text: `已新增 ${response.created} 个服务项目，保留 ${response.existing} 个已有项目${skipped.length ? `，${skipped.length} 个项目需核对，已跳过` : ''}。可在标准服务项目中维护服务说明。`, error: false });
     } catch (error) { setResult({ text: saved ? '所选项目已保存，页面数据暂未刷新。请关闭目录后刷新业务数据查看。' : errorText(error), error: true }); }
     finally { setBusy(false); }
   }
@@ -200,9 +205,10 @@ export default function PublicCatalog({ kind, models, projects, onRefresh, onClo
     <div className="ad-dialog-body pc-body">
       <div className="pc-intro"><span>{isModels ? <CarFront size={23} /> : <Wrench size={23} />}</span><p>{isModels ? '可先按实际年款筛选有配置资料的车系。每个车系会标明已收录年份；未列出的年款表示资料尚未收录，可按车辆资料手动补充。保养范围仍需按对应手册核对。' : '项目名称与操作参考公开保养资料整理。每个项目的适用车型、周期与报价，请在手册和门店服务中分别配置。'}</p></div>
       {result && <div role={result.error ? 'alert' : 'status'} className={`pc-result ${result.error ? 'pc-result-error' : ''}`}>{result.error ? <AlertCircle size={18} /> : <CheckCircle2 size={18} />}<p>{result.text}</p></div>}
+      {skippedProjects.length > 0 && <section className="pc-conflicts" aria-label="待核对的服务项目"><h3>以下项目已跳过，请核对后单独处理</h3><ul>{skippedProjects.map(item => <li key={item.catalogId}><strong>{item.name}</strong><span>{item.reason}</span></li>)}</ul></section>}
       <form className={`pc-filters ${isModels ? 'pc-model-filters' : ''}`} onSubmit={search}>
         <label className="pc-search"><span className="pc-label">{isModels ? '品牌或车系' : '名称或项目编码'}</span><span><Search size={17} /><input value={searchInput} onChange={event => setSearchInput(event.target.value)} maxLength={100} placeholder={isModels ? '如：比亚迪、海鸥' : '如：制动液、空气滤清器'} disabled={busy} /></span></label>
-        <label className="pc-filter"><span className="pc-label">{isModels ? '汽车品牌' : '项目分类'}</span><select value={filter} onChange={event => { setFilter(event.target.value); setOffset(0); }} disabled={busy}><option value="">{isModels ? '全部品牌' : '全部分类'}</option>{(isModels ? modelList?.brands : projectList?.categories)?.map(value => <option key={value} value={value}>{value}</option>)}</select></label>
+        <label className="pc-filter"><span className="pc-label">{isModels ? '汽车品牌' : '项目分类'}</span><select value={filter} onChange={event => { setFilter(event.target.value); setOffset(0); }} disabled={busy}><option value="">{isModels ? '全部品牌' : '全部分类'}</option>{(isModels ? modelList?.brands : projectList?.categories)?.map(value => <option key={value} value={value}>{value === 'diagnosis' ? '故障诊断' : value}</option>)}</select></label>
         {isModels && <label className="pc-filter pc-year-filter"><span className="pc-label">已收录年款</span><select value={yearFilter} onChange={event => { setYearFilter(event.target.value); setOffset(0); setResult(null); }} disabled={busy}><option value="">全部已收录年款</option>{modelList?.years?.map(year => <option key={year} value={year}>{year} 款</option>)}</select></label>}
         <button className="ad-button ad-button-primary" type="submit" disabled={busy || loading}>搜索</button>
       </form>
@@ -216,12 +222,13 @@ export default function PublicCatalog({ kind, models, projects, onRefresh, onClo
           </section>
           <aside ref={previewRef} className="pc-model-preview" aria-label="车型导入预览">{selectedModel ? <ModelImportPreview key={`${selectedModel.id}:${yearFilter}`} model={selectedModel} initialYear={yearFilter} sources={sources} models={models} busy={busy} setBusy={setBusy} setResult={setResult} onRefresh={onRefresh} /> : <div className="pc-preview-empty"><CarFront size={40} strokeWidth={1.2} /><h3>选择一个车系</h3><p>在左侧选择，再按实际年款查找完整配置。</p></div>}</aside>
         </div> : <>
+          <div className="pc-bulk-select"><div><strong>按当前筛选批量选择</strong><p>选择只影响待导入清单，点击导入后才会保存；已有项目会保留。</p></div><button type="button" className="ad-button" disabled={busy || loading || unselectedCount === 0} onClick={() => setSelectedProjects(previous => [...previous, ...selectableProjects.filter(entry => !previous.some(selected => selected.id === entry.id))])}><Check size={16} aria-hidden="true" />选择当前未选项目（{unselectedCount} 项）</button></div>
+          <section className="pc-selection" aria-label="已选服务项目"><div><strong>已选 {selectedProjects.length} 项</strong><button className="ad-link-button" type="button" onClick={() => setSelectedProjects([])} disabled={busy || !selectedProjects.length}>清空选择</button></div>{selectedProjects.length > 0 && <details className="pc-selection-details"><summary>查看已选清单</summary><ul>{selectedProjects.map(project => <li key={project.id}>{project.name}<button type="button" onClick={() => setSelectedProjects(previous => previous.filter(entry => entry.id !== project.id))} aria-label={`移除${project.name}`} disabled={busy}><X size={14} /></button></li>)}</ul></details>}<button type="button" className="ad-button ad-button-primary" onClick={() => void importProjects()} disabled={busy || !selectedProjects.length}>{busy ? '正在导入…' : `导入所选 ${selectedProjects.length} 个项目`}<ArrowRight size={16} /></button></section>
           <div className="pc-project-list" aria-label="参考项目列表" aria-busy={loading}>{projectList?.items.map(entry => {
             const selected = selectedProjects.some(project => project.id === entry.id);
             const existing = projectExists(entry);
-            return <article key={entry.id} className={`pc-project-card ${selected ? 'pc-project-selected' : ''}`}><label className="pc-project-choice"><input type="checkbox" checked={selected} disabled={busy || loading || existing} onChange={event => setSelectedProjects(previous => event.target.checked ? [...previous, entry] : previous.filter(project => project.id !== entry.id))} /><span><strong>{entry.name}</strong><small>{entry.category} · {manualActionNames[entry.action]} · {entry.unit}</small></span>{existing && <span className="pc-imported"><Check size={13} />已导入</span>}</label><p>{entry.description}</p><div className="pc-project-meta"><code>{entry.code}</code><details><summary>查看参考来源</summary><SourceLinks sources={sources.filter(source => entry.sourceIds.includes(source.id))} /></details></div></article>;
+            return <article key={entry.id} className={`pc-project-card ${selected ? 'pc-project-selected' : ''}`}><label className="pc-project-choice"><input type="checkbox" checked={selected} disabled={busy || loading || existing} onChange={event => setSelectedProjects(previous => event.target.checked ? [...previous, entry] : previous.filter(project => project.id !== entry.id))} /><span><strong>{entry.name}</strong><small>{entry.category === 'diagnosis' ? '故障诊断' : entry.category} · {manualActionNames[entry.action]} · {entry.unit}</small></span>{existing && <span className="pc-imported"><Check size={13} />已导入</span>}</label><p>{entry.description}</p><div className="pc-project-meta"><code>{entry.code}</code><details><summary>查看参考来源</summary><SourceLinks sources={sources.filter(source => entry.sourceIds.includes(source.id))} /></details></div></article>;
           })}{!loading && !projectList?.items.length && <div className="pc-empty"><Search size={25} /><h3>没有匹配的项目</h3><p>换个关键词，或通过手动新增补充项目。</p></div>}</div>
-          <section className="pc-selection" aria-label="已选服务项目"><div><strong>已选 {selectedProjects.length} 项</strong><button className="ad-link-button" type="button" onClick={() => setSelectedProjects([])} disabled={busy || !selectedProjects.length}>清空选择</button></div>{selectedProjects.length > 0 && <ul>{selectedProjects.map(project => <li key={project.id}>{project.name}<button type="button" onClick={() => setSelectedProjects(previous => previous.filter(entry => entry.id !== project.id))} aria-label={`移除${project.name}`} disabled={busy}><X size={14} /></button></li>)}</ul>}<button type="button" className="ad-button ad-button-primary" onClick={() => void importProjects()} disabled={busy || !selectedProjects.length}>{busy ? '正在导入…' : `导入所选 ${selectedProjects.length} 个项目`}<ArrowRight size={16} /></button></section>
         </>}
       </>}
       <footer className="pc-footer"><span><LibraryBig size={15} />公开目录随系统预置，导入后可维护本平台档案。</span><button type="button" className="ad-button ad-button-ghost" disabled={busy} onClick={close}>完成并关闭</button></footer>

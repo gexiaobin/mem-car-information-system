@@ -8,6 +8,7 @@ import { roles, route } from "./context.js";
 import { list, put } from "./db.js";
 import { audit, ensure, id, now } from "./domain.js";
 import { catalogModels, catalogProjects, catalogSources, catalogVersion, catalogYears, variantsById, variantsByModel, yearsByModel } from "./data/public-catalog.js";
+import { manualProjectSubject, standardProjectAction } from "./manual-project-mapping.js";
 
 export const catalogText = (value: string) => value.normalize("NFKC").toLowerCase().replace(/\s+/gu, "");
 export const sameModelIdentity = (a: Pick<CarModel, "brand" | "name" | "year" | "power">, b: Pick<CarModel, "brand" | "name" | "year" | "power">) =>
@@ -110,7 +111,10 @@ export function registerCatalog({ app, db }: Context) {
 
   app.post(route("/admin/catalog/projects/import"), async request => {
     const user = roles(request, ["platform_admin"]);
-    const input = z.object({ catalogIds: z.array(z.string().trim().min(1).max(200)).min(1).max(100) }).strict().parse(request.body);
+    const input = z.object({
+      catalogIds: z.array(z.string().trim().min(1).max(200)).min(1).max(200),
+      skipConflicts: z.boolean().default(false),
+    }).strict().parse(request.body);
     const entries = [...new Set(input.catalogIds)].map(catalogId => {
       const entry = catalogProjects.find(project => project.id === catalogId);
       ensure(entry, 404, "CATALOG_ENTRY_NOT_FOUND", "参考服务项目不存在，请刷新目录");
@@ -121,13 +125,34 @@ export function registerCatalog({ app, db }: Context) {
       await sql.query("LOCK TABLE av_projects IN SHARE ROW EXCLUSIVE MODE");
       const existingProjects = await list<Project>(sql, "projects");
       const projects: Project[] = [];
+      const skipped: { catalogId: string; name: string; reason: string }[] = [];
       let created = 0;
       for (const entry of entries) {
-        const alreadyImported = existingProjects.find(project => project.catalogSource?.catalogId === entry.id);
-        if (alreadyImported) { projects.push(alreadyImported); continue; }
-        const sameCode = existingProjects.find(project => catalogText(project.code) === catalogText(entry.code));
-        ensure(!sameCode || catalogText(sameCode.name) === catalogText(entry.name), 409, "CATALOG_CODE_CONFLICT", `项目编码 ${entry.code} 已用于其他名称，请先核对现有项目`);
-        const existing = sameCode || existingProjects.find(project => catalogText(project.name) === catalogText(entry.name));
+        const skip = (code: string, reason: string) => {
+          ensure(input.skipConflicts, 409, code, reason);
+          skipped.push({ catalogId: entry.id, name: entry.name, reason });
+        };
+        const alreadyImported = existingProjects.filter(project => project.catalogSource?.catalogId === entry.id);
+        // Preserve an imported project's later edits and disabled state. More
+        // than one record claiming the same reference needs human resolution.
+        if (alreadyImported.length > 1) { skip("PROJECT_MAPPING_AMBIGUOUS", `「${entry.name}」对应多个已导入项目，请先核对已有记录`); continue; }
+        if (alreadyImported[0]) { projects.push(alreadyImported[0]); continue; }
+        const sameCode = existingProjects.filter(project => catalogText(project.code) === catalogText(entry.code));
+        if (sameCode.length > 1 || sameCode.some(project => catalogText(project.name) !== catalogText(entry.name) || (project.category === "diagnosis") !== (entry.category === "diagnosis"))) {
+          skip("CATALOG_CODE_CONFLICT", `项目编码 ${entry.code} 已用于其他名称、不同诊断类别或多条记录，请先核对现有项目`); continue;
+        }
+        const sameName = existingProjects.filter(project => (project.category === "diagnosis") === (entry.category === "diagnosis") && catalogText(project.name) === catalogText(entry.name));
+        if (sameName.length > 1) { skip("PROJECT_MAPPING_AMBIGUOUS", `「${entry.name}」对应多个同名项目，请先核对已有记录`); continue; }
+        let existing = sameCode[0] || sameName[0];
+        if (!existing && entry.category !== "diagnosis") {
+          const sameSubject = existingProjects.filter(project => project.category !== "diagnosis" && manualProjectSubject(project.name) === manualProjectSubject(entry.name));
+          const sameOperation = sameSubject.filter(project => standardProjectAction(project) === entry.action);
+          if (sameOperation.length > 1) { skip("PROJECT_MAPPING_AMBIGUOUS", `「${entry.name}」对应多个同部件、同操作项目，请先核对已有记录`); continue; }
+          if (sameOperation[0]) existing = sameOperation[0];
+          else if (sameSubject.some(project => standardProjectAction(project) === null)) {
+            skip("PROJECT_ACTION_UNKNOWN", `已有「${sameSubject.find(project => standardProjectAction(project) === null)!.name}」项目尚未明确检查、更换等操作，已保留待核对`); continue;
+          }
+        }
         if (existing) { projects.push(existing); continue; }
         const project: Project = {
           id: id(), code: entry.code, name: entry.name, category: entry.category,
@@ -138,7 +163,7 @@ export function registerCatalog({ app, db }: Context) {
         await audit(sql, user.id, "catalog.project.imported", "project", project.id, `${entry.id}；目录${catalogVersion}；服务名称模板，不含车型适用性、保养周期或价格`);
         existingProjects.push(project); projects.push(project); created++;
       }
-      return { projects, created, existing: projects.length - created } satisfies CatalogProjectImportResult;
+      return { projects, created, existing: projects.length - created, ...(input.skipConflicts ? { skipped } : {}) } satisfies CatalogProjectImportResult;
     });
   });
 }

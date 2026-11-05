@@ -5,12 +5,13 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import pg from "pg";
-import type { CarModel, CatalogModelImportResult, CatalogModelsResponse, CatalogProject, CatalogProjectImportResult, CatalogProjectsResponse, CatalogVariantsResponse, Project } from "@autovoyage/shared";
+import type { CarModel, CatalogModelImportResult, CatalogModelsResponse, CatalogProject, CatalogProjectImportResult, CatalogProjectsResponse, CatalogVariantsResponse, ManualRuleDraft, Project } from "@autovoyage/shared";
 import { createApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { get, list, put } from "../src/db.js";
 import { maintenanceFor } from "../src/domain.js";
 import { catalogModels, catalogProjects, catalogSources, catalogVersion, catalogVariants, variantsByModel } from "../src/data/public-catalog.js";
+import { autoMapManualProjects, manualProjectSubject, standardProjectAction } from "../src/manual-project-mapping.js";
 
 const origin = "http://localhost:5173";
 const password = "CatalogIntegrationTest2026!";
@@ -39,7 +40,7 @@ before(async () => {
     uploadDir: temporary, aiBaseUrl: "", aiKey: "", aiModel: "", origin,
   }) });
   const initialProjects = await list<Project>(service.db, "projects");
-  freshProjects = catalogProjects.filter(entry => !initialProjects.some(project => project.code === entry.code || project.name === entry.name));
+  freshProjects = catalogProjects.filter(entry => !initialProjects.some(project => project.code === entry.code || project.name === entry.name || project.category !== "diagnosis" && manualProjectSubject(project.name) === manualProjectSubject(entry.name) && standardProjectAction(project) === entry.action));
   assert(freshProjects.length >= 5, "catalog test requires five non-demo project templates");
   for (const [key, email] of Object.entries({ owner: "owner@autovoyage.demo", store: "store@autovoyage.demo", expert: "expert@autovoyage.demo", admin: "admin@autovoyage.demo" })) {
     const response = await service.app.inject({ method: "POST", url: "/api/v1/auth/login", headers: { origin }, payload: { email, password } });
@@ -348,4 +349,100 @@ test("conflicting project code rolls back the entire import and never overwrites
   assert.equal(result.json().error.code, "CATALOG_CODE_CONFLICT");
   assert.deepEqual(await list(service.db, "projects"), before);
   assert.deepEqual(await get(service.db, "projects", existing.id), existing);
+});
+
+test("common service import reuses unique component and action aliases without changing existing project data", async () => {
+  const before = await list<Project>(service.db, "projects");
+  const existing = before.find(project => project.id === "project-cabin")!;
+  const response = await call("admin", "POST", "/admin/catalog/projects/import", { catalogIds: ["ref-cabin-filter"], skipConflicts: true });
+  assert.equal(response.statusCode, 200, response.body);
+  assert.deepEqual(response.json<CatalogProjectImportResult>(), { projects: [existing], created: 0, existing: 1, skipped: [] });
+  assert.deepEqual(await list<Project>(service.db, "projects"), before);
+});
+
+test("safe common service completion skips unknown actions and code conflicts while concurrent retries remain idempotent", async () => {
+  const unknown: Project = { id: "catalog-unknown-wiper", code: "SYNTHETIC_UNKNOWN_WIPER", name: "雨刷片", category: "自定义", description: "保留人工服务说明，操作尚未填写", unit: "副", active: true };
+  const conflictEntry = catalogProjects.find(project => project.id === "ref-low-voltage-battery-replace")!;
+  const conflict: Project = { id: "catalog-battery-code-conflict", code: conflictEntry.code, name: "合成编码冲突项目", category: "自定义", description: "保持不变", unit: "次", active: true };
+  await put(service.db, "projects", unknown);
+  await put(service.db, "projects", conflict);
+  const before = await list<Project>(service.db, "projects");
+  const models = await list(service.db, "models");
+  const rules = await list(service.db, "rules");
+  const offers = await list(service.db, "offers");
+  const payload = { catalogIds: ["ref-wiper-replace", "ref-tire-rotation", conflictEntry.id], skipConflicts: true };
+  const responses = await Promise.all([call("admin", "POST", "/admin/catalog/projects/import", payload), call("admin", "POST", "/admin/catalog/projects/import", payload)]);
+  responses.forEach(response => assert.equal(response.statusCode, 200, response.body));
+  const results = responses.map(response => response.json<CatalogProjectImportResult>());
+  assert.equal(results.reduce((sum, result) => sum + result.created, 0), 1);
+  assert.equal(results[0].projects[0].id, results[1].projects[0].id);
+  for (const result of results) {
+    assert.deepEqual(result.skipped?.map(entry => entry.catalogId), ["ref-wiper-replace", conflictEntry.id]);
+    assert(result.skipped?.every(entry => entry.name && entry.reason));
+  }
+  assert.equal((await list<Project>(service.db, "projects")).length, before.length + 1);
+  assert.deepEqual(await get(service.db, "projects", unknown.id), unknown);
+  assert.deepEqual(await get(service.db, "projects", conflict.id), conflict);
+  assert.deepEqual(await list(service.db, "models"), models);
+  assert.deepEqual(await list(service.db, "rules"), rules);
+  assert.deepEqual(await list(service.db, "offers"), offers);
+  const strict = await call("admin", "POST", "/admin/catalog/projects/import", { catalogIds: ["ref-wiper-replace"] });
+  assert.equal(strict.statusCode, 409, strict.body);
+  assert.equal(strict.json().error.code, "PROJECT_ACTION_UNKNOWN");
+  assert.equal((await call("admin", "POST", "/admin/catalog/projects/import", { ...payload, skipConflicts: "true" })).statusCode, 400);
+});
+
+test("common service matching keeps opposite actions distinct and excludes diagnosis projects", async () => {
+  const inspect: Project = { id: "catalog-brake-fluid-inspect", code: "SYNTHETIC_BRAKE_FLUID_INSPECT", name: "检测刹车液", category: "制动系统", description: "检测液体状态；更换另行报价", unit: "次", active: false };
+  const diagnosis: Project = { id: "catalog-diagnosis-motor-coolant", code: "SYNTHETIC_DIAGNOSIS_MOTOR_COOLANT", name: "更换驱动电机冷却液", category: "diagnosis", description: "合成故障检查项目", unit: "次", active: true };
+  await put(service.db, "projects", inspect);
+  await put(service.db, "projects", diagnosis);
+  const response = await call("admin", "POST", "/admin/catalog/projects/import", { catalogIds: ["ref-brake-fluid-inspection", "ref-brake-fluid-replace", "ref-motor-coolant"], skipConflicts: true });
+  assert.equal(response.statusCode, 200, response.body);
+  const result = response.json<CatalogProjectImportResult>();
+  assert.equal(result.created, 2);
+  assert.equal(result.existing, 1);
+  assert.deepEqual(result.skipped, []);
+  assert.deepEqual(result.projects[0], inspect);
+  assert.notEqual(result.projects[1].id, inspect.id);
+  assert.notEqual(result.projects[2].id, diagnosis.id);
+  assert.deepEqual(await get(service.db, "projects", inspect.id), inspect);
+  assert.deepEqual(await get(service.db, "projects", diagnosis.id), diagnosis);
+  const codeEntry = catalogProjects.find(entry => entry.id === "ref-exterior-bulb")!;
+  const diagnosisWithCode: Project = { ...diagnosis, id: "catalog-diagnosis-code-conflict", code: codeEntry.code, name: codeEntry.name };
+  await put(service.db, "projects", diagnosisWithCode);
+  const conflict = await call("admin", "POST", "/admin/catalog/projects/import", { catalogIds: [codeEntry.id], skipConflicts: true });
+  assert.equal(conflict.statusCode, 200, conflict.body);
+  assert.equal(conflict.json<CatalogProjectImportResult>().skipped?.[0].catalogId, codeEntry.id);
+  assert.equal(conflict.json<CatalogProjectImportResult>().created, 0);
+  assert.deepEqual(await get(service.db, "projects", diagnosisWithCode.id), diagnosisWithCode);
+});
+
+test("safe completion reports ambiguous component matches and still imports independent services", async () => {
+  for (const [index, name] of ["检测高压线束和接插件", "检验高压线束和接插件"].entries()) {
+    await put(service.db, "projects", { id: `catalog-harness-ambiguous-${index}`, code: `SYNTHETIC_HARNESS_${index}`, name, category: "新能源", description: "合成已有项目", unit: "次", active: true });
+  }
+  const response = await call("admin", "POST", "/admin/catalog/projects/import", { catalogIds: ["ref-hv-harness", "ref-wheel-balance"], skipConflicts: true });
+  assert.equal(response.statusCode, 200, response.body);
+  const result = response.json<CatalogProjectImportResult>();
+  assert.equal(result.created, 1);
+  assert.equal(result.skipped?.length, 1);
+  assert.equal(result.skipped?.[0].catalogId, "ref-hv-harness");
+  assert.match(result.skipped?.[0].reason || "", /多个同部件/);
+});
+
+test("fluid and chemical nouns do not masquerade as cleaning or lubrication operations", () => {
+  const entry = catalogProjects.find(project => project.name === "补充风挡玻璃清洗液")!;
+  assert(entry, "common service catalog includes washer fluid top-up");
+  const imported: Project = { ...entry, active: true, catalogSource: { catalogId: entry.id, version: "test", sources: [], importedAt: "2026-01-01T00:00:00.000Z" } };
+  assert.equal(standardProjectAction(imported), "other");
+  const base: ManualRuleDraft = { id: "chemical-noun", name: entry.name, action: "other", projectId: null, catalogProjectId: null, createProject: false, include: true, triggerType: "as_needed", firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null, mileageType: "total_km", condition: "合成检查结果，需要时处理", notes: "合成测试", sourceText: "合成测试", pageNumbers: [1] };
+  assert.equal(autoMapManualProjects([base], [])[0]?.catalogProjectId, entry.id);
+  for (const component of ["清洗液", "润滑油", "润滑脂", "清洁剂"]) {
+    assert.equal(manualProjectSubject(`检查${component}`), component);
+    const project: Project = { id: `chemical-${component}`, code: `SYNTHETIC_${component}`, name: `检查${component}`, category: "合成检查", description: "合成检查项目", unit: "次", active: true };
+    assert.equal(standardProjectAction(project), "inspect");
+    assert.equal(autoMapManualProjects([{ ...base, name: `检查${component}`, action: "inspect" }], [project])[0]?.projectId, project.id);
+    assert.equal(standardProjectAction({ ...project, name: "待明确的合成项目", description: `${component}的适用型号需确认` }), null);
+  }
 });

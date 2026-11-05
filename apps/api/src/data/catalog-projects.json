@@ -660,5 +660,815 @@
     "sourceIds": [
       "tesla-maintenance"
     ]
+  },
+  {
+    "id": "ref-engine-oil-inspection",
+    "code": "REF-ENGINE-OIL-INSPECTION",
+    "name": "检查发动机机油液位和状态",
+    "category": "发动机",
+    "description": "检查发动机机油液位及可见状态；测量条件和补充要求按对应车辆手册确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-oil"
+    ]
+  },
+  {
+    "id": "ref-engine-oil-replace",
+    "code": "REF-ENGINE-OIL-REPLACE",
+    "name": "更换发动机机油",
+    "category": "发动机",
+    "description": "用于单独登记发动机机油更换；油液规格和用量按车型确认，已采用机油机滤组合项目时避免重复登记。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-oil"
+    ]
+  },
+  {
+    "id": "ref-oil-filter-replace",
+    "code": "REF-OIL-FILTER-REPLACE",
+    "name": "更换机油滤清器",
+    "category": "滤清器",
+    "description": "用于单独登记机油滤清器或滤芯更换；配件和工艺按车型确认，已采用机油机滤组合项目时避免重复登记。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-oil"
+    ]
+  },
+  {
+    "id": "ref-engine-air-filter-inspection",
+    "code": "REF-ENGINE-AIR-FILTER-INSPECTION",
+    "name": "检查发动机空气滤芯",
+    "category": "滤清器",
+    "description": "检查发动机进气滤芯污染、破损及安装状态；是否清洁或更换另按滤芯材料和厂家要求判断。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-servicing"
+    ]
+  },
+  {
+    "id": "ref-cabin-filter-inspection",
+    "code": "REF-CABIN-FILTER-INSPECTION",
+    "name": "检查空调滤清器",
+    "category": "滤清器",
+    "description": "检查座舱空气滤清器状态；检查与更换分开记录，不默认所有滤芯允许清洗。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-ac"
+    ]
+  },
+  {
+    "id": "ref-accessory-belt-inspection",
+    "code": "REF-ACCESSORY-BELT-INSPECTION",
+    "name": "检查发动机附件传动皮带",
+    "category": "发动机",
+    "description": "检查附件传动皮带的裂纹、磨损等状态；只适用于配备相应皮带的车型。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-accessory-belt-replace",
+    "code": "REF-ACCESSORY-BELT-REPLACE",
+    "name": "更换发动机附件传动皮带",
+    "category": "发动机",
+    "description": "按车辆配置和检查结果更换附件传动皮带；不与发动机正时皮带混用。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-timing-belt-inspection",
+    "code": "REF-TIMING-BELT-INSPECTION",
+    "name": "检查发动机正时皮带",
+    "category": "发动机",
+    "description": "检查正时皮带及相关部件状态；先确认发动机使用皮带或链条，检查范围按厂家资料确定。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-timing"
+    ]
+  },
+  {
+    "id": "ref-timing-belt-replace",
+    "code": "REF-TIMING-BELT-REPLACE",
+    "name": "更换发动机正时皮带",
+    "category": "发动机",
+    "description": "用于配备正时皮带发动机的更换作业；同步正时及张紧部件要求按具体发动机核对，不适用于正时链条的默认更换。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-timing"
+    ]
+  },
+  {
+    "id": "ref-fuel-system-clean",
+    "code": "REF-FUEL-SYSTEM-CLEAN",
+    "name": "清洁发动机燃油系统",
+    "category": "发动机",
+    "description": "按故障评估、使用状况及厂家要求实施燃油系统清洁；不设置所有燃油车型通用的强制清洗周期。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-coolant-condition",
+    "code": "REF-COOLANT-CONDITION",
+    "name": "检查冷却液状态",
+    "category": "冷却系统",
+    "description": "检查冷却液状态及厂家要求的检测指标；与液位检查分开管理，不自行套用其他车型的检测阈值。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-engine-coolant-replace",
+    "code": "REF-ENGINE-COOLANT-REPLACE",
+    "name": "更换发动机冷却液",
+    "category": "冷却系统",
+    "description": "更换发动机冷却回路的冷却液；介质、用量、排气工艺及周期按对应车型资料确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-coolant-top-up",
+    "code": "REF-COOLANT-TOP-UP",
+    "name": "补充冷却液",
+    "category": "冷却系统",
+    "description": "在核查冷却回路和液位后按车型要求补充相容的冷却液；不将反复缺液直接作为常规补充处理。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-servicing"
+    ]
+  },
+  {
+    "id": "ref-transmission-fluid-inspection",
+    "code": "REF-TRANSMISSION-FLUID-INSPECTION",
+    "name": "检查变速器油液",
+    "category": "传动系统",
+    "description": "检查适用变速器的油液状态或液位；检测温度、测量方式及是否允许常规检查按厂家要求确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-transmission"
+    ]
+  },
+  {
+    "id": "ref-automatic-transmission-fluid",
+    "code": "REF-AUTOMATIC-TRANSMISSION-FLUID",
+    "name": "更换自动变速器油（AT）",
+    "category": "传动系统",
+    "description": "适用于采用相应AT油液的自动变速器；不与CVT或双离合油液混用，规格和换油方式按车型确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-transmission",
+      "bosch-service-automatic-transmission"
+    ]
+  },
+  {
+    "id": "ref-cvt-fluid",
+    "code": "REF-CVT-FLUID",
+    "name": "更换无级变速器油（CVT）",
+    "category": "传动系统",
+    "description": "用于明确配置无级变速器且要求维护的油液回路；不能仅凭车型名称将混动e-CVT视为传统CVT。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-transmission",
+      "bosch-service-automatic-transmission"
+    ]
+  },
+  {
+    "id": "ref-dct-fluid",
+    "code": "REF-DCT-FLUID",
+    "name": "更换双离合变速器油（DCT/DSG）",
+    "category": "传动系统",
+    "description": "先区分变速器结构及齿轮、机电或湿式离合器油液回路，再按厂家要求维护；不默认干式与湿式双离合相同。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-transmission",
+      "bosch-service-automatic-transmission"
+    ]
+  },
+  {
+    "id": "ref-transmission-filter",
+    "code": "REF-TRANSMISSION-FILTER",
+    "name": "更换变速器滤清器",
+    "category": "滤清器",
+    "description": "用于配备可维护变速器滤清器或滤芯的车型；是否与油底壳集成以及是否需要更换按车型确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-differential-fluid",
+    "code": "REF-DIFFERENTIAL-FLUID",
+    "name": "更换差速器油",
+    "category": "传动系统",
+    "description": "差速器润滑油更换；区分前后桥、限滑结构与油液规格，不默认与变速器共用油液。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-transfer-case-fluid",
+    "code": "REF-TRANSFER-CASE-FLUID",
+    "name": "更换分动箱油",
+    "category": "传动系统",
+    "description": "仅用于配备独立且需维护分动箱的车辆；回路、油液规格及周期按厂家要求确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-clutch-inspection",
+    "code": "REF-CLUTCH-INSPECTION",
+    "name": "检查离合器",
+    "category": "传动系统",
+    "description": "检查离合器结合、分离及异常打滑或噪声等状态；按车辆所配离合器结构确定检测范围。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-clutch"
+    ]
+  },
+  {
+    "id": "ref-clutch-replace",
+    "code": "REF-CLUTCH-REPLACE",
+    "name": "更换离合器组件",
+    "category": "传动系统",
+    "description": "在诊断确认后更换相应离合器组件；部件范围及匹配要求按具体车型维修资料确定。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-clutch"
+    ]
+  },
+  {
+    "id": "ref-brake-pad-replace",
+    "code": "REF-BRAKE-PAD-REPLACE",
+    "name": "更换制动摩擦块（刹车片）",
+    "category": "制动系统",
+    "description": "依据检查结果更换制动摩擦块；前后轴、配件规格及更换后的作业要求按车型确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-brakes"
+    ]
+  },
+  {
+    "id": "ref-brake-disc-replace",
+    "code": "REF-BRAKE-DISC-REPLACE",
+    "name": "更换制动盘",
+    "category": "制动系统",
+    "description": "依据磨损或损伤检查结果更换制动盘；不把制动盘检查自动转为更换作业。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-brakes"
+    ]
+  },
+  {
+    "id": "ref-brake-drum-inspection",
+    "code": "REF-BRAKE-DRUM-INSPECTION",
+    "name": "检查制动鼓和制动蹄片",
+    "category": "制动系统",
+    "description": "检查鼓式制动器摩擦部件状态；仅在车辆配置鼓式制动器时适用，拆检和允许磨损按车型确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "jiffy-service-brake-inspection"
+    ]
+  },
+  {
+    "id": "ref-mechanical-parking-brake",
+    "code": "REF-MECHANICAL-PARKING-BRAKE",
+    "name": "检查机械驻车制动机构",
+    "category": "制动系统",
+    "description": "检查手柄或踏板式机械驻车制动机构及其功能；与电子驻车开关项目分开，调整要求按车型确认。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-brakes"
+    ]
+  },
+  {
+    "id": "ref-tire-replace",
+    "code": "REF-TIRE-REPLACE",
+    "name": "更换轮胎",
+    "category": "轮胎车轮",
+    "description": "根据轮胎状态及车辆规格更换轮胎；尺寸、载重、速度级别和前后轮配置按车辆资料确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-tyres",
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-tire-repair",
+    "code": "REF-TIRE-REPAIR",
+    "name": "修补轮胎",
+    "category": "轮胎车轮",
+    "description": "拆检确认损伤位置和结构后判断是否可以修补；不默认所有扎孔、胎侧或受损轮胎均可修复。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-tire-valve-replace",
+    "code": "REF-TIRE-VALVE-REPLACE",
+    "name": "更换轮胎气门嘴",
+    "category": "轮胎车轮",
+    "description": "依据漏气或损伤情况更换气门嘴；先区分普通气门嘴与胎压传感器一体式结构。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-tyres",
+      "jiffy-service-tpms"
+    ]
+  },
+  {
+    "id": "ref-tpms-inspection",
+    "code": "REF-TPMS-INSPECTION",
+    "name": "检查胎压监测系统",
+    "category": "轮胎车轮",
+    "description": "检查胎压监测显示、报警及传感器相关状态；直接式和间接式系统的检测方法按车型确定。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "jiffy-service-tpms"
+    ]
+  },
+  {
+    "id": "ref-tpms-sensor-replace",
+    "code": "REF-TPMS-SENSOR-REPLACE",
+    "name": "更换胎压监测传感器",
+    "category": "轮胎车轮",
+    "description": "在确认直接式胎压传感器故障后更换相应部件；识别、学习或匹配流程按厂家要求实施。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "tesla-model3-tire-care"
+    ]
+  },
+  {
+    "id": "ref-power-steering-fluid-inspection",
+    "code": "REF-POWER-STEERING-FLUID-INSPECTION",
+    "name": "检查转向助力液",
+    "category": "底盘转向",
+    "description": "检查液压助力转向系统的液位和状态；不适用于无助力液回路的纯电动助力转向系统。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "jiffy-service-fluid-top-off"
+    ]
+  },
+  {
+    "id": "ref-power-steering-fluid-top-up",
+    "code": "REF-POWER-STEERING-FLUID-TOP-UP",
+    "name": "补充转向助力液",
+    "category": "底盘转向",
+    "description": "核查液压助力转向回路后补充规定液体；规格按车型确认，不默认电动助力转向需要补液。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "jiffy-service-fluid-top-off"
+    ]
+  },
+  {
+    "id": "ref-shock-absorber-inspection",
+    "code": "REF-SHOCK-ABSORBER-INSPECTION",
+    "name": "检查减振器和支柱",
+    "category": "底盘转向",
+    "description": "检查减振器、支柱及相关安装部件状态；与更换作业分开记录。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-suspension"
+    ]
+  },
+  {
+    "id": "ref-shock-absorber-replace",
+    "code": "REF-SHOCK-ABSORBER-REPLACE",
+    "name": "更换减振器和支柱",
+    "category": "底盘转向",
+    "description": "按检测结果更换减振器或支柱；电子可调或空气悬架等配置的作业和校准要求另按车型确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "bosch-service-suspension"
+    ]
+  },
+  {
+    "id": "ref-battery-terminal-clean",
+    "code": "REF-BATTERY-TERMINAL-CLEAN",
+    "name": "清洁低压蓄电池端子",
+    "category": "电气系统",
+    "description": "清洁可维护的低压蓄电池端子及连接部位；断电流程和电池类型按车辆规定确认。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-low-voltage-charging-inspection",
+    "code": "REF-LOW-VOLTAGE-CHARGING-INSPECTION",
+    "name": "检查低压充电系统",
+    "category": "电气系统",
+    "description": "检测低压供电及充电系统工作状态；发动机发电机与新能源DC/DC等不同结构按对应车型要求检查。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "firestone-service-battery"
+    ]
+  },
+  {
+    "id": "ref-starting-charging-diagnosis",
+    "code": "REF-STARTING-CHARGING-DIAGNOSIS",
+    "name": "启动与低压充电故障诊断",
+    "category": "diagnosis",
+    "description": "针对启动困难、低压供电或充电异常进行故障诊断；检查对象按车辆动力和供电结构确定。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "firestone-service-battery"
+    ]
+  },
+  {
+    "id": "ref-adas-calibration",
+    "code": "REF-ADAS-CALIBRATION",
+    "name": "驾驶辅助摄像头与雷达标定",
+    "category": "电气系统",
+    "description": "在维修、更换相关部件或厂家要求的情形下标定驾驶辅助摄像头、雷达等设备；不作为所有车型的固定周期项目。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-adas"
+    ]
+  },
+  {
+    "id": "ref-ac-performance-inspection",
+    "code": "REF-AC-PERFORMANCE-INSPECTION",
+    "name": "检查空调制冷性能",
+    "category": "空调系统",
+    "description": "检查空调制冷效果及适用检测参数；检查结果用于判断是否需要检漏、清洁或其他维修。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-ac"
+    ]
+  },
+  {
+    "id": "ref-ac-refrigerant-recharge",
+    "code": "REF-AC-REFRIGERANT-RECHARGE",
+    "name": "加注空调制冷剂",
+    "category": "空调系统",
+    "description": "在确认系统状态后按车辆规定回收、抽真空和定量加注制冷剂；介质类型及用量按车型确认，不默认缺冷媒只需补充。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-ac"
+    ]
+  },
+  {
+    "id": "ref-ac-system-clean",
+    "code": "REF-AC-SYSTEM-CLEAN",
+    "name": "清洁空调系统",
+    "category": "空调系统",
+    "description": "按检查结果和厂家工艺清洁空调系统的可维护部位；作业范围、材料及部件保护要求按车型确认。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "bosch-service-ac"
+    ]
+  },
+  {
+    "id": "ref-ac-condenser-clean",
+    "code": "REF-AC-CONDENSER-CLEAN",
+    "name": "清洁空调冷凝器",
+    "category": "空调系统",
+    "description": "清除空调冷凝器可维护表面的污物；清洁方式和是否需要拆卸按车辆要求确认。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "bosch-service-ac"
+    ]
+  },
+  {
+    "id": "ref-ac-leak-diagnosis",
+    "code": "REF-AC-LEAK-DIAGNOSIS",
+    "name": "空调制冷系统泄漏诊断",
+    "category": "diagnosis",
+    "description": "针对空调冷媒异常减少等现象进行检漏诊断；诊断与修复、制冷剂加注分别记录。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-ac"
+    ]
+  },
+  {
+    "id": "ref-wiper-inspection",
+    "code": "REF-WIPER-INSPECTION",
+    "name": "检查雨刮片",
+    "category": "车身附件",
+    "description": "检查雨刮片外观和刮拭效果；检查、清洁与更换分别记录。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "tesla-model3-wipers"
+    ]
+  },
+  {
+    "id": "ref-wiper-clean",
+    "code": "REF-WIPER-CLEAN",
+    "name": "清洁雨刮片",
+    "category": "车身附件",
+    "description": "按规定方式清洁雨刮片及接触部位；已破损或不能正常刮拭时另行判断是否更换。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-model3-wipers"
+    ]
+  },
+  {
+    "id": "ref-washer-nozzle-clean",
+    "code": "REF-WASHER-NOZZLE-CLEAN",
+    "name": "清洁风挡清洗喷嘴",
+    "category": "车身附件",
+    "description": "清洁风挡清洗喷嘴的可维护部位；喷嘴结构和处理方法按车型要求确认。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-model3-wipers"
+    ]
+  },
+  {
+    "id": "ref-washer-fluid-top-up",
+    "code": "REF-WASHER-FLUID-TOP-UP",
+    "name": "补充风挡玻璃清洗液",
+    "category": "车身附件",
+    "description": "补充适合环境和车辆要求的风挡清洗液；不与冷却液、制动液等其他介质混用。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "tesla-model3-wipers",
+      "jiffy-service-fluid-top-off"
+    ]
+  },
+  {
+    "id": "ref-seat-belt-inspection",
+    "code": "REF-SEAT-BELT-INSPECTION",
+    "name": "检查座椅安全带",
+    "category": "车身附件",
+    "description": "检查安全带织带、锁扣、回卷及锁止等状态；适用测试方法按厂家规定实施。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "tesla-model3-seat-belts"
+    ]
+  },
+  {
+    "id": "ref-body-wash",
+    "code": "REF-BODY-WASH",
+    "name": "清洗车身外部",
+    "category": "车身附件",
+    "description": "按车漆、饰件及车辆设备的要求清洗车身外部；清洗方式和材料按厂家指引选择。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-model3-cleaning"
+    ]
+  },
+  {
+    "id": "ref-interior-clean",
+    "code": "REF-INTERIOR-CLEAN",
+    "name": "清洁车辆内饰",
+    "category": "车身附件",
+    "description": "按座椅、饰板及其他内饰材料要求实施清洁；不默认包含消毒、拆装或更换部件。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-model3-cleaning"
+    ]
+  },
+  {
+    "id": "ref-glass-mirror-clean",
+    "code": "REF-GLASS-MIRROR-CLEAN",
+    "name": "清洁车窗玻璃和后视镜",
+    "category": "车身附件",
+    "description": "清洁玻璃和后视镜表面；镀膜、传感设备及加热部件的保护按车辆指引实施。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-model3-cleaning"
+    ]
+  },
+  {
+    "id": "ref-underbody-clean",
+    "code": "REF-UNDERBODY-CLEAN",
+    "name": "清洁底盘和轮拱",
+    "category": "车身附件",
+    "description": "按使用环境清除底盘或轮拱泥沙等污染；清洁方式及高压部件保护按车辆规定确认。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-model3-cleaning"
+    ]
+  },
+  {
+    "id": "ref-camera-clean",
+    "code": "REF-CAMERA-CLEAN",
+    "name": "清洁车载摄像头",
+    "category": "车身附件",
+    "description": "按厂家指引清洁车载摄像头可维护表面；不包含标定或默认拆卸摄像头。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-model3-cleaning"
+    ]
+  },
+  {
+    "id": "ref-door-seal-clean",
+    "code": "REF-DOOR-SEAL-CLEAN",
+    "name": "清洁车门密封条",
+    "category": "车身附件",
+    "description": "按密封条材质及厂家指引清洁相关表面；不自行套用润滑或化学养护要求。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "tesla-model3-cleaning"
+    ]
+  },
+  {
+    "id": "ref-headlight-lens-clean",
+    "code": "REF-HEADLIGHT-LENS-CLEAN",
+    "name": "清洁前灯灯罩",
+    "category": "车身附件",
+    "description": "依据灯罩材料和污染情况清洁前灯表面；不默认包含打磨、翻新或灯具更换。",
+    "unit": "次",
+    "action": "clean",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-windshield-repair",
+    "code": "REF-WINDSHIELD-REPAIR",
+    "name": "修补风挡玻璃轻微破损",
+    "category": "车身附件",
+    "description": "先评估破损位置、范围与玻璃结构，再决定能否修补；不默认严重裂纹或所有玻璃均可修复。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
+  },
+  {
+    "id": "ref-traction-battery-health",
+    "code": "REF-TRACTION-BATTERY-HEALTH",
+    "name": "检测动力电池健康状态",
+    "category": "新能源系统",
+    "description": "使用符合车型要求的设备读取或检测动力电池健康状态；结果口径及检测条件按厂家资料确定。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-electric-hybrid"
+    ]
+  },
+  {
+    "id": "ref-traction-battery-cooling-inspection",
+    "code": "REF-TRACTION-BATTERY-COOLING-INSPECTION",
+    "name": "检查动力电池冷却系统",
+    "category": "新能源系统",
+    "description": "检查动力电池冷却系统工作状态；先区分风冷、液冷及各自回路，不默认所有车型使用相同冷却介质。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-electric-hybrid"
+    ]
+  },
+  {
+    "id": "ref-charging-cable-inspection",
+    "code": "REF-CHARGING-CABLE-INSPECTION",
+    "name": "检查车辆充电线缆",
+    "category": "新能源系统",
+    "description": "检查车辆充电线缆及相关连接部位的可见状态；与车身充电接口检查分别记录。",
+    "unit": "次",
+    "action": "inspect",
+    "sourceIds": [
+      "bosch-service-electric-hybrid"
+    ]
+  },
+  {
+    "id": "ref-ev-software-update",
+    "code": "REF-EV-SOFTWARE-UPDATE",
+    "name": "更新车辆控制软件",
+    "category": "新能源系统",
+    "description": "仅按厂家提供且适配车辆的流程更新控制软件或固件；不将软件更新设为统一保养周期。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-electric-hybrid"
+    ]
+  },
+  {
+    "id": "ref-obd-diagnosis",
+    "code": "REF-OBD-DIAGNOSIS",
+    "name": "车辆电子系统故障码读取与诊断",
+    "category": "diagnosis",
+    "description": "读取适用控制系统故障信息并记录诊断结果；故障码不等于更换部件结论，修复确认后再按流程处理故障记录。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-diagnostics"
+    ]
+  },
+  {
+    "id": "ref-engine-diagnosis",
+    "code": "REF-ENGINE-DIAGNOSIS",
+    "name": "发动机管理系统故障诊断",
+    "category": "diagnosis",
+    "description": "针对发动机报警、异常运行等问题检查发动机管理及相关系统；不作为通用固定周期保养。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-diagnostics"
+    ]
+  },
+  {
+    "id": "ref-transmission-diagnosis",
+    "code": "REF-TRANSMISSION-DIAGNOSIS",
+    "name": "变速器故障诊断",
+    "category": "diagnosis",
+    "description": "针对换挡、传动或变速器报警等问题进行诊断；维修和油液更换按诊断结果另行记录。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-automatic-transmission"
+    ]
+  },
+  {
+    "id": "ref-abs-diagnosis",
+    "code": "REF-ABS-DIAGNOSIS",
+    "name": "制动防抱死系统（ABS）故障诊断",
+    "category": "diagnosis",
+    "description": "针对ABS报警或相关功能异常读取并核查故障信息；与制动机械部件检查分开记录。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-diagnostics"
+    ]
+  },
+  {
+    "id": "ref-ev-charging-diagnosis",
+    "code": "REF-EV-CHARGING-DIAGNOSIS",
+    "name": "新能源充电系统故障诊断",
+    "category": "diagnosis",
+    "description": "针对无法充电或充电异常等问题检查车辆相关系统；车辆与外部充电设备的责任范围按检测结果确认。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "bosch-service-electric-hybrid"
+    ]
+  },
+  {
+    "id": "ref-diesel-exhaust-fluid",
+    "code": "REF-DIESEL-EXHAUST-FLUID",
+    "name": "补充柴油尾气处理液（车用尿素）",
+    "category": "排放系统",
+    "description": "仅适用于配备相应SCR尾气处理系统的柴油车辆；液体标准、加注口和用量按车型资料确认。",
+    "unit": "次",
+    "action": "other",
+    "sourceIds": [
+      "jiffy-service-catalog"
+    ]
   }
 ]
