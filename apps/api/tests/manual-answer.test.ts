@@ -133,12 +133,75 @@ test("directories, cloud-drive pages, and explicitly incompatible variants never
   assert.equal(response.statusCode, 409); assert.deepEqual(await list(service.db, "files"), []);
 });
 
+test("discovery failure is distinct from a completed search without readable sources", async t => {
+  const service = await harness(t);
+  let downloads = 0, readings = 0;
+  for (const status of ["unavailable", "no_results"] as const) {
+    const work = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({
+      discover: undefined,
+      discoverDetailed: async () => ({ sources: [directory], status, diagnostics: [] }),
+      download: async () => { downloads++; throw new Error("must not download a directory"); },
+      recognize: async () => { readings++; return recognition; },
+    }));
+    assert.equal(work.result.discoveryStatus, status);
+    assert.equal(work.result.answer.failureStage, "discovery");
+    assert.equal(work.result.answer.failureReason, status === "unavailable" ? "search_unavailable" : "no_sources");
+    assert.equal(work.result.aiStatus, status === "unavailable" ? "unavailable" : "completed");
+    assert.equal(work.result.answer.status, "not_found");
+    assert.deepEqual(work.result.answer.rows, []);
+    assert.equal(work.evidence, undefined);
+    assert.match(work.result.summary, status === "unavailable" ? /尚不能判断/ : /本次未发现/);
+  }
+  const failed = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({
+    discover: undefined,
+    discoverDetailed: async () => { throw new Error("PRIVATE_SEARCH_FAILURE"); },
+  }));
+  assert.equal(failed.result.answer.failureReason, "search_unavailable");
+  assert(!JSON.stringify(failed.result).includes("PRIVATE_SEARCH_FAILURE"));
+  assert.equal(downloads, 0); assert.equal(readings, 0);
+  assert.deepEqual(await list(service.db, "manual_imports"), []);
+  assert.deepEqual(await list(service.db, "files"), []);
+  assert.deepEqual(await readdir(service.temporary), []);
+});
+
+test("oversized downloads and PDF selection failures report the stage without invoking AI", async t => {
+  const service = await harness(t);
+  let readings = 0;
+  const noAi = async () => { readings++; return structuredClone(recognition); };
+  const tooLarge = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({
+    download: async () => { throw new AppError(413, "MANUAL_TOO_LARGE", "PRIVATE_DOWNLOAD_DETAIL"); }, recognize: noAi,
+  }));
+  assert.equal(tooLarge.result.answer.failureStage, "download");
+  assert.equal(tooLarge.result.answer.failureReason, "document_too_large");
+  assert.equal(tooLarge.result.answer.status, "not_found");
+  assert.deepEqual(tooLarge.result.answer.rows, []);
+  assert(!JSON.stringify(tooLarge.result).includes("PRIVATE_DOWNLOAD_DETAIL"));
+
+  const doc = await PDFDocument.create();
+  for (let page = 0; page < 13; page++) doc.addPage([100, 100]);
+  const bytes = Buffer.from(await doc.save());
+  const unlocated = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({
+    download: async url => ({ bytes, type: "application/pdf", url }), recognize: noAi,
+  }));
+  assert.equal(unlocated.result.answer.failureStage, "selection");
+  assert.equal(unlocated.result.answer.failureReason, "page_selection_failed");
+  assert.equal(unlocated.result.answer.status, "not_found");
+  assert.deepEqual(unlocated.result.answer.rows, []);
+  assert.equal(unlocated.evidence, undefined);
+  assert.equal(readings, 0);
+  assert.deepEqual(await list(service.db, "manual_imports"), []);
+  assert.deepEqual(await list(service.db, "files"), []);
+  assert.deepEqual(await readdir(service.temporary), []);
+});
+
 test("a readable document is still offered when AI fails or finds no maintenance rows", async t => {
   const service = await harness(t);
   for (const recognize of [async () => ({ ...recognition, rows: [] }), async () => { throw new Error("PRIVATE_PROVIDER_DETAIL"); }]) {
     const work = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({ recognize }));
     assert.equal(work.result.answer.status, "not_found"); assert.equal(work.result.answer.manuals[0].url, source.url);
     assert.equal(work.result.answer.sourceUrl, source.url); assert.deepEqual(work.result.answer.rows, []); assert.equal(work.evidence, undefined);
+    assert.equal(work.result.answer.failureStage, "recognition");
+    assert.equal(work.result.answer.failureReason, "ai_unavailable");
     assert(!JSON.stringify(work.result).includes("PRIVATE_PROVIDER_DETAIL"));
   }
 });
@@ -161,6 +224,10 @@ test("multiple PDF attachment indexes are skipped without selecting a file or pa
     assert.match(work.result.warnings.join(" "), /多份手册附件.*未自动猜选/);
     assert.equal(work.result.answer.manuals.some(manual => manual.url === index.url), false);
     assert.equal(work.result.answer.status, fallback ? "ready" : "not_found");
+    if (fallback) {
+      assert.equal(work.result.answer.failureStage, undefined, "successful fallback must clear the previous candidate failure");
+      assert.equal(work.result.answer.failureReason, undefined);
+    }
   }
   assert.deepEqual(await list(service.db, "files"), []);
 });

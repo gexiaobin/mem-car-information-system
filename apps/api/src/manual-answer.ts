@@ -4,23 +4,28 @@ import type { Context } from "./context.js";
 import { roles, route } from "./context.js";
 import { get, list } from "./db.js";
 import { AppError, ensure, id, now } from "./domain.js";
-import { discoverManualSources, modelManualQueries, publicDownload, validateSourceUrl } from "./manual-sources.js";
+import { discoverManualSources, discoverManualSourcesDetailed, manualDownloadLimit, modelManualQueries, publicDownload, validateSourceUrl, type ManualDiscoveryReport } from "./manual-sources.js";
 import { prepareManualImage, prepareManualPdfSelection, persistPreparedManualFiles, type PreparedFile } from "./manual-files.js";
 import { extractManualWebPage } from "./manual-web-source.js";
 import { recognizeManual } from "./manual-vision.js";
+import { recognizeManualEvidence } from "./manual-answer-recognition.js";
 import { autoMapManualProjects, diagnoseManualProjectMappings } from "./manual-project-mapping.js";
 import { createRecognizedManualDraft, manualModelIdentity } from "./manuals.js";
 import { acquireOfficialManualContext } from "./manual-official-sources.js";
+import { acquireGacToyotaManualContext } from "./manual-gac-toyota.js";
 
 export interface ManualAiAnswerResult {
   query: string; sources: ManualSource[]; summary: string; warnings: string[];
   aiStatus: "completed" | "unavailable" | "not_configured";
   searchedAt: string; evidenceMode: "document_reading";
+  discoveryStatus?: ManualDiscoveryReport['status'];
   answer: {
     status: "ready" | "partial" | "not_found";
     title: string; summary: string; applicability: string; edition: string;
     sourceTitle: string; sourceUrl: string; manuals: ManualSource[];
     rows: ManualRuleDraft[]; mappingDiagnostics?: ManualProjectMappingDiagnostic[]; warnings: string[];
+    failureStage?: 'discovery' | 'download' | 'selection' | 'recognition';
+    failureReason?: 'search_unavailable' | 'no_sources' | 'document_too_large' | 'document_unreadable' | 'page_selection_failed' | 'ai_unavailable';
   };
 }
 export interface ManualAiAnswerJob {
@@ -32,10 +37,12 @@ type Progress = (status: ManualAiAnswerJob["status"], message: string) => void;
 interface PreparedEvidence {
   files: PreparedFile[]; sourceUrl: string; title: string; manuals: ManualSource[];
   selection: ManualPageSelection;
+  textPages?: Array<{ pageNumber: number; text: string }>;
 }
 interface CachedEvidence extends PreparedEvidence { sourceExcerpt: string }
 export interface ManualAnswerDependencies {
   discover?: typeof discoverManualSources;
+  discoverDetailed?: typeof discoverManualSourcesDetailed;
   download?: typeof publicDownload;
   recognize?: typeof recognizeManual;
   clock?: () => number;
@@ -110,13 +117,28 @@ function groundTextRows(rows: ManualRuleDraft[], files: PreparedFile[]) {
 /** Read public bytes into bounded memory. No file, business row, or draft is written by a query. */
 async function prepareEvidence(source: ManualSource, model: CarModel, dependencies: ManualAnswerDependencies): Promise<PreparedEvidence> {
   const download = dependencies.download || publicDownload;
-  const deadline = Date.now() + 45000;
-  const downloaded = await download(source.url, 0, undefined, 15000, deadline);
+  const maxBytes = manualDownloadLimit(source.url);
+  const deadline = Date.now() + (maxBytes > 32 * MiB ? 90000 : 45000);
+  const downloaded = await download(source.url, 0, undefined, maxBytes > 32 * MiB ? 75000 : 15000, deadline, maxBytes);
   const type = binaryType(downloaded.bytes);
   const concrete = { ...source, url: downloaded.url, isDirectory: false };
+  async function preparePdf(bytes: Buffer, url: string) {
+    const prepared = await prepareManualPdfSelection(bytes, filename(url), undefined, "auto", { maxBytes: manualDownloadLimit(url) });
+    if (new URL(url).hostname === 'www.gac-toyota.com.cn') {
+      // Reacquire the matching official title/link record. The target model and
+      // filename alone must not become evidence of this book's applicability.
+      try {
+        const contexts = await acquireGacToyotaManualContext(model, url, download);
+        for (const context of contexts.slice(0, Math.max(0, 12 - prepared.selection.pages.length))) {
+          prepared.files.push({ bytes: Buffer.from(`\ufeff${context.text}`, 'utf8'), name: `${context.title}.txt`, mimeType: 'text/plain', pageNumber: (prepared.selection.totalPages || 0) + 1, original: true });
+        }
+      } catch { /* The real PDF remains evidence; unknown applicability stays explicit. */ }
+    }
+    return prepared;
+  }
   if (type) {
     if (type === "application/pdf") {
-      const prepared = await prepareManualPdfSelection(downloaded.bytes, filename(downloaded.url), undefined, "auto");
+      const prepared = await preparePdf(downloaded.bytes, downloaded.url);
       return { ...prepared, sourceUrl: downloaded.url, title: source.title, manuals: [concrete] };
     }
     const files = [await prepareManualImage(downloaded.bytes, filename(downloaded.url), type, 1)];
@@ -137,9 +159,10 @@ async function prepareEvidence(source: ManualSource, model: CarModel, dependenci
   );
   if (page.pdfs.length && !hasBodyEvidence) {
     ensure(page.pdfs.length === 1, 400, "MANUAL_MULTIPLE_ATTACHMENTS", "该页面有多份手册附件且没有可读保养正文，不能自动猜选车型版本");
-    const pdf = await download(page.pdfs[0], 0, undefined, 15000, deadline);
+    const attachmentLimit = manualDownloadLimit(page.pdfs[0]);
+    const pdf = await download(page.pdfs[0], 0, undefined, attachmentLimit > 32 * MiB ? 75000 : 15000, attachmentLimit > 32 * MiB ? Date.now() + 90000 : deadline, attachmentLimit);
     ensure(binaryType(pdf.bytes) === "application/pdf", 400, "MANUAL_FORMAT", "手册附件未返回有效 PDF，不能将下载索引页作为保养正文");
-    const prepared = await prepareManualPdfSelection(pdf.bytes, filename(pdf.url), undefined, "auto");
+    const prepared = await preparePdf(pdf.bytes, pdf.url);
     return { ...prepared, sourceUrl: pdf.url, title: page.title || source.title, manuals: [{ ...concrete, url: pdf.url }] };
   }
   const files: PreparedFile[] = [];
@@ -192,16 +215,27 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
     answer: { status: "not_found", title: `${model.brand} ${model.name} 保养资料`, summary: "", applicability: "", edition: "", sourceTitle: "", sourceUrl: "", manuals: [], rows: [], warnings: [] },
   };
   progress("searching", "正在查找公开可直接阅读的保养手册与保养周期表…");
-  try { result.sources = safeSources(await (dependencies.discover || discoverManualSources)(model)); }
-  catch { warnings.push("公开检索暂时不可用，本次未取得可读手册原文，请稍后重试或上传保养表图片。"); }
+  try {
+    // Preserve the injected array adapter used by callers, but retain actual
+    // provider outcomes in the normal path instead of treating failure as absence.
+    if (dependencies.discover) result.sources = safeSources(await dependencies.discover(model));
+    else {
+      const discovery = await (dependencies.discoverDetailed || discoverManualSourcesDetailed)(model);
+      result.sources = safeSources(discovery.sources); result.discoveryStatus = discovery.status;
+    }
+  } catch { result.discoveryStatus = 'unavailable'; warnings.push("公开检索暂时不可用，本次未取得可读手册原文，请稍后重试或上传保养表图片。"); }
   const candidates = result.sources.filter(source => !source.isDirectory && !/(^|\.)carobook\.com$/i.test(new URL(source.url).hostname) && !/车型动力未明确|动力与当前车型可能冲突|与当前\s*\d+\s*年款不同/.test(source.description)).sort((a, b) => sourceOrder(b) - sourceOrder(a));
   if (!ctx.config.aiBaseUrl || !ctx.config.aiKey || !ctx.config.aiModel) {
     result.summary = "尚未配置 AI 识别服务，不能直接整理保养手册内容。";
     result.answer.summary = result.summary; result.answer.warnings = [...warnings]; return { result };
   }
   if (!candidates.length) {
-    result.aiStatus = "completed";
-    result.summary = "未找到可直接读取的保养手册或保养表，未生成保养周期。";
+    result.aiStatus = result.discoveryStatus === 'unavailable' ? 'unavailable' : "completed";
+    result.answer.failureStage = 'discovery';
+    result.answer.failureReason = result.discoveryStatus === 'unavailable' ? 'search_unavailable' : 'no_sources';
+    result.summary = result.discoveryStatus === 'unavailable'
+      ? '本次公开检索未取得可靠结果，尚不能判断该车型是否有公开手册。'
+      : "本次未发现可直接读取的保养手册或保养表，未生成保养周期。";
     warnings.push("网盘下载页、搜索目录和网页摘要不能作为保养规则原文；可直接上传保养表截图识别。");
     result.answer.summary = result.summary; result.answer.warnings = [...warnings]; return { result };
   }
@@ -216,6 +250,9 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
         result.answer.sourceUrl = evidence.sourceUrl; result.answer.sourceTitle = evidence.title; result.answer.title = evidence.title;
       }
     } catch (error) {
+      const code = error instanceof AppError ? error.code : '';
+      result.answer.failureStage = /PDF_|INVALID_PDF|PAGE_RANGE/.test(code) ? 'selection' : 'download';
+      result.answer.failureReason = code === 'MANUAL_TOO_LARGE' ? 'document_too_large' : result.answer.failureStage === 'selection' ? 'page_selection_failed' : 'document_unreadable';
       warnings.push(error instanceof AppError && error.code === "MANUAL_MULTIPLE_ATTACHMENTS"
         ? `“${source.title}”包含多份手册附件且没有可读保养正文，未自动猜选版本，已跳过。`
         : `“${source.title}”未取得可用原文，已跳过。`);
@@ -225,10 +262,11 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
       progress("organizing", "已取得手册原文，AI正在逐项整理保养周期、条件与出处…");
       const pages = evidence.files.filter(file => file.mimeType === "image/jpeg" && file.pageNumber !== null).map(file => ({ pageNumber: file.pageNumber!, buffer: file.bytes }));
       const texts = evidence.files.filter(file => file.mimeType === "text/plain" && file.pageNumber !== null).map(file => ({ pageNumber: file.pageNumber!, text: file.bytes.toString("utf8").replace(/^\ufeff/, "") }));
-      const read = await (dependencies.recognize || recognizeManual)(ctx.config, pages, `${model.brand} ${model.name} ${model.year}款 ${model.power}`, texts);
+      const read = await recognizeManualEvidence(ctx.config, pages, `${model.brand} ${model.name} ${model.year}款 ${model.power}`, texts, dependencies.recognize || recognizeManual, evidence.textPages,
+        (completed, total) => progress('organizing', `AI正在整理保养项目（已完成 ${completed}/${total} 段），并核对原文图例与脚注…`));
       const available = new Set([...pages, ...texts].map(page => page.pageNumber));
       ensure(read.rows.every(row => row.sourceText.trim() && row.pageNumbers.length && row.pageNumbers.every(page => available.has(page))), 422, "AI_EVIDENCE_INVALID", "识别结果缺少实际原文依据");
-      if (!read.rows.length) { warnings.push(`已读取“${source.title}”，但没有提取到有原文依据的保养项目。`); continue; }
+      if (!read.rows.length) { result.answer.failureStage = 'recognition'; result.answer.failureReason = 'ai_unavailable'; warnings.push(`已读取“${source.title}”，但没有提取到有原文依据的保养项目。`); continue; }
       const grounded = groundTextRows(read.rows.map(row => ({ ...row, id: id(), projectId: null, catalogProjectId: null, createProject: false, include: row.triggerType === "periodic" })), evidence.files);
       const projects = await list<Project>(ctx.db, "projects");
       const rows = autoMapManualProjects(grounded.rows, projects);
@@ -248,6 +286,7 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
       return { result, evidence: { ...evidence, sourceExcerpt: read.sourceExcerpt } };
     } catch {
       result.aiStatus = "unavailable";
+      result.answer.failureStage = 'recognition'; result.answer.failureReason = 'ai_unavailable';
       warnings.push("已取得资料，但 AI 本次未能完成有效的原文识别，未使用经验值生成保养周期。请重试或上传保养表截图。");
       break;
     }

@@ -34,7 +34,7 @@ const metadataSchema = z.object({
   pageMode: z.enum(["auto", "manual"]).default("auto"),
 });
 const draftFieldsSchema = z.object({
-  rows: z.array(manualRowSchema.extend({ name: z.string().trim().max(160) })).max(60),
+  rows: z.array(manualRowSchema.extend({ name: z.string().trim().max(160) })).max(120),
   sourceTitle: z.string().trim().max(1000),
   sourceUrl: sourceUrlSchema,
   edition: z.string().trim().max(500),

@@ -5,6 +5,8 @@ import { load } from 'cheerio';
 import type { CarModel, ManualSource } from '@autovoyage/shared';
 import { AppError, ensure } from './domain.js';
 import { discoverDongfengHondaManuals } from './manual-official-sources.js';
+import { discoverGacToyotaManuals, isGacToyotaManualModel } from './manual-gac-toyota.js';
+import { createManualDownloadBuffer } from './manual-download-buffer.js';
 
 const MAX_BYTES = 32 * 1024 * 1024;
 export function isPublicAddress(address: string): boolean {
@@ -27,8 +29,18 @@ export function validateSourceUrl(value: string): URL {
   url.hash = '';
   return url;
 }
+/** Larger files are allowed only for the verified public Toyota manual path. */
+export function manualDownloadLimit(value: string): number {
+  try {
+    const url = new URL(value);
+    if (url.protocol === 'https:' && url.hostname === 'www.gac-toyota.com.cn' &&
+      !url.username && !url.password && (!url.port || url.port === '443') &&
+      /^\/pdf\/web\/usermanual\/[^/]+\.pdf$/.test(url.pathname)) return 96 * 1024 * 1024;
+  } catch { /* Invalid and all other URLs retain the ordinary ceiling. */ }
+  return MAX_BYTES;
+}
 /** Resolve and pin a public IP for every redirect; no user cookies or credentials. */
-export async function publicDownload(value: string, redirects = 0, postData?: string, timeoutMs = 30000, deadline = Date.now() + timeoutMs, maxBytes = MAX_BYTES): Promise<{ bytes: Buffer; type: string; url: string; charset?: string }> {
+export async function publicDownload(value: string, redirects = 0, postData?: string, timeoutMs = 30000, deadline = Date.now() + timeoutMs, maxBytes = manualDownloadLimit(value)): Promise<{ bytes: Buffer; type: string; url: string; charset?: string }> {
   const url = validateSourceUrl(value);
   deadline = Math.min(deadline, Date.now() + timeoutMs);
   ensure(redirects <= 4, 400, 'MANUAL_REDIRECT_LIMIT', '手册链接重定向过多，请下载后上传');
@@ -57,15 +69,18 @@ export async function publicDownload(value: string, redirects = 0, postData?: st
       const contentType = String(response.headers['content-type'] || '');
       const type = contentType.split(';')[0].trim().toLowerCase();
       const charset = contentType.match(/charset\s*=\s*["']?([a-z0-9_-]+)/i)?.[1]?.toLowerCase();
-      const limit = Math.min(type.includes('html') ? 2 * 1024 * 1024 : MAX_BYTES, maxBytes);
-      if (Number(response.headers['content-length'] || 0) > limit) { response.destroy(); reject(new AppError(413, 'MANUAL_TOO_LARGE', '资料文件超过下载限制，请改用精简的保养表图片')); return; }
-      const chunks: Buffer[] = []; let size = 0;
+      const limit = Math.min(type.includes('html') ? 2 * 1024 * 1024 : manualDownloadLimit(url.href), maxBytes);
+      let body;
+      try { body = createManualDownloadBuffer(response.headers['content-length'], limit); }
+      catch (error) { response.destroy(); reject(error); return; }
       response.on('data', (chunk: Buffer) => {
-        size += chunk.length;
-        if (size > limit) { response.destroy(); reject(new AppError(413, 'MANUAL_TOO_LARGE', '资料文件超过下载限制，请改用精简的保养表图片')); }
-        else chunks.push(chunk);
+        try { body.append(chunk); }
+        catch (error) { response.destroy(); reject(error); }
       });
-      response.on('end', () => resolve({ bytes: Buffer.concat(chunks), type, status, ...(charset ? { charset } : {}) }));
+      response.on('end', () => {
+        try { resolve({ bytes: body.finish(), type, status, ...(charset ? { charset } : {}) }); }
+        catch (error) { reject(error); }
+      });
       response.on('error', reject);
     });
     const timer = setTimeout(() => req.destroy(new Error('source timeout')), Math.max(1, deadline - Date.now()));
@@ -138,8 +153,20 @@ export async function manualSources(model: CarModel): Promise<ManualSource[]> {
   return sources.map(source => ({ ...source, isDirectory: true }));
 }
 
-const discoveryCache = new Map<string, { expires: number; sources: ManualSource[] }>();
-const officialDomains = ['ghac.cn', 'dongfeng-honda.com', 'honda.com.cn', 'honda.com', 'toyota.com.cn', 'toyota.com', 'ftms.com.cn', 'gtmc.com.cn', 'byd.com', 'svw-volkswagen.com', 'faw-vw.com', 'volkswagen.com.cn', 'volkswagen.de', 'vw.com', 'tesla.cn', 'tesla.com', 'bmw.com.cn', 'bmw.com', 'mercedes-benz.com.cn', 'audi.cn', 'geely.com', 'changan.com.cn', 'chery.cn', 'haval.com.cn', 'nissan.com.cn', 'df-nissan.com.cn', 'buick.com.cn', 'ford.com.cn', 'lixiang.com', 'nio.cn', 'xpeng.com', 'aito.auto', 'volvocars.com', 'mazda.com.cn', 'sgmw.com.cn', 'gacmotor.com', 'lynkco.com.cn', 'kia.cn', 'hyundai.com.cn', 'skoda.com.cn', 'chevrolet.com.cn'];
+export interface ManualDiscoveryDiagnostic {
+  provider: 'bing' | 'duckduckgo' | 'dongfeng_honda' | 'gac_toyota';
+  state: 'relevant' | 'irrelevant' | 'empty' | 'blocked' | 'unavailable';
+  candidateCount: number;
+  query?: string;
+  message: string;
+}
+export interface ManualDiscoveryReport {
+  sources: ManualSource[];
+  diagnostics: ManualDiscoveryDiagnostic[];
+  status: 'available' | 'unavailable' | 'no_results';
+}
+const discoveryCache = new Map<string, { expires: number; report: ManualDiscoveryReport }>();
+const officialDomains = ['ghac.cn', 'dongfeng-honda.com', 'honda.com.cn', 'honda.com', 'toyota.com.cn', 'toyota.com', 'ftms.com.cn', 'gtmc.com.cn', 'gac-toyota.com.cn', 'byd.com', 'svw-volkswagen.com', 'faw-vw.com', 'volkswagen.com.cn', 'volkswagen.de', 'vw.com', 'tesla.cn', 'tesla.com', 'bmw.com.cn', 'bmw.com', 'mercedes-benz.com.cn', 'audi.cn', 'geely.com', 'changan.com.cn', 'chery.cn', 'haval.com.cn', 'nissan.com.cn', 'df-nissan.com.cn', 'buick.com.cn', 'ford.com.cn', 'lixiang.com', 'nio.cn', 'xpeng.com', 'aito.auto', 'volvocars.com', 'mazda.com.cn', 'sgmw.com.cn', 'gacmotor.com', 'lynkco.com.cn', 'kia.cn', 'hyundai.com.cn', 'skoda.com.cn', 'chevrolet.com.cn'];
 const officialHost = (hostname: string) => officialDomains.some(domain => hostname === domain || hostname.endsWith(`.${domain}`));
 const coreName = (model: CarModel) => model.name.replace(/[·（(].*$/u, '').replace(/\s+/g, ' ').trim().slice(0, 80);
 const compact = (value: string) => value.toLowerCase().replace(/[\s··_-]+/g, '');
@@ -210,36 +237,80 @@ function sourceScore(source: ManualSource, model: CarModel): number {
     (text.includes(String(model.year)) ? 5 : 0) - (/动力与当前车型可能冲突/.test(source.description) ? 45 : 0) - (/论坛|避坑|费用|多少钱|价格|攻略|实测/.test(source.title) ? 12 : 0);
 }
 export interface ManualDiscoveryDependencies { download?: typeof publicDownload; cache?: boolean }
+interface ProviderResult { sources: ManualSource[]; diagnostic: ManualDiscoveryDiagnostic }
+
+async function searchManualProvider(provider: 'bing' | 'duckduckgo', query: string, model: CarModel, download: typeof publicDownload): Promise<ProviderResult> {
+  const url = provider === 'bing'
+    ? `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=zh-hans`
+    : `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
+  try {
+    const result = await download(url, 0, undefined, provider === 'bing' ? 6500 : 3500);
+    const html = result.bytes.toString('utf8'), $ = load(html);
+    const visible = $('body').clone();
+    visible.find('script,style,noscript').remove();
+    const blocked = $('#b_captcha, #challenge-form, .anomaly-modal, .g-recaptcha, form[action*="captcha"]').length > 0 ||
+      /异常流量|验证您是人类|unusual traffic|verify(?:ing)? (?:that )?you are (?:a human|not a robot)|bot challenge|complete the captcha/i.test(`${$('title').text()} ${visible.text().slice(0, 8000)}`);
+    const sources = blocked ? [] : parseManualSearchResults(html, result.url, model);
+    const state: ManualDiscoveryDiagnostic['state'] = blocked ? 'blocked' : sources.length ? 'relevant' : $('.b_algo, .result').length ? 'irrelevant' : 'empty';
+    const messages = {
+      relevant: '搜索已返回相关手册或资料目录，仍需读取原文确认适用范围。',
+      irrelevant: '搜索返回了网页，但内容未匹配当前车系的手册或保养资料，无法据此判断手册不存在。',
+      empty: '搜索未返回可解析的公开结果，无法确认已完整检索。',
+      blocked: '搜索服务要求验证或限制自动访问，本次未取得有效搜索结果。',
+    };
+    return { sources, diagnostic: { provider, state, candidateCount: sources.length, query: query.slice(0, 250), message: messages[state] } };
+  } catch {
+    return { sources: [], diagnostic: { provider, state: 'unavailable', candidateCount: 0, query: query.slice(0, 250), message: '搜索服务连接失败或超时，本次未取得有效搜索结果。' } };
+  }
+}
+
+async function officialManualProvider(provider: 'dongfeng_honda' | 'gac_toyota', work: Promise<ManualSource[]>): Promise<ProviderResult> {
+  try {
+    const sources = await work;
+    return { sources, diagnostic: { provider, state: sources.length ? 'relevant' : 'empty', candidateCount: sources.length,
+      message: sources.length ? '已从车企官方目录取得实际手册链接，适用范围以原文为准。' : '本次官方目录未返回可匹配的手册链接。' } };
+  } catch {
+    return { sources: [], diagnostic: { provider, state: 'unavailable', candidateCount: 0, message: '车企官方资料目录暂时无法访问，本次未取得有效目录结果。' } };
+  }
+}
+
 /** Bounded, explicit open-web queries; no domain allowlist and no background crawl. */
-export async function discoverManualSources(model: CarModel, dependencies: ManualDiscoveryDependencies = {}): Promise<ManualSource[]> {
+export async function discoverManualSourcesDetailed(model: CarModel, dependencies: ManualDiscoveryDependencies = {}): Promise<ManualDiscoveryReport> {
   const core = coreName(model);
   const cacheKey = JSON.stringify([model.brand, core, model.year, model.power]);
   const old = discoveryCache.get(cacheKey);
-  if (dependencies.cache !== false && old && old.expires > Date.now()) return old.sources;
+  if (dependencies.cache !== false && old && old.expires > Date.now()) return old.report;
   const fallback = await manualSources(model);
   const download = dependencies.download || publicDownload;
   const queries = modelManualQueries(model);
-  const results = await Promise.allSettled([...queries.map(async query => {
-    const url = `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=zh-hans`;
-    const result = await download(url, 0, undefined, 6500);
-    return parseManualSearchResults(result.bytes.toString('utf8'), result.url, model);
-  }), discoverDongfengHondaManuals(model, download)]);
-  let candidates = results.flatMap(result => result.status === 'fulfilled' ? result.value : []);
+  const providers: Promise<ProviderResult>[] = queries.map(query => searchManualProvider('bing', query, model, download));
+  if (/本田|honda/i.test(model.brand) && !/广汽/.test(model.brand)) providers.push(officialManualProvider('dongfeng_honda', discoverDongfengHondaManuals(model, download)));
+  if (isGacToyotaManualModel(model)) providers.push(officialManualProvider('gac_toyota', discoverGacToyotaManuals(model, download)));
+  const results = await Promise.all(providers);
+  let candidates = results.flatMap(result => result.sources);
+  const diagnostics = results.map(result => result.diagnostic);
   // A second engine is a fallback for blocked/empty search responses, not a restriction on source sites.
   if (!candidates.some(source => !source.isDirectory)) {
-    try {
-      const result = await download(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(queries[0])}`, 0, undefined, 3500);
-      candidates.push(...parseManualSearchResults(result.bytes.toString('utf8'), result.url, model));
-    } catch { /* The curated directories below remain available when search engines cannot be reached. */ }
+    const result = await searchManualProvider('duckduckgo', queries[0], model, download);
+    candidates.push(...result.sources);
+    diagnostics.push(result.diagnostic);
   }
   const unique = new Map<string, ManualSource>();
   for (const source of candidates.sort((a, b) => sourceScore(b, model) - sourceScore(a, model))) if (!unique.has(source.url)) unique.set(source.url, source);
   const selected = [...unique.values()].slice(0, 10);
   const sources = [...selected, ...fallback.filter(source => !unique.has(source.url))].slice(0, 14);
   if (!selected.length) sources[0] = { ...sources[0], description: '开放互联网搜索暂未取得可用车型资料，以下为备用目录；可稍后重查或上传保养表图片。' };
+  const status: ManualDiscoveryReport['status'] = selected.some(source => !source.isDirectory) ? 'available' :
+    diagnostics.some(item => item.state === 'unavailable' || item.state === 'blocked') || !diagnostics.some(item => item.state === 'relevant') ? 'unavailable' : 'no_results';
+  const report: ManualDiscoveryReport = { sources, diagnostics: diagnostics.slice(0, 8), status };
   if (dependencies.cache !== false) {
-    discoveryCache.set(cacheKey, { expires: Date.now() + (selected.length ? 15 * 60000 : 30000), sources });
+    discoveryCache.set(cacheKey, { expires: Date.now() + (status === 'unavailable' ? 30000 : 15 * 60000), report });
     if (discoveryCache.size > 100) discoveryCache.delete(discoveryCache.keys().next().value!);
   }
-  return sources;
+  return report;
+}
+
+/** Compatibility wrapper for callers that only display candidate links. */
+export async function discoverManualSources(model: CarModel, dependencies: ManualDiscoveryDependencies = {}): Promise<ManualSource[]> {
+  return (await discoverManualSourcesDetailed(model, dependencies)).sources;
 }

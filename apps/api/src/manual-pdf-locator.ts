@@ -40,7 +40,7 @@ const components = [
   /燃油|fuel/,
   /皮带|belt/,
 ];
-interface PageEvidence { number: number; core: boolean; directory: boolean }
+interface PageEvidence { number: number; core: boolean; directory: boolean; intervalGuidance: boolean }
 
 function evidence(number: number, text: string): PageEvidence {
   const normalized = text.normalize('NFKC').toLowerCase();
@@ -63,7 +63,8 @@ function evidence(number: number, text: string): PageEvidence {
   const markedTable = schedule && units >= 1 && numbers >= 6 && markers >= 6;
   const core = !directory && score >= 24 && componentCount >= 3 && (schedule || intervalWords >= 4) &&
     (intervalTable || markedTable) && (actions >= 3 || markers >= 6);
-  return { number, core, directory };
+  const intervalGuidance = !directory && schedule && /以先.{0,5}(?:到|达到)|whichever(?:comes)?first|超过.{0,10}(?:最后|间隔)|beyond.{0,20}interval/.test(dense);
+  return { number, core, directory, intervalGuidance };
 }
 
 function boundedLimits(overrides: Partial<PdfTextScanLimits>): PdfTextScanLimits {
@@ -120,6 +121,12 @@ export async function locateMaintenancePages(doc: PdfTextDocument, overrides: Pa
   const selected = new Set<number>([1, 2].filter(number => number <= doc.numPages));
   for (const page of core) {
     selected.add(page.number);
+    // A short chapter introduction can explain whichever comes first and how
+    // intervals continue beyond the final table column, without being a table.
+    for (let offset = 2; offset <= 3; offset++) {
+      const introduction = pages[page.number - 1 - offset];
+      if (introduction?.intervalGuidance) selected.add(introduction.number);
+    }
     // Unlabelled legends and footnotes can carry essential qualifications.
     // Keep both immediate neighbors conservatively; never silently drop them
     // merely because their wording lacks a known keyword.

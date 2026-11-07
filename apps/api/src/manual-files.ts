@@ -198,7 +198,12 @@ async function selectPdfPages(buffer: Buffer, range: string | undefined, pageMod
       mode: 'auto', pages, totalPages: checked.totalPages,
       notice: `已自动定位保养周期表、相邻说明及封面／前言，共 ${pages.length} 页（PDF 物理页码：${pages.join('、')}）。仅识别这些页面，请核对车型、版次与适用范围。`,
     } satisfies ManualPageSelection };
-  } finally { await loading.destroy().catch(() => {}); }
+  } finally {
+    await loading.destroy().catch(() => {});
+    // Automatic rendering rechecks only the selected pages below. Release the
+    // full-book scanning copy before allocating the next PDF.js document.
+    checked.data = new Uint8Array(0);
+  }
 }
 
 /** Read-only selection helper: performs bounded extraction; never renders or calls AI. */
@@ -213,8 +218,11 @@ export async function locateManualPdfPages(buffer: Buffer, range?: string, pageM
   });
 }
 
-export async function prepareManualPdfSelection(buffer: Buffer, name: string, range?: string, pageMode: 'auto' | 'manual' = 'auto'): Promise<{ files: PreparedFile[]; selection: ManualPageSelection }> {
-  ensure(buffer.length <= 32 * MiB, 413, 'MANUAL_TOO_LARGE', 'PDF 不能超过 32 MiB');
+export async function prepareManualPdfSelection(buffer: Buffer, name: string, range?: string, pageMode: 'auto' | 'manual' = 'auto', options: { maxBytes?: number } = {}): Promise<{ files: PreparedFile[]; selection: ManualPageSelection; textPages: Array<{ pageNumber: number; text: string }> }> {
+  // Only the public-source reader opts into a larger, bounded official book.
+  // Upload routes retain 32 MiB; all pixel/content/page budgets stay unchanged.
+  const maxBytes = Math.min(96 * MiB, options.maxBytes ?? 32 * MiB);
+  ensure(buffer.length <= maxBytes, 413, 'MANUAL_TOO_LARGE', 'PDF 超过读取限制');
   return serializedPdf(async () => {
     let loading: ReturnType<typeof import('pdfjs-dist/legacy/build/pdf.mjs')['getDocument']> | undefined;
     try {
@@ -226,6 +234,7 @@ export async function prepareManualPdfSelection(buffer: Buffer, name: string, ra
       const doc = await loading.promise;
       const selected = checked.selected;
       const prepared: PreparedFile[] = [{ bytes: buffer, name, mimeType: 'application/pdf', pageNumber: null, original: true }];
+      const textPages: Array<{ pageNumber: number; text: string }> = [];
       for (const number of selected) {
         const page = await doc.getPage(number);
         const initial = page.getViewport({ scale: 1 });
@@ -233,11 +242,18 @@ export async function prepareManualPdfSelection(buffer: Buffer, name: string, ra
         const viewport = page.getViewport({ scale: Math.min(2.5, 2000 / Math.max(initial.width, initial.height)) });
         const canvas = createCanvas(Math.ceil(viewport.width), Math.ceil(viewport.height));
         try {
+          // Context pages can use actual extracted text in later AI batches;
+          // target tables retain their image and exact column alignment.
+          try {
+            const content = await page.getTextContent();
+            const text = content.items.filter(item => 'str' in item).map(item => 'str' in item ? item.str + (item.hasEOL ? '\n' : ' ') : '').join('').trim();
+            if (text.length > 0 && text.length <= 100000) textPages.push({ pageNumber: number, text });
+          } catch { /* Missing text keeps the original image as full context. */ }
           await page.render({ canvas: canvas as unknown as HTMLCanvasElement, viewport, background: '#ffffff' }).promise;
           prepared.push({ bytes: await canvas.encode('jpeg', 90), name: `${name} · 第 ${number} 页.jpg`, mimeType: 'image/jpeg', pageNumber: number, original: false });
         } finally { canvas.width = 1; canvas.height = 1; page.cleanup(); await doc.cleanup(); }
       }
-      return { files: prepared, selection: chosen.selection };
+      return { files: prepared, selection: chosen.selection, textPages };
     } catch (error) {
       if (error instanceof AppError) throw error;
       throw new AppError(400, 'INVALID_PDF', 'PDF 无法读取：请提供未加密且有效的 PDF，或上传保养表及脚注的清晰图片');

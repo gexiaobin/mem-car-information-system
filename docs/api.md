@@ -83,6 +83,23 @@ V0.9.1起工作区使用异步直接回答。`POST /admin/manual-imports/ai-answ
 
 完成任务附带 `result`：`query,sources,summary,warnings,aiStatus,searchedAt,evidenceMode`，其中 `evidenceMode=document_reading`；`answer` 含 `status=ready|partial|not_found`、`title,summary,applicability,edition,sourceTitle,sourceUrl,manuals,rows,warnings`。`manuals` 只包含实际读取的资料，`rows` 使用既有 `ManualRuleDraft` 结构。下载失败、只有目录、AI失败或没有有效项目都不生成周期；已读取的原文链接在AI失败时仍可查看。实际HTML表格在提取文本前保留空列和合并表头，避免打点错列。来源限定不是由自定义AI凭空联网决定，服务端先真实检索／获取字节，再把证据交给模型。
 
+V0.9.4以下契约处于开发验收中，实际AI仍测试中，尚未记为上线。`result.discoveryStatus`为可选的`available | unavailable | no_results`：有具体候选为`available`；连接失败、访问验证或全部返回无关内容为`unavailable`，不能推出没有手册；已完成相关目录检索但没有可读具体候选时可为`no_results`。广汽丰田官方目录与搜索引擎并行读取，官网成功不受搜索引擎返回无关结果影响。官方目录数据仅解析纯字面量，不执行远程脚本；按目录年款和动力筛选，版本日期不能推导年款，未明确的具体配置继续保留待核对状态。
+
+未取得可导入结果时，`result.answer`可附带以下只读诊断；原有`status=not_found`继续兼容，不应单凭这个值将检索或读取失败解释为“没有手册”：
+
+| 字段 | 允许值与含义 |
+| --- | --- |
+| `failureStage` | `discovery`检索、`download`下载、`selection`PDF选页、`recognition`AI识别整理 |
+| `failureReason` | `search_unavailable`检索未取得可靠结果、`no_sources`本次未发现可读候选、`document_too_large`原文超过限额、`document_unreadable`原文无法读取、`page_selection_failed`选页失败、`ai_unavailable`AI未完成有效整理 |
+
+这些字段不替代原有权限、校验或任务异常响应；已有具体来源链接应保留供查看。内部`discoverManualSourcesDetailed`返回`{sources,diagnostics,status}`，诊断仅含提供方、状态、候选数、可选查询和简明原因，最多8条，不包含原始HTML、凭据或上游错误；原`discoverManualSources`和`GET /admin/manual-sources`仍返回来源数组，未改变旧调用契约。
+
+AI查询的远程PDF默认上限32 MiB，仅精确HTTPS主机`www.gac-toyota.com.cn`的`/pdf/web/usermanual/*.pdf`、无账号且标准端口时可读至96 MiB。重定向每跳重新核验公网DNS、HTTPS及来源限额，跨主机恢复32 MiB，HTML最多2 MiB；不会把96 MiB能力扩展到任意网址或上传。大PDF仍先自动定位，最多渲染12页必要证据，另可附官方目录原文作为适用范围依据，不将整本PDF发送给AI。上传接口仍为单PDF／整次32 MiB、单图8 MiB。
+
+选中图片超过5页时分批，每段1个目标页保留原图；其他全部选中页用实际提取的PDF文字提供完整上下文，没有文字的页仍提供图片，已有官方目录文字继续提供。一次调用的图片及文字合计不超过12个唯一证据编号，不能用整本手册或搜索摘要补充上下文。汉兰达样本为10张页图加1份官网目录文字，共11个证据编号。内部最多2个工作单元并发，任一段失败时等待已发请求结束并使本次整理整体失败，不把部分章节当作完整结果。
+
+分段AI响应额外要求临时`sourcePageNumber`，指主表条目／正文项目的实际所在页，必须来自给定证据且属于本段目标页；脚注、表头或同名部件提及不能替代主条目页。每行`pageNumbers`仍需包含目标页，并可引用支持解释的其他已给定页；原脚注始终作为上下文。该临时字段经服务端核验与过滤后移除，不是可由客户端提交的`ManualRuleDraft`字段。每次AI调用最多60行；各段全部成功后按完整字段和证据页集合去除完全相同的行，保留不同动作、条件和阈值，整章结果最多120行。草稿人工补充、保存及发布同样最多120行，超限返回明确校验失败，不静默截断。
+
 已上线的V0.9.2新增可选的只读 `mappingDiagnostics`：可出现在 `ManualImport.mappingDiagnostics` 及AI查询的 `result.answer.mappingDiagnostics`，逐行解释标准项目关联，不混入 `rows`。其结构为：
 
 ```ts

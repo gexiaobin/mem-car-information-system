@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
 import { PDFDocument, PDFName, StandardFonts, type PDFRef } from 'pdf-lib';
-import { locateManualPdfPages, parsePageRange, prepareManualPdf } from '../src/manual-files.js';
+import { locateManualPdfPages, parsePageRange, prepareManualPdf, prepareManualPdfSelection } from '../src/manual-files.js';
 import { locateMaintenancePages, type PdfTextDocument } from '../src/manual-pdf-locator.js';
 
 const blue = { r: 23, g: 111, b: 145 };
@@ -106,6 +106,39 @@ const schedule = [
 ].join('\n');
 const errorCode = (code: string) => (error: unknown) => (error as { code?: string }).code === code;
 
+test('large official PDF option retains the upload ceiling and an absolute 96 MiB limit', async () => {
+  const MiB = 1024 * 1024;
+  const doc = await PDFDocument.create();
+  doc.addPage([100, 100]);
+  // A valid unreferenced binary stream makes the book large without decoding
+  // a huge image or relaxing the independent page-content safety checks.
+  doc.context.register(doc.context.stream(Buffer.alloc(32 * MiB, 32)));
+  const pdf = Buffer.from(await doc.save({ useObjectStreams: false }));
+  assert(pdf.length > 32 * MiB && pdf.length < 33 * MiB);
+  await assert.rejects(prepareManualPdf(pdf, 'large-upload.pdf'), errorCode('MANUAL_TOO_LARGE'));
+  await assert.rejects(locateManualPdfPages(pdf), errorCode('MANUAL_TOO_LARGE'));
+  await assert.rejects(prepareManualPdfSelection(pdf, 'default-upload.pdf'), errorCode('MANUAL_TOO_LARGE'));
+
+  const prepared = await prepareManualPdfSelection(pdf, 'large-official.pdf', undefined, 'auto', { maxBytes: 96 * MiB });
+  assert.equal(prepared.files[0].bytes, pdf, 'the exact source buffer is retained without an extra original-file copy');
+  assert.equal(prepared.files[0].original, true);
+  assert.deepEqual(prepared.selection.pages, [1]);
+  assert.equal(prepared.files[1].mimeType, 'image/jpeg');
+
+  await assert.rejects(prepareManualPdfSelection(Buffer.alloc(96 * MiB + 1), 'above-absolute-cap.pdf', undefined, 'auto', { maxBytes: 128 * MiB }), errorCode('MANUAL_TOO_LARGE'));
+});
+
+test('larger official byte allowance preserves decoded content and image pixel budgets', async () => {
+  const options = { maxBytes: 96 * 1024 * 1024 };
+  const small = await jpeg(20, 20);
+  await assert.rejects(prepareManualPdfSelection(await scanPdf(small, 6500, 6500), 'official-image-budget.pdf', undefined, 'auto', options), pixelError);
+  await assert.rejects(prepareManualPdfSelection(await scanPdf(small, 4100, 4100, { pages: 10 }), 'official-selection-budget.pdf', undefined, 'auto', options), pixelError);
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([100, 100]);
+  page.node.addContentStream(doc.context.register(doc.context.flateStream(' '.repeat(4 * 1024 * 1024 + 1))));
+  await assert.rejects(prepareManualPdfSelection(Buffer.from(await doc.save()), 'official-content-budget.pdf', undefined, 'auto', options), errorCode('PDF_CONTENT_LIMIT'));
+});
+
 test('long PDF auto selection finds actual schedules, surrounding notes and front matter, excluding contents and repair prose', async () => {
   const pdf = await textPdf(24, {
     1: 'Example model owner handbook 2025 edition',
@@ -169,6 +202,14 @@ test('unlabelled neighboring legends and interval footnotes are retained even wi
     9: 'R = Replace; I = Inspect; C = Clean. * After 100000 km change brake fluid every 24 months.',
   });
   assert.deepEqual((await locateManualPdfPages(pdf)).pages, [1, 2, 7, 8, 9]);
+});
+
+test('chapter interval guidance a few pages before a table is retained', async () => {
+  const pdf = await textPdf(15, {
+    5: 'Maintenance schedule notes: whichever comes first. Continue beyond the final interval.',
+    8: schedule,
+  });
+  assert.deepEqual((await locateManualPdfPages(pdf)).pages, [1, 2, 5, 7, 8, 9]);
 });
 
 test('an oversized detected schedule is not silently truncated to twelve pages', async () => {

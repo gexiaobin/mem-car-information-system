@@ -17,8 +17,11 @@ interface Props {
 interface ManualAiAnswerResult {
   query: string; sources: ManualSource[]; summary: string; warnings: string[];
   aiStatus: 'completed' | 'unavailable' | 'not_configured'; searchedAt: string; evidenceMode: 'document_reading';
+  discoveryStatus?: 'available' | 'unavailable' | 'no_results';
   answer: {
     status: 'ready' | 'partial' | 'not_found'; title: string; summary: string;
+    failureStage?: 'discovery' | 'download' | 'selection' | 'recognition';
+    failureReason?: 'search_unavailable' | 'no_sources' | 'document_too_large' | 'document_unreadable' | 'page_selection_failed' | 'ai_unavailable';
     applicability: string; edition: string; sourceTitle: string; sourceUrl: string;
     manuals: ManualSource[]; rows: ManualRuleDraft[]; warnings: string[]; mappingDiagnostics?: ManualProjectMappingDiagnostic[];
   };
@@ -28,6 +31,25 @@ interface ManualAiAnswerJob {
   message: string; result?: ManualAiAnswerResult; createdAt: string; updatedAt: string;
 }
 const answerStages = [{ status: 'searching', title: '检索手册' }, { status: 'reading', title: '读取原文' }, { status: 'organizing', title: '整理保养表' }] as const;
+const answerFailureMessages = {
+  search_unavailable: { stage: '检索暂未完成', title: '暂时无法取得可靠的手册链接', next: '可以稍后重新查询。已有保养表截图时，也可直接识别导入。' },
+  no_sources: { stage: '已检索公开资料', title: '本次未发现可直接读取的手册原文', next: '可以稍后重新查询；如已有保养表截图，也可直接识别导入。' },
+  document_too_large: { stage: '已找到手册 · 原文读取未完成', title: '已找到手册，暂未完成读取', next: '可以重新查询，或使用已有的保养表截图识别导入。' },
+  document_unreadable: { stage: '已找到手册 · 原文读取未完成', title: '暂时无法读取手册原文', next: '可以稍后重新查询。已有保养表截图时，也可直接识别导入。' },
+  page_selection_failed: { stage: '已取得手册 · 保养表定位未完成', title: '尚未定位到完整的保养表', next: '可以重新查询，或直接使用包含周期、图例和脚注的保养表截图。' },
+  ai_unavailable: { stage: '已取得原文 · AI 整理未完成', title: '暂未完成保养项目整理', next: '可以稍后重新查询，系统将再次读取原文并整理保养项目。' },
+};
+function answerFailureMessage(result: ManualAiAnswerResult | null) {
+  const answer = result?.answer;
+  if (answer?.failureReason) return answerFailureMessages[answer.failureReason];
+  if (answer?.failureStage === 'discovery' || result?.discoveryStatus === 'unavailable') return answerFailureMessages.search_unavailable;
+  if (answer?.failureStage === 'download') return answerFailureMessages.document_unreadable;
+  if (answer?.failureStage === 'selection') return answerFailureMessages.page_selection_failed;
+  if (answer?.failureStage === 'recognition') return answerFailureMessages.ai_unavailable;
+  if (result?.aiStatus === 'not_configured') return { stage: 'AI 整理暂不可用', title: 'AI 整理服务尚未就绪', next: '请在 AI 服务恢复后重新查询；已有保养表截图也可保留，稍后识别导入。' };
+  if (result?.aiStatus === 'unavailable') return { stage: '本次查询未完成', title: '暂未取得可整理的保养项目', next: '可以稍后重新查询；如已有保养表截图，也可直接识别导入。' };
+  return { stage: '本次未取得可整理的保养项目', title: '本次查询尚未完成保养表整理', next: '可以重新查询；如已有保养表截图，也可直接识别导入。' };
+}
 type Draft = Pick<ManualImport, 'sourceTitle' | 'sourceUrl' | 'edition' | 'applicability' | 'rows'> & { sourceExcerpt: string };
 const statusNames: Record<ManualImport['status'], string> = { uploaded: '等待识别', processing: '正在识别', awaiting_confirmation: '待核对', published: '已发布', failed: '识别失败' };
 export const manualActionNames: Record<MaintenanceAction, string> = { inspect: '检查', replace: '更换', clean: '清洁', lubricate: '润滑', other: '其他处理' };
@@ -421,8 +443,10 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
   const threshold = (months: number | null, km: number | null) => [months == null ? '' : `${months} 个月`, km == null ? '' : `${km.toLocaleString()} km`].filter(Boolean).join(' / ') || '原文未单列';
   const answer = aiAnswerResult?.answer;
   const answerHasRows = Boolean(answer && answer.status !== 'not_found' && answer.rows.length);
+  const answerFailure = answerFailureMessage(aiAnswerResult);
   const answerWarnings = [...(aiAnswerResult?.warnings || []), ...(answer?.warnings || [])].filter((warning, index, all) => all.indexOf(warning) === index);
-  const answerManuals = (answer?.manuals || []).filter(source => source.isDirectory !== true);
+  const readManuals = (answer?.manuals || []).filter(source => source.isDirectory !== true);
+  const answerManuals = readManuals.length ? readManuals : ['download', 'selection'].includes(answer?.failureStage || '') ? (aiAnswerResult?.sources || []).filter(source => source.isDirectory === false && !/carobook\.com/.test(source.url) && !/车型动力未明确|动力与当前车型可能冲突|与当前\s*\d+\s*年款不同/.test(source.description)).slice(0, 2) : [];
   const answerStage = Math.max(0, answerStages.findIndex(stage => stage.status === answerJob?.status));
   // Mapping diagnostics describe saved matching inputs. Checkbox, cycle and
   // metadata edits preserve them; component/action/target edits invalidate them.
@@ -485,9 +509,9 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
           {sourceLoading && <div className="mw-answer-progress" role="status" aria-live="polite"><div><LoaderCircle size={23} className="ad-spin" aria-hidden="true" /><strong>{answerJob?.message || '正在提交手册查询…'}</strong></div><ol aria-label="手册查询进度">{answerStages.map((stage, index) => <li key={stage.status} className={index < answerStage ? 'mw-stage-done' : index === answerStage ? 'mw-stage-current' : ''} aria-current={index === answerStage ? 'step' : undefined}><span>{index < answerStage ? <CheckCircle2 size={17} aria-hidden="true" /> : index + 1}</span>{stage.title}</li>)}</ol><p>完成后会自动显示手册内容与保养表。读取较长的手册需要一些时间。</p></div>}
           {sourcesError && <div className="mw-source-error" role="alert"><p>{sourcesError}</p><button type="button" className="ad-link-button" onClick={() => setMethod('images')}>改用保养表图片识别</button></div>}
           {answer && <section className={`mw-answer ${answerHasRows ? '' : 'mw-answer-empty'}`} aria-labelledby="mw-answer-title">
-            <div className="mw-answer-heading"><span className="mw-answer-mark">{answerHasRows ? <BookOpen size={24} aria-hidden="true" /> : <AlertCircle size={24} aria-hidden="true" />}</span><div><span className="mw-answer-eyebrow">{answerHasRows ? answer.status === 'partial' ? '已读取手册 · 部分要求待核对' : '已读取手册原文' : '本次未取得可整理的保养项目'}</span><h3 id="mw-answer-title">{answerHasRows ? answer.title || '这款车的保养手册与周期表' : '暂未找到可直接使用的保养手册'}</h3></div></div>
+            <div className="mw-answer-heading" aria-live={answerHasRows ? undefined : 'polite'}><span className="mw-answer-mark">{answerHasRows ? <BookOpen size={24} aria-hidden="true" /> : <AlertCircle size={24} aria-hidden="true" />}</span><div><span className="mw-answer-eyebrow">{answerHasRows ? answer.status === 'partial' ? '已读取手册 · 部分要求待核对' : '已读取手册原文' : answerFailure.stage}</span><h3 id="mw-answer-title">{answerHasRows ? answer.title || '这款车的保养手册与周期表' : answerFailure.title}</h3></div></div>
             <p className="mw-answer-summary">{answer.summary || aiAnswerResult.summary}</p>
-            {answerManuals.length > 0 && <div className="mw-answer-manuals" aria-label="已读取的手册资料">{answerManuals.map(source => <article key={source.url}><FileText size={22} aria-hidden="true" /><div><span>{source.kind === 'official' ? '品牌官方资料' : '公开手册资料'}</span><h4>{source.title}</h4>{source.url.startsWith('https://') && <a href={source.url} target="_blank" rel="noreferrer">阅读手册原文<ExternalLink size={14} aria-hidden="true" /></a>}{source.description && <details className="mw-answer-source-notes"><summary>来源说明<ChevronDown size={14} aria-hidden="true" /></summary><p>{source.description}</p></details>}</div></article>)}</div>}
+            {answerManuals.length > 0 && <div className="mw-answer-manuals" aria-label="本次查询的手册资料">{answerManuals.map(source => <article key={source.url}><FileText size={22} aria-hidden="true" /><div><span>{readManuals.some(manual => manual.url === source.url) ? source.kind === 'official' ? '品牌官方资料' : '公开手册资料' : '已找到资料 · 尚未读取'}</span><h4>{source.title}</h4>{source.url.startsWith('https://') && <a href={source.url} target="_blank" rel="noreferrer">阅读手册原文<ExternalLink size={14} aria-hidden="true" /></a>}{source.description && <details className="mw-answer-source-notes"><summary>来源说明<ChevronDown size={14} aria-hidden="true" /></summary><p>{source.description}</p></details>}</div></article>)}</div>}
             {answerHasRows && <>
               <dl className="mw-answer-metadata"><div><dt>原文适用范围</dt><dd>{answer.applicability || '原文未注明，请结合年款与动力核对'}</dd></div>{answer.edition && <div><dt>手册版本</dt><dd>{answer.edition}</dd></div>}</dl>
               {answerWarnings.length > 0 && <details className="mw-answer-warning"><summary><AlertCircle size={19} aria-hidden="true" /><strong>有 {answerWarnings.length} 项原文说明／待核对事项</strong><ChevronDown size={17} aria-hidden="true" /></summary><ul>{answerWarnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></details>}
@@ -496,7 +520,7 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
               {answerImportError && <p className="mw-answer-import-error" role="alert"><AlertCircle size={18} aria-hidden="true" />{answerImportError}</p>}
               <div className="mw-answer-footer"><p>{answerExpired ? '已整理的结果仍可阅读。重新查询会取得当前车型的最新可用手册内容。' : answerImported ? '这份查询已带入资料，点击继续查看，不会重复创建。' : '资料信息与项目已自动整理。带入后对照原文核对一次，再确认导入本车型规则。'}</p><button type="button" className="ad-button ad-button-primary" disabled={busy || sourceLoading} onClick={() => void (answerExpired ? aiDiscoverSources() : importAnswer())}>{busy ? <LoaderCircle size={18} className="ad-spin" aria-hidden="true" /> : <ArrowRight size={18} aria-hidden="true" />}{busy ? '正在带入…' : answerExpired ? '重新查询并整理' : answerImported ? '查看已带入的资料' : `带入核对 ${answer.rows.length} 项`}</button></div>
             </>}
-            {!answerHasRows && <>{answerWarnings.length > 0 && <details className="mw-answer-query-notes"><summary>查看查询说明<ChevronDown size={16} aria-hidden="true" /></summary><ul>{answerWarnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></details>}<p className="mw-answer-no-result">可尝试补全车型档案中的年款与动力后重新查询，或使用已有的保养表截图。</p><button type="button" className="ad-button" onClick={() => setMethod('images')}><ImageIcon size={17} aria-hidden="true" />使用保养表图片</button></>}
+            {!answerHasRows && <>{answerWarnings.length > 0 && <details className="mw-answer-query-notes"><summary>查看查询说明<ChevronDown size={16} aria-hidden="true" /></summary><ul>{answerWarnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></details>}<p className="mw-answer-no-result">{answerFailure.next}</p><button type="button" className="ad-button" onClick={() => setMethod('images')}><ImageIcon size={17} aria-hidden="true" />使用保养表图片</button></>}
             <small className="mw-answer-date">查询时间：{readableDate(aiAnswerResult.searchedAt)}</small>
           </section>}
           <p className="mw-ai-consent">点击查询，即使用当前 AI 服务查找并阅读公开资料。项目表为 AI 整理结果，导入前请对照手册核对摘录、周期与车型适用性。</p>
@@ -530,7 +554,7 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
               <label className="mw-field"><span>来源链接（选填）</span><input type="url" value={draft.sourceUrl} disabled={!editing || busy} maxLength={2500} aria-invalid={!validSourceLink(draft.sourceUrl)} onChange={event => editDraft({ sourceUrl: event.target.value })} /></label>
               <label className="mw-field mw-full"><span>原文车型适用范围（选填）</span><textarea value={draft.applicability} disabled={!editing || busy} rows={2} maxLength={3000} onChange={event => editDraft({ applicability: event.target.value })} placeholder="保留原文已写明的范围，未知可留空" /><small>{metadataHint('applicability')}</small></label>
             </div>{active.sourceExcerpt && <blockquote className="mw-source-quote">{active.sourceExcerpt}</blockquote>}</details></section>}
-            {draft && !pending(active) && <section className="mw-candidate-section"><div className="mw-candidate-heading"><div><h3>{active.status === 'published' ? '已导入的保养项目' : '保养项目识别结果'}</h3><p className="mw-mapping-counts"><span>共 {draft.rows.length} 项</span><span>已关联 <strong>{mappedCount}</strong></span><span>待关联／处理 <strong>{mappingPendingCount}</strong></span>{mappingNewCount > 0 && <span>待新建 <strong>{mappingNewCount}</strong></span>}<span>本次选择 <strong>{includedCount}</strong></span></p></div>{editing && <div className="mw-candidate-actions"><button type="button" className="ad-button" disabled={busy || !draft.rows.length} onClick={() => void autoMapProjects()}><Sparkles size={16} aria-hidden="true" />重新自动关联标准项目</button><button type="button" className="ad-button" disabled={busy || draft.rows.length >= 60} onClick={() => { const row: ManualRuleDraft = { id: `row-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, name: '', projectId: null, createProject: false, include: true, action: 'inspect', triggerType: 'periodic', firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null, mileageType: 'total_km', condition: '', notes: '', sourceText: '', pageNumbers: [] }; editDraft({ rows: [...draft.rows, row] }); setExpanded(current => [...current, row.id]); }}><Plus size={16} aria-hidden="true" />补充遗漏项</button></div>}</div>
+            {draft && !pending(active) && <section className="mw-candidate-section"><div className="mw-candidate-heading"><div><h3>{active.status === 'published' ? '已导入的保养项目' : '保养项目识别结果'}</h3><p className="mw-mapping-counts"><span>共 {draft.rows.length} 项</span><span>已关联 <strong>{mappedCount}</strong></span><span>待关联／处理 <strong>{mappingPendingCount}</strong></span>{mappingNewCount > 0 && <span>待新建 <strong>{mappingNewCount}</strong></span>}<span>本次选择 <strong>{includedCount}</strong></span></p></div>{editing && <div className="mw-candidate-actions"><button type="button" className="ad-button" disabled={busy || !draft.rows.length} onClick={() => void autoMapProjects()}><Sparkles size={16} aria-hidden="true" />重新自动关联标准项目</button><button type="button" className="ad-button" disabled={busy || draft.rows.length >= 120} onClick={() => { const row: ManualRuleDraft = { id: `row-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, name: '', projectId: null, createProject: false, include: true, action: 'inspect', triggerType: 'periodic', firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null, mileageType: 'total_km', condition: '', notes: '', sourceText: '', pageNumbers: [] }; editDraft({ rows: [...draft.rows, row] }); setExpanded(current => [...current, row.id]); }}><Plus size={16} aria-hidden="true" />补充遗漏项</button></div>}</div>
               {editing && <p className="mw-mapping-help">已有资料可直接重新关联，无需再次 AI 识别。关联标准项目后，再按原文核对本次选择。</p>}
               {catalogError && <p className="mw-source-error" role="status">{catalogError}</p>}
               {editing && <details className="ad-panel mw-bulk-tools"><summary>批量补充通用首次保养 <ChevronDown size={17} aria-hidden="true" /></summary><div className="mw-bulk-content"><div className="mw-bulk-heading"><div><h4>通用首次保养</h4><p>仅在原文明确共用首保阈值时使用。只填入已选、首次月数和公里数均为空的固定周期项目，已有值不变。</p></div></div><div className="mw-form-grid"><label className="mw-field"><span>通用首次保养（月）</span><input type="number" min={1} max={1200} step={1} value={commonFirstMonths} disabled={busy} placeholder="原文明确的月数" onChange={event => setCommonFirstMonths(event.target.value)} /></label><label className="mw-field"><span>通用首次保养（km）</span><input type="number" min={1} max={2000000} step={1} value={commonFirstKm} disabled={busy} placeholder="原文明确的公里数" onChange={event => setCommonFirstKm(event.target.value)} /></label></div><div className="mw-bulk-footer"><small>只补充原文明示的首次阈值；后续周期仍需逐项核对。</small><button type="button" className="ad-button" disabled={busy || (!commonFirstMonths.trim() && !commonFirstKm.trim())} onClick={fillCommonFirstService}>填入空白首次周期</button></div></div></details>}
