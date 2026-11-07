@@ -2,6 +2,16 @@
 
 ## 当前部署选择
 
+V0.8.6 **`0.8.6+1fecfe24f9` 于2026-11-07北京时间15:11:54上线**，源码提交 `1d05966d3784a3910171966f74f943f93c57afcc` 已推送 `main` 与 `codex/autovoyage-mvp`。参考库收敛为25项通用服务；项目列表默认只看启用，支持已停用／全部筛选与编辑恢复。112项完整回归、类型检查和两端生产构建通过，真实PostgreSQL目录／手册专项32项、精简执行器专项5项通过，随机测试schema已清理。
+
+通过Portainer UI上传两份已扫描源码包构建：API `autovoyage-api:1d05966`（`7e7e8570cfc7`）、Web `autovoyage-web:1d05966`（`50d7d32f2c83`）均healthy。归档、工作区和API构建版本摘要一致，未打包实际秘密值、私密路径或上传资料。17项环境变量逐项一致；Compose只替换两个镜像标签，沿用原数据库、上传卷、网络、API 1 GiB内存和IP + 58083端口。镜像回滚目标为API／Web `4d7ee2c`；项目启用状态可在管理端恢复，回滚镜像不会自动恢复这些状态。
+
+部署前于 `2026-11-07T07:11:35.731Z` 只读备份22张自有表、440行，仅存本机忽略目录。升级后、精简前，各业务表均与本次备份相同。随后在 `PGSCHEMA=public` 执行精简CLI，核对dry-run摘要后事务停用93项：123项总量不变，启用123→30，停用0→93。保留23个通用来源项目、5个原有自定义项目及2个被手册草稿引用的细分检查项目。仅候选的 `active` 从true改为false并新增93条管理员审计；其余字段和18张其他业务表与备份逐项摘要一致，旧日志完整保留。重新预览可停用数为0。完整快照、预览和执行报告保存在本机 `.local`，恢复步骤见 [公开目录](public-catalog.md#精简已有服务目录)。
+
+公网 `/`、`/healthz`、`/api/v1/health`、`/api/v1/config`均200，数据库PostgreSQL，首页资源 `assets/index-kOx15K8-.js`。自动新增1条V0.8.6更新记录、4条说明，旧5条记录完整保留。公网列表验证启用30／已停用93／全部123，制动系统筛选3项；参考库25项。已查看停用项编辑框的恢复开关，未保存额外业务变更。[精简列表](images/common-service-simplified-cloud.png)、[通用库](images/common-service-general-catalog-cloud.png)、[更新日志](images/common-service-simplified-updates-cloud.png) 已归档。
+
+## V0.8.5 历史部署
+
 V0.8.5 **`0.8.5+2be7c67710` 于2026-11-05北京时间19:20:30上线**，源码提交 `4d7ee2c33c2fb170ebfbb8edec93f8ef92a98021` 已推送 `main` 与 `codex/autovoyage-mvp`。本版补全120项通用参考服务，支持批量选择、安全复用及冲突报告。106项完整回归、类型检查及两端生产构建通过，真实PostgreSQL／PGlite目录与手册映射专项各31项通过。
 
 通过Portainer UI上传两份无秘密源码包构建，API `autovoyage-api:4d7ee2c`（`53cac7c07b1a`）、Web `autovoyage-web:4d7ee2c`（`afa6e95ab58d`）均healthy。工作区、归档与API构建版本摘要一致；归档检查没有实际敏感配置值、私密路径或上传数据。17项环境变量一致，Compose只替换两个镜像标签，数据库网络、上传卷、API 1 GiB内存和IP + 58083端口保持。回滚同时恢复API／Web `7f4785b`，保留业务数据。

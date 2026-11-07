@@ -30,7 +30,9 @@ V0.8.6 将此前120项参考目录收敛为25项通用保养候选，保留来�
 
 车主与管理端均可打开“系统更新日志”。构建自动生成 `基础版本+源码摘要` 版本，API 首次成功监听时写入数据库；相同构建重启、回滚复用原记录。发布者可维护 `release.config.json` 中的功能说明；没有新说明的源码更新也会按变更模块生成摘要。机制、编辑步骤及接口见 [系统更新日志](docs/system-releases.md)。
 
-历史版本 **V0.8.5 `0.8.5+2be7c67710` 已于2026-11-05北京时间19:20上线**。通用参考目录120项、13分类；本轮从正式界面选择118个未导入候选，新增116、复用1、跳过1，业务标准项目由7项补至123项。原7项完整保留；现有“火花塞”操作未明确，跳过“更换火花塞”待核对。支持批量选择、分类筛选和冲突说明；车型规则与门店价格按原流程核对。106项回归、真实PostgreSQL／PGlite专项各31项通过，API／Web均healthy，已自动记录更新日志。来源、接口、备份与验收结果见 [验证记录](docs/verification.md)；[正式补入截图](docs/images/common-service-import-cloud.png)、[分类列表](docs/images/common-service-projects-cloud.png) 与 [更新日志](docs/images/common-service-updates-cloud.png)。
+当前版本 **V0.8.6 `0.8.6+1fecfe24f9` 已于2026-11-07北京时间15:11上线**。通用参考库精简为25项；正式业务目录保留30项启用、93项可恢复停用，已有规则、报价和手册草稿引用完整保留。112项完整回归、32项目录／手册及5项精简执行器真实PostgreSQL专项通过，API／Web均healthy，自动新增本版更新日志。见 [精简后的列表](docs/images/common-service-simplified-cloud.png)、[25项通用库](docs/images/common-service-general-catalog-cloud.png)、[更新日志](docs/images/common-service-simplified-updates-cloud.png) 和 [完整验证记录](docs/verification.md)。
+
+历史版本 **V0.8.5 `0.8.5+2be7c67710` 已于2026-11-05北京时间19:20上线**。当时参考目录120项、13分类，正式补入后业务目录123项；该数量已由V0.8.6精简。原项目未删除，保留历史验收：[正式补入截图](docs/images/common-service-import-cloud.png)、[分类列表](docs/images/common-service-projects-cloud.png) 与 [更新日志](docs/images/common-service-updates-cloud.png)。
 
 历史版本 **V0.8.4 `0.8.4+22d57176e5` 已于2026-11-05北京时间18:43上线**：手册草稿可按原文批量补全空白首次保养、自动关联已有或参考标准项目，并按车型整理真实公开手册候选；车型卡片支持查看本车型规则和删除未被引用的条目。101项回归、真实PostgreSQL专项及真实公开检索／AI排序验证通过，两容器均healthy，原业务数据核对保留，自动生成本版更新日志。已有首次值、人工映射及业务引用保留，查询不会自动生成或发布保养周期。公网汽油版凯美瑞查询中出现双擎手册候选，页面明确年款动力尚未确认，不能当作适用手册。使用方式与限制见 [手册导入](docs/manual-import.md)；公网证据：[车型规则筛选](docs/images/manual-model-rules-cloud.png)、[AI候选查询](docs/images/manual-ai-search-cloud.png)、[更新日志](docs/images/manual-tools-cloud-updates.png)，详细结果见 [验证记录](docs/verification.md)。
 
