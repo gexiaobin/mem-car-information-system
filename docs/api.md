@@ -73,7 +73,7 @@
 
 ## 保养手册识别与车型规则
 
-本节关于 `conditionThresholdsIndependent`、完整周期编辑及时间提醒的新增契约已在V0.9.3上线，当前运行 `0.9.3+5907628593`；实际部署与验收见 [验证记录](verification.md)。
+本节关于 `conditionThresholdsIndependent`、完整周期编辑及时间提醒的契约自V0.9.3上线后保留。当前运行V0.9.4 `0.9.4+98079fdcf4`，于2026-11-07北京时间23:11:42上线；实际部署与验收见 [验证记录](verification.md)。
 
 本组接口仅平台管理员可写入。上传与识别产生持久草稿，不直接改变车型适用项目或车主保养计划。文件、证据页、来源、版次、适用范围和人工确认随任务保留；具体操作、来源限制与字段语义见 [手册导入说明](manual-import.md)。
 
@@ -83,7 +83,7 @@ V0.9.1起工作区使用异步直接回答。`POST /admin/manual-imports/ai-answ
 
 完成任务附带 `result`：`query,sources,summary,warnings,aiStatus,searchedAt,evidenceMode`，其中 `evidenceMode=document_reading`；`answer` 含 `status=ready|partial|not_found`、`title,summary,applicability,edition,sourceTitle,sourceUrl,manuals,rows,warnings`。`manuals` 只包含实际读取的资料，`rows` 使用既有 `ManualRuleDraft` 结构。下载失败、只有目录、AI失败或没有有效项目都不生成周期；已读取的原文链接在AI失败时仍可查看。实际HTML表格在提取文本前保留空列和合并表头，避免打点错列。来源限定不是由自定义AI凭空联网决定，服务端先真实检索／获取字节，再把证据交给模型。
 
-V0.9.4以下契约处于开发验收中，实际AI仍测试中，尚未记为上线。`result.discoveryStatus`为可选的`available | unavailable | no_results`：有具体候选为`available`；连接失败、访问验证或全部返回无关内容为`unavailable`，不能推出没有手册；已完成相关目录检索但没有可读具体候选时可为`no_results`。广汽丰田官方目录与搜索引擎并行读取，官网成功不受搜索引擎返回无关结果影响。官方目录数据仅解析纯字面量，不执行远程脚本；按目录年款和动力筛选，版本日期不能推导年款，未明确的具体配置继续保留待核对状态。
+以下V0.9.4契约已部署；本地十次真实单页AI调用及最终原响应重放验收有独立记录。部署后的全新公网查询已完成，实际读取2024款汉兰达汽油版2405版官方PDF，返回103项候选、32项原文说明／待核对事项，结果为`partial`；具体配置仍待核对，未逐项审核全部候选，也未导入或发布。`result.discoveryStatus`为可选的`available | unavailable | no_results`：有具体候选为`available`；连接失败、访问验证或全部返回无关内容为`unavailable`，不能推出没有手册；已完成相关目录检索但没有可读具体候选时可为`no_results`。广汽丰田官方目录与搜索引擎并行读取，官网成功不受搜索引擎返回无关结果影响。官方目录数据仅解析纯字面量，不执行远程脚本；按目录年款和动力筛选，版本日期不能推导年款，未明确的具体配置继续保留待核对状态。
 
 未取得可导入结果时，`result.answer`可附带以下只读诊断；原有`status=not_found`继续兼容，不应单凭这个值将检索或读取失败解释为“没有手册”：
 

@@ -2,6 +2,18 @@
 
 ## 当前部署选择
 
+V0.9.4 **`0.9.4+98079fdcf4` 于2026-11-07北京时间23:11:42上线**，首次成功启动 `2026-11-07T15:11:42.029Z`，发布源码为 `243540a6b73e237b3e711f1e30af9cf40249b8ad`。本版稳定读取广汽丰田官方用户手册目录，按年款、车系及动力匹配实际PDF，并对多页保养表逐页整理后合并；检索受阻或无关结果与确实未找到资料分别提示。实际适用范围、原文证据及未完整提取的后续周期仍须核对，操作见 [手册导入](manual-import.md)。
+
+通过已登录Portainer更新原 `autovoyage` Stack：API `autovoyage-api:243540a`（`a891035e0bb6`）、Web `autovoyage-web:243540a`（`418de8cec972`）均healthy。17项私有环境变量逐项一致，Compose仅替换两个镜像标签；数据库、上传卷、网络、API 1 GiB及IP + 58083端口沿用。回滚目标为API `autovoyage-api:e9a9b35`（`39c1353c5621`）和Web `autovoyage-web:e9a9b35`（`0ecc8c9a392a`），保留业务库与持久卷，不重新初始化或播种。
+
+部署前只读备份public的22张自有表、442行（含会话），仅保存于本机忽略目录。上线后20张业务／审计表内容逐值相同，旧10条发布记录保留，仅新增本版1条，共11条；6车型、27项启用标准项目、12规则、1条真实保养记录、17文件、5份手册任务及报价／版本各9条保留，未导入或发布查询样本。
+
+全新公网AI查询完成后，于 `2026-11-07T15:21:47.352Z` 再次只读核验：20张业务／审计表仍与部署前基线逐值一致，11条发布记录保留，四条公网路径均HTTP200且版本正确；Portainer两容器均healthy，[容器健康截图](images/manual-v094-stack-cloud.png)已归档。
+
+公网 `/`、`/healthz`、`/api/v1/health`、`/api/v1/config` 均HTTP200，API报告本节精确版本及 `postgres`，`demoMode=false`。发布源码的[main Actions](https://github.com/gexiaobin/mem-car-information-system/actions/runs/42384673557)与[开发分支Actions](https://github.com/gexiaobin/mem-car-information-system/actions/runs/42384673450)均success。全新公网AI查询已完成，真实读取2024款汉兰达汽油版2405版官方PDF并返回103项候选、32项原文说明／待核对事项，界面显示“已读取手册·部分要求待核对”；版本及范围已带出，具体配置仍待核对，未逐项审核全部候选，未导入或发布。[公网结果截图](images/manual-v094-result-cloud.png)与完整部署、保留数据核验见 [V0.9.4验证记录](verification.md#v094-官方手册稳定发现与逐页整理2026-11-07上线)。本地十页真实AI调用及91项响应重放结果保留为独立历史记录；Windows PDF容量实验仅作本地参考，不保证Linux 1 GiB容器的内存表现。
+
+## V0.9.3 历史部署
+
 V0.9.3 **`0.9.3+5907628593` 于2026-11-07北京时间21:48:35上线**，首次成功启动 `2026-11-07T13:48:35.015Z`，发布源码为 `e9a9b35ee7b9a12117673b402f5c13bfdb6a9c0a`。本版支持时间、公里或先到者提醒，完整显示条件阈值，车主端展示到期日期与上海自然日倒计时；旧警告或明确时间的资料按严格原文动态兼容，未批量改写旧规则。操作及适用边界见 [手册导入](manual-import.md)。
 
 最终通过已登录Portainer更新原 `autovoyage` Stack：API `autovoyage-api:e9a9b35`（`39c1353c5621`）、Web `autovoyage-web:e9a9b35`（`0ecc8c9a392a`）均healthy。17项私有环境变量逐项一致，Compose仅替换两个镜像标签；数据库、上传卷、网络、API 1 GiB及IP + 58083端口沿用。回滚目标为API `autovoyage-api:b082863`（`60ba961fb835`）和Web `autovoyage-web:b082863`（`39ec37b86f2f`），保留业务库与持久卷，不重新初始化或播种。
