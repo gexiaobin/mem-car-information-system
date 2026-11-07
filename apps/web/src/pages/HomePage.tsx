@@ -27,6 +27,7 @@ import {
 } from "../components/UI";
 import { VehiclePhoto, VEHICLE_ART_SOURCE, VEHICLE_ART_CREDIT } from "../components/VehiclePhoto";
 import { StoreIllustration } from "../components/StoreIllustration";
+import { compareMaintenance, maintenanceCountdown } from '../lib/maintenance-display';
 
 export default function HomePage({
   data,
@@ -43,10 +44,9 @@ export default function HomePage({
 }) {
   const navigate = useNavigate();
   const model = data.models.find((m) => m.id === vehicle?.modelId);
-  const plans = data.maintenance.filter((m) => m.vehicleId === vehicle?.id);
-  const priority = { due: 0, soon: 1, missing: 2, ok: 3, conditional: 4 };
+  const plans = data.maintenance.filter((m) => m.vehicleId === vehicle?.id).sort(compareMaintenance);
   const attention = plans.filter((m) => ['due', 'soon', 'missing'].includes(m.status));
-  const next = [...plans].sort((a, b) => priority[a.status] - priority[b.status])[0];
+  const next = plans[0];
   const missingRules =
     next?.scope === "vehicle" ||
     (next?.status === "missing" &&
@@ -194,6 +194,7 @@ export default function HomePage({
                     <div className="thresholds">
                       <span>
                         时间阈值<strong>{next.dueAt ? dateText(next.dueAt) : next.status === 'missing' ? '待补充' : '无固定时间周期'}</strong>
+                        {next.dueAt && <small className="maintenance-countdown">{maintenanceCountdown(next.dueAt)}</small>}
                       </span>
                       <span>
                         里程阈值
@@ -309,6 +310,11 @@ export default function HomePage({
                           {plan.isDemo && <DemoTag />}
                         </div>
                         <p>{plan.reason}</p>
+                        {plan.status !== 'conditional' && (plan.dueAt || plan.dueKm != null) && <div className="maintenance-due-details">
+                          {plan.dueAt && <span><CalendarDays size={14} aria-hidden="true" />时间：{dateText(plan.dueAt)}<strong>{maintenanceCountdown(plan.dueAt)}</strong></span>}
+                          {plan.dueKm != null && <span><Gauge size={14} aria-hidden="true" />里程：{plan.dueKm.toLocaleString()} km</span>}
+                        </div>}
+                        {plan.condition && plan.status !== 'conditional' && <p className="maintenance-condition">原文条件：{plan.condition}</p>}
                         <small>
                           {plan.sourceTitle || "保养依据待补充"}
                           {plan.sourceUrl && (

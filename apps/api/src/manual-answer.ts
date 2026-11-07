@@ -102,7 +102,7 @@ function groundTextRows(rows: ManualRuleDraft[], files: PreparedFile[]) {
     if (located && supported) return row;
     const reason = !located ? "AI摘录未能逐字定位到引用原文" : "AI结构化周期数字未能在引用原文中核实";
     warnings.push(`“${row.name}”${reason}，已取消默认导入，请对照原文核对。`);
-    return { ...row, include: false, triggerType: "condition" as const, condition: ["AI摘录与周期需核对，尚不能作为已验证规则", row.condition].filter(Boolean).join("；").slice(0, 3000) };
+    return { ...row, include: false, triggerType: "condition" as const, conditionThresholdsIndependent: false, condition: ["AI摘录与周期需核对，尚不能作为已验证规则", row.condition].filter(Boolean).join("；").slice(0, 3000) };
   });
   return { rows: grounded, warnings };
 }

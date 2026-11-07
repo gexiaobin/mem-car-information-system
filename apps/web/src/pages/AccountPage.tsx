@@ -23,7 +23,7 @@ import type {
   RegistrationImport,
   Vehicle,
 } from "@autovoyage/shared";
-import { APPOINTMENT_NAMES, cents } from "@autovoyage/shared";
+import { APPOINTMENT_NAMES, cents, usesIndependentConditionThreshold } from "@autovoyage/shared";
 import { api, patch, post } from "../lib/api";
 import {
   Modal,
@@ -506,6 +506,10 @@ export default function AccountPage({
                                   ? `${rule.triggerType === 'condition' ? '达到条件时处理' : '按需处理'}：${rule.condition || '请参阅原文'}`
                                   : `首次 ${maintenancePeriod(rule.firstMonths, rule.firstKm)}；后续 ${maintenancePeriod(rule.intervalMonths, rule.intervalKm)}（先到为准）`}
                               </p>
+                              {rule.triggerType && rule.triggerType !== 'periodic' && (rule.firstMonths != null || rule.firstKm != null || rule.intervalMonths != null || rule.intervalKm != null) && <p>
+                                {usesIndependentConditionThreshold(rule) ? '与原文条件先到为准，已纳入提醒' : '原文条件内阈值，仅作依据'}：
+                                首次 {maintenancePeriod(rule.firstMonths, rule.firstKm)}；后续 {maintenancePeriod(rule.intervalMonths, rule.intervalKm)}
+                              </p>}
                               {rule.triggerType === 'periodic' && rule.condition && <p>适用条件：{rule.condition}</p>}
                               {rule.notes && <p>说明：{rule.notes}</p>}
                               {rule.sourcePages?.length ? <p>原文第 {rule.sourcePages.join('、')} 页{rule.edition ? ` · ${rule.edition}` : ''}</p> : null}

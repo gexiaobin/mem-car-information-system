@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { CarModel, MaintenanceRule, ManualAsset, ManualDocument, ManualImport, ManualMetadataOrigin, ManualPageSelection, ManualRuleDraft, Project, Vehicle } from "@autovoyage/shared";
+import { hasRecurringMaintenanceThreshold, usesIndependentConditionThreshold } from "@autovoyage/shared";
 import type { Context } from "./context.js";
 import { authenticated, roles, route } from "./context.js";
 import { get, list, put, type Sql } from "./db.js";
@@ -58,7 +59,7 @@ const originsFor = (job: Pick<ManualImport, "sourceTitle" | "edition" | "applica
 const usableDocumentMetadata = (value: string) => !!value.trim() && !/^(?:未知|不详|不明|未见|未识别|未提供|未标注|无法确定|待核对|待确认|unknown|n\/?a|null|none)[。.!！]?$/i.test(value.trim());
 function presentManual(job: StoredManual, projects: Project[]): ManualImport {
   const { attempts: _, modelIdentity: __, baseRuleVersions: ___, publicationHash: ____, acquiredSourceUrl: _____, ...result } = job;
-  return { ...result, mappingDiagnostics: diagnoseManualProjectMappings(job.rows, projects) };
+  return { ...result, rows: result.rows.map(row => row.triggerType === "condition" && row.conditionThresholdsIndependent === undefined ? { ...row, conditionThresholdsIndependent: usesIndependentConditionThreshold(row) } : row), mappingDiagnostics: diagnoseManualProjectMappings(job.rows, projects) };
 }
 function verifySourceLink(sourceUrl: string, files: ManualAsset[]) {
   ensure(!sourceUrl.startsWith("/api/") || files.some(file => file.url === sourceUrl), 400, "SOURCE_FILE_MISMATCH", "本地来源链接必须对应本次手册原件或页面");
@@ -83,6 +84,7 @@ function verifyEvidence(rows: ManualRuleDraft[], files: ManualAsset[], publishin
       ensure(row.firstMonths !== null || row.firstKm !== null, 400, "FIRST_INTERVAL_REQUIRED", "周期保养规则需明确首次时间或里程；原文未知时请先核对，不能猜测");
       ensure(row.intervalMonths !== null || row.intervalKm !== null, 400, "INTERVAL_REQUIRED", "周期保养规则需明确后续时间或里程间隔");
     } else ensure(!!row.condition.trim(), 400, "CONDITION_REQUIRED", "按条件或按需保养须记录原文条件");
+    ensure(!row.conditionThresholdsIndependent || row.triggerType === "condition" && hasRecurringMaintenanceThreshold(row), 400, "CONDITION_INTERVAL_REQUIRED", "独立时间／里程提醒仅用于条件项目，且须保留原文明确的后续时间或公里阈值");
   }
 }
 
@@ -170,6 +172,7 @@ function publicationIssues(job: StoredManual, projects: Project[], versions: Rec
       if (row.condition.trim()) add(row, index, "triggerType", "有特殊工况条件的项目请选择按条件处理");
       if (row.intervalMonths === null && row.intervalKm === null) add(row, index, "interval", "原文未给出后续周期，请补充或暂不导入此项");
     } else if (!row.condition.trim()) add(row, index, "condition", "请保留原文的触发条件");
+    if (row.conditionThresholdsIndependent && (row.triggerType !== "condition" || !hasRecurringMaintenanceThreshold(row))) add(row, index, "interval", "独立时间／里程提醒仅适用于条件项目，且须有原文明确的后续阈值");
   }
   return issues;
 }
@@ -464,7 +467,7 @@ export function registerManuals(ctx: Context) {
         const rule: MaintenanceRule = {
           id: id(), modelId: model.id, projectId, firstMonths: row.firstMonths, firstKm: row.firstKm,
           intervalMonths: row.intervalMonths, intervalKm: row.intervalKm, mileageType: row.mileageType,
-          action: row.action, triggerType: row.triggerType, condition: row.condition, notes: row.notes,
+          action: row.action, triggerType: row.triggerType, conditionThresholdsIndependent: row.conditionThresholdsIndependent, condition: row.condition, notes: row.notes,
           sourceTitle: job.sourceTitle, sourceUrl: job.sourceUrl || original.url,
           version: (versions[projectId] || 0) + 1, verified: true, isDemo: model.isDemo,
           manualImportId: job.id, sourcePages: row.pageNumbers, sourceText: row.sourceText, edition: job.edition, applicability: job.applicability,

@@ -5481,6 +5481,11 @@ label textarea {
 .owner-app .maintenance-row-title .badge-demo { font-size: 10px; }
 .owner-app .maintenance-main > p { font-size: 13px; margin: 8px 0; }
 .owner-app .maintenance-main > small { font-size: 12px; color: var(--color-text-muted); line-height: 1.8; }
+.owner-app .maintenance-due-details { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 10px 0; color: var(--color-primary); font-size: 12px; line-height: 1.8; }
+.owner-app .maintenance-due-details > span { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+.owner-app .maintenance-due-details strong { font-weight: 600; }
+.owner-app .maintenance-countdown { color: var(--color-primary); font-size: 12px; }
+.owner-app .maintenance-main > .maintenance-condition { color: var(--color-text-muted); font-size: 12px; }
 .owner-app .maintenance-row-right > .badge { font-size: 11px; }
 .owner-app .section-note { font-size: 12px; }
 .owner-app .dashboard-side { display: flex; flex-direction: column; gap: 20px; }

@@ -655,7 +655,8 @@ test("calendar months clamp to month-end; time threshold works when mileage is m
     new Date("2026-03-02T00:00:00Z"),
   );
   assert.equal(serviceBaseline.dueAt, "2026-04-01");
-  assert.equal(serviceBaseline.status, "missing");
+  assert.equal(serviceBaseline.status, "soon");
+  assert.match(serviceBaseline.reason, /图片里程早于已确认的服务里程/);
 });
 async function upload(color = "red"): Promise<ImportJob> {
   const image = await sharp({

@@ -15,6 +15,7 @@ import type {
   Vehicle,
 } from "@autovoyage/shared";
 import type { Sql } from "./db.js";
+import { hasRecurringMaintenanceThreshold, usesIndependentConditionThreshold } from "@autovoyage/shared";
 import { get, list, put } from "./db.js";
 export const id = () => randomUUID();
 export const now = () => new Date().toISOString();
@@ -125,6 +126,7 @@ export function maintenanceFor(
       isDemo: vehicle.isDemo || !!rule?.isDemo,
       action: rule?.action,
       triggerType: rule?.triggerType,
+      conditionThresholdsIndependent: rule ? usesIndependentConditionThreshold(rule) : false,
       condition: rule?.condition,
       notes: rule?.notes,
     };
@@ -136,7 +138,8 @@ export function maintenanceFor(
         dueKm: null,
         reason: "请补充并复核本年款车型的保养规则",
       };
-    if (rule.triggerType === 'condition' || rule.triggerType === 'as_needed')
+    const independentCondition = usesIndependentConditionThreshold(rule) && hasRecurringMaintenanceThreshold(rule);
+    if ((rule.triggerType === 'condition' && !independentCondition) || rule.triggerType === 'as_needed')
       return { ...common, status: 'conditional', dueAt: null, dueKm: null,
         reason: [rule.condition || '按手册条件检查或处理，无固定到期时间', rule.notes].filter(Boolean).join('；') };
     const latest = records
@@ -145,15 +148,15 @@ export function maintenanceFor(
     // A manual may give one recurring interval without a distinct first service.
     // Keep the original null first fields, and use that documented recurrence
     // from the vehicle's start only when neither independent first value exists.
-    const recurringFromStart = rule.firstMonths === null && rule.firstKm === null;
+    const recurringFromStart = rule.firstMonths == null && rule.firstKm == null;
     const intervalMonths = latest || recurringFromStart ? rule.intervalMonths : rule.firstMonths;
-    const dueAt = intervalMonths === null ? null : addMonthsClamped(
+    const dueAt = intervalMonths == null ? null : addMonthsClamped(
       latest ? shanghaiDay(new Date(latest.completedAt)) : vehicle.startDate,
       intervalMonths,
     );
     const intervalKm = latest || recurringFromStart ? rule.intervalKm : rule.firstKm;
     const dueKm =
-      intervalKm === null
+      intervalKm == null
         ? null
         : (latest?.totalKm ?? vehicle.initialKm) + intervalKm;
     const today = shanghaiDay(date);
@@ -168,21 +171,30 @@ export function maintenanceFor(
     const stale =
       !vehicle.observedAt ||
       (date.getTime() - new Date(vehicle.observedAt).getTime()) / 86400000 > 30;
+    const reason = (message: string) => [message, independentCondition ? rule.condition : ""].filter(Boolean).join("；");
     if (days <= 0 || distanceDue)
       return {
         ...common,
         status: "due",
         dueAt,
         dueKm,
-        reason: days <= 0 ? "已达到时间阈值" : "已达到里程阈值",
+        reason: reason(days <= 0 ? "已达到时间阈值" : "已达到里程阈值"),
       };
+    // A reliable calendar deadline remains actionable even if the mileage side
+    // needs a new observation. Preserve that limitation in the explanation.
+    if (days <= 30) {
+      const mileageNotice = dueKm === null ? "" : rule.mileageType === "engine_km"
+        ? "发动机累计里程仍待核验" : !canUseKm || stale ? "里程数据仍待更新，里程可能更早到期"
+          : latest && vehicle.totalKm! < latest.totalKm ? "图片里程早于已确认的服务里程，仍待更新" : "";
+      return { ...common, status: "soon", dueAt, dueKm, reason: reason(["距离时间阈值不足30天", mileageNotice].filter(Boolean).join("；")) };
+    }
     if (rule.mileageType === "engine_km" && dueKm !== null)
       return {
         ...common,
         status: "missing",
         dueAt,
         dueKm,
-        reason: "本项目要求发动机累计里程，请补充核验；时间到期仍会提醒",
+        reason: reason("本项目要求发动机累计里程，请补充核验；时间到期仍会提醒"),
       };
     if (dueKm !== null && latest && vehicle.totalKm !== null && vehicle.totalKm < latest.totalKm)
       return {
@@ -190,7 +202,7 @@ export function maintenanceFor(
         status: "missing",
         dueAt,
         dueKm,
-        reason: "图片里程早于已确认的服务里程，请上传更新图片后判断剩余里程",
+        reason: reason("图片里程早于已确认的服务里程，请上传更新图片后判断剩余里程"),
       };
     if (dueKm !== null && (!canUseKm || stale))
       return {
@@ -198,7 +210,7 @@ export function maintenanceFor(
         status: "missing",
         dueAt,
         dueKm,
-        reason: stale ? "里程数据待更新，不能据此判断无需保养" : "缺少有效里程",
+        reason: reason(stale ? "里程数据待更新，不能据此判断无需保养" : "缺少有效里程"),
       };
     if (
       days <= 30 ||
@@ -209,14 +221,14 @@ export function maintenanceFor(
         status: "soon",
         dueAt,
         dueKm,
-        reason: "距离时间阈值不足30天或里程阈值不足500km",
+        reason: reason("距离里程阈值不足500km"),
       };
     return {
       ...common,
       status: "ok",
       dueAt,
       dueKm,
-      reason: "尚未达到本项目的时间或里程阈值",
+      reason: reason("尚未达到本项目的时间或里程阈值"),
     };
   });
 }

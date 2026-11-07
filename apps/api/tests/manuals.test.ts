@@ -485,6 +485,37 @@ test("conditional rules create named projects and retain their condition without
   assert.match(result[0]?.reason || "", /污染/);
 });
 
+test("warning-or-calendar extraction publishes independent time reminders while severe-use deadlines stay conditional", async () => {
+  const warningRow = row({ name: "合成独立时间机油更换", triggerType: "condition", firstMonths: null, firstKm: null, intervalMonths: 6, intervalKm: null, condition: "当出现警告时或 6 个月，以先到者为准。", sourceText: "更换发动机机油\n当出现警告时或 6 个月\n低于0℃时，极端条件可能需要更频繁保养。" });
+  upstreamResponse = completed(candidate([warningRow, row({ name: "合成严苛燃油滤清器", triggerType: "condition", firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: 90000, condition: "严重工况每90000公里", sourceText: "严重工况，每90000公里更换燃油滤清器", conditionThresholdsIndependent: true })]));
+  let job = await settled((await upload()).json<ManualImport>().id);
+  assert.equal(job.rows[0]?.conditionThresholdsIndependent, true);
+  assert.equal(job.rows[1]?.conditionThresholdsIndependent, false);
+  assert.equal(job.rows[0]?.include, false);
+  job = await draft(job, job.rows.map((item, index) => ({ ...item, include: index === 0, createProject: index === 0, projectId: null, catalogProjectId: null })));
+  const response = await call("admin", "POST", `/admin/manual-imports/${job.id}/publish`, publishing(job));
+  assert.equal(response.statusCode, 200, response.body);
+  const rule = await get<MaintenanceRule>(service.db, "rules", response.json<ManualImport>().publishedRuleIds[0]!);
+  assert(rule); assert.equal(rule.conditionThresholdsIndependent, true); assert.equal(rule.firstMonths, null); assert.equal(rule.intervalMonths, 6); assert.equal(rule.intervalKm, null);
+  const project = await get<Project>(service.db, "projects", rule.projectId);
+  const model = await get<CarModel>(service.db, "models", job.modelId);
+  assert(model?.applicableProjectIds?.includes(rule.projectId));
+  const vehicle: Vehicle = { id: "synthetic-timed-car", ownerId: "owner-demo", modelId: job.modelId, plate: "TIME", name: "合成时间车辆", startDate: "2020-01-31", initialKm: 0, totalKm: null, observedAt: null, isDemo: true };
+  const reminder = maintenanceFor(vehicle, [project!], [rule], [], new Date("2020-07-31T00:00:00Z"), model)[0]!;
+  assert.equal(reminder.status, "due"); assert.equal(reminder.dueAt, "2020-07-31"); assert.equal(reminder.dueKm, null); assert.match(reminder.reason, /警告/);
+  const editHistory = await call("admin", "PATCH", `/admin/rules/${rule.id}`, { conditionThresholdsIndependent: false });
+  assert.equal(editHistory.statusCode, 409); assert.equal(editHistory.json().error.code, "MANUAL_RULE_IMMUTABLE");
+});
+
+test("independent condition reminders require an actual threshold before publication", async () => {
+  let job = await ready({ name: "合成无期限条件项目", triggerType: "condition", firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null, condition: "检测后处理", sourceText: "合成检测后处理，无固定周期" });
+  job = await draft(job, job.rows.map(item => ({ ...item, include: true, createProject: true, projectId: null, catalogProjectId: null, conditionThresholdsIndependent: true })));
+  const response = await call("admin", "POST", `/admin/manual-imports/${job.id}/publish`, publishing(job));
+  assert.equal(response.statusCode, 400, response.body);
+  assert.equal((await get<ManualImport>(service.db, "manual_imports", job.id))?.status, "awaiting_confirmation");
+  assert.equal((await list<MaintenanceRule>(service.db, "rules")).some(rule => rule.manualImportId === job.id), false);
+});
+
 test("duplicate mappings and invalid project scopes fail without partial publishing", async () => {
   upstreamResponse = completed(candidate([row(), row({ name: "合成第二项目" })]));
   let job = await settled((await upload()).json<ManualImport>().id);

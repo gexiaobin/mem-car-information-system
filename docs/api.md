@@ -73,6 +73,8 @@
 
 ## 保养手册识别与车型规则
 
+本节关于 `conditionThresholdsIndependent`、完整周期编辑及时间提醒的新增契约为**V0.9.3待部署源码**；当前线上仍为V0.9.2，实际运行与验收见 [验证记录](verification.md)。
+
 本组接口仅平台管理员可写入。上传与识别产生持久草稿，不直接改变车型适用项目或车主保养计划。文件、证据页、来源、版次、适用范围和人工确认随任务保留；具体操作、来源限制与字段语义见 [手册导入说明](manual-import.md)。
 
 `GET /admin/manual-sources?modelId=...` 只返回来源入口，不发外部请求；显式附加 `discover=true` 才按品牌／车系开放查询通用保养手册和周期表，返回具体候选和补充目录，不局限固定网站。候选仍需核对年款、动力和市场版本；查询结果不是文件已下载或已适用的证明。
@@ -139,7 +141,24 @@ PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `man
 }
 ```
 
-动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。周期数字可为空；V0.9携带 `draft` 发布时，周期规则的后续月数／公里数至少有一个有效阈值，`condition` 必须为空，正常使用说明放在 `notes`。原文未单列首次时，两项首次值可保持null，计算从已注明的后续周期起算；有任一独立首次值则保持原文维度。有特殊适用条件的项目使用条件／按需类型，保留条件及原文阈值，不计算通用固定到期；这些候选默认 `include=false`，人工核对后允许明确改为true，不能为通过校验而强改固定周期或清除原文阈值。未知值不能由AI补齐。选中行需有有效证据页和原文摘录，且必须仅选择有效 `projectId`、公开参考 `catalogProjectId` 或明确 `createProject=true` 三种映射之一。其他映射字段置空／false，`catalogProjectId` 可省略以兼容旧草稿。重复项目与故障诊断范围不能发布。
+动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。四个周期字段 `firstMonths,firstKm,intervalMonths,intervalKm` 均允许 `null`，非空为正整数，月份上限1200、公里数上限2000000。固定周期的后续月数／公里数至少一个有效，可纯时间、纯公里或两者先到；`condition` 必须为空，正常使用说明放在 `notes`。原文未单列首保时，两项首次可保持null，从已注明的后续周期起算；有任一独立首次值则保持原文维度。
+
+V0.9.3在 `ManualRuleDraft`、`MaintenanceRule` 和 `MaintenanceItem` 增加可选布尔 `conditionThresholdsIndependent`。共享判定使用 `usesIndependentConditionThreshold`，其语义如下：
+
+| 值与类型 | 计算行为 |
+| --- | --- |
+| `triggerType=condition` 且字段为 `true` | 管理员已明确确认时间／公里可与原条件独立触发，保留条件并计算阈值；须至少一个后续月份或公里数 |
+| `triggerType=condition` 且字段为 `false` | 明确禁用独立阈值，保留数值为原文依据，返回 `conditional`，不采用旧资料兼容推断 |
+| `triggerType=condition` 且字段省略 | 仅对狭窄的“警告或明确阈值”原文做兼容判断：条件全文、原文摘录数量／单位和已填阈值须一致；严苛／受限工况、多版本适用及不完整证据不启用 |
+| `triggerType=as_needed` | 保留按需语义及原文数值，不计算固定到期；不能设置独立阈值为true |
+
+例如旧机油6个月／机滤1年资料满足“当出现警告时或…，以先到者为准”证据时可独立提醒，不改为 `periodic`，也不合并两项。省略值的旧记录由读取／计算过程动态兼容，不批量写库；旧手册响应可返回推导补齐的布尔值。新AI识别仍依据严格原文判定，未知关系设为false，不能仅凭数字声明独立触发。条件及按需候选默认 `include=false`；是否选入发布与独立提醒决定是不同字段。
+
+有特殊适用条件的项目保留条件及原文阈值，未明确独立触发时不计算通用固定到期；不能为通过校验而强改固定周期或清除阈值。未知值不能由AI补齐。选中行需有有效证据页和原文摘录，且必须仅选择有效 `projectId`、公开参考 `catalogProjectId` 或明确 `createProject=true` 三种映射之一。其他映射字段置空／false，`catalogProjectId` 可省略以兼容旧草稿。重复项目与故障诊断范围不能发布。
+
+提醒返回的 `dueAt`、`dueKm` 独立可空。可计算的时间临近／到期不因里程缺失而被覆盖，原因仍提示待核验的里程；纯时间规则不要求里程观测。未启用独立阈值的条件及按需规则继续返回 `conditional` 与空日期／里程。车主界面按 `Asia/Shanghai` 自然日显示倒计时，并在同状态下按到期日期排序。
+
+普通人工规则的 `POST /admin/rules` 与 `PATCH /admin/rules/:id` 同步支持上述四个nullable阈值及完整 `action,triggerType,conditionThresholdsIndependent,condition,notes` 语义，可保留 `sourceText,sourcePages,edition,applicability`。省略 `triggerType` 按既有固定周期兼容；PATCH先合并旧值再校验，固定周期至少一个后续阈值，条件／按需要求非空条件，独立阈值true只允许条件规则且至少一个后续阈值。对应校验包括 `INTERVAL_REQUIRED`、`CONDITION_REQUIRED`、`CONDITION_INTERVAL_REQUIRED`、`CONDITIONAL_INTERVAL`。已发布手册规则仍拒绝直接PATCH并返回409／`MANUAL_RULE_IMMUTABLE`，被替代版本返回409／`RULE_SUPERSEDED`；修改须经新手册版本审核发布。
 
 首次识别只为唯一、同部件／确定的名称别名且同操作的行自动映射启用的非故障诊断项目，找不到时再匹配公开参考目录，不使用模糊相似度。多动作、重复来源行、重复目标、停用、操作未知或歧义不能被自动替换，未选目标继续留空，已有人工选择继续保留并通过只读诊断提示问题。`POST /admin/manual-imports/:id/auto-map` 接收 `{ "expectedRevision": 3 }`，仅处理 `awaiting_confirmation` 的当前版本草稿，保留已有 `projectId`、`catalogProjectId` 或明确新增选择以及原文、周期和 `include`；返回更新后的 `ManualImport` 并递增revision，不重新下载或请求AI。可对历史待核对草稿执行，过期版本返回409／`REVISION_CONFLICT`。参考项目在发布事务中才创建或复用并保留 `catalogSource`；多义匹配、停用项目或编码冲突会阻止发布，不静默复制。
 

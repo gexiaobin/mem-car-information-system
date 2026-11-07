@@ -15,6 +15,7 @@ import { get, list, put, remove } from "./db.js";
 import type { Sql } from "./db.js";
 import { audit, ensure, id, now, shanghaiDay } from "./domain.js";
 import { sameModelIdentity } from "./catalog.js";
+import { hasRecurringMaintenanceThreshold } from "@autovoyage/shared";
 const money = z.number().int().min(0).max(100000000);
 async function validateScope(sql: Sql, ids?: string[]) {
   if (ids === undefined) return;
@@ -67,16 +68,33 @@ const projectSchema = z.object({
 const ruleSchema = z.object({
   modelId: z.string(),
   projectId: z.string(),
-  intervalMonths: z.number().int().min(1).max(120),
-  intervalKm: z.number().int().positive().nullable(),
-  firstMonths: z.number().int().min(1).max(120),
-  firstKm: z.number().int().positive().nullable(),
+  intervalMonths: z.number().int().min(1).max(1200).nullable(),
+  intervalKm: z.number().int().min(1).max(2000000).nullable(),
+  firstMonths: z.number().int().min(1).max(1200).nullable(),
+  firstKm: z.number().int().min(1).max(2000000).nullable(),
+  action: z.enum(["inspect", "replace", "clean", "lubricate", "other"]).optional(),
+  triggerType: z.enum(["periodic", "condition", "as_needed"]).optional(),
+  conditionThresholdsIndependent: z.boolean().optional(),
+  condition: z.string().trim().max(3000).optional(),
+  notes: z.string().trim().max(4000).optional(),
+  sourceText: z.string().trim().max(6000).optional(),
+  sourcePages: z.array(z.number().int().positive().max(5000)).max(24).optional(),
+  edition: z.string().trim().max(500).optional(),
+  applicability: z.string().trim().max(3000).optional(),
   mileageType: z.enum(["total_km", "engine_km"]),
   sourceTitle: z.string().trim().min(1).max(1000),
   sourceUrl: z.union([z.string().url(), z.literal("")]),
   verified: z.boolean(),
   isDemo: z.boolean().default(false),
 });
+function validateRuleTiming(rule: z.infer<typeof ruleSchema> | MaintenanceRule) {
+  const trigger = rule.triggerType || "periodic";
+  if (trigger === "periodic") {
+    ensure(!rule.condition?.trim(), 400, "CONDITIONAL_INTERVAL", "有特殊适用条件的规则请标为按条件处理，不能作为通用周期");
+    ensure(hasRecurringMaintenanceThreshold(rule), 400, "INTERVAL_REQUIRED", "请至少填写后续保养月数或公里数；只有时间或只有里程均可");
+  } else ensure(!!rule.condition?.trim(), 400, "CONDITION_REQUIRED", "按条件或按需保养须保留原文依据");
+  ensure(!rule.conditionThresholdsIndependent || trigger === "condition" && hasRecurringMaintenanceThreshold(rule), 400, "CONDITION_INTERVAL_REQUIRED", "独立时间／里程提醒仅用于条件项目，且须填写至少一个后续阈值");
+}
 const storeSchema = z.object({
   name: z.string().trim().min(1).max(120),
   type: z.enum(["independent", "chain", "4s"]),
@@ -511,6 +529,7 @@ export function registerAdmin({ app, db }: Context) {
   app.post(route("/admin/rules"), async (request) => {
     const user = roles(request, ["platform_admin"]);
     const input = ruleSchema.parse(request.body);
+    validateRuleTiming(input);
     return db.transaction(async (sql) => {
       const model = await get<CarModel>(sql, "models", input.modelId, true);
       ensure(model, 400, "MODEL_NOT_FOUND", "车型不存在");
@@ -579,6 +598,7 @@ export function registerAdmin({ app, db }: Context) {
         ensure(!old.manualImportId, 409, 'MANUAL_RULE_IMMUTABLE', '导入规则请通过新手册任务发布新版本，原文与审核证据保持不变');
         ensure(!old.supersededBy, 409, "RULE_SUPERSEDED", "该规则已被新手册版本替代，请发布新版本，不能改写历史依据");
         const rule = { ...old, ...input, version: old.version + 1 };
+        validateRuleTiming(rule);
         const model = await get<CarModel>(sql, "models", rule.modelId);
         ensure(model, 400, "MODEL_NOT_FOUND", "车型不存在");
         ensure(
