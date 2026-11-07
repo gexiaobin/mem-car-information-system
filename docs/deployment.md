@@ -2,6 +2,18 @@
 
 ## 当前部署选择
 
+V0.9.1 **`0.9.1+b493fefab7` 于2026-11-07北京时间19:34:30上线**，首次成功启动时间为 `2026-11-07T11:34:30.268Z`，发布源码为 `038166f9ab6a81b8797c9af2bc98344b09c0ccdc`。本版AI查找直接读取取得的真实手册原文并展示原文链接、适用说明和保养周期表，已整理结果可直接带入人工核对，无需再次下载或识别；目录及网盘入口不等于已取得手册。具体操作和适用性边界见 [手册导入](manual-import.md)。
+
+通过已登录Portainer更新原 `autovoyage` Stack：API镜像为 `autovoyage-api:038166f`（`d447f4520630`），Web镜像为 `autovoyage-web:038166f`（`713837a79e2a`），两容器均healthy。17项私有环境变量逐项完全一致，Compose只替换两个镜像标签；保留既有数据库、上传卷、网络、API 1 GiB内存限制及IP + 58083访问。镜像回滚目标为API／Web `fbc7d48`，回滚时保留业务库及持久卷，不重新初始化或播种。
+
+部署前于 `2026-11-07T11:33:36.208Z` 只读备份public的22张自有表、415行（包含会话），备份仅保存在本机忽略目录。上线后20张业务／审计表逐对象与备份一致，旧7条发布记录保留并自动新增本版1条，共8条。服务项目25项全部启用、0项停用；车型5、规则7、车辆2、报价9、历史报价版本9、保养记录1、手册任务3、文件11、管理员审计233及消息7均保持。未向正式库导入测试资料。
+
+公网 `/`、`/healthz`、`/api/v1/health`、`/api/v1/config` 均HTTP200，数据库为PostgreSQL，运行版本与本版一致；首页资源为 `assets/index-DMUGEOnd.js`。发布源码的[GitHub Actions检查](https://github.com/gexiaobin/mem-car-information-system/actions/runs/42368627423)在main与开发分支均为success。
+
+正式公网浏览器已对当前选择的2025款思域汽油1.5T CVT执行真实AI查询，取得2份可阅读的官方资料入口：`by_page30.html`保养表与`4d/`同册首页。页面展示29个项目的首次／后续周期、条件、原文摘录、真实来源和“带入核对29项”按钮。原文适用范围为2025款三厢汽油版，但未明确到所选排量、功率及CVT配置，页面保留适用性核对提示；不能将两个同册入口记作两本独立手册。本轮只查询，未带入核对、未导入或发布正式规则。已归档 [官方资料与查询概况](images/manual-v091-manuals-cloud.png)、[AI保养周期表](images/manual-v091-answer-cloud.png)、[自动更新日志](images/manual-v091-updates-cloud.png) 和 [容器健康](images/manual-v091-stack-cloud.png)；完整核验见 [验证记录](verification.md)。
+
+## V0.9.0 历史部署
+
 V0.9.0 **`0.9.0+88ff2b9bb5` 于2026-11-07北京时间16:39:16上线**，源码提交 `fbc7d489a3c8124ae1e2dbc445a050074c2b8bef` 已同步 `main` 与 `codex/autovoyage-mvp`。保养工作区改为AI查找／图片识别两入口，资料和规则围绕当前车型，AI预填可选信息，核对后一次保存发布。开放搜索不局限固定网站，资料适用性仍需核对；操作及实际验证范围见 [手册导入](manual-import.md) 和 [验证记录](verification.md)。
 
 通过已登录Portainer UI上传已扫描的源码归档构建API `autovoyage-api:fbc7d48`（`25da20552ed8`）、Web `autovoyage-web:fbc7d48`（`0d1e510e1698`），两容器均healthy。归档与本地构建的源码摘要一致，未包含实际秘密值、私密配置或上传文件；17项环境变量逐项一致，Compose只替换两个镜像标签，数据库、上传卷、网络、API 1 GiB内存与IP + 58083访问沿用。镜像回滚目标为API／Web `1d05966`，保留业务库和持久卷。
