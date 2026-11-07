@@ -26,13 +26,15 @@ React + TypeScript 车主 H5 / 管理 Web，Node.js + Fastify 统一 API，Postg
 
 初始课程数据包括迈腾、海豹演示车型，以及演示规则、门店、价格与记录；公网后来新增的业务资料在本次更新中保留。公开候选目录预置 **3,829 个车系名称、36,754 条完整配置和 25 个通用服务项目**；有配置的车系共2,390个、涉及221个品牌名称。V0.8.1 新增7,573条来源配置，2020年以后共7,520条，覆盖1,000个车系、126个品牌；其中2024款2,600条、2025款2,018条、2026款150条。海狮06已有2025款6条、2026款9条；迈腾、凯美瑞、理想、问界及其他近年车系均有来源记录。原MIT历史数据仍明确为1999–2019年款，不能将大批历史记录等同于近期覆盖。各来源仍有年款断档，不代表全品牌、全配置或全部当前在售；只有选择后才导入业务档案，保养范围仍待手册核对。许可、清洗及实际年份见 [现代数据](docs/vehicle-variants-modern.md)、[比亚迪补充](docs/vehicle-variants-byd-recent.md)、[热点车系](docs/vehicle-variants-latest.md)。
 
-V0.8.6 将此前120项参考目录收敛为25项通用保养候选，保留来源及历史ID兼容。细分维修不再出现在参考选择列表；已有启用业务项目仍可用于手册关联，无法匹配时留空。既有目录通过只读预览、快照及事务执行可恢复停用，保护自定义、人工编辑和业务引用。服务名称不自带周期、价格或车型关系。来源、精简与恢复操作见 [公开目录](docs/public-catalog.md) 和 [来源说明](docs/public-catalog-sources.md)。
+V0.8.6 将此前120项参考目录收敛为25项通用保养候选，保留来源及历史ID兼容。细分维修不再出现在参考选择列表；已有启用业务项目仍可用于手册关联，无法匹配时留空。最初通过只读预览、快照及事务停用旧细分项目，随后按用户要求清空重建为25项通用业务项目；两种维护流程均见 [公开目录](docs/public-catalog.md)。服务名称不自带周期、价格或车型关系，来源见 [来源说明](docs/public-catalog-sources.md)。
 
 车主与管理端均可打开“系统更新日志”。构建自动生成 `基础版本+源码摘要` 版本，API 首次成功监听时写入数据库；相同构建重启、回滚复用原记录。发布者可维护 `release.config.json` 中的功能说明；没有新说明的源码更新也会按变更模块生成摘要。机制、编辑步骤及接口见 [系统更新日志](docs/system-releases.md)。
 
-当前版本 **V0.8.6 `0.8.6+1fecfe24f9` 已于2026-11-07北京时间15:11上线**。通用参考库精简为25项；正式业务目录保留30项启用、93项可恢复停用，已有规则、报价和手册草稿引用完整保留。112项完整回归、32项目录／手册及5项精简执行器真实PostgreSQL专项通过，API／Web均healthy，自动新增本版更新日志。见 [精简后的列表](docs/images/common-service-simplified-cloud.png)、[25项通用库](docs/images/common-service-general-catalog-cloud.png)、[更新日志](docs/images/common-service-simplified-updates-cloud.png) 和 [完整验证记录](docs/verification.md)。
+当前运行版本仍为 **V0.8.6 `0.8.6+1fecfe24f9`**，于2026-11-07北京时间15:11上线。随后按用户要求，于北京时间15:40执行正式目录重建：**旧123项全部清除，重新导入25项通用标准服务，25项启用、0项停用**。可等价的规则、报价和保养记录迁移保留；获准清理2条演示规则、12条演示报价及12条历史报价版本。5个车型、2辆车、3份手册、11个文件和1条保养记录保留；2行未选检查草稿解除关联并保留原文。本次为数据维护，无需重新部署，也未新增软件发布日志；正式库逐对象比对、幂等及公网验收已通过，见 [当前列表](docs/images/general-service-reset-cloud.png) 和 [完整验证记录](docs/verification.md)。
 
-历史版本 **V0.8.5 `0.8.5+2be7c67710` 已于2026-11-05北京时间19:20上线**。当时参考目录120项、13分类，正式补入后业务目录123项；该数量已由V0.8.6精简。原项目未删除，保留历史验收：[正式补入截图](docs/images/common-service-import-cloud.png)、[分类列表](docs/images/common-service-projects-cloud.png) 与 [更新日志](docs/images/common-service-updates-cloud.png)。
+V0.8.6发布时的历史验收为30项启用、93项停用，112项完整回归、32项目录／手册及5项精简执行器真实PostgreSQL专项通过，API／Web均healthy，自动新增本版更新日志。历史证据保留：[精简后的列表](docs/images/common-service-simplified-cloud.png)、[25项通用库](docs/images/common-service-general-catalog-cloud.png)、[更新日志](docs/images/common-service-simplified-updates-cloud.png)。重建执行器另经116项完整回归、PGlite与真实PostgreSQL各4项专项以及535行正式备份全量隔离演练验证。
+
+历史版本 **V0.8.5 `0.8.5+2be7c67710` 已于2026-11-05北京时间19:20上线**。当时参考目录120项、13分类，正式补入后业务目录123项；V0.8.6上线时先通过停用精简，后于2026-11-07按用户要求清空重建为上述25项。保留历史验收：[正式补入截图](docs/images/common-service-import-cloud.png)、[分类列表](docs/images/common-service-projects-cloud.png) 与 [更新日志](docs/images/common-service-updates-cloud.png)。
 
 历史版本 **V0.8.4 `0.8.4+22d57176e5` 已于2026-11-05北京时间18:43上线**：手册草稿可按原文批量补全空白首次保养、自动关联已有或参考标准项目，并按车型整理真实公开手册候选；车型卡片支持查看本车型规则和删除未被引用的条目。101项回归、真实PostgreSQL专项及真实公开检索／AI排序验证通过，两容器均healthy，原业务数据核对保留，自动生成本版更新日志。已有首次值、人工映射及业务引用保留，查询不会自动生成或发布保养周期。公网汽油版凯美瑞查询中出现双擎手册候选，页面明确年款动力尚未确认，不能当作适用手册。使用方式与限制见 [手册导入](docs/manual-import.md)；公网证据：[车型规则筛选](docs/images/manual-model-rules-cloud.png)、[AI候选查询](docs/images/manual-ai-search-cloud.png)、[更新日志](docs/images/manual-tools-cloud-updates.png)，详细结果见 [验证记录](docs/verification.md)。
 
