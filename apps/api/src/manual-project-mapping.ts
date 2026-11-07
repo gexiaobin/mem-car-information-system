@@ -1,5 +1,5 @@
 import type { CatalogProject, MaintenanceAction, ManualRuleDraft, Project } from "@autovoyage/shared";
-import { catalogProjects } from "./data/public-catalog.js";
+import { catalogProjects, generalCatalogProjects } from "./data/public-catalog.js";
 
 const actionWords: Record<MaintenanceAction, string[]> = {
   inspect: ["检查", "检测", "检验"], replace: ["更换", "替换"],
@@ -40,7 +40,7 @@ export function standardProjectAction(project: Project, references: CatalogProje
   return actions.size === 1 ? [...actions][0]! : null;
 }
 
-export function autoMapManualProjects(rows: ManualRuleDraft[], projects: Project[], references: CatalogProject[] = catalogProjects): ManualRuleDraft[] {
+export function autoMapManualProjects(rows: ManualRuleDraft[], projects: Project[], references: CatalogProject[] = generalCatalogProjects): ManualRuleDraft[] {
   // Existing imported projects and reference-only choices can point to the same
   // eventual project. Reserve/count that semantic target once, regardless of
   // which kind of ID a row currently holds.

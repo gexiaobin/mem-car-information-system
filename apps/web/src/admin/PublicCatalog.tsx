@@ -201,9 +201,9 @@ export default function PublicCatalog({ kind, models, projects, onRefresh, onClo
   }
 
   return <dialog ref={ref} className="ad-dialog pc-dialog" aria-labelledby="pc-title" onCancel={event => { event.preventDefault(); close(); }}>
-    <header className="ad-dialog-head"><div><span className="pc-eyebrow">PUBLIC RESOURCE LIBRARY</span><h2 id="pc-title">{isModels ? '公开车型库' : '参考服务项目库'}</h2><p>{isModels ? '选择车系、实际年款与完整配置，创建车型档案。' : '选择常见保养项目，建立统一的服务目录。'}</p></div><button className="ad-icon-button" type="button" onClick={close} disabled={busy} aria-label="关闭公开资源目录"><X size={20} /></button></header>
+    <header className="ad-dialog-head"><div><span className="pc-eyebrow">PUBLIC RESOURCE LIBRARY</span><h2 id="pc-title">{isModels ? '公开车型库' : '通用服务项目库'}</h2><p>{isModels ? '选择车系、实际年款与完整配置，创建车型档案。' : '精选日常保养项目，按实际需要选择导入。'}</p></div><button className="ad-icon-button" type="button" onClick={close} disabled={busy} aria-label="关闭公开资源目录"><X size={20} /></button></header>
     <div className="ad-dialog-body pc-body">
-      <div className="pc-intro"><span>{isModels ? <CarFront size={23} /> : <Wrench size={23} />}</span><p>{isModels ? '可先按实际年款筛选有配置资料的车系。每个车系会标明已收录年份；未列出的年款表示资料尚未收录，可按车辆资料手动补充。保养范围仍需按对应手册核对。' : '项目名称与操作参考公开保养资料整理。每个项目的适用车型、周期与报价，请在手册和门店服务中分别配置。'}</p></div>
+      <div className="pc-intro"><span>{isModels ? <CarFront size={23} /> : <Wrench size={23} />}</span><p>{isModels ? '可先按实际年款筛选有配置资料的车系。每个车系会标明已收录年份；未列出的年款表示资料尚未收录，可按车辆资料手动补充。保养范围仍需按对应手册核对。' : '收录机油机滤、滤芯、制动、轮胎、电气与新能源检查等通用项目。适用车型、保养周期与报价，请依据对应车型手册和门店服务配置；特殊项目可手动新增。'}</p></div>
       {result && <div role={result.error ? 'alert' : 'status'} className={`pc-result ${result.error ? 'pc-result-error' : ''}`}>{result.error ? <AlertCircle size={18} /> : <CheckCircle2 size={18} />}<p>{result.text}</p></div>}
       {skippedProjects.length > 0 && <section className="pc-conflicts" aria-label="待核对的服务项目"><h3>以下项目已跳过，请核对后单独处理</h3><ul>{skippedProjects.map(item => <li key={item.catalogId}><strong>{item.name}</strong><span>{item.reason}</span></li>)}</ul></section>}
       <form className={`pc-filters ${isModels ? 'pc-model-filters' : ''}`} onSubmit={search}>

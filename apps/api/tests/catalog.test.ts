@@ -10,7 +10,7 @@ import { createApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { get, list, put } from "../src/db.js";
 import { maintenanceFor } from "../src/domain.js";
-import { catalogModels, catalogProjects, catalogSources, catalogVersion, catalogVariants, variantsByModel } from "../src/data/public-catalog.js";
+import { catalogModels, catalogProjects, generalCatalogProjects, catalogSources, catalogVersion, catalogVariants, variantsByModel } from "../src/data/public-catalog.js";
 import { autoMapManualProjects, manualProjectSubject, standardProjectAction } from "../src/manual-project-mapping.js";
 
 const origin = "http://localhost:5173";
@@ -213,7 +213,14 @@ test("catalog year and availability filters disclose actual coverage without inv
 });
 
 test("service templates are searchable by category and retain action and source distinctions", async () => {
-  const entry = catalogProjects[0];
+  const directory = await call("admin", "GET", "/admin/catalog/projects");
+  assert.equal(directory.statusCode, 200, directory.body);
+  const page = directory.json<CatalogProjectsResponse>();
+  assert.equal(page.total, 25);
+  assert.deepEqual(page.items.map(project => project.id), generalCatalogProjects.map(project => project.id));
+  assert(!page.categories.includes("diagnosis"));
+  assert.equal((await call("admin", "GET", "/admin/catalog/projects?q=正时皮带")).json<CatalogProjectsResponse>().total, 0);
+  const entry = generalCatalogProjects[0];
   const response = await call("admin", "GET", `/admin/catalog/projects?category=${encodeURIComponent(entry.category)}&q=${encodeURIComponent(entry.name)}`);
   assert.equal(response.statusCode, 200, response.body);
   const result = response.json<CatalogProjectsResponse>();
@@ -437,7 +444,7 @@ test("fluid and chemical nouns do not masquerade as cleaning or lubrication oper
   const imported: Project = { ...entry, active: true, catalogSource: { catalogId: entry.id, version: "test", sources: [], importedAt: "2026-01-01T00:00:00.000Z" } };
   assert.equal(standardProjectAction(imported), "other");
   const base: ManualRuleDraft = { id: "chemical-noun", name: entry.name, action: "other", projectId: null, catalogProjectId: null, createProject: false, include: true, triggerType: "as_needed", firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null, mileageType: "total_km", condition: "合成检查结果，需要时处理", notes: "合成测试", sourceText: "合成测试", pageNumbers: [1] };
-  assert.equal(autoMapManualProjects([base], [])[0]?.catalogProjectId, entry.id);
+  assert.equal(autoMapManualProjects([base], [], catalogProjects)[0]?.catalogProjectId, entry.id);
   for (const component of ["清洗液", "润滑油", "润滑脂", "清洁剂"]) {
     assert.equal(manualProjectSubject(`检查${component}`), component);
     const project: Project = { id: `chemical-${component}`, code: `SYNTHETIC_${component}`, name: `检查${component}`, category: "合成检查", description: "合成检查项目", unit: "次", active: true };

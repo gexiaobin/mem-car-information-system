@@ -7,7 +7,7 @@ import type { Context } from "./context.js";
 import { roles, route } from "./context.js";
 import { list, put } from "./db.js";
 import { audit, ensure, id, now } from "./domain.js";
-import { catalogModels, catalogProjects, catalogSources, catalogVersion, catalogYears, variantsById, variantsByModel, yearsByModel } from "./data/public-catalog.js";
+import { catalogModels, catalogProjects, generalCatalogProjects, catalogSources, catalogVersion, catalogYears, variantsById, variantsByModel, yearsByModel } from "./data/public-catalog.js";
 import { manualProjectSubject, standardProjectAction } from "./manual-project-mapping.js";
 
 export const catalogText = (value: string) => value.normalize("NFKC").toLowerCase().replace(/\s+/gu, "");
@@ -67,10 +67,10 @@ export function registerCatalog({ app, db }: Context) {
   app.get(route("/admin/catalog/projects"), async request => {
     roles(request, ["platform_admin"]);
     const query = z.object({ q: queryText, category: queryText }).parse(request.query);
-    const items = catalogProjects.filter(project => (!query.category || project.category === query.category) && matches(query.q, project.code, project.name, project.category, project.description));
+    const items = generalCatalogProjects.filter(project => (!query.category || project.category === query.category) && matches(query.q, project.code, project.name, project.category, project.description));
     const response: CatalogProjectsResponse = {
-      items, total: items.length, categories: [...new Set(catalogProjects.map(project => project.category))].sort(),
-      sources: sourcesFor([...new Set(catalogProjects.flatMap(project => project.sourceIds))]), version: catalogVersion,
+      items, total: items.length, categories: [...new Set(generalCatalogProjects.map(project => project.category))].sort(),
+      sources: sourcesFor([...new Set(generalCatalogProjects.flatMap(project => project.sourceIds))]), version: catalogVersion,
     };
     return response;
   });

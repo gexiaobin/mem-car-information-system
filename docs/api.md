@@ -141,13 +141,13 @@ PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `man
 | --- | --- |
 | `GET /admin/catalog/models` | `q`、`brand`、`year`、`availableOnly` 可选；`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,offset,limit,brands,years,sources,version`；每个车系含 `variantCount`、`years`。品牌筛选为精确匹配，搜索忽略大小写、空白及全半角差异 |
 | `GET /admin/catalog/models/:id/variants` | 所选车系的实际配置；可选 `year`、`power`、`q`，`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,years,powers,sources,version,offset,limit` |
-| `GET /admin/catalog/projects` | `q`、`category` 可选。返回 `items,total,categories,sources,version`，项目含 `action` 和参考来源 IDs |
+| `GET /admin/catalog/projects` | `q`、`category` 可选，仅提供 25 项通用服务候选，筛选后返回 `items,total,categories,sources,version`，项目含 `action` 和参考来源 IDs |
 | `POST /admin/catalog/models/import` | 选择配置：`{ "catalogId": "车系候选ID", "variantId": "公开配置ID" }`；人工补充：`{ "catalogId": "车系候选ID", "year": 2024, "power": "管理员核对的实际动力与配置" }`。两种请求不能混用；返回 `{model,created}` |
 | `POST /admin/catalog/projects/import` | `{ "catalogIds": ["目录条目ID"], "skipConflicts": true }`，1–200 条，重复 ID 去重。`skipConflicts` 可省略，默认 `false`；返回 `{projects,created,existing}`，设为 `true` 时另含 `skipped` |
 
 车系列表的 `year` 为可选的 1950–2100 整数，只返回已收录该年款配置的车系。`availableOnly` 只接受查询字符串 `true` 或 `false`，API 默认 `false`，保留可供人工补充的无配置车系；前端车型库默认传 `true`。设为 `true` 时按各车系最新已收录年款降序排列，同年按品牌及车系名称排列；`year` 过滤与其他条件同时生效，不会为缺失年款生成配置。
 
-列表响应顶层 `years: number[]` 是**整个目录**实际配置的去重年款，降序排列，不随品牌、关键词、年款或可用性筛选收窄。每个 `items` 条目的 `years: number[]` 是该车系全部已收录年款，降序排列；无配置为 `[]`。`variantCount` 是该车系全部配置数量，不是当前所选年款的数量。共享类型 `CatalogModel.years` 和 `CatalogModelsResponse.years` 保持可选，以兼容旧响应；当前服务端均返回这两个字段。目录版本为 `2026-11-05.1`。
+列表响应顶层 `years: number[]` 是**整个目录**实际配置的去重年款，降序排列，不随品牌、关键词、年款或可用性筛选收窄。每个 `items` 条目的 `years: number[]` 是该车系全部已收录年款，降序排列；无配置为 `[]`。`variantCount` 是该车系全部配置数量，不是当前所选年款的数量。共享类型 `CatalogModel.years` 和 `CatalogModelsResponse.years` 保持可选，以兼容旧响应；当前服务端均返回这两个字段。目录版本为 `2026-11-07.1`。
 
 `CatalogVariant` 含 `id`、`modelCatalogId`、`year`、`power`、`trim`、`sourceId`、`sourceEvidence`，以及可选 `manufacturer`。其中 `year` 是来源明确载明的车型年款，`power` 为动力事实，`trim` 为具体配置名称，`sourceEvidence` 保留该条配置的原文依据。年款、动力和配置来自同一条来源记录，不能任意组合。历史开源配置、现代车型公开数据与官网事实分别记录来源、版本和查阅日期，不代表当前在售或全市场覆盖；新增数据说明见 [现代车型来源](vehicle-variants-modern.md) 及 [比亚迪近期配置来源](vehicle-variants-byd-recent.md)。
 
@@ -158,6 +158,10 @@ PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `man
 同候选、年款及归一化动力配置，或同品牌、名称、年款及动力的档案可幂等复用。普通车型新增／修改与候选导入共用表锁及身份重复检查。
 
 参考项目优先按候选来源、编码或归一化名称复用，再复用部件相同、操作相同且唯一的同义项目；保留已有描述、来源、启停状态及其他编辑。部件相同但动作未知或存在多义候选时不新增副本；故障诊断不参与周期保养项目的语义匹配。默认 `skipConflicts=false`，编码等冲突返回409并整批回滚；设为 `true` 时提交可安全新增或复用的条目，并返回 `skipped: { catalogId: string; name: string; reason: string }[]`，无冲突时为 `[]`。`created` 为新增数，`existing` 为复用数，`projects` 仅含成功新增或复用结果，跳过项不计入成功数。不存在的候选仍返回 `CATALOG_ENTRY_NOT_FOUND`，整批不写入。未知字段不能通过导入请求夹带来源、保养规则或演示标记。
+
+参考服务查询收窄为 25 项常见保养服务；旧版 120 项的已知 ID 仍由导入接口兼容，以保留既有草稿和来源。手册自动关联仍可匹配已有启用业务项目，新候选模板只从 25 项通用目录选择；无法明确关联时继续留空供人工核对。目录更新本身不会批量停用业务项目。
+
+标准服务列表通过现有 `bootstrap` 项目数据在客户端筛选**启用／已停用／全部**，默认启用，无新增状态查询接口。停用项仍可通过现有 `PATCH /admin/projects/:id` 将 `active` 改回 `true`。运维 CLI `scripts/simplify-service-projects.ts` 默认只读预览，显式 `--apply` 才停用未修改、无业务引用且来源版本为 `2026-11-05.1` 的非通用导入项目；它不是 REST 接口。计划摘要、原始快照和恢复操作见 [精简已有服务目录](public-catalog.md#精简已有服务目录)。
 
 `DELETE /admin/models/:id` 仅平台管理员可用，成功返回 `{ "deleted": true, "id": "车型ID" }`。事务先锁定车型并检查车辆、报价、历史报价、规则和手册任务引用；任一引用返回409／`MODEL_IN_USE`，不存在返回404，不级联删除业务依据。界面的“查看规则”按所选 `modelId` 精确过滤并切到规则页，清除后恢复全部，不新增读取权限或改写规则。
 

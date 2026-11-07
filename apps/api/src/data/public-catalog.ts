@@ -14,7 +14,7 @@ import bydVariantData from "./catalog-variants-byd-recent.json" with { type: "js
 import latestVariantData from "./catalog-variants-latest.json" with { type: "json" };
 
 // Versioned, bundled snapshots: browsing the catalog never depends on a third-party request.
-export const catalogVersion = "2026-11-05.1";
+export const catalogVersion = "2026-11-07.1";
 const label = z.string().trim().min(1);
 export const catalogSources: CatalogSource[] = z.array(z.object({
   id: label, title: label, url: z.url(), license: label, revision: label,
@@ -29,6 +29,21 @@ export const catalogProjects: CatalogProject[] = z.array(z.object({
   action: z.enum(["inspect", "replace", "clean", "lubricate", "other"]),
   sourceIds: z.array(label).min(1),
 })).parse(projectData);
+// Keep older IDs available for saved drafts and existing provenance, while the
+// selectable directory stays focused on everyday maintenance services.
+const generalProjectIds = [
+  "ref-engine-oil-filter", "ref-engine-air-filter", "ref-spark-plug", "ref-fuel-filter", "ref-cabin-filter",
+  "ref-brake-fluid-replace", "ref-brake-pad-disc", "ref-brake-pad-replace",
+  "ref-tire-pressure", "ref-tire-rotation", "ref-wheel-balance", "ref-wheel-alignment", "ref-tire-replace", "ref-suspension",
+  "ref-coolant-level", "ref-engine-coolant-replace", "ref-automatic-transmission-fluid", "ref-cvt-fluid", "ref-dct-fluid",
+  "ref-low-voltage-battery", "ref-low-voltage-battery-replace", "ref-wiper-replace", "ref-ac-system-clean",
+  "ref-charge-connector", "ref-traction-battery-health",
+];
+export const generalCatalogProjects: CatalogProject[] = generalProjectIds.map(id => {
+  const entry = catalogProjects.find(project => project.id === id);
+  if (!entry) throw new Error(`Missing general service template: ${id}`);
+  return entry;
+});
 export const catalogVariants: CatalogVariant[] = z.array(z.object({
   id: label.max(200), modelCatalogId: label, year: z.number().int().min(1950).max(2100),
   power: label.max(200), trim: label.max(200), sourceId: label,

@@ -31,8 +31,17 @@ test("automatic mapping uses exact component aliases and matching actions, then 
   assert.equal(reference.catalogProjectId, "ref-spark-plug");
   assert.equal(reference.createProject, false);
   const inspection = autoMapManualProjects([row({ name: "刹车液", action: "inspect" })], [])[0]!;
-  assert.equal(inspection.catalogProjectId, "ref-brake-fluid-inspection");
+  assert.equal(inspection.catalogProjectId, null);
   assert.equal(autoMapManualProjects([row({ name: "轮胎换位", action: "other" })], [])[0]?.catalogProjectId, "ref-tire-rotation");
+});
+
+test("specialized references stay empty by default while existing services and saved choices remain usable", () => {
+  const specialized = row({ name: "检查制动液", action: "inspect" });
+  const existing = project({ id: "saved-inspection", name: "检查制动液" });
+  assert.equal(autoMapManualProjects([specialized], [])[0]?.catalogProjectId, null);
+  assert.equal(autoMapManualProjects([specialized], [existing])[0]?.projectId, existing.id);
+  const saved = { ...specialized, catalogProjectId: "ref-brake-fluid-inspection" };
+  assert.deepEqual(autoMapManualProjects([saved], []), [saved]);
 });
 
 test("uncertain, disabled, mixed-action, duplicate and substring matches remain empty", () => {
