@@ -2,6 +2,18 @@
 
 ## 当前部署选择
 
+V0.9.2 **`0.9.2+3e822546b3` 于2026-11-07北京时间20:41:55上线**，首次成功启动时间为 `2026-11-07T12:41:55.925Z`，发布源码为 `b082863e102087d3f81df7c31fc9785be2426f65`。本版补充独立机油／机滤参考项目，分别显示原文证据、标准项目关联及本次选择；旧待核对草稿可以直接重新关联，不重跑AI。目录为27项候选，正式业务项目不会因升级自动增加，具体操作和限制见 [手册导入](manual-import.md)。
+
+通过已登录Portainer更新原 `autovoyage` Stack：API镜像为 `autovoyage-api:b082863`（`60ba961fb835`），Web镜像为 `autovoyage-web:b082863`（`39ec37b86f2f`），两容器均healthy。17项私有环境变量逐项完全一致，Compose仅替换两个镜像标签；沿用数据库、上传卷、网络、API 1 GiB内存限制及IP + 58083端口。回滚目标为API `autovoyage-api:038166f`（`d447f4520630`）及Web `autovoyage-web:038166f`（`713837a79e2a`），保留业务库及持久卷，不重新初始化或播种。
+
+部署前于 `2026-11-07T12:34:51.868Z` 只读备份public的22张自有表、422行（包含会话），仅保存于本机忽略目录。部署完成后，除会话与发布记录外，20张业务／审计表与备份逐对象完全一致；旧8条发布记录保留，自动新增本版1条，共9条。
+
+随后在正式浏览器只对2025款思域的29行待核对草稿点击一次“重新自动关联标准项目”：关联数5→7，增加独立机油／机滤的两处参考关联；原文6／12个月、condition及include=false保持，仍22行待处理，没有发布规则。该草稿revision由1变为2，更新时间更新，并新增1条 `manual.projects.matched` 审计；额外只读比对确认其余数据完全一致。最终正式项目25项全部启用、0项停用，车型5、规则7、车辆2、报价9、报价版本9、保养记录1、手册4、文件14、审计235及消息7。升级及这次重新关联均未创建正式服务项目，也未运行精简或清空重建CLI。
+
+公网 `/`、`/healthz`、`/api/v1/health`、`/api/v1/config` 均HTTP200，精确版本与本版一致，首页资源为 `assets/index-CqoN6mAg.js`。发布源码的[main检查](https://github.com/gexiaobin/mem-car-information-system/actions/runs/42373092256)与[开发分支检查](https://github.com/gexiaobin/mem-car-information-system/actions/runs/42373092242)均success。公网证据：[机油／机滤关联结果](images/manual-v092-matching-cloud.png)、[本版更新日志](images/manual-v092-updates-cloud.png)、[两容器健康](images/manual-v092-stack-cloud.png)；本地、真实PostgreSQL与正式数据核对范围见 [验证记录](verification.md)。
+
+## V0.9.1 历史部署
+
 V0.9.1 **`0.9.1+b493fefab7` 于2026-11-07北京时间19:34:30上线**，首次成功启动时间为 `2026-11-07T11:34:30.268Z`，发布源码为 `038166f9ab6a81b8797c9af2bc98344b09c0ccdc`。本版AI查找直接读取取得的真实手册原文并展示原文链接、适用说明和保养周期表，已整理结果可直接带入人工核对，无需再次下载或识别；目录及网盘入口不等于已取得手册。具体操作和适用性边界见 [手册导入](manual-import.md)。
 
 通过已登录Portainer更新原 `autovoyage` Stack：API镜像为 `autovoyage-api:038166f`（`d447f4520630`），Web镜像为 `autovoyage-web:038166f`（`713837a79e2a`），两容器均healthy。17项私有环境变量逐项完全一致，Compose只替换两个镜像标签；保留既有数据库、上传卷、网络、API 1 GiB内存限制及IP + 58083访问。镜像回滚目标为API／Web `fbc7d48`，回滚时保留业务库及持久卷，不重新初始化或播种。

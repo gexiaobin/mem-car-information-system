@@ -77,11 +77,11 @@
 
 `GET /admin/manual-sources?modelId=...` 只返回来源入口，不发外部请求；显式附加 `discover=true` 才按品牌／车系开放查询通用保养手册和周期表，返回具体候选和补充目录，不局限固定网站。候选仍需核对年款、动力和市场版本；查询结果不是文件已下载或已适用的证明。
 
-V0.9.1工作区使用异步直接回答。`POST /admin/manual-imports/ai-answer` 接收严格JSON `{ "modelId": "准确车型ID", "consent": true }`，仅平台管理员可用，初次返回202及任务；同用户、同车型身份的有效缓存可返回200。任务字段为 `id,modelId,status,message,createdAt,updatedAt`，通过 `GET /admin/manual-imports/ai-answer/:id` 轮询；阶段为 `searching → reading → organizing → completed`，异常为 `failed`。排队只运行一个读取／AI任务，最多3个未完成任务，每分钟最多4次创建请求。
+V0.9.1起工作区使用异步直接回答。`POST /admin/manual-imports/ai-answer` 接收严格JSON `{ "modelId": "准确车型ID", "consent": true }`，仅平台管理员可用，初次返回202及任务；同用户、同车型身份的有效缓存可返回200。任务字段为 `id,modelId,status,message,createdAt,updatedAt`，通过 `GET /admin/manual-imports/ai-answer/:id` 轮询；阶段为 `searching → reading → organizing → completed`，异常为 `failed`。排队只运行一个读取／AI任务，最多3个未完成任务，每分钟最多4次创建请求。
 
 完成任务附带 `result`：`query,sources,summary,warnings,aiStatus,searchedAt,evidenceMode`，其中 `evidenceMode=document_reading`；`answer` 含 `status=ready|partial|not_found`、`title,summary,applicability,edition,sourceTitle,sourceUrl,manuals,rows,warnings`。`manuals` 只包含实际读取的资料，`rows` 使用既有 `ManualRuleDraft` 结构。下载失败、只有目录、AI失败或没有有效项目都不生成周期；已读取的原文链接在AI失败时仍可查看。实际HTML表格在提取文本前保留空列和合并表头，避免打点错列。来源限定不是由自定义AI凭空联网决定，服务端先真实检索／获取字节，再把证据交给模型。
 
-V0.9.2源码新增可选的只读 `mappingDiagnostics`：可出现在 `ManualImport.mappingDiagnostics` 及AI查询的 `result.answer.mappingDiagnostics`，逐行解释标准项目关联，不混入 `rows`。其结构为：
+已上线的V0.9.2新增可选的只读 `mappingDiagnostics`：可出现在 `ManualImport.mappingDiagnostics` 及AI查询的 `result.answer.mappingDiagnostics`，逐行解释标准项目关联，不混入 `rows`。其结构为：
 
 ```ts
 { rowId: string; status: 'matched' | 'unmapped' | 'conflict'; code: string; message: string; targetName?: string }[]
@@ -210,7 +210,7 @@ V0.9工作区一次发布使用 `POST /admin/manual-imports/:id/publish`，把�
 | --- | --- |
 | `GET /admin/catalog/models` | `q`、`brand`、`year`、`availableOnly` 可选；`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,offset,limit,brands,years,sources,version`；每个车系含 `variantCount`、`years`。品牌筛选为精确匹配，搜索忽略大小写、空白及全半角差异 |
 | `GET /admin/catalog/models/:id/variants` | 所选车系的实际配置；可选 `year`、`power`、`q`，`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,years,powers,sources,version,offset,limit` |
-| `GET /admin/catalog/projects` | `q`、`category` 可选，V0.9.2源码提供27项通用服务候选，筛选后返回 `items,total,categories,sources,version`，项目含 `action` 和参考来源 IDs |
+| `GET /admin/catalog/projects` | `q`、`category` 可选，V0.9.2提供27项通用服务候选，筛选后返回 `items,total,categories,sources,version`，项目含 `action` 和参考来源 IDs |
 | `POST /admin/catalog/models/import` | 选择配置：`{ "catalogId": "车系候选ID", "variantId": "公开配置ID" }`；人工补充：`{ "catalogId": "车系候选ID", "year": 2024, "power": "管理员核对的实际动力与配置" }`。两种请求不能混用；返回 `{model,created}` |
 | `POST /admin/catalog/projects/import` | `{ "catalogIds": ["目录条目ID"], "skipConflicts": true }`，1–200 条，重复 ID 去重。`skipConflicts` 可省略，默认 `false`；返回 `{projects,created,existing}`，设为 `true` 时另含 `skipped` |
 
@@ -228,7 +228,7 @@ V0.9工作区一次发布使用 `POST /admin/manual-imports/:id/publish`，把�
 
 参考项目优先按候选来源、编码或归一化名称复用，再复用部件相同、操作相同且唯一的同义项目；保留已有描述、来源、启停状态及其他编辑。部件相同但动作未知或存在多义候选时不新增副本；故障诊断不参与周期保养项目的语义匹配。默认 `skipConflicts=false`，编码等冲突返回409并整批回滚；设为 `true` 时提交可安全新增或复用的条目，并返回 `skipped: { catalogId: string; name: string; reason: string }[]`，无冲突时为 `[]`。`created` 为新增数，`existing` 为复用数，`projects` 仅含成功新增或复用结果，跳过项不计入成功数。不存在的候选仍返回 `CATALOG_ENTRY_NOT_FOUND`，整批不写入。未知字段不能通过导入请求夹带来源、保养规则或演示标记。
 
-V0.9.2源码目录版本为 `2026-11-07.2`，参考服务查询在原25项上补入 `ref-engine-oil-only` 和 `ref-engine-oil-filter-only`，共27项，分别表示独立机油更换和独立机滤更换。旧组合 `ref-engine-oil-filter` 继续表示同时更换机油及机滤，不能用来代替只有其中一个部件的来源行，也不能将机油6个月和机滤12个月合并。旧版120项的已知ID继续兼容以保留既有草稿和来源。自动关联的新候选来自27项通用目录，也可匹配既有启用业务项目；无法明确对应时留空供核对。目录扩充不会自动新增、停用或重建正式项目；仅明确目录导入，或确认发布选中的参考行时，才创建或安全复用对应业务项目。
+V0.9.2已上线，目录版本为 `2026-11-07.2`，参考服务查询在原25项上补入 `ref-engine-oil-only` 和 `ref-engine-oil-filter-only`，共27项，分别表示独立机油更换和独立机滤更换。旧组合 `ref-engine-oil-filter` 继续表示同时更换机油及机滤，不能用来代替只有其中一个部件的来源行，也不能将机油6个月和机滤12个月合并。旧版120项的已知ID继续兼容以保留既有草稿和来源。自动关联的新候选来自27项通用目录，也可匹配既有启用业务项目；无法明确对应时留空供核对。目录扩充不会自动新增、停用或重建正式项目；仅明确目录导入，或确认发布选中的参考行时，才创建或安全复用对应业务项目。
 
 历史精简及重建CLI使用冻结的 `legacyGeneralCatalogProjects` 原25项清单，不能把其目标数量当作当前查询目录27项，也不能为补两个候选重新执行清空重建。历史25项验收记录保持原样。
 
