@@ -230,6 +230,12 @@ test("mixed-year webpage sections remain scoped conditions and cannot borrow the
   assert.match(instructions, /不重复复制完整网页或整张表/);
   assert.match(instructions, /约1500字为宜/);
   assert.match(instructions, /不能为了缩短结果删掉影响周期解释的关键脚注/);
+  assert.match(instructions, /超过表末后以同样的间隔继续保养.*显式重复证据/);
+  assert.match(instructions, /sourceText同时引用该句及本项目单点原表/);
+  assert.match(instructions, /firstKm\/firstMonths.*同样的intervalKm\/intervalMonths/);
+  assert.match(instructions, /通用月周期单列为periodic.*仅适用于具体累计公里检查节点的项目另列condition/);
+  assert.match(instructions, /不能把明确独立的月周期挡在条件项目下/);
+  assert.match(instructions, /严苛工况、配置或版本范围限制下的月份仍须保留同一适用条件/);
   upstreamResponse = completed();
 });
 

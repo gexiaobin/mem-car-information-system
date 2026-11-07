@@ -65,6 +65,7 @@ export async function recognizeManualEvidence(
           return false;
         }) : pages;
         const result = await recognize(config, contextImages, modelDescription, contextTexts, { targetPageNumbers: groups[index] });
+        batchLimit(result.rows.length <= 60 && result.warnings.length <= 30);
         ensure(result.rows.every(row => row.pageNumbers.length && row.pageNumbers.every(number => available.has(number))), 422, 'AI_PAGE_INVALID', '分段识别结果引用了未提供的原文页码');
         const rows = result.rows.filter(row => row.pageNumbers.some(number => target.has(number)));
         const warnings = rows.length === result.rows.length ? result.warnings : [...result.warnings, '分段识别已排除未引用本段目标页的额外项目；完整原文仍供各段核对图例与脚注。'];
@@ -94,6 +95,8 @@ export async function recognizeManualEvidence(
     sourceTitle: titles[0] || '', edition: editions.length === 1 ? editions[0] : '',
     applicability: scopes.join('\n'), sourceExcerpt: unique(completed.map(result => result.sourceExcerpt)).join('\n\n'),
   };
-  batchLimit(merged.rows.length <= 120 && merged.warnings.length <= 30 && merged.warnings.every(warning => warning.length <= 2000) && merged.sourceTitle.length <= 1000 && merged.edition.length <= 500 && merged.applicability.length <= 3000 && merged.sourceExcerpt.length <= 16000);
+  // Each bounded call may provide thirty distinct warnings plus one scope-filter
+  // notice; the merge can add three metadata notices. Preserve all of them.
+  batchLimit(merged.rows.length <= 120 && merged.warnings.length <= groups.length * 31 + 3 && merged.warnings.every(warning => warning.length <= 2000) && merged.sourceTitle.length <= 1000 && merged.edition.length <= 500 && merged.applicability.length <= 3000 && merged.sourceExcerpt.length <= 16000);
   return merged;
 }

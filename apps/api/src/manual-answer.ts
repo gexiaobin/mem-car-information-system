@@ -114,6 +114,20 @@ function groundTextRows(rows: ManualRuleDraft[], files: PreparedFile[]) {
   return { rows: grounded, warnings };
 }
 
+function guardIncompleteRecurrence(rows: ManualRuleDraft[], context: string) {
+  const compact = context.replace(/\s+/g, '').toLowerCase();
+  const continues = /超过最后间隔.{0,60}同样的间隔/.test(compact) || /beyond.{0,100}(?:last|final)interval.{0,100}sameinterval/.test(compact);
+  const warnings: string[] = [];
+  const guarded = rows.map(row => {
+    if (!continues || row.triggerType !== 'periodic' || (row.firstMonths === null && row.firstKm === null) || row.intervalMonths !== null || row.intervalKm !== null) return row;
+    const message = `“${row.name}”仅整理了首次节点，但原文说明表末之后仍按同样间隔保养；后续周期尚未完整提取，已取消默认导入，请核对原表及继续保养说明。`;
+    warnings.push(message);
+    return { ...row, include: false, triggerType: 'condition' as const, conditionThresholdsIndependent: false,
+      condition: [row.condition, '原文要求表末之后继续按同样间隔保养，后续周期尚待核对'].filter(Boolean).join('；') };
+  });
+  return { rows: guarded, warnings };
+}
+
 /** Read public bytes into bounded memory. No file, business row, or draft is written by a query. */
 async function prepareEvidence(source: ManualSource, model: CarModel, dependencies: ManualAnswerDependencies): Promise<PreparedEvidence> {
   const download = dependencies.download || publicDownload;
@@ -268,9 +282,10 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
       ensure(read.rows.every(row => row.sourceText.trim() && row.pageNumbers.length && row.pageNumbers.every(page => available.has(page))), 422, "AI_EVIDENCE_INVALID", "识别结果缺少实际原文依据");
       if (!read.rows.length) { result.answer.failureStage = 'recognition'; result.answer.failureReason = 'ai_unavailable'; warnings.push(`已读取“${source.title}”，但没有提取到有原文依据的保养项目。`); continue; }
       const grounded = groundTextRows(read.rows.map(row => ({ ...row, id: id(), projectId: null, catalogProjectId: null, createProject: false, include: row.triggerType === "periodic" })), evidence.files);
+      const recurrence = guardIncompleteRecurrence(grounded.rows, [...(evidence.textPages || []).map(page => page.text), ...evidence.files.filter(file => file.mimeType === 'text/plain').map(file => file.bytes.toString('utf8'))].join('\n'));
       const projects = await list<Project>(ctx.db, "projects");
-      const rows = autoMapManualProjects(grounded.rows, projects);
-      const answerWarnings = [...warnings, ...read.warnings, ...grounded.warnings];
+      const rows = autoMapManualProjects(recurrence.rows, projects);
+      const answerWarnings = [...warnings, ...read.warnings, ...grounded.warnings, ...recurrence.warnings];
       if (!read.applicability.trim()) answerWarnings.push("已读取资料尚未明确适用车型范围，导入前请对照原文核对年款与动力。");
       if (!read.edition.trim()) answerWarnings.push("原文未注明版本，可留空。");
       const partial = !read.applicability.trim() || rows.some(row => row.triggerType !== "periodic") || answerWarnings.some(warning => /不匹配|尚不能证明|年款冲突|无法确定/.test(warning));

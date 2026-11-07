@@ -161,3 +161,28 @@ test('complete chapter aggregation accepts 61 distinct rows while each recogniti
   ));
   assert.equal(merged.rows.length, 61);
 });
+
+test('complete chapter preserves 33 distinct source warnings and the additional applicability notice', async () => {
+  const allWarnings: string[] = [];
+  const merged = await recognizeManualEvidence(config, images([1, 2, 3, 4, 5, 6]), '车型', [], async (_cfg, _pages, _model, _texts, scope) => {
+    const page = scope!.targetPageNumbers[0];
+    const warnings = Array.from({ length: page === 1 ? 8 : 5 }, (_, index) => `第${page}页原文警告${index}`);
+    allWarnings.push(...warnings);
+    return result([row([page], { name: `部件${page}` })], { warnings, applicability: page === 1 ? '原文2024款汽油版' : '原文另一生产日期范围' });
+  });
+  assert.equal(allWarnings.length, 33);
+  assert.equal(merged.rows.length, 6);
+  assert.equal(merged.warnings.length, 34);
+  assert(allWarnings.every(warning => merged.warnings.includes(warning)), 'no source warning is truncated to the per-call limit');
+  assert.match(merged.warnings[33], /无法确定各段适用范围/);
+});
+
+test('chapter aggregation still rejects a single call exceeding thirty warnings or sixty rows', async () => {
+  const pages = images([1, 2, 3, 4, 5, 6]);
+  await assert.rejects(recognizeManualEvidence(config, pages, '车型', [], async () => result([], {
+    warnings: Array.from({ length: 31 }, (_, index) => `单段警告${index}`),
+  })), errorCode('AI_BATCH_LIMIT'));
+  await assert.rejects(recognizeManualEvidence(config, pages, '车型', [], async (_cfg, _pages, _model, _texts, scope) => result(
+    Array.from({ length: 61 }, () => row(scope!.targetPageNumbers)),
+  )), errorCode('AI_BATCH_LIMIT'));
+});

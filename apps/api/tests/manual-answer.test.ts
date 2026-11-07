@@ -265,6 +265,23 @@ test("readable maintenance text stays usable when it also links several PDF manu
   assert.equal(work.result.answer.sourceUrl, source.url); assert.equal(work.result.answer.rows.length, 1);
 });
 
+test('an explicit continuation beyond the final table interval prevents incomplete first-only defaults', async t => {
+  const service = await harness(t);
+  const row = { ...recognition.rows[0], firstKm: 60000, intervalMonths: null, intervalKm: null };
+  const document = await PDFDocument.create();
+  document.addPage([500, 200]).drawText('Beyond the final interval, continue at the same interval.', { x: 10, y: 100, size: 10 });
+  const pdf = Buffer.from(await document.save());
+  const result = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({
+    download: async url => ({ bytes: pdf, type: 'application/pdf', url }),
+    recognize: async () => ({ ...recognition, rows: [row] }),
+  }));
+  assert.equal(result.result.answer.status, 'partial');
+  const actual = result.result.answer.rows[0];
+  assert.equal(actual.firstKm, 60000); assert.equal(actual.intervalKm, null);
+  assert.equal(actual.include, false); assert.equal(actual.triggerType, 'condition');
+  assert.match(result.result.answer.warnings.join(' '), /后续周期尚未完整提取/);
+});
+
 test("unlocated text quotes and fabricated structured thresholds cannot be offered as grounded periodic rules", async t => {
   const service = await harness(t);
   for (const row of [
