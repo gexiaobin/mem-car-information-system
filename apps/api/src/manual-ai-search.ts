@@ -6,6 +6,7 @@ import { roles, route } from "./context.js";
 import { get } from "./db.js";
 import { ensure, now } from "./domain.js";
 import { discoverManualSources, manualSources, modelManualQueries, validateSourceUrl } from "./manual-sources.js";
+import { registerManualAnswers } from "./manual-answer.js";
 
 type SearchConfig = Pick<Config, "aiBaseUrl" | "aiKey" | "aiModel" | "aiApiStyle" | "aiTimeoutMs">;
 export interface ManualAiSearchResult {
@@ -136,6 +137,7 @@ export async function lookupModelManuals(config: SearchConfig, model: CarModel, 
 }
 
 export function registerManualAiSearch(ctx: Context, dependencies: SearchDependencies = {}) {
+  registerManualAnswers(ctx);
   const pending = new Map<string, Promise<ManualAiSearchResult>>();
   const cache = new Map<string, { expires: number; result: ManualAiSearchResult }>();
   ctx.app.addHook("onClose", async () => { pending.clear(); cache.clear(); });

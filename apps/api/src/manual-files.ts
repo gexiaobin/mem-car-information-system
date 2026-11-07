@@ -23,7 +23,7 @@ interface StoredManualFile {
   name: string; pageNumber: number | null; original: boolean;
   purpose: 'manual'; createdAt: string;
 }
-interface PreparedFile { bytes: Buffer; name: string; mimeType: string; pageNumber: number | null; original: boolean }
+export interface PreparedFile { bytes: Buffer; name: string; mimeType: string; pageNumber: number | null; original: boolean }
 export interface ManualFileResult { files: ManualAsset[]; cleanup: () => Promise<void>; selection?: ManualPageSelection }
 
 /** Physical PDF page numbers, never the printed chapter page number. */
@@ -213,7 +213,7 @@ export async function locateManualPdfPages(buffer: Buffer, range?: string, pageM
   });
 }
 
-async function prepareManualPdfSelection(buffer: Buffer, name: string, range?: string, pageMode: 'auto' | 'manual' = 'auto'): Promise<{ files: PreparedFile[]; selection: ManualPageSelection }> {
+export async function prepareManualPdfSelection(buffer: Buffer, name: string, range?: string, pageMode: 'auto' | 'manual' = 'auto'): Promise<{ files: PreparedFile[]; selection: ManualPageSelection }> {
   ensure(buffer.length <= 32 * MiB, 413, 'MANUAL_TOO_LARGE', 'PDF 不能超过 32 MiB');
   return serializedPdf(async () => {
     let loading: ReturnType<typeof import('pdfjs-dist/legacy/build/pdf.mjs')['getDocument']> | undefined;
@@ -247,7 +247,7 @@ async function prepareManualPdfSelection(buffer: Buffer, name: string, range?: s
 export async function prepareManualPdf(buffer: Buffer, name: string, range?: string, pageMode: 'auto' | 'manual' = 'auto'): Promise<PreparedFile[]> {
   return (await prepareManualPdfSelection(buffer, name, range, pageMode)).files;
 }
-async function prepareImage(buffer: Buffer, name: string, mimeType: string, page: number): Promise<PreparedFile> {
+export async function prepareManualImage(buffer: Buffer, name: string, mimeType: string, page: number): Promise<PreparedFile> {
   ensure(buffer.length <= 8 * MiB, 413, 'MANUAL_IMAGE_TOO_LARGE', '每张手册图片不能超过 8 MiB');
   try {
     const image = sharp(buffer, { limitInputPixels: 40_000_000, animated: false });
@@ -261,7 +261,7 @@ async function prepareImage(buffer: Buffer, name: string, mimeType: string, page
     throw new AppError(400, 'MANUAL_IMAGE_DECODE', '手册图片无法读取，请上传有效的 JPEG、PNG 或 WebP');
   }
 }
-async function persist(ctx: Context, userId: string, prepared: PreparedFile[]): Promise<ManualFileResult> {
+export async function persistPreparedManualFiles(ctx: Context, userId: string, prepared: PreparedFile[]): Promise<ManualFileResult> {
   const saved: StoredManualFile[] = [];
   const cleanup = async () => {
     for (const file of saved) { await remove(ctx.db, 'files', file.id); await unlink(file.path).catch(() => {}); }
@@ -269,7 +269,7 @@ async function persist(ctx: Context, userId: string, prepared: PreparedFile[]): 
   try {
     await mkdir(ctx.config.uploadDir, { recursive: true });
     for (const item of prepared) {
-      const fileId = id(), path = join(ctx.config.uploadDir, `manual-${fileId}.${item.mimeType === 'application/pdf' ? 'pdf' : 'jpg'}`);
+      const fileId = id(), path = join(ctx.config.uploadDir, `manual-${fileId}.${item.mimeType === 'application/pdf' ? 'pdf' : item.mimeType === 'text/plain' ? 'txt' : 'jpg'}`);
       const file: StoredManualFile = { id: fileId, ownerId: userId, path, hash: sha256(item.bytes), mime: item.mimeType, name: item.name, pageNumber: item.pageNumber, original: item.original, purpose: 'manual', createdAt: now() };
       await writeFile(path, item.bytes, { flag: 'wx' });
       saved.push(file);
@@ -286,9 +286,9 @@ export async function ingestManualBuffer(ctx: Context, userId: string, buffer: B
   ensure(pageMode === 'auto' || pageMode === 'manual', 400, 'INVALID_PAGE_MODE', '页码模式必须为 auto 或 manual');
   if (pdf) {
     const prepared = await prepareManualPdfSelection(buffer, name, pageRange, pageMode);
-    return { ...await persist(ctx, userId, prepared.files), selection: prepared.selection };
+    return { ...await persistPreparedManualFiles(ctx, userId, prepared.files), selection: prepared.selection };
   }
-  return { ...await persist(ctx, userId, [await prepareImage(buffer, name, mimeType, 1)]), selection: { mode: 'images', pages: [1], totalPages: null, notice: '图片按上传顺序编号，无需填写 PDF 页码；请包含完整表格、图例与脚注。' } };
+  return { ...await persistPreparedManualFiles(ctx, userId, [await prepareManualImage(buffer, name, mimeType, 1)]), selection: { mode: 'images', pages: [1], totalPages: null, notice: '图片按上传顺序编号，无需填写 PDF 页码；请包含完整表格、图例与脚注。' } };
 }
 export async function receiveManualFiles(request: Request, ctx: Context): Promise<ManualFileResult & { fields: Record<string, string> }> {
   const user = roles(request, ['platform_admin']);
@@ -317,8 +317,8 @@ export async function receiveManualFiles(request: Request, ctx: Context): Promis
     return { ...result, fields };
   }
   const prepared: PreparedFile[] = [];
-  for (const [index, item] of inputs.entries()) prepared.push(await prepareImage(item.bytes, item.name, item.mimeType, index + 1));
-  return { ...await persist(ctx, user.id, prepared), fields, selection: { mode: 'images', pages: prepared.map(file => file.pageNumber!), totalPages: null, notice: '图片按上传顺序编号，无需填写 PDF 页码；请包含完整表格、图例与脚注。' } };
+  for (const [index, item] of inputs.entries()) prepared.push(await prepareManualImage(item.bytes, item.name, item.mimeType, index + 1));
+  return { ...await persistPreparedManualFiles(ctx, user.id, prepared), fields, selection: { mode: 'images', pages: prepared.map(file => file.pageNumber!), totalPages: null, notice: '图片按上传顺序编号，无需填写 PDF 页码；请包含完整表格、图例与脚注。' } };
 }
 export async function readManualImages(ctx: Context, files: ManualAsset[]): Promise<Array<{ pageNumber: number; buffer: Buffer }>> {
   const images = files.filter(file => file.mimeType === 'image/jpeg' && file.pageNumber !== null);

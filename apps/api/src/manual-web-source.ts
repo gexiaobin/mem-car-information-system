@@ -45,6 +45,35 @@ export function extractManualWebPage(bytes: Buffer, url: string, charsetHint?: s
       if (!images.some(item => item.url === link)) images.push({ url: link, score });
     } catch { /* Only public HTTPS images enter the download queue. */ }
   });
+  // A dot in a maintenance matrix only has meaning under its exact mileage /
+  // month column. Expand merged cells and retain empty cells before .text()
+  // strips the HTML structure; never collapse the matrix into a word stream.
+  root.find('table').each((_index, table) => {
+    const grid: string[][] = [];
+    const occupied: boolean[][] = [];
+    let cellCount = 0;
+    $(table).find('tr').filter((_i, row) => $(row).closest('table')[0] === table).each((rowIndex, row) => {
+      grid[rowIndex] ||= []; occupied[rowIndex] ||= [];
+      let column = 0;
+      $(row).children('td,th').each((_cellIndex, cell) => {
+        while (occupied[rowIndex][column]) column++;
+        const value = $(cell).text().replace(/\s+/g, ' ').replace(/\|/g, '／').trim();
+        const span = Math.max(1, Math.min(30, Number($(cell).attr('colspan')) || 1));
+        const rows = Math.max(1, Math.min(50, Number($(cell).attr('rowspan')) || 1));
+        for (let r = rowIndex; r < rowIndex + rows; r++) {
+          grid[r] ||= []; occupied[r] ||= [];
+          for (let c = column; c < column + span; c++) {
+            ensure(++cellCount <= 20000, 413, 'MANUAL_WEB_TABLE_LIMIT', '保养表过大，请选择具体保养表或上传截图');
+            grid[r][c] = value; occupied[r][c] = true;
+          }
+        }
+        column += span;
+      });
+    });
+    const columns = Math.max(0, ...grid.map(row => row.length));
+    const text = grid.map(row => '| ' + Array.from({ length: columns }, (_v, column) => row[column] || '').join(' | ') + ' |').join('\n');
+    $(table).replaceWith($('<pre></pre>').text(`\n表格（空白单元格保持列对齐，合并表头已展开）：\n${text}\n表格结束\n`));
+  });
   root.find('br').replaceWith('\n');
   root.find('td,th').append(' | ');
   root.find('p,div,section,h1,h2,h3,h4,tr,li,table').append('\n');

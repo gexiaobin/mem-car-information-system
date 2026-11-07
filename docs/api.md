@@ -27,7 +27,9 @@
 | 车型档案 | `POST /admin/models`、`PATCH /admin/models/:id`、`DELETE /admin/models/:id` | 平台维护；仅未被引用的车型可删除 |
 | 车型手册 | `POST /admin/rules`、`PATCH /admin/rules/:id` | 来源、版本、适用范围与复核 |
 | 手册来源 | `GET /admin/manual-sources?modelId=...&discover=true` | 平台管理员按品牌／车系开放查询公开资料及官方补充入口；不传 discover 时仅返回入口 |
-| AI手册查询 | `POST /admin/manual-imports/ai-search` | 真实公开查询后，仅由AI排序已有候选 |
+| AI手册直接回答 | `POST /admin/manual-imports/ai-answer`、`GET /admin/manual-imports/ai-answer/:id` | 异步获取并读取真实手册，直接返回原文链接与保养项目表 |
+| 使用AI手册回答 | `POST /admin/manual-imports/from-ai-answer` | 复用缓存原文和结果，建立待核对草稿，不重新识别或直接发布 |
+| 旧AI手册查询 | `POST /admin/manual-imports/ai-search` | 兼容原候选排序接口，新工作区使用直接回答 |
 | 手册导入 | `POST /admin/manual-imports`、`POST /admin/manual-imports/from-url` | 平台上传 PDF／图片，或获取公开手册文件及保养网页证据 |
 | 手册任务 | `GET /admin/manual-imports`、`GET /admin/manual-imports/:id`、`POST /admin/manual-imports/:id/retry` | 平台查询持久任务和有限重试 |
 | 手册审核发布 | `PATCH /admin/manual-imports/:id/draft`、`POST /admin/manual-imports/:id/publish` | 可单独保存草稿；也可一次提交当前draft并原子发布，集中返回待核对问题 |
@@ -74,6 +76,16 @@
 本组接口仅平台管理员可写入。上传与识别产生持久草稿，不直接改变车型适用项目或车主保养计划。文件、证据页、来源、版次、适用范围和人工确认随任务保留；具体操作、来源限制与字段语义见 [手册导入说明](manual-import.md)。
 
 `GET /admin/manual-sources?modelId=...` 只返回来源入口，不发外部请求；显式附加 `discover=true` 才按品牌／车系开放查询通用保养手册和周期表，返回具体候选和补充目录，不局限固定网站。候选仍需核对年款、动力和市场版本；查询结果不是文件已下载或已适用的证明。
+
+V0.9.1工作区使用异步直接回答。`POST /admin/manual-imports/ai-answer` 接收严格JSON `{ "modelId": "准确车型ID", "consent": true }`，仅平台管理员可用，初次返回202及任务；同用户、同车型身份的有效缓存可返回200。任务字段为 `id,modelId,status,message,createdAt,updatedAt`，通过 `GET /admin/manual-imports/ai-answer/:id` 轮询；阶段为 `searching → reading → organizing → completed`，异常为 `failed`。排队只运行一个读取／AI任务，最多3个未完成任务，每分钟最多4次创建请求。
+
+完成任务附带 `result`：`query,sources,summary,warnings,aiStatus,searchedAt,evidenceMode`，其中 `evidenceMode=document_reading`；`answer` 含 `status=ready|partial|not_found`、`title,summary,applicability,edition,sourceTitle,sourceUrl,manuals,rows,warnings`。`manuals` 只包含实际读取的资料，`rows` 使用既有 `ManualRuleDraft` 结构。下载失败、只有目录、AI失败或没有有效项目都不生成周期；已读取的原文链接在AI失败时仍可查看。实际HTML表格在提取文本前保留空列和合并表头，避免打点错列。来源限定不是由自定义AI凭空联网决定，服务端先真实检索／获取字节，再把证据交给模型。
+
+查询不持久化手册、文件、规则和审计。缓存按管理员隔离，绑定品牌、车系、年款、动力及演示标识；有效证据通常缓存30分钟，失败／无证据结果最多30秒。最多30个任务、原文字节合计96 MiB，超额驱逐旧完成任务或明确失败；进程重启会失效。`GET`不返回内部文件路径、密钥、缓存原文字节或车型锁字段。
+
+`POST /admin/manual-imports/from-ai-answer` 接收严格JSON `{ "modelId": "准确车型ID", "answerId": "上述任务ID", "consent": true }`。服务端核验当前用户、缓存及车型身份，保存同一批原文，并以已整理行建立 `awaiting_confirmation` 任务，自动关联标准项目；不二次下载、请求AI或发布规则。重复／并发使用同一答案复用同一持久任务，并返回其最新状态。过期或他人缓存返回404／`AI_ANSWER_NOT_FOUND`，未完成或无行返回409／`AI_ANSWER_NOT_READY`，车型变更返回409／`MODEL_CHANGED`。持久草稿创建失败会清理本次证据，原缓存可重试；后续核对发布仍使用原有事务接口。
+
+旧候选排序接口继续兼容：
 
 `POST /admin/manual-imports/ai-search` 接收严格JSON `{ "modelId": "准确车型ID", "consent": true }`，仅平台管理员可用。先执行真实公开查询并补充官方等目录，再由AI排序给定候选编号；不接受AI生成的URL、周期或适用性。返回 `query,sources,summary,warnings,aiStatus,searchedAt,evidenceMode`，`evidenceMode` 为 `public_search`，`aiStatus` 为 `completed`、`unavailable` 或 `not_configured`。未配置、拒绝、超时或无效编号时保留原候选或目录并说明原因。支持现有Responses和Chat Completions，AI步骤最多35秒，公开查询最多12秒；相同车型查询合并并缓存，正常15分钟、AI失败30秒，每分钟最多4次、同时最多3个不同查询；繁忙返回429。
 

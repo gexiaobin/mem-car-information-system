@@ -21,6 +21,10 @@ test('open manual search reads concrete evidence across arbitrary public source 
  assert.deepEqual(found.map(s=>s.isDirectory),[false,true,true]);
  assert.equal(found[0].kind,'other');assert.equal(found[1].kind,'official');
  assert.match(found[0].description,/车系通用资料候选/);
+ const fuelWithoutLabel=parseManualSearchResults(result('凯美瑞双擎保养手册','https://independent.example/hybrid','凯美瑞双擎混动保养手册'),'https://www.bing.com/search?q=test',{...model,power:'2.0L CVT'});
+ assert.match(fuelWithoutLabel[0].description,/动力与当前车型可能冲突/);
+ const timetable=parseManualSearchResults(result('凯美瑞保养时间表','https://independent.example/timetable','厂家规定的定期维护计划。'),'https://www.bing.com/search?q=test',model);
+ assert.equal(timetable[0].url,'https://independent.example/timetable');
 });
 
 test('search engine wrappers cannot smuggle credentials/private URLs and DDG organic links can be used',()=>{
@@ -41,11 +45,12 @@ test('discovery makes broad open queries, merges sources and lowers explicit pow
    result('丰田凯美瑞保养手册','https://www.ftms.com.cn/camry/manual.pdf'),url);
  }) as typeof publicDownload;
  const found=await discoverManualSources(model,{download,cache:false});
- assert.equal(calls.length,2);
+ assert.equal(calls.length,3);
  assert.deepEqual(calls.map(c=>new URL(c.url).searchParams.get('q')),modelManualQueries(model));
  assert(calls.every(c=>c.timeout===6500));
  assert(calls.every(c=>!new URL(c.url).searchParams.get('q')?.includes('site:')));
- assert(calls.every(c=>!new URL(c.url).searchParams.get('q')?.includes('2025')));
+ assert(calls.slice(0,2).every(c=>!new URL(c.url).searchParams.get('q')?.includes('2025')));
+ assert(new URL(calls[2].url).searchParams.get('q')?.includes('2025 汽油 2.0L CVT'));
  assert.equal(found[0].url,'https://www.ftms.com.cn/camry/manual.pdf');
  assert.equal(found.filter(s=>s.url==='https://published.example/camry.html').length,1);
  assert.match(found.find(s=>s.url==='https://independent.example/hybrid.pdf')!.description,/动力与当前车型可能冲突/);
@@ -57,7 +62,7 @@ test('blocked search engines return honest fallback directories and unsupported 
  let calls=0;
  const download=(async(url:string)=>{calls++;if(calls===1)throw new Error('unavailable');return page(result('丰田凯美瑞参数配置','https://cars.example/specs','凯美瑞报价和图片'),url);}) as typeof publicDownload;
  const found=await discoverManualSources(model,{download,cache:false});
- assert.equal(calls,3);assert(found.length>0);assert(found.every(s=>s.isDirectory));
+ assert.equal(calls,4);assert(found.length>0);assert(found.every(s=>s.isDirectory));
  assert.match(found[0].description,/开放互联网搜索暂未取得/);
- assert.deepEqual(modelManualQueries({...model,name:'Model Y',brand:'特斯拉'}),['特斯拉 Model Y 保养手册','特斯拉 Model Y 保养周期表']);
+ assert.deepEqual(modelManualQueries({...model,name:'Model Y',brand:'特斯拉'}),['特斯拉 Model Y 保养手册','特斯拉 Model Y 保养周期表','特斯拉 Model Y 2025 汽油 2.0L CVT 官方 用户手册 保养时间表']);
 });

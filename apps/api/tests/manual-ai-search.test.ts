@@ -35,8 +35,10 @@ test("manual AI search uses both configured protocols and only orders retrieved 
   assert.deepEqual(result.sources, [directory, concrete]);
   assert.match(result.summary, /1份车系通用保养资料/);
   assert.match(result.summary, /尚未确认/);
-  assert.equal(result.query, '丰田 凯美瑞 保养手册 / 丰田 凯美瑞 保养周期表');
-  assert.doesNotMatch(result.query, /2018|2.0L|6AT/, 'trim and year are ranking context, not a hard search constraint');
+  const queries = result.query.split(' / ');
+  assert.deepEqual(queries.slice(0, 2), ['丰田 凯美瑞 保养手册', '丰田 凯美瑞 保养周期表']);
+  assert.doesNotMatch(queries.slice(0, 2).join(' / '), /2018|2.0L|6AT/, 'broad series searches must remain available alongside the specific edition query');
+  assert.equal(queries[2], '丰田 凯美瑞 2018 汽油 2.0L 6AT 官方 用户手册 保养时间表');
   assert.equal(upstream.requests[0].url, "https://provider.example/v1/responses");
   const body = upstream.requests[0].body;
   assert.equal(body.store, false);

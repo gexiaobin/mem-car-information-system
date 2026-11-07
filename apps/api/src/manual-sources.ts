@@ -4,6 +4,7 @@ import { isIP } from 'node:net';
 import { load } from 'cheerio';
 import type { CarModel, ManualSource } from '@autovoyage/shared';
 import { AppError, ensure } from './domain.js';
+import { discoverDongfengHondaManuals } from './manual-official-sources.js';
 
 const MAX_BYTES = 32 * 1024 * 1024;
 export function isPublicAddress(address: string): boolean {
@@ -143,16 +144,18 @@ const officialHost = (hostname: string) => officialDomains.some(domain => hostna
 const coreName = (model: CarModel) => model.name.replace(/[·（(].*$/u, '').replace(/\s+/g, ' ').trim().slice(0, 80);
 const compact = (value: string) => value.toLowerCase().replace(/[\s··_-]+/g, '');
 function powerConflict(model: CarModel, text: string): boolean {
-  const hybrid = /混动|双擎|e.?HEV|PHEV|DM[-－]?[ip]|油电/i;
+  const hybrid = /混动|双擎|(?:e[-:\s]?)?HEV|PHEV|DM[-－]?[ip]|油电|增程/i;
   const electric = /纯电|BEV|electric vehicle|electric car/i;
-  if (/汽油|燃油|柴油/.test(model.power) && !hybrid.test(model.power) && (hybrid.test(text) || electric.test(text))) return true;
+  const modelPower = `${model.power} ${model.name}`;
+  const fuel = /汽油|燃油|柴油|\d(?:\.\d)?\s*[TL]\b|TURBO|TFSI|TSI|GDI/i.test(modelPower) && !hybrid.test(modelPower) && !electric.test(modelPower);
+  if (fuel && (hybrid.test(text) || electric.test(text))) return true;
   if (electric.test(model.power) && !hybrid.test(model.power) && (hybrid.test(text) || /汽油|燃油|柴油|gasoline|petrol/i.test(text))) return true;
   return hybrid.test(model.power) && electric.test(text) && !hybrid.test(text);
 }
 /** The primary queries intentionally use the car series, not an exact trim as a hard filter. */
 export function modelManualQueries(model: CarModel): string[] {
   const label = `${model.brand.trim().slice(0, 60)} ${coreName(model)}`.trim();
-  return [`${label} 保养手册`, `${label} 保养周期表`];
+  return [`${label} 保养手册`, `${label} 保养周期表`, `${label} ${model.year} ${model.power.trim().slice(0, 80)} 官方 用户手册 保养时间表`];
 }
 function searchTarget(href: string, base: string): string | null {
   try {
@@ -182,7 +185,7 @@ export function parseManualSearchResults(html: string, base: string, model: CarM
     const title = anchor.text().replace(/\s+/g, ' ').trim().slice(0, 500);
     const snippet = block.find('.b_caption p, p, .result__snippet').first().text().replace(/\s+/g, ' ').trim().slice(0, 850);
     const href = anchor.attr('href');
-    if (!href || !title || !/保养(?:手册|周期|项目|里程|表)|维[修护](?:手册|周期|项目)|用户手册|车主手册|maintenance|owner.?s? manual/i.test(`${title} ${snippet}`)) return;
+    if (!href || !title || !/保养(?:手册|周期|时间表|项目|里程|表)|维[修护](?:手册|周期|项目|计划)|用户手册|车主手册|maintenance|service\s+(?:schedule|interval)|owner.?s? manual/i.test(`${title} ${snippet}`)) return;
     const url = searchTarget(href, base);
     if (!url || sources.some(source => source.url === url)) return;
     const hostname = new URL(url).hostname;
@@ -203,7 +206,7 @@ function sourceScore(source: ManualSource, model: CarModel): number {
   const text = `${source.title} ${source.description}`;
   return (source.isDirectory ? -30 : 40) + (source.kind === 'official' ? 25 : 0) +
     (/\.pdf(?:\?|$)|\.(?:png|jpe?g|webp)(?:\?|$)/i.test(source.url) ? 12 : 0) +
-    (/保养手册|maintenance manual/i.test(source.title) ? 15 : /保养周期|保养表/.test(source.title) ? 10 : 0) +
+    (/保养(?:时间|周期)表/.test(source.title) ? 30 : /保养手册|maintenance manual/i.test(source.title) ? 15 : /保养周期|保养表/.test(source.title) ? 10 : 0) +
     (text.includes(String(model.year)) ? 5 : 0) - (/动力与当前车型可能冲突/.test(source.description) ? 45 : 0) - (/论坛|避坑|费用|多少钱|价格|攻略|实测/.test(source.title) ? 12 : 0);
 }
 export interface ManualDiscoveryDependencies { download?: typeof publicDownload; cache?: boolean }
@@ -216,11 +219,11 @@ export async function discoverManualSources(model: CarModel, dependencies: Manua
   const fallback = await manualSources(model);
   const download = dependencies.download || publicDownload;
   const queries = modelManualQueries(model);
-  const results = await Promise.allSettled(queries.map(async query => {
+  const results = await Promise.allSettled([...queries.map(async query => {
     const url = `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=zh-hans`;
     const result = await download(url, 0, undefined, 6500);
     return parseManualSearchResults(result.bytes.toString('utf8'), result.url, model);
-  }));
+  }), discoverDongfengHondaManuals(model, download)]);
   let candidates = results.flatMap(result => result.status === 'fulfilled' ? result.value : []);
   // A second engine is a fallback for blocked/empty search responses, not a restriction on source sites.
   if (!candidates.some(source => !source.isDirectory)) {

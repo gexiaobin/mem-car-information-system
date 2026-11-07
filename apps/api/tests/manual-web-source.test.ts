@@ -18,6 +18,14 @@ test('web manual extraction rejects excessive source text instead of silently dr
   assert.throws(() => extractManualWebPage(Buffer.from(`<html><body><main>保养${'资料'.repeat(51000)}</main></body></html>`), 'https://example.com/manual'), /正文过长/);
 });
 
+test('maintenance matrices retain blank columns and expanded merged headers', () => {
+  const html = `<html><body><main><table><tr><th rowspan="2">项目</th><th colspan="3">里程/km</th></tr><tr><th>20000</th><th>40000</th><th>60000</th></tr><tr><td>变速器油更换</td><td></td><td>•</td><td></td></tr></table></main></body></html>`;
+  const page = extractManualWebPage(Buffer.from(html), 'https://example.com/manual');
+  assert.match(page.text, /\| 项目 \| 里程\/km \| 里程\/km \| 里程\/km \|/);
+  assert.match(page.text, /\| 项目 \| 20000 \| 40000 \| 60000 \|/);
+  assert.match(page.text, /\| 变速器油更换 \| \| • \| \|/);
+});
+
 test('HTTP charset takes precedence over conflicting HTML metadata and malformed text is not guessed', () => {
   const bytes = Buffer.concat([Buffer.from('<html><head><meta charset="utf-8"><title>'), Buffer.from([0xb1, 0xa3, 0xd1, 0xf8]), Buffer.from('</title></head><body>'), Buffer.from([0xb1, 0xa3, 0xd1, 0xf8]), Buffer.from(' 5000km</body></html>')]);
   assert.equal(extractManualWebPage(bytes, 'https://example.com/manual', 'gbk').title, '保养');

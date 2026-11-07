@@ -42,7 +42,8 @@ const draftFieldsSchema = z.object({
 }).strict();
 const draftSchema = draftFieldsSchema.extend({ expectedRevision: z.number().int().positive() });
 const publishSchema = z.object({ expectedRevision: z.number().int().positive(), verified: z.literal(true), applicabilityConfirmed: z.literal(true), draft: draftFieldsSchema.optional() }).strict();
-const identity = (model: CarModel) => sha256(JSON.stringify([model.brand, model.name, model.year, model.power, model.isDemo]));
+export const manualModelIdentity = (model: CarModel) => sha256(JSON.stringify([model.brand, model.name, model.year, model.power, model.isDemo]));
+const identity = manualModelIdentity;
 const latestVersions = (rules: MaintenanceRule[]) => Object.fromEntries([...new Set(rules.map(rule => rule.projectId))].map(projectId => [projectId, Math.max(0, ...rules.filter(rule => rule.projectId === projectId).map(rule => rule.version))]));
 const normalizedName = (name: string) => name.replace(/\s+/g, "").toLocaleLowerCase("zh-CN");
 const metadataKeys = ["sourceTitle", "edition", "applicability"] as const;
@@ -86,6 +87,37 @@ function verifyEvidence(rows: ManualRuleDraft[], files: ManualAsset[], publishin
 }
 
 interface PublicationIssue { rowId: string; rowNumber: number; field: string; message: string }
+
+/** Reuse already-read evidence after an explicit import click; never re-run AI or publish here. */
+export async function createRecognizedManualDraft(ctx: Context, userId: string, modelId: string, modelIdentity: string, input: {
+  sourceTitle: string; sourceUrl: string; edition: string; applicability: string; sourceExcerpt: string;
+  rows: ManualRuleDraft[]; warnings: string[]; files: ManualAsset[]; selection?: ManualPageSelection;
+}): Promise<ManualImport> {
+  const { files: _files, warnings: _warnings, selection: _selection, ...fields } = input;
+  const metadata = draftFieldsSchema.parse(fields);
+  verifySourceLink(metadata.sourceUrl, input.files);
+  verifyEvidence(metadata.rows, input.files, false);
+  ensure(input.files.some(file => file.original), 400, "SOURCE_REQUIRED", "未取得可保存的手册原文，请重新查询");
+  return ctx.db.transaction(async sql => {
+    const model = await get<CarModel>(sql, "models", modelId, true);
+    ensure(model && identity(model) === modelIdentity, 409, "MODEL_CHANGED", "车型资料已变更，请重新查询对应手册");
+    const rules = (await list<MaintenanceRule>(sql, "rules")).filter(rule => rule.modelId === modelId);
+    const stamp = now();
+    const job: StoredManual = {
+      id: id(), createdBy: userId, modelId, ...metadata, sourceExcerpt: metadata.sourceExcerpt || "",
+      acquiredSourceUrl: metadata.sourceUrl,
+      metadataOrigin: { sourceTitle: metadata.sourceTitle ? "document" : "unknown", edition: metadata.edition ? "document" : "unknown", applicability: metadata.applicability ? "document" : "unknown" },
+      ...(input.selection ? { pageSelection: input.selection } : {}),
+      status: "awaiting_confirmation", files: input.files, warnings: [...new Set(input.warnings)].slice(0, 60), attempts: 1,
+      reason: "已保存AI查询时读取的原文和保养项目；确认适用范围后可一次导入，无需重复识别。",
+      revision: 1, createdAt: stamp, updatedAt: stamp, publishedAt: null, publishedRuleIds: [], aiModel: ctx.config.aiModel,
+      modelIdentity, baseRuleVersions: latestVersions(rules),
+    };
+    await put(sql, "manual_imports", job);
+    await audit(sql, userId, "manual.ai_answer.imported", "manual", job.id, "保存AI查询所得原文和已识别项目为待确认草稿；尚未发布保养规则");
+    return publicManual(job);
+  });
+}
 /** Collect all actionable selected-row issues before any publication writes. */
 function publicationIssues(job: StoredManual, projects: Project[], versions: Record<string, number>): PublicationIssue[] {
   const issues: PublicationIssue[] = [];
