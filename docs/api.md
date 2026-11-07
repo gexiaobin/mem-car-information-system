@@ -110,7 +110,7 @@ AI查询的远程PDF默认上限32 MiB，仅精确HTTPS主机`www.gac-toyota.com
 
 查询不持久化手册、文件、规则和审计。缓存按管理员隔离，绑定品牌、车系、年款、动力及演示标识；有效证据通常缓存30分钟，失败／无证据结果最多30秒。最多30个任务、原文字节合计96 MiB，超额驱逐旧完成任务或明确失败；进程重启会失效。`GET`不返回内部文件路径、密钥、缓存原文字节或车型锁字段。
 
-`POST /admin/manual-imports/from-ai-answer` 接收严格JSON `{ "modelId": "准确车型ID", "answerId": "上述任务ID", "consent": true }`。服务端核验当前用户、缓存及车型身份，保存同一批原文，并以已整理行建立 `awaiting_confirmation` 任务，自动关联标准项目；不二次下载、请求AI或发布规则。重复／并发使用同一答案复用同一持久任务，并返回其最新状态。过期或他人缓存返回404／`AI_ANSWER_NOT_FOUND`，未完成或无行返回409／`AI_ANSWER_NOT_READY`，车型变更返回409／`MODEL_CHANGED`。持久草稿创建失败会清理本次证据，原缓存可重试；后续核对发布仍使用原有事务接口。
+`POST /admin/manual-imports/from-ai-answer` 接收严格JSON `{ "modelId": "准确车型ID", "answerId": "上述任务ID", "consent": true, "scope": "common" }`；V0.9.5起`scope`可省略，默认及唯一允许值为`common`。服务端核验用户、缓存及车型身份，保存同一批原文，仅以常规主要摘要对应的原始行建立`awaiting_confirmation`任务，并按当前标准项目重新关联；合并显示的部件仍保存独立规则，不修改动作、周期或原来的`include`。查询中的`answer.rows`仍保留完整明细，`summary`描述主要项目数。没有主要常规行时返回422，不退回导入全部细目；不二次下载、请求AI或直接发布。重复／并发使用同一答案复用同一持久任务，返回最新状态。过期或他人缓存返回404／`AI_ANSWER_NOT_FOUND`，未完成或无行返回409／`AI_ANSWER_NOT_READY`，车型变更返回409／`MODEL_CHANGED`。草稿创建失败会清理本次证据，缓存可重试；后续核对发布沿用原事务接口。归并边界见[常规保养摘要](common-maintenance-summary.md)。
 
 旧候选排序接口继续兼容：
 

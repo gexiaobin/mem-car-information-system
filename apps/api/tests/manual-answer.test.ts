@@ -123,6 +123,82 @@ test("AI answer reads an actual source and imports cached evidence once, without
   assert.equal(changed.statusCode, 409); assert.equal(changed.json().code, "MODEL_CHANGED");
 });
 
+test("common import keeps only original main routine rows and remaps after excluding special and detailed requirements", async t => {
+  const normal = structuredClone(recognition.rows[0]);
+  const special = { ...normal, triggerType: "condition" as const, intervalMonths: 6, intervalKm: 5000,
+    condition: "在多尘道路上行驶时。", notes: "特殊行驶条件的附加保养。", sourceText: "在多尘道路上行驶时，每6个月或5000公里更换空调滤清器。" };
+  const detail = { ...normal, name: "冷却系统橡胶软管", action: "inspect" as const, triggerType: "as_needed" as const,
+    intervalMonths: null, intervalKm: null, condition: "软管出现老化或损坏时检查。", notes: "", sourceText: "冷却系统橡胶软管出现老化或损坏时检查。" };
+  const allRows = [normal, special, detail];
+  const document = `<html><body><h1>2025款合成车型保养手册</h1>${allRows.map(row => `<p>${row.sourceText}</p>`).join("")}</body></html>`;
+  const service = await harness(t, {
+    download: async url => ({ bytes: Buffer.from(document), type: "text/html", url }),
+    recognize: async () => ({ ...structuredClone(recognition), rows: allRows }),
+  });
+  const job = await service.finish(await service.start());
+  const result = job.result!;
+  assert.match(result.summary, /1项常规主要保养项目/);
+  assert.equal(result.answer.summary, result.summary);
+  assert.equal(result.answer.rows.length, 3, "query keeps complete original extraction for details");
+  assert.equal(result.answer.rows[0].projectId, null, "full extraction has ambiguous competing conditions before narrowing scope");
+  assert.equal(result.answer.mappingDiagnostics?.[0]?.code, "DUPLICATE_SOURCE_TARGET");
+  assert.deepEqual(await list(service.db, "manual_imports"), [], "reading a common summary does not create a draft");
+  const payload = { modelId: model.id, answerId: job.id, consent: true, scope: "common" };
+  const [first, repeated] = await Promise.all([service.call("POST", "from-ai-answer", payload), service.call("POST", "from-ai-answer", payload)]);
+  assert.equal(first.statusCode, 200, first.body); assert.equal(repeated.statusCode, 200, repeated.body);
+  const draft = first.json<ManualImport>();
+  assert.equal(draft.id, repeated.json<ManualImport>().id, "common import remains idempotent");
+  assert.equal(draft.rows.length, 1);
+  assert.equal(draft.rows[0].projectId, "synthetic-filter", "mapping reruns after special-condition duplicate is removed");
+  assert.equal(draft.mappingDiagnostics?.[0]?.status, "matched");
+  const { projectId: _projectId, catalogProjectId: _catalogProjectId, ...original } = result.answer.rows[0];
+  const { projectId: _draftProjectId, catalogProjectId: _draftCatalogProjectId, ...imported } = draft.rows[0];
+  assert.deepEqual(imported, original, "scope selection must not combine actions or alter include, thresholds, conditions or evidence");
+  const after = (await service.call("GET", `ai-answer/${job.id}`)).json<ManualAiAnswerJob>();
+  assert.deepEqual(after.result!.answer.rows, result.answer.rows, "import does not mutate the cached complete query details");
+  assert.equal((await list(service.db, "manual_imports")).length, 1);
+  assert.deepEqual(await list(service.db, "rules"), [], "scope selection never publishes rules");
+});
+
+test("a readable source with only special or detailed requirements cannot silently import all rows", async t => {
+  const special = { ...structuredClone(recognition.rows[0]), triggerType: "condition" as const,
+    condition: "在多尘道路上行驶时。", sourceText: "在多尘道路上行驶时，每12个月或20000公里更换空调滤清器。" };
+  const service = await harness(t, {
+    download: async url => ({ bytes: Buffer.from(`<html><body><h1>2025款合成车型汽油版保养手册</h1><p>本页仅用于合成测试。这份资料仅列出特殊行驶条件下的保养要求，不能推断正常使用条件下适用相同周期。请保留原文条件，并且核对车型适用范围。</p><p>${special.sourceText}</p></body></html>`), type: "text/html", url }),
+    recognize: async () => ({ ...structuredClone(recognition), rows: [special] }),
+  });
+  const job = await service.finish(await service.start());
+  assert.equal(job.result!.answer.rows.length, 1);
+  assert.match(job.result!.summary, /尚未整理出可带入的常规主要保养项目/);
+  for (const scope of [undefined, "common"]) {
+    const response = await service.call("POST", "from-ai-answer", { modelId: model.id, answerId: job.id, consent: true, ...(scope ? { scope } : {}) });
+    assert.equal(response.statusCode, 422, response.body);
+    assert.equal(response.json().code, "AI_ANSWER_NO_COMMON_ITEMS");
+  }
+  const all = await service.call("POST", "from-ai-answer", { modelId: model.id, answerId: job.id, consent: true, scope: "all" });
+  assert.equal(all.statusCode, 400, "the public endpoint offers no all-details import shortcut");
+  for (const table of ["manual_imports", "files", "rules", "logs"] as const) assert.deepEqual(await list(service.db, table), [], `rejected common scope cannot write ${table}`);
+  assert.deepEqual(await readdir(service.temporary), []);
+});
+
+test("common scope does not opt in a core requirement whose source evidence still needs review", async t => {
+  const service = await harness(t, { recognize: async () => ({ ...structuredClone(recognition), rows: [{ ...recognition.rows[0], sourceText: "未定位到原文的摘录：每12个月或20000公里更换空调滤清器。" }] }) });
+  const job = await service.finish(await service.start());
+  const original = job.result!.answer.rows[0];
+  assert.equal(original.include, false); assert.equal(original.triggerType, "condition");
+  const response = await service.call("POST", "from-ai-answer", { modelId: model.id, answerId: job.id, consent: true, scope: "common" });
+  assert.equal(response.statusCode, 200, response.body);
+  const draft = response.json<ManualImport>();
+  assert.equal(draft.rows.length, 1, "a conservative source guard remains available for manual review");
+  assert.equal(draft.rows[0].id, original.id);
+  assert.equal(draft.rows[0].include, false, "common scope must never opt an unverified row in");
+  assert.equal(draft.rows[0].triggerType, "condition");
+  assert.equal(draft.rows[0].intervalKm, original.intervalKm, "scope selection may not repair an unverified interval by guessing");
+  assert.equal(draft.rows[0].condition, original.condition);
+  assert.equal(draft.rows[0].sourceText, original.sourceText);
+  assert.deepEqual(await list(service.db, "rules"), []);
+});
+
 test("directories, cloud-drive pages, and explicitly incompatible variants never become an AI manual answer", async t => {
   let downloads = 0, readings = 0;
   const service = await harness(t, { discover: async () => [directory, { ...source, url: "https://www.carobook.com/manual.html", kind: "carobook" }, { ...source, url: "https://pan.baidu.com/s/test" }, { ...source, description: "车型动力未明确，不能确认该版本适用" }], download: async () => { downloads++; throw new Error("must not download"); }, recognize: async () => { readings++; return recognition; } });

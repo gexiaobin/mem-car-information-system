@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { CarModel, ManualImport, ManualPageSelection, ManualProjectMappingDiagnostic, ManualRuleDraft, ManualSource, Project } from "@autovoyage/shared";
+import { buildCommonMaintenanceSummary } from "@autovoyage/shared";
 import type { Context } from "./context.js";
 import { roles, route } from "./context.js";
 import { get, list } from "./db.js";
@@ -289,10 +290,13 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
       if (!read.applicability.trim()) answerWarnings.push("已读取资料尚未明确适用车型范围，导入前请对照原文核对年款与动力。");
       if (!read.edition.trim()) answerWarnings.push("原文未注明版本，可留空。");
       const partial = !read.applicability.trim() || rows.some(row => row.triggerType !== "periodic") || answerWarnings.some(warning => /不匹配|尚不能证明|年款冲突|无法确定/.test(warning));
+      const common = buildCommonMaintenanceSummary(rows);
       result.aiStatus = "completed";
-      result.summary = `已读取${evidence.manuals.length}份实际资料，整理出${rows.length}项保养项目，可直接转为导入草稿。`;
+      result.summary = common.items.length
+        ? `已读取${evidence.manuals.length}份实际资料，整理出${common.items.length}项常规主要保养项目；原始细分要求保留供按需查看。`
+        : `已读取${evidence.manuals.length}份实际资料，本次尚未整理出可带入的常规主要保养项目，请查看原文与细分要求。`;
       result.answer = {
-        status: partial ? "partial" : "ready", title: read.sourceTitle || evidence.title,
+        status: partial || !common.items.length ? "partial" : "ready", title: read.sourceTitle || evidence.title,
         summary: result.summary, applicability: read.applicability, edition: read.edition,
         sourceTitle: read.sourceTitle || evidence.title, sourceUrl: evidence.sourceUrl,
         manuals: evidence.manuals, rows, mappingDiagnostics: diagnoseManualProjectMappings(rows, projects), warnings: [...new Set(answerWarnings)],
@@ -386,7 +390,7 @@ export function registerManualAnswers(ctx: Context, dependencies: ManualAnswerDe
   });
   ctx.app.post(route("/admin/manual-imports/from-ai-answer"), async request => {
     const user = roles(request, ["platform_admin"]);
-    const input = bodySchema.extend({ answerId: z.string().min(1).max(80) }).parse(request.body);
+    const input = bodySchema.extend({ answerId: z.string().min(1).max(80), scope: z.literal("common").default("common") }).parse(request.body);
     prune();
     const entry = entries.get(input.answerId);
     ensure(entry && entry.userId === user.id && entry.job.modelId === input.modelId, 404, "AI_ANSWER_NOT_FOUND", "查询已过期或与当前车型不符，请重新查询");
@@ -403,13 +407,21 @@ export function registerManualAnswers(ctx: Context, dependencies: ManualAnswerDe
     if (entry.importing) return entry.importing;
     const answer = entry.job.result?.answer;
     ensure(entry.job.status === "completed" && answer?.rows.length && entry.evidence, 409, "AI_ANSWER_NOT_READY", "尚未取得有原文依据的保养项目，请先完成查询");
+    // Summary grouping is for reading only. Import the selected original rows,
+    // preserving each action, interval, evidence and opt-in state independently.
+    const regularIds = new Set(buildCommonMaintenanceSummary(answer.rows).regularRowIds);
+    const regularRows = answer.rows.filter(row => regularIds.has(row.id));
+    ensure(regularRows.length, 422, "AI_ANSWER_NO_COMMON_ITEMS", "本次资料尚未整理出可带入的常规主要保养项目，请查看原文或上传常规保养表图片");
     const evidence = entry.evidence;
     entry.importing = (async () => {
+      // The original complete extraction may contain several conditions for the
+      // same project. Recompute automatic mappings after narrowing the scope.
+      const rows = autoMapManualProjects(regularRows.map(row => ({ ...row, projectId: null, catalogProjectId: null, createProject: false })), await list<Project>(ctx.db, "projects"));
       const saved = await persistPreparedManualFiles(ctx, user.id, evidence.files);
       try {
         const draft = await createRecognizedManualDraft(ctx, user.id, model.id, entry.modelIdentity, {
           sourceTitle: answer.sourceTitle, sourceUrl: answer.sourceUrl, edition: answer.edition,
-          applicability: answer.applicability, sourceExcerpt: evidence.sourceExcerpt, rows: answer.rows,
+          applicability: answer.applicability, sourceExcerpt: evidence.sourceExcerpt, rows,
           warnings: answer.warnings, files: saved.files, selection: evidence.selection,
         });
         entry.imported = draft; entry.evidence = undefined; entry.expires = clock() + ttl;

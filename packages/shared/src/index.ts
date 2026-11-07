@@ -55,4 +55,6 @@ export const APPOINTMENT_NAMES: Record<AppointmentStatus, string> = { pending: '
 export const cents = (value: number | null | undefined) => value == null ? '需询价' : new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value / 100);
 
 export { applyCommonFirstService } from './manual-draft.js';
+export { buildCommonMaintenanceSummary } from './manual-common-summary.js';
+export type { ManualCommonSummaryItem, ManualCommonSummary } from './manual-common-summary.js';
 export { inferIndependentWarningThreshold, usesIndependentConditionThreshold, hasRecurringMaintenanceThreshold } from './maintenance-timing.js';
