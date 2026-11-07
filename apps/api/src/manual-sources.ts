@@ -18,6 +18,7 @@ export function isPublicAddress(address: string): boolean {
   return isIP(address) === 6 && /^[23]/i.test(address) && !/^2001:db8:/i.test(address);
 }
 export function validateSourceUrl(value: string): URL {
+  ensure(value.length <= 2500, 400, 'MANUAL_SOURCE_URL', '手册网址过长，请选择具体资料页面或上传图片');
   let url: URL;
   try { url = new URL(value); } catch { throw new AppError(400, 'MANUAL_SOURCE_URL', '请输入完整的 HTTPS 手册网址'); }
   ensure(url.protocol === 'https:' && !url.username && !url.password && (!url.port || url.port === '443'), 400, 'MANUAL_SOURCE_URL', '仅支持不含账号密码的标准 HTTPS 手册网址');
@@ -26,14 +27,19 @@ export function validateSourceUrl(value: string): URL {
   return url;
 }
 /** Resolve and pin a public IP for every redirect; no user cookies or credentials. */
-async function publicDownload(value: string, redirects = 0, postData?: string, timeoutMs = 30000): Promise<{ bytes: Buffer; type: string; url: string }> {
+export async function publicDownload(value: string, redirects = 0, postData?: string, timeoutMs = 30000, deadline = Date.now() + timeoutMs, maxBytes = MAX_BYTES): Promise<{ bytes: Buffer; type: string; url: string; charset?: string }> {
   const url = validateSourceUrl(value);
+  deadline = Math.min(deadline, Date.now() + timeoutMs);
   ensure(redirects <= 4, 400, 'MANUAL_REDIRECT_LIMIT', '手册链接重定向过多，请下载后上传');
+  ensure(deadline > Date.now(), 400, 'MANUAL_SOURCE_UNAVAILABLE', '资料网站连接超时，请稍后重试或上传图片');
   let addresses;
-  try { addresses = await lookup(url.hostname, { all: true }); } catch { throw new AppError(400, 'MANUAL_SOURCE_UNAVAILABLE', '无法解析资料网站，请下载后上传'); }
+  let dnsTimer: ReturnType<typeof setTimeout> | undefined;
+  try { addresses = await Promise.race([lookup(url.hostname, { all: true }), new Promise<never>((_resolve, reject) => { dnsTimer = setTimeout(() => reject(new Error('DNS timeout')), Math.max(1, deadline - Date.now())); })]); }
+  catch { throw new AppError(400, 'MANUAL_SOURCE_UNAVAILABLE', '无法解析资料网站，请下载后上传'); }
+  finally { clearTimeout(dnsTimer); }
   ensure(addresses.length > 0 && addresses.every(item => isPublicAddress(item.address)), 400, 'MANUAL_SOURCE_URL', '资料网址必须指向公网地址');
   const address = addresses.find(item => item.family === 4) || addresses[0];
-  const result = await new Promise<{ bytes: Buffer; type: string; location?: string; status: number }>((resolve, reject) => {
+  const result = await new Promise<{ bytes: Buffer; type: string; charset?: string; location?: string; status: number }>((resolve, reject) => {
     const req = httpsRequest(url, {
       method: postData ? 'POST' : 'GET',
       headers: { 'User-Agent': 'AutoVoyage-ManualImport/1.0', Accept: 'application/pdf,image/*,text/html;q=0.8', 'Accept-Encoding': 'identity', ...(postData ? { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(postData) } : {}) },
@@ -47,26 +53,28 @@ async function publicDownload(value: string, redirects = 0, postData?: string, t
         response.resume(); resolve({ bytes: Buffer.alloc(0), type: '', location: response.headers.location, status }); return;
       }
       if (status !== 200) { response.resume(); reject(new AppError(400, 'MANUAL_SOURCE_UNAVAILABLE', '资料网站未提供可访问文件，可能需要登录，请下载后上传')); return; }
-      const type = String(response.headers['content-type'] || '').split(';')[0].trim().toLowerCase();
-      const limit = type.includes('html') ? 2 * 1024 * 1024 : MAX_BYTES;
-      if (Number(response.headers['content-length'] || 0) > limit) { response.destroy(); reject(new AppError(413, 'MANUAL_TOO_LARGE', '资料文件超过下载限制，PDF 最大 32 MiB')); return; }
+      const contentType = String(response.headers['content-type'] || '');
+      const type = contentType.split(';')[0].trim().toLowerCase();
+      const charset = contentType.match(/charset\s*=\s*["']?([a-z0-9_-]+)/i)?.[1]?.toLowerCase();
+      const limit = Math.min(type.includes('html') ? 2 * 1024 * 1024 : MAX_BYTES, maxBytes);
+      if (Number(response.headers['content-length'] || 0) > limit) { response.destroy(); reject(new AppError(413, 'MANUAL_TOO_LARGE', '资料文件超过下载限制，请改用精简的保养表图片')); return; }
       const chunks: Buffer[] = []; let size = 0;
       response.on('data', (chunk: Buffer) => {
         size += chunk.length;
-        if (size > limit) { response.destroy(); reject(new AppError(413, 'MANUAL_TOO_LARGE', '资料文件超过下载限制，PDF 最大 32 MiB')); }
+        if (size > limit) { response.destroy(); reject(new AppError(413, 'MANUAL_TOO_LARGE', '资料文件超过下载限制，请改用精简的保养表图片')); }
         else chunks.push(chunk);
       });
-      response.on('end', () => resolve({ bytes: Buffer.concat(chunks), type, status }));
+      response.on('end', () => resolve({ bytes: Buffer.concat(chunks), type, status, ...(charset ? { charset } : {}) }));
       response.on('error', reject);
     });
-    const timer = setTimeout(() => req.destroy(new Error('source timeout')), timeoutMs);
+    const timer = setTimeout(() => req.destroy(new Error('source timeout')), Math.max(1, deadline - Date.now()));
     req.once('close', () => clearTimeout(timer));
     req.on('error', reject);
     req.end(postData);
   }).catch(error => { if (error instanceof AppError) throw error; throw new AppError(400, 'MANUAL_SOURCE_UNAVAILABLE', '资料网站连接失败或超时，请下载后上传'); });
-  if (result.location) return publicDownload(new URL(result.location, url).href, redirects + 1, undefined, timeoutMs);
+  if (result.location) return publicDownload(new URL(result.location, url).href, redirects + 1, undefined, timeoutMs, deadline, maxBytes);
   ensure(result.status === 200, 400, 'MANUAL_SOURCE_UNAVAILABLE', '资料网址未返回可下载文件');
-  return { bytes: result.bytes, type: result.type, url: url.href };
+  return { bytes: result.bytes, type: result.type, url: url.href, ...(result.charset ? { charset: result.charset } : {}) };
 }
 function fileType(bytes: Buffer): string | null {
   if (bytes.subarray(0, 5).toString() === '%PDF-') return 'application/pdf';
@@ -120,7 +128,7 @@ const brandCatalogs: Record<string, string> = {
 };
 export async function manualSources(model: CarModel): Promise<ManualSource[]> {
   const brand = Object.keys(brandCatalogs).find(name => model.brand.includes(name));
-  const primary: ManualSource = { title: `CarOBook · ${brand || '多品牌'}保养手册`, url: brand ? `https://www.carobook.com/${brandCatalogs[brand]}-bysc.html` : 'https://www.carobook.com/bysc.html', kind: 'carobook', description: '优先按品牌查找准确车型。网盘分享需在浏览器下载后上传，PDF 直链可自动获取。' };
+  const primary: ManualSource = { title: `CarOBook · ${brand || '多品牌'}保养手册`, url: brand ? `https://www.carobook.com/${brandCatalogs[brand]}-bysc.html` : 'https://www.carobook.com/bysc.html', kind: 'carobook', description: '备用品牌目录。查询会同时检索开放互联网，不局限此站；网盘资料可取得后上传图片。' };
   const sources = [primary];
   if (/比亚迪|BYD/i.test(model.brand)) sources.push({ title: '比亚迪官方车型手册', url: 'https://www.byd.com/cn/user-manual', kind: 'official', description: '按年款与 DM / EV 筛选；部分手册需在官方 App 认证车主后查看。优先核对中国版保养表。' });
   if (/大众/.test(model.brand)) sources.push({ title: '上汽大众官方保养手册', url: 'https://www.svw-volkswagen.com/service/maintenancemanual/', kind: 'official', description: '仅适用上汽大众车型；一汽大众迈腾、速腾等不可套用。' });
@@ -130,33 +138,105 @@ export async function manualSources(model: CarModel): Promise<ManualSource[]> {
 }
 
 const discoveryCache = new Map<string, { expires: number; sources: ManualSource[] }>();
-/** Explicit on-demand search of the site's public search form, never a background crawl. */
-export async function discoverManualSources(model: CarModel): Promise<ManualSource[]> {
-  const core = model.name.split(/[\s·（(]/)[0].trim();
-  const query = core;
+const officialDomains = ['ghac.cn', 'dongfeng-honda.com', 'honda.com.cn', 'honda.com', 'toyota.com.cn', 'toyota.com', 'ftms.com.cn', 'gtmc.com.cn', 'byd.com', 'svw-volkswagen.com', 'faw-vw.com', 'volkswagen.com.cn', 'volkswagen.de', 'vw.com', 'tesla.cn', 'tesla.com', 'bmw.com.cn', 'bmw.com', 'mercedes-benz.com.cn', 'audi.cn', 'geely.com', 'changan.com.cn', 'chery.cn', 'haval.com.cn', 'nissan.com.cn', 'df-nissan.com.cn', 'buick.com.cn', 'ford.com.cn', 'lixiang.com', 'nio.cn', 'xpeng.com', 'aito.auto', 'volvocars.com', 'mazda.com.cn', 'sgmw.com.cn', 'gacmotor.com', 'lynkco.com.cn', 'kia.cn', 'hyundai.com.cn', 'skoda.com.cn', 'chevrolet.com.cn'];
+const officialHost = (hostname: string) => officialDomains.some(domain => hostname === domain || hostname.endsWith(`.${domain}`));
+const coreName = (model: CarModel) => model.name.replace(/[·（(].*$/u, '').replace(/\s+/g, ' ').trim().slice(0, 80);
+const compact = (value: string) => value.toLowerCase().replace(/[\s··_-]+/g, '');
+function powerConflict(model: CarModel, text: string): boolean {
+  const hybrid = /混动|双擎|e.?HEV|PHEV|DM[-－]?[ip]|油电/i;
+  const electric = /纯电|BEV|electric vehicle|electric car/i;
+  if (/汽油|燃油|柴油/.test(model.power) && !hybrid.test(model.power) && (hybrid.test(text) || electric.test(text))) return true;
+  if (electric.test(model.power) && !hybrid.test(model.power) && (hybrid.test(text) || /汽油|燃油|柴油|gasoline|petrol/i.test(text))) return true;
+  return hybrid.test(model.power) && electric.test(text) && !hybrid.test(text);
+}
+/** The primary queries intentionally use the car series, not an exact trim as a hard filter. */
+export function modelManualQueries(model: CarModel): string[] {
+  const label = `${model.brand.trim().slice(0, 60)} ${coreName(model)}`.trim();
+  return [`${label} 保养手册`, `${label} 保养周期表`];
+}
+function searchTarget(href: string, base: string): string | null {
+  try {
+    let url = new URL(href, base);
+    if (/(^|\.)bing\.com$/i.test(url.hostname) && url.pathname === '/ck/a') {
+      const target = url.searchParams.get('u');
+      if (!target?.startsWith('a1') || target.length > 8192) return null;
+      url = new URL(Buffer.from(target.slice(2), 'base64url').toString('utf8'));
+    }
+    if (/(^|\.)duckduckgo\.com$/i.test(url.hostname) && url.pathname === '/l/') {
+      const target = url.searchParams.get('uddg');
+      if (!target) return null;
+      url = new URL(target);
+    }
+    if (/(^|\.)(bing\.com|duckduckgo\.com|microsoft\.com)$/i.test(url.hostname)) return null;
+    url = validateSourceUrl(url.href);
+    for (const key of [...url.searchParams.keys()]) if (/^(utm_.+|spm|msclkid|fbclid|gclid)$/i.test(key)) url.searchParams.delete(key);
+    return url.href;
+  } catch { return null; }
+}
+/** Parses only visible organic result blocks, never arbitrary links or scripts. */
+export function parseManualSearchResults(html: string, base: string, model: CarModel): ManualSource[] {
+  const $ = load(html), sources: ManualSource[] = [];
+  const core = compact(coreName(model));
+  $('.b_algo, .result').each((_index, node) => {
+    const block = $(node), anchor = block.find('h2 a[href], a.result__a[href]').first();
+    const title = anchor.text().replace(/\s+/g, ' ').trim().slice(0, 500);
+    const snippet = block.find('.b_caption p, p, .result__snippet').first().text().replace(/\s+/g, ' ').trim().slice(0, 850);
+    const href = anchor.attr('href');
+    if (!href || !title || !/保养(?:手册|周期|项目|里程|表)|维[修护](?:手册|周期|项目)|用户手册|车主手册|maintenance|owner.?s? manual/i.test(`${title} ${snippet}`)) return;
+    const url = searchTarget(href, base);
+    if (!url || sources.some(source => source.url === url)) return;
+    const hostname = new URL(url).hostname;
+    const official = officialHost(hostname);
+    const related = !!core && compact(`${title} ${snippet}`).includes(core);
+    // An official brand-wide portal remains a directory, even when a search engine returned it for a model.
+    if (!related && !official) return;
+    const isDirectory = !related ||
+      /(?:手册|资料|保养).{0,8}(?:目录|信息查询|查询系统|下载中心)/.test(title) && !compact(title).includes(core) ||
+      /报价.{0,8}图片|参数.{0,5}配置|频道|官方网站首页/.test(title) && !/保养手册|保养周期表|maintenance manual/i.test(title);
+    const kind: ManualSource['kind'] = /(^|\.)carobook\.com$/i.test(hostname) ? 'carobook' : official ? 'official' : 'other';
+    const conflict = powerConflict(model, `${title} ${snippet}`);
+    sources.push({ title, url, kind, isDirectory, description: `${official ? '车企官方公开来源' : '开放互联网检索来源'}：${snippet || title}。${isDirectory ? '这是品牌资料入口，需选定具体手册。' : '车系通用资料候选，识别后核对年款、动力及使用条件。'}${conflict ? '候选描述的动力与当前车型可能冲突，已降低优先级，请核对。' : ''}`.slice(0, 1500) });
+  });
+  return sources.slice(0, 12);
+}
+function sourceScore(source: ManualSource, model: CarModel): number {
+  const text = `${source.title} ${source.description}`;
+  return (source.isDirectory ? -30 : 40) + (source.kind === 'official' ? 25 : 0) +
+    (/\.pdf(?:\?|$)|\.(?:png|jpe?g|webp)(?:\?|$)/i.test(source.url) ? 12 : 0) +
+    (/保养手册|maintenance manual/i.test(source.title) ? 15 : /保养周期|保养表/.test(source.title) ? 10 : 0) +
+    (text.includes(String(model.year)) ? 5 : 0) - (/动力与当前车型可能冲突/.test(source.description) ? 45 : 0) - (/论坛|避坑|费用|多少钱|价格|攻略|实测/.test(source.title) ? 12 : 0);
+}
+export interface ManualDiscoveryDependencies { download?: typeof publicDownload; cache?: boolean }
+/** Bounded, explicit open-web queries; no domain allowlist and no background crawl. */
+export async function discoverManualSources(model: CarModel, dependencies: ManualDiscoveryDependencies = {}): Promise<ManualSource[]> {
+  const core = coreName(model);
   const cacheKey = JSON.stringify([model.brand, core, model.year, model.power]);
   const old = discoveryCache.get(cacheKey);
-  if (old && old.expires > Date.now()) return old.sources;
+  if (dependencies.cache !== false && old && old.expires > Date.now()) return old.sources;
   const fallback = await manualSources(model);
-  try {
-    const result = await publicDownload('https://www.carobook.com/zb_system/cmd.php?act=search', 0, new URLSearchParams({ q: query }).toString(), 8000);
-    const $ = load(result.bytes.toString('utf8')), candidates: ManualSource[] = [];
-    $('h2 a[href], h3 a[href]').each((_index, node) => {
-      const title = $(node).text().trim();
-      if (!core || !title.includes(core) || !title.includes('保养手册')) return;
-      let url: URL;
-      try { url = new URL($(node).attr('href') || '', result.url); } catch { return; }
-      if (url.hostname !== 'www.carobook.com' && url.hostname !== 'carobook.com') return;
-      if (candidates.some(item => item.url === url.href) || candidates.length >= 6) return;
-      candidates.push({ title, url: url.href, kind: 'carobook', isDirectory: false, description: title.includes(String(model.year)) ? '标题包含本车型年款，仍须核对中国版、动力与配置；有唯一 PDF 直链时可获取，网盘分享需下载后上传。' : '车系名称相符，但年款或动力尚未确认；仅作候选，核对适用范围后才可导入。' });
-    });
-    candidates.sort((a, b) => Number(b.title.includes(String(model.year))) - Number(a.title.includes(String(model.year))));
-    const sources = [...candidates, ...fallback];
-    if (!candidates.length) sources[0] = { ...sources[0], description: '本次未在 CarOBook 搜索结果找到可确认的车型保养手册；可继续查看品牌目录，或使用下方官方及备用来源。' };
-    discoveryCache.set(cacheKey, { expires: Date.now() + 15 * 60000, sources });
-    if (discoveryCache.size > 100) discoveryCache.delete(discoveryCache.keys().next().value!);
-    return sources;
-  } catch {
-    return fallback.map((source, i) => i ? source : { ...source, description: 'CarOBook 在线搜索暂不可用，保留品牌目录入口；可从官方及其他渠道获取 PDF 或图片后上传。' });
+  const download = dependencies.download || publicDownload;
+  const queries = modelManualQueries(model);
+  const results = await Promise.allSettled(queries.map(async query => {
+    const url = `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=zh-hans`;
+    const result = await download(url, 0, undefined, 6500);
+    return parseManualSearchResults(result.bytes.toString('utf8'), result.url, model);
+  }));
+  let candidates = results.flatMap(result => result.status === 'fulfilled' ? result.value : []);
+  // A second engine is a fallback for blocked/empty search responses, not a restriction on source sites.
+  if (!candidates.some(source => !source.isDirectory)) {
+    try {
+      const result = await download(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(queries[0])}`, 0, undefined, 3500);
+      candidates.push(...parseManualSearchResults(result.bytes.toString('utf8'), result.url, model));
+    } catch { /* The curated directories below remain available when search engines cannot be reached. */ }
   }
+  const unique = new Map<string, ManualSource>();
+  for (const source of candidates.sort((a, b) => sourceScore(b, model) - sourceScore(a, model))) if (!unique.has(source.url)) unique.set(source.url, source);
+  const selected = [...unique.values()].slice(0, 10);
+  const sources = [...selected, ...fallback.filter(source => !unique.has(source.url))].slice(0, 14);
+  if (!selected.length) sources[0] = { ...sources[0], description: '开放互联网搜索暂未取得可用车型资料，以下为备用目录；可稍后重查或上传保养表图片。' };
+  if (dependencies.cache !== false) {
+    discoveryCache.set(cacheKey, { expires: Date.now() + (selected.length ? 15 * 60000 : 30000), sources });
+    if (discoveryCache.size > 100) discoveryCache.delete(discoveryCache.keys().next().value!);
+  }
+  return sources;
 }

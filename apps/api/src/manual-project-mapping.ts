@@ -12,15 +12,22 @@ const compact = (value: string) => value.normalize("NFKC").toLowerCase().replace
 
 /** Exact normalized component names only; never use substring/fuzzy similarity. */
 export function manualProjectSubject(value: string): string {
-  return compact(value)
+  // Preserve explicit component separators before compact removes punctuation.
+  // A two-part source row must not collapse into just one of its components.
+  const subject = compact(value.normalize("NFKC").replace(/[，,、;；+&/]/g, "与"))
     .replace(actionPattern, "")
     .replace(/发动机机油/g, "机油")
     .replace(/机油滤清器|机油滤芯/g, "机滤")
-    .replace(/空调滤芯|座舱滤芯|空调过滤器/g, "空调滤清器")
+    .replace(/(?:空调|座舱|车厢|驾驶室)空气滤清器|(?:空调|座舱|车厢|驾驶室)空气滤芯|空调滤芯|座舱滤芯|座舱滤清器|空调过滤器/g, "空调滤清器")
     .replace(/(?:发动机)?空气滤清器|(?:发动机)?空气滤芯/g, "发动机空气滤芯")
-    .replace(/刹车液/g, "制动液")
+    .replace(/刹车液|刹车油|制动油/g, "制动液")
     .replace(/雨刷片/g, "雨刮片")
     .replace(/及|与|和|\+/g, "与");
+  // The standard oil service explicitly includes BOTH engine oil and its filter.
+  // This is the only compound alias here; do not infer a service from a subset.
+  const parts = subject.split("与");
+  return parts.length === 2 && new Set(parts).size === 2 && parts.every(part => part === "机油" || part === "机滤")
+    ? "机油与机滤" : subject;
 }
 
 function statedAction(name: string, description = ""): MaintenanceAction | null {

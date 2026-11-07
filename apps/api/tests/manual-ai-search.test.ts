@@ -33,9 +33,10 @@ test("manual AI search uses both configured protocols and only orders retrieved 
   const result = await lookupModelManuals(cfg, model, { discover: async () => [concrete, directory], fetch: upstream.fakeFetch });
   assert.equal(result.aiStatus, "completed");
   assert.deepEqual(result.sources, [directory, concrete]);
-  assert.match(result.summary, /1个车系保养手册候选/);
+  assert.match(result.summary, /1份车系通用保养资料/);
   assert.match(result.summary, /尚未确认/);
-  assert.match(result.query, /丰田 凯美瑞 2018款 汽油 2.0L 6AT/);
+  assert.equal(result.query, '丰田 凯美瑞 保养手册 / 丰田 凯美瑞 保养周期表');
+  assert.doesNotMatch(result.query, /2018|2.0L|6AT/, 'trim and year are ranking context, not a hard search constraint');
   assert.equal(upstream.requests[0].url, "https://provider.example/v1/responses");
   const body = upstream.requests[0].body;
   assert.equal(body.store, false);

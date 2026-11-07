@@ -4,9 +4,10 @@ import type { Context } from "./context.js";
 import { authenticated, roles, route } from "./context.js";
 import { get, list, put } from "./db.js";
 import { AppError, audit, ensure, id, now, sha256 } from "./domain.js";
-import { ingestManualBuffer, readManualImages, receiveManualFiles } from "./manual-files.js";
-import { discoverManualSources, downloadManualSource, manualSources } from "./manual-sources.js";
-import { manualRowSchema, recognizeManual } from "./manual-vision.js";
+import { readManualImages, receiveManualFiles } from "./manual-files.js";
+import { discoverManualSources, manualSources } from "./manual-sources.js";
+import { ingestManualSource, readManualTextEvidence } from "./manual-web-source.js";
+import { manualRowSchema, recognizeManual, recognizeManualText } from "./manual-vision.js";
 import { autoMapManualProjects, manualProjectSubject, standardProjectAction } from "./manual-project-mapping.js";
 import { catalogProjects, catalogSources, catalogVersion } from "./data/public-catalog.js";
 
@@ -31,16 +32,16 @@ const metadataSchema = z.object({
   pageRange: z.string().trim().max(200).optional(),
   pageMode: z.enum(["auto", "manual"]).default("auto"),
 });
-const draftSchema = z.object({
-  expectedRevision: z.number().int().positive(),
-  rows: z.array(manualRowSchema).max(60),
-  sourceTitle: z.string().trim().min(1).max(1000),
+const draftFieldsSchema = z.object({
+  rows: z.array(manualRowSchema.extend({ name: z.string().trim().max(160) })).max(60),
+  sourceTitle: z.string().trim().max(1000),
   sourceUrl: sourceUrlSchema,
   edition: z.string().trim().max(500),
   applicability: z.string().trim().max(3000),
   sourceExcerpt: z.string().trim().max(16000).optional(),
 }).strict();
-const publishSchema = z.object({ expectedRevision: z.number().int().positive(), verified: z.literal(true), applicabilityConfirmed: z.literal(true) }).strict();
+const draftSchema = draftFieldsSchema.extend({ expectedRevision: z.number().int().positive() });
+const publishSchema = z.object({ expectedRevision: z.number().int().positive(), verified: z.literal(true), applicabilityConfirmed: z.literal(true), draft: draftFieldsSchema.optional() }).strict();
 const identity = (model: CarModel) => sha256(JSON.stringify([model.brand, model.name, model.year, model.power, model.isDemo]));
 const latestVersions = (rules: MaintenanceRule[]) => Object.fromEntries([...new Set(rules.map(rule => rule.projectId))].map(projectId => [projectId, Math.max(0, ...rules.filter(rule => rule.projectId === projectId).map(rule => rule.version))]));
 const normalizedName = (name: string) => name.replace(/\s+/g, "").toLocaleLowerCase("zh-CN");
@@ -63,7 +64,7 @@ function verifySourceLink(sourceUrl: string, files: ManualAsset[]) {
 }
 function verifyEvidence(rows: ManualRuleDraft[], files: ManualAsset[], publishing: boolean) {
   ensure(new Set(rows.map(row => row.id)).size === rows.length, 400, "DUPLICATE_MANUAL_ROW", "手册候选行标识不能重复");
-  const available = new Set(files.filter(file => !file.original || file.mimeType.startsWith("image/")).map(file => file.pageNumber).filter(page => page !== null));
+  const available = new Set(files.filter(file => !file.original || file.mimeType.startsWith("image/") || file.mimeType === "text/plain").map(file => file.pageNumber).filter(page => page !== null));
   for (const row of rows) {
     ensure(row.pageNumbers.every(page => available.has(page)), 400, "SOURCE_PAGE_INVALID", "来源页码必须对应本次上传且已渲染的原文页面");
     const mappingCount = [!!row.projectId, !!row.catalogProjectId, row.createProject].filter(Boolean).length;
@@ -82,6 +83,63 @@ function verifyEvidence(rows: ManualRuleDraft[], files: ManualAsset[], publishin
       ensure(row.intervalMonths !== null || row.intervalKm !== null, 400, "INTERVAL_REQUIRED", "周期保养规则需明确后续时间或里程间隔");
     } else ensure(!!row.condition.trim(), 400, "CONDITION_REQUIRED", "按条件或按需保养须记录原文条件");
   }
+}
+
+interface PublicationIssue { rowId: string; rowNumber: number; field: string; message: string }
+/** Collect all actionable selected-row issues before any publication writes. */
+function publicationIssues(job: StoredManual, projects: Project[], versions: Record<string, number>): PublicationIssue[] {
+  const issues: PublicationIssue[] = [];
+  const add = (row: ManualRuleDraft, index: number, field: string, message: string) => issues.push({ rowId: row.id, rowNumber: index + 1, field, message });
+  const available = new Set(job.files.filter(file => !file.original || file.mimeType.startsWith("image/") || file.mimeType === "text/plain").map(file => file.pageNumber).filter(page => page !== null));
+  const rowIds = new Set<string>(), targetIds = new Set<string>(), names = new Set<string>();
+  for (const [index, row] of job.rows.entries()) {
+    if (!row.include) continue;
+    if (rowIds.has(row.id)) add(row, index, "id", "项目行重复，请移除重复行");
+    rowIds.add(row.id);
+    if (!row.name.trim()) add(row, index, "name", "请填写项目名称");
+    if (!row.sourceText.trim() || !row.pageNumbers.length) add(row, index, "sourceText", "缺少原文证据，请补充或暂不导入此项");
+    if (row.pageNumbers.some(page => !available.has(page))) add(row, index, "pageNumbers", "来源页码与本次资料不一致");
+    const count = [!!row.projectId, !!row.catalogProjectId, row.createProject].filter(Boolean).length;
+    if (count !== 1) add(row, index, "projectId", count ? "标准项目存在多个关联，请保留一种" : "未能自动关联标准项目，请选择或暂不导入此项");
+    let target = row.projectId;
+    if (row.catalogProjectId) {
+      const entry = catalogProjects.find(project => project.id === row.catalogProjectId);
+      if (!entry || entry.category === "diagnosis") add(row, index, "projectId", "参考项目不可用，请重新选择");
+      else {
+        if (entry.action !== row.action) add(row, index, "action", "操作与参考项目不一致，请区分检查和更换");
+        const matching = projects.filter(project => project.catalogSource?.catalogId === entry.id || normalizedName(project.code) === normalizedName(entry.code) || normalizedName(project.name) === normalizedName(entry.name) || manualProjectSubject(project.name) === manualProjectSubject(entry.name) && standardProjectAction(project) === entry.action);
+        if (matching.length > 1) add(row, index, "projectId", "参考项目对应多个标准项目，请明确选择");
+        else if (matching[0]) {
+          target = matching[0].id;
+          if (manualProjectSubject(matching[0].name) !== manualProjectSubject(entry.name) || standardProjectAction(matching[0]) !== entry.action) add(row, index, "projectId", "参考编码或来源已关联其他部件或操作，请选择准确标准项目");
+        }
+        else {
+          target = `catalog:${entry.id}`;
+          if (projects.some(project => project.category !== "diagnosis" && manualProjectSubject(project.name) === manualProjectSubject(entry.name) && (!project.active || standardProjectAction(project) === null))) add(row, index, "projectId", "同部件项目已停用或动作不明确，请选择准确标准项目");
+        }
+      }
+    }
+    if (target) {
+      if (targetIds.has(target)) add(row, index, "projectId", "多行关联同一标准项目，请保留适用的一项");
+      targetIds.add(target);
+      if (!target.startsWith("catalog:")) {
+        const project = projects.find(item => item.id === target);
+        if (!project?.active || project.category === "diagnosis") add(row, index, "projectId", "关联项目已停用或不属于保养项目");
+        else if (standardProjectAction(project) && standardProjectAction(project) !== row.action) add(row, index, "action", "操作与标准项目不一致，请区分检查和更换");
+        if ((versions[target] || 0) !== (job.baseRuleVersions[target] || 0)) add(row, index, "projectId", "该项目规则已有新版，请刷新核对后重新导入");
+      }
+    }
+    if (row.createProject) {
+      const name = normalizedName(row.name);
+      if (names.has(name) || projects.some(project => normalizedName(project.name) === name)) add(row, index, "projectId", "项目名称已存在，请关联已有项目");
+      names.add(name);
+    }
+    if (row.triggerType === "periodic") {
+      if (row.condition.trim()) add(row, index, "triggerType", "有特殊工况条件的项目请选择按条件处理");
+      if (row.intervalMonths === null && row.intervalKm === null) add(row, index, "interval", "原文未给出后续周期，请补充或暂不导入此项");
+    } else if (!row.condition.trim()) add(row, index, "condition", "请保留原文的触发条件");
+  }
+  return issues;
 }
 
 export function registerManuals(ctx: Context) {
@@ -105,15 +163,19 @@ export function registerManuals(ctx: Context) {
       if (!job) return;
       const model = await get<CarModel>(db, "models", job.modelId);
       ensure(model && identity(model) === job.modelIdentity, 409, "MODEL_CHANGED", "车型资料已变更，请核实后重新导入对应手册");
-      const pages = await readManualImages(ctx, job.files);
-      const result = await recognizeManual(config, pages, `${model.brand} ${model.name} ${model.year}款 ${model.power}`);
+      const pages = job.files.some(file => file.mimeType === "image/jpeg" && file.pageNumber !== null) ? await readManualImages(ctx, job.files) : [];
+      const textPages = await readManualTextEvidence(ctx, job.files);
+      const description = `${model.brand} ${model.name} ${model.year}款 ${model.power}`;
+      const result = textPages.length ? await recognizeManualText(config, textPages, description, pages) : await recognizeManual(config, pages, description);
       const rows = autoMapManualProjects(result.rows.map(row => ({ ...row, id: id(), projectId: null, catalogProjectId: null, createProject: false, include: row.triggerType === "periodic" })), await list<Project>(db, "projects"));
       verifyEvidence(rows, job.files, false);
       const warnings = [...result.warnings];
       if (!usableDocumentMetadata(result.sourceTitle)) warnings.push("识别页面未明确给出手册标题；文件名只作待核对草稿，请结合原件核对。");
-      if (!usableDocumentMetadata(result.edition)) warnings.push("识别页面未明确给出手册版本；未知版本须核对后填写，不能用目标车型年款代替。");
+      if (!usableDocumentMetadata(result.edition)) warnings.push("原文未注明手册版本；可留空，不以目标车型年款代替。");
       if (!usableDocumentMetadata(result.applicability)) warnings.push("识别页面未明确给出适用车型与版本，请结合手册封面和原车资料核对；目标车型不构成适用证据。");
-      if (rows.some(row => row.triggerType === "periodic" && ((row.firstMonths === null && row.firstKm === null) || (row.intervalMonths === null && row.intervalKm === null)))) warnings.push("部分周期字段未明确识别，须对照原文补全，不能凭经验补写。");
+      if (rows.some(row => row.triggerType === "periodic" && row.intervalMonths === null && row.intervalKm === null)) warnings.push("部分项目未明确后续周期，可暂不导入这些项目；不能凭经验补写。");
+      if (rows.some(row => row.triggerType === "periodic" && row.firstMonths === null && row.firstKm === null)) warnings.push("部分项目原文未单列首次周期；无保养记录时按已注明周期起算，不表示识别出了独立首保要求。");
+      if (rows.some(row => row.triggerType === "periodic" && row.firstMonths === null && row.firstKm === null && /此后|以后|之后|随后|thereafter/i.test(row.sourceText))) warnings.push("部分原文只提到后续周期、没有首次依据，请结合原件首保说明核对；可暂不导入这些项目。");
       await db.transaction(async sql => {
         const current = await get<StoredManual>(sql, "manual_imports", job!.id, true);
         if (!current || current.status !== "processing" || current.revision !== job!.revision) return;
@@ -146,7 +208,7 @@ export function registerManuals(ctx: Context) {
       }
     })().finally(() => { draining = null; });
   }
-  async function createJob(userId: string, input: z.infer<typeof metadataSchema>, files: ManualAsset[], selection?: ManualPageSelection) {
+  async function createJob(userId: string, input: z.infer<typeof metadataSchema>, files: ManualAsset[], selection?: ManualPageSelection, acquiredTitle = "") {
     return db.transaction(async sql => {
       const model = await get<CarModel>(sql, "models", input.modelId, true);
       ensure(model, 404, "MODEL_NOT_FOUND", "请选择已有的准确车型、年款与动力配置");
@@ -158,11 +220,11 @@ export function registerManuals(ctx: Context) {
       const sourceUrl = input.sourceUrl || original.url;
       const job: StoredManual = {
         id: id(), createdBy: userId, modelId: model.id,
-        sourceTitle: input.sourceTitle || `${filename || `${model.brand} ${model.name} 保养资料`}（待核对）`, sourceUrl,
+        sourceTitle: input.sourceTitle || acquiredTitle || `${filename || `${model.brand} ${model.name} 保养资料`}（待核对）`, sourceUrl,
         acquiredSourceUrl: sourceUrl, edition: input.edition || "未知（待核对）",
         applicability: input.applicability || `适用范围未知（待核对）；拟关联：${target}，尚未证实适用。`,
         sourceExcerpt: input.sourceExcerpt,
-        metadataOrigin: { sourceTitle: input.sourceTitle ? "provided" : filename ? "filename" : "target", edition: input.edition ? "provided" : "unknown", applicability: input.applicability ? "provided" : "target" },
+        metadataOrigin: { sourceTitle: input.sourceTitle ? "provided" : acquiredTitle ? "document" : filename ? "filename" : "target", edition: input.edition ? "provided" : "unknown", applicability: input.applicability ? "provided" : "target" },
         ...(selection ? { pageSelection: selection } : {}),
         status: configured() ? "uploaded" : "failed", files, rows: [], warnings: [], attempts: 0,
         reason: configured() ? "原件已保存，正在排队识别选定页面。" : "原件已保存；尚未配置手册AI识别服务，请配置后重试。",
@@ -216,11 +278,10 @@ export function registerManuals(ctx: Context) {
   app.post(route("/admin/manual-imports/from-url"), async request => {
     const user = roles(request, ["platform_admin"]);
     const input = metadataSchema.extend({ consent: z.literal(true), sourceUrl: z.string().url().max(2500) }).strict().parse(request.body);
-    const downloaded = await downloadManualSource(input.sourceUrl);
-    const received = await ingestManualBuffer(ctx, user.id, downloaded.buffer, downloaded.name, downloaded.mimeType, input.pageRange, input.pageMode);
+    const received = await ingestManualSource(ctx, user.id, input.sourceUrl, input.pageRange, input.pageMode);
     let committed = false;
     try {
-      const job = await createJob(user.id, { ...input, sourceUrl: downloaded.sourceUrl }, received.files, received.selection);
+      const job = await createJob(user.id, { ...input, sourceUrl: received.sourceUrl }, received.files, received.selection, received.title);
       committed = true;
       if (job.status === "uploaded") schedule(job.id);
       return publicManual(job);
@@ -252,8 +313,8 @@ export function registerManuals(ctx: Context) {
       verifySourceLink(input.sourceUrl, job.files);
       verifyEvidence(input.rows, job.files, false);
       const metadataOrigin = originsFor(job);
-      for (const key of metadataKeys) if (input[key] !== job[key]) metadataOrigin[key] = input[key].trim() ? "provided" : "unknown";
-      const updated = await put(sql, "manual_imports", { ...job, rows: input.rows, sourceTitle: input.sourceTitle, sourceUrl: input.sourceUrl, edition: input.edition, applicability: input.applicability, sourceExcerpt: input.sourceExcerpt ?? job.sourceExcerpt, metadataOrigin, revision: job.revision + 1, updatedAt: now() });
+      for (const key of metadataKeys) if (input[key] !== job[key] && (key !== "sourceTitle" || input.sourceTitle)) metadataOrigin[key] = input[key].trim() ? "provided" : "unknown";
+      const updated = await put(sql, "manual_imports", { ...job, rows: input.rows, sourceTitle: input.sourceTitle || job.sourceTitle, sourceUrl: input.sourceUrl, edition: input.edition, applicability: input.applicability, sourceExcerpt: input.sourceExcerpt ?? job.sourceExcerpt, metadataOrigin, revision: job.revision + 1, updatedAt: now() });
       await audit(sql, user.id, "manual.draft.saved", "manual", job.id, `保存 ${input.rows.filter(row => row.include).length} 条候选规则，尚未发布`);
       return publicManual(updated);
     });
@@ -273,7 +334,7 @@ export function registerManuals(ctx: Context) {
       return publicManual(updated);
     });
   });
-  app.post<{ Params: { id: string } }>(route("/admin/manual-imports/:id/publish"), async request => {
+  app.post<{ Params: { id: string } }>(route("/admin/manual-imports/:id/publish"), async (request, reply) => {
     const user = roles(request, ["platform_admin"]);
     const input = publishSchema.parse(request.body);
     const observed = await get<StoredManual>(db, "manual_imports", request.params.id);
@@ -281,7 +342,7 @@ export function registerManuals(ctx: Context) {
     return db.transaction(async sql => {
       // All rule publication paths serialize on the exact model before reading versions.
       const model = await get<CarModel>(sql, "models", observed.modelId, true);
-      const job = await get<StoredManual>(sql, "manual_imports", request.params.id, true);
+      let job = await get<StoredManual>(sql, "manual_imports", request.params.id, true);
       ensure(job && model, 404, "NOT_FOUND", "手册任务或车型不存在");
       const publicationHash = sha256(JSON.stringify(input));
       if (job.status === "published") {
@@ -291,19 +352,34 @@ export function registerManuals(ctx: Context) {
       ensure(job.status === "awaiting_confirmation", 409, "INVALID_STATE", "手册识别与人工核对完成后才可发布");
       ensure(job.revision === input.expectedRevision, 409, "REVISION_CONFLICT", "手册草稿已更新，请刷新并重新核对");
       ensure(identity(model) === job.modelIdentity, 409, "MODEL_CHANGED", "车型名称、年款或动力配置已变更，请重新导入适用手册");
-      ensure(!!job.edition.trim() && !!job.applicability.trim(), 400, "APPLICABILITY_REQUIRED", "请填写手册版本及已核对的车型、市场和动力适用范围");
-      const metadataOrigin = originsFor(job);
-      ensure(!["unknown", "target"].includes(metadataOrigin.edition) && !["unknown", "target"].includes(metadataOrigin.applicability), 400, "APPLICABILITY_REQUIRED", "手册版本或适用范围仍未知/待核对，请对照原件填写并保存；所选目标车型不能证明手册适用");
+      if (input.draft) {
+        const metadataOrigin = originsFor(job);
+        for (const key of metadataKeys) if (input.draft[key] !== job[key] && (key !== "sourceTitle" || input.draft.sourceTitle)) metadataOrigin[key] = input.draft[key].trim() ? "provided" : "unknown";
+        job = { ...job, ...input.draft, sourceExcerpt: input.draft.sourceExcerpt ?? job.sourceExcerpt, sourceTitle: input.draft.sourceTitle || job.sourceTitle || `${model.brand} ${model.name} 保养资料`, metadataOrigin };
+      } else {
+        // Preserve the legacy saved-draft API while the compact flow sends its
+        // final edits and a single explicit human review in this request.
+        ensure(!!job.edition.trim() && !!job.applicability.trim(), 400, "APPLICABILITY_REQUIRED", "请填写手册版本及已核对的车型、市场和动力适用范围");
+        const metadataOrigin = originsFor(job);
+        ensure(!["unknown", "target"].includes(metadataOrigin.edition) && !["unknown", "target"].includes(metadataOrigin.applicability), 400, "APPLICABILITY_REQUIRED", "手册版本或适用范围仍未知/待核对，请对照原件填写并保存；所选目标车型不能证明手册适用");
+      }
       verifySourceLink(job.sourceUrl, job.files);
       const selected = job.rows.filter(row => row.include);
-      ensure(selected.length > 0, 400, "MANUAL_ROWS_REQUIRED", "请至少选中一条已核对的保养规则");
-      verifyEvidence(job.rows, job.files, true);
+      if (!input.draft) {
+        ensure(selected.length > 0, 400, "MANUAL_ROWS_REQUIRED", "请至少选中一条已核对的保养规则");
+        verifyEvidence(job.rows, job.files, true);
+      }
       const allRules = (await list<MaintenanceRule>(sql, "rules")).filter(rule => rule.modelId === model.id);
       const versions = latestVersions(allRules);
       // Different models can introduce the same standard project concurrently.
       // Serialize name lookup and creation across those model transactions.
       if (selected.some(row => row.createProject || row.catalogProjectId)) await sql.query("LOCK TABLE av_projects IN SHARE ROW EXCLUSIVE MODE");
       const projects = await list<Project>(sql, "projects");
+      if (input.draft) {
+        const issues = publicationIssues(job, projects, versions);
+        if (!selected.length) issues.unshift({ rowId: "", rowNumber: 0, field: "rows", message: "请至少选择一个可导入项目" });
+        if (issues.length) return reply.code(422).send({ error: { code: "MANUAL_REVIEW_REQUIRED", message: `请处理 ${issues.length} 处问题后导入；暂不导入的项目可取消选择，原文仍会保留。`, issues } });
+      }
       const projectIds = new Set<string>();
       const newNames = new Set<string>();
       const publishedRules: MaintenanceRule[] = [];

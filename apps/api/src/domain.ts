@@ -142,12 +142,16 @@ export function maintenanceFor(
     const latest = records
       .filter((r) => r.vehicleId === vehicle.id && r.projectId === project.id)
       .sort((a, b) => b.completedAt.localeCompare(a.completedAt))[0];
-    const intervalMonths = latest ? rule.intervalMonths : rule.firstMonths;
+    // A manual may give one recurring interval without a distinct first service.
+    // Keep the original null first fields, and use that documented recurrence
+    // from the vehicle's start only when neither independent first value exists.
+    const recurringFromStart = rule.firstMonths === null && rule.firstKm === null;
+    const intervalMonths = latest || recurringFromStart ? rule.intervalMonths : rule.firstMonths;
     const dueAt = intervalMonths === null ? null : addMonthsClamped(
       latest ? shanghaiDay(new Date(latest.completedAt)) : vehicle.startDate,
       intervalMonths,
     );
-    const intervalKm = latest ? rule.intervalKm : rule.firstKm;
+    const intervalKm = latest || recurringFromStart ? rule.intervalKm : rule.firstKm;
     const dueKm =
       intervalKm === null
         ? null

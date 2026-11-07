@@ -26,11 +26,11 @@
 | 标准项目 | `POST /admin/projects`、`PATCH /admin/projects/:id` | 平台维护 |
 | 车型档案 | `POST /admin/models`、`PATCH /admin/models/:id`、`DELETE /admin/models/:id` | 平台维护；仅未被引用的车型可删除 |
 | 车型手册 | `POST /admin/rules`、`PATCH /admin/rules/:id` | 来源、版本、适用范围与复核 |
-| 手册来源 | `GET /admin/manual-sources?modelId=...&discover=true` | 平台管理员按车型查询 CarOBook 候选及官方补充入口；不传 discover 时仅返回入口 |
+| 手册来源 | `GET /admin/manual-sources?modelId=...&discover=true` | 平台管理员按品牌／车系开放查询公开资料及官方补充入口；不传 discover 时仅返回入口 |
 | AI手册查询 | `POST /admin/manual-imports/ai-search` | 真实公开查询后，仅由AI排序已有候选 |
-| 手册导入 | `POST /admin/manual-imports`、`POST /admin/manual-imports/from-url` | 平台上传 PDF／图片，或获取允许来源的直接文件 |
+| 手册导入 | `POST /admin/manual-imports`、`POST /admin/manual-imports/from-url` | 平台上传 PDF／图片，或获取公开手册文件及保养网页证据 |
 | 手册任务 | `GET /admin/manual-imports`、`GET /admin/manual-imports/:id`、`POST /admin/manual-imports/:id/retry` | 平台查询持久任务和有限重试 |
-| 手册审核发布 | `PATCH /admin/manual-imports/:id/draft`、`POST /admin/manual-imports/:id/publish` | 版本校验、保存草稿、人工确认后原子发布 |
+| 手册审核发布 | `PATCH /admin/manual-imports/:id/draft`、`POST /admin/manual-imports/:id/publish` | 可单独保存草稿；也可一次提交当前draft并原子发布，集中返回待核对问题 |
 | 手册项目关联 | `POST /admin/manual-imports/:id/auto-map` | 为空白映射匹配已有或参考项目，保留人工选择 |
 | 手册证据 | `GET /manual-files/:id` | 平台读取；匹配本人车辆车型的车主读取已发布证据 |
 | 已发布手册 | `GET /manuals/:id` | 平台或拥有匹配车型的车主读取已发布手册及证据文件元数据 |
@@ -73,7 +73,7 @@
 
 本组接口仅平台管理员可写入。上传与识别产生持久草稿，不直接改变车型适用项目或车主保养计划。文件、证据页、来源、版次、适用范围和人工确认随任务保留；具体操作、来源限制与字段语义见 [手册导入说明](manual-import.md)。
 
-`GET /admin/manual-sources?modelId=...` 只返回来源入口，不发外部请求；显式附加 `discover=true` 才查询 CarOBook 公开目录并返回候选和补充入口。候选仍需核对年款、动力和市场版本；查询结果不是文件已下载或已适用的证明。
+`GET /admin/manual-sources?modelId=...` 只返回来源入口，不发外部请求；显式附加 `discover=true` 才按品牌／车系开放查询通用保养手册和周期表，返回具体候选和补充目录，不局限固定网站。候选仍需核对年款、动力和市场版本；查询结果不是文件已下载或已适用的证明。
 
 `POST /admin/manual-imports/ai-search` 接收严格JSON `{ "modelId": "准确车型ID", "consent": true }`，仅平台管理员可用。先执行真实公开查询并补充官方等目录，再由AI排序给定候选编号；不接受AI生成的URL、周期或适用性。返回 `query,sources,summary,warnings,aiStatus,searchedAt,evidenceMode`，`evidenceMode` 为 `public_search`，`aiStatus` 为 `completed`、`unavailable` 或 `not_configured`。未配置、拒绝、超时或无效编号时保留原候选或目录并说明原因。支持现有Responses和Chat Completions，AI步骤最多35秒，公开查询最多12秒；相同车型查询合并并缓存，正常15分钟、AI失败30秒，每分钟最多4次、同时最多3个不同查询；繁忙返回429。
 
@@ -81,13 +81,13 @@
 
 PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `manual`；明确 `pageRange` 时始终使用指定物理页。自动模式先尝试定位文字版的保养表及说明，无法可靠定位时返回 `PDF_AUTO_SELECTION_REQUIRED`，建议上传表格截图或指定物理页。短PDF可全选。`pageRange` 如 `150-154,158`，页序号从1开始，不能依据印刷页码猜测。服务端继续解码并执行像素／内容预算预检，不将文件名或MIME声明当作内容证明。
 
-`POST /admin/manual-imports/from-url` 使用相同元数据的 JSON，`sourceUrl` 必填、`consent` 为布尔 `true`。下载器仅访问公开 HTTPS，校验 DNS、重定向、内容及大小，支持直接 PDF／图片，以及只含一个 PDF 链接的页面。CarOBook 目录／网盘分享不等同于直接文件；需要登录或人工下载时返回明确原因，转为人工上传，不绕过第三方权限。
+`POST /admin/manual-imports/from-url` 使用相同元数据的 JSON，`sourceUrl` 必填、`consent` 为布尔 `true`。下载器仅访问公开 HTTPS，校验 DNS、重定向、内容及大小，支持直接 PDF／图片、只含一个 PDF 链接的页面，以及可提取保养正文、表格或图片的普通网页。网页正文保存为 `text/plain` 证据第1页，取得的保养图片随后编号；不能仅凭搜索摘要生成规则。CarOBook 目录、交互网盘及登录页面不等同于已取得手册；无法读取具体证据时返回明确原因，可打开原页截取保养表后上传，不代登录或绕过第三方权限。
 
 来源条目的可选 `isDirectory=true` 表示品牌／目录入口，`false`表示查到的具体候选；入口名称不能当作实际手册标题。任务新增可选 `metadataOrigin` 记录名称／版本／适用范围来自人工、原文、文件名、目标建议或未知；`sourceExcerpt` 保存识别原文摘录，`pageSelection` 保存选页模式、物理页列表、总页数及说明。旧任务没有这些字段仍可读取。文件名和目标车型仅能生成待核对建议，不能证明版本或适用性。
 
-返回 `ManualImport`，状态为 `uploaded`、`processing`、`awaiting_confirmation`、`published` 或 `failed`，包含 `files`、`rows`、`warnings`、`revision` 和发布的规则 ID。任务不进入普通 `bootstrap`；附件不暴露服务端路径。发布前仅平台可访问证据，发布后还需车主拥有匹配车型车辆才可读取。
+返回 `ManualImport`，状态为 `uploaded`、`processing`、`awaiting_confirmation`、`published` 或 `failed`，包含 `files`、`rows`、`warnings`、`revision` 和发布的规则 ID。`GET /admin/manual-imports` 仍返回管理员可见的任务集合；V0.9工作区按 `modelId` 只展示当前车型的资料和规则。任务不进入普通 `bootstrap`；附件不暴露服务端路径。发布前仅平台可访问证据，发布后还需车主拥有匹配车型车辆才可读取。
 
-`GET /manuals/:id` 仅返回已发布的 `ManualDocument` 元数据：`id`、`modelId`、`sourceTitle`、`sourceUrl`、`edition`、`applicability`、`files`、`publishedAt`。平台或拥有匹配车型的车主可读；草稿返回 404，其他已登录角色／无匹配车辆车主返回 403。原件和页图通过 `GET /manual-files/:id` 采用相同权限读取，不能借用普通文件路由绕过权限。
+`GET /manuals/:id` 仅返回已发布的 `ManualDocument` 元数据：`id`、`modelId`、`sourceTitle`、`sourceUrl`、`edition`、`applicability`、`sourceExcerpt`、`metadataOrigin`、`pageSelection`、`files`、`publishedAt`。平台或拥有匹配车型的车主可读；草稿返回 404，其他已登录角色／无匹配车辆车主返回 403。原件和页图通过 `GET /manual-files/:id` 采用相同权限读取，不能借用普通文件路由绕过权限。
 
 `PATCH /admin/manual-imports/:id/draft` 示例：
 
@@ -119,19 +119,68 @@ PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `man
 }
 ```
 
-动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。周期数字可为空；周期规则的首次与后续各至少有一个有效阈值，且 `condition` 必须为空，正常使用说明放在 `notes`。有特殊适用条件的项目使用条件／按需类型，保留条件且不计算固定到期，这些候选默认不选中。未知值不能由 AI 补齐。每条需有有效证据页和原文摘录；选中行必须且只能选择有效 `projectId`、公开参考 `catalogProjectId` 或明确 `createProject=true` 三种映射之一。其他映射字段置空／false，`catalogProjectId` 可省略以兼容旧草稿。重复项目与故障诊断范围不能发布。
+动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。周期数字可为空；V0.9携带 `draft` 发布时，周期规则的后续月数／公里数至少有一个有效阈值，`condition` 必须为空，正常使用说明放在 `notes`。原文未单列首次时，两项首次值可保持null，计算从已注明的后续周期起算；有任一独立首次值则保持原文维度。有特殊适用条件的项目使用条件／按需类型，保留条件且不计算固定到期，这些候选默认不选中。未知值不能由AI补齐。选中行需有有效证据页和原文摘录，且必须仅选择有效 `projectId`、公开参考 `catalogProjectId` 或明确 `createProject=true` 三种映射之一。其他映射字段置空／false，`catalogProjectId` 可省略以兼容旧草稿。重复项目与故障诊断范围不能发布。
 
 首次识别只为唯一、同部件／明确同义词且同操作的行自动映射启用的非故障诊断项目，找不到时再匹配公开参考目录；不确定、冲突或重复目标留空，不默认新增。`POST /admin/manual-imports/:id/auto-map` 接收 `{ "expectedRevision": 3 }`，仅处理 `awaiting_confirmation` 的当前版本草稿，保留已有 `projectId`、`catalogProjectId` 或明确新增选择；返回更新后的任务并递增revision。过期版本返回409／`REVISION_CONFLICT`。参考项目在发布事务中才创建或复用并保留 `catalogSource`；多义匹配、停用项目或编码冲突会阻止发布，不静默复制。
 
 “通用首次保养”在客户端修改草稿后仍通过原PATCH保存，没有额外批量发布接口。只作用于已选、`periodic`、`condition`空白且 `firstMonths`／`firstKm`均为null的行，不改后续周期或任何已知首次值。月数为1–1200、公里数1–2000000的整数，至少填写一项；这些管理员提供的值仍须原文支持及发布前确认。
 
-发布请求为 `POST /admin/manual-imports/:id/publish`：
+V0.9工作区一次发布使用 `POST /admin/manual-imports/:id/publish`，把当前编辑直接放入 `draft`，无需预先PATCH保存。`draft` 含 `sourceTitle`、`sourceUrl`、`edition`、`applicability`、`rows`，可选 `sourceExcerpt`，字段结构与上例相同；名称为空时保留任务名称或使用车型资料名称，原文未注明的版次及适用说明可为空。示例只用于说明请求格式：
 
 ```json
-{ "expectedRevision": 4, "verified": true, "applicabilityConfirmed": true }
+{
+  "expectedRevision": 3,
+  "verified": true,
+  "applicabilityConfirmed": true,
+  "draft": {
+    "sourceTitle": "合成保养周期表",
+    "sourceUrl": "",
+    "edition": "",
+    "applicability": "",
+    "rows": [{
+      "id": "服务端生成的草稿行ID",
+      "name": "更换空调滤清器",
+      "projectId": "管理员核对的标准项目ID",
+      "createProject": false,
+      "include": true,
+      "action": "replace",
+      "triggerType": "periodic",
+      "firstMonths": null,
+      "firstKm": null,
+      "intervalMonths": 12,
+      "intervalKm": 20000,
+      "mileageType": "total_km",
+      "condition": "",
+      "notes": "合成测试，不能作为实际保养依据",
+      "sourceText": "合成原文：每12个月或20000公里更换，以先到者为准。",
+      "pageNumbers": [1]
+    }]
+  }
+}
 ```
 
-发布读取已保存草稿，在同一事务内验证并创建规则版本、合并车型适用项目、记录审计。相同请求重试返回已发布结果，不重复创建；过期草稿版本或改写已发布内容返回冲突。原有规则历史保留，其他车型不变。失败任务可 `POST /admin/manual-imports/:id/retry`，最多三次识别尝试；未配置 AI、识别失败及未人工确认时均不能成为有效规则。
+`verified=true` 和 `applicabilityConfirmed=true` 仍是服务端必需的人工核对声明；界面通过“确认并导入”一次明确表达，不再要求两个复选框。服务端锁定车型及任务后检查 `expectedRevision`，在同一事务内校验当前draft、保存编辑、创建规则版本、合并车型适用项目并记录审计；成功只递增一次revision。未选行不发布、不阻止选中项目导入，原文仍保留在发布记录中。
+
+选中行的业务待核对问题集中返回HTTP 422，形如：
+
+```json
+{
+  "error": {
+    "code": "MANUAL_REVIEW_REQUIRED",
+    "message": "请处理 1 处问题后导入；暂不导入的项目可取消选择，原文仍会保留。",
+    "issues": [{
+      "rowId": "草稿行ID",
+      "rowNumber": 2,
+      "field": "projectId",
+      "message": "未能自动关联标准项目，请选择或暂不导入此项"
+    }]
+  }
+}
+```
+
+`rowNumber` 为当前完整草稿的一基行号，`rowId` 用于定位；没有选中项时使用 `rowId=""`、`rowNumber=0`、`field="rows"`。结构校验、权限及版本冲突仍使用对应标准错误。校验失败不会保存本次编辑或创建部分规则。相同已完成请求重试返回已发布结果，不重复创建；不同内容返回409／`PUBLICATION_CONFLICT`，过期草稿返回409／`REVISION_CONFLICT`。旧客户端可继续只传 `{ "expectedRevision": 4, "verified": true, "applicabilityConfirmed": true }` 发布已保存草稿，保留原版次、适用范围及首保校验要求。
+
+原有规则历史保留，其他车型不变。失败任务可 `POST /admin/manual-imports/:id/retry`，最多三次识别尝试；未配置AI、识别失败及未人工确认时均不能成为有效规则。
 
 ## 公开车型与参考服务项目
 

@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
-import { AlertCircle, ArrowRight, BookOpen, CheckCircle2, ChevronDown, ExternalLink, FileText, Image as ImageIcon, Link2, LoaderCircle, Plus, RefreshCw, Save, ShieldCheck, Sparkles, UploadCloud, X } from 'lucide-react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { AlertCircle, ArrowRight, BookOpen, CheckCircle2, ChevronDown, ExternalLink, FileText, Image as ImageIcon, LoaderCircle, Plus, RefreshCw, Save, ShieldCheck, Sparkles, UploadCloud, X } from 'lucide-react';
 import { applyCommonFirstService, type Bootstrap, type CatalogProject, type CatalogProjectsResponse, type ManualImport, type ManualRuleDraft, type ManualSource, type MaintenanceAction, type MaintenanceTrigger } from '@autovoyage/shared';
-import { api, patch, post } from '../lib/api';
+import { ApiError, api, patch, post, type ApiIssue } from '../lib/api';
 import './manuals.css';
 
 interface Props {
   data: Bootstrap;
   onRefresh: () => Promise<void>;
   children: ReactNode;
+  modelId: string;
+  onModelChange: (modelId: string) => void;
   focusRequest?: { id: string; token: number } | null;
   ruleFocusRequest?: { modelId: string; token: number } | null;
 }
@@ -26,7 +28,7 @@ const readableDate = (value: string) => new Intl.DateTimeFormat('zh-CN', { timeZ
 const messageOf = (error: unknown) => error instanceof Error ? error.message : '操作暂未完成，请稍后重试';
 const validSourceLink = (value: string) => { if (!value.trim() || /^\/api\/v1\/manual-files\/[\w-]+$/.test(value.trim())) return true; try { const url = new URL(value); return url.protocol === 'https:' && !url.username && !url.password; } catch { return false; } };
 
-export default function ManualWorkbench({ data, onRefresh, children, focusRequest, ruleFocusRequest }: Props) {
+export default function ManualWorkbench({ data, onRefresh, children, modelId, onModelChange, focusRequest, ruleFocusRequest }: Props) {
   const [tab, setTab] = useState<'imports' | 'rules'>('imports');
   const [jobs, setJobs] = useState<ManualImport[]>([]);
   const [active, setActive] = useState<ManualImport | null>(null);
@@ -36,42 +38,34 @@ export default function ManualWorkbench({ data, onRefresh, children, focusReques
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
-  const [modelId, setModelId] = useState(data.models[0]?.id || '');
   const [sources, setSources] = useState<ManualSource[]>([]);
   const [sourcesError, setSourcesError] = useState('');
   const [sourceLoading, setSourceLoading] = useState(false);
-  const [sourceDiscovered, setSourceDiscovered] = useState(false);
   const [aiSourceResult, setAiSourceResult] = useState<AiSourceResult | null>(null);
   const [catalogProjects, setCatalogProjects] = useState<CatalogProject[]>([]);
   const [catalogError, setCatalogError] = useState('');
   const [commonFirstMonths, setCommonFirstMonths] = useState('');
   const [commonFirstKm, setCommonFirstKm] = useState('');
-  const [method, setMethod] = useState<'images' | 'pdf' | 'url'>('images');
-  const [pageMode, setPageMode] = useState<'auto' | 'manual'>('auto');
-  const [metadata, setMetadata] = useState({ sourceTitle: '', sourceUrl: '', edition: '', applicability: '', pageRange: '' });
+  const [method, setMethod] = useState<'search' | 'images'>('search');
   const [files, setFiles] = useState<File[]>([]);
   const [filePreviews, setFilePreviews] = useState<{ file: File; url: string }[]>([]);
   const [fileError, setFileError] = useState('');
   const [dragging, setDragging] = useState(false);
-  const [sourceHint, setSourceHint] = useState('');
-  const [consent, setConsent] = useState(false);
-  const [localPdf, setLocalPdf] = useState('');
   const [pageNumber, setPageNumber] = useState<number | null>(null);
   const [expanded, setExpanded] = useState<string[]>([]);
-  const [verified, setVerified] = useState(false);
-  const [applicabilityConfirmed, setApplicabilityConfirmed] = useState(false);
+  const [serverIssues, setServerIssues] = useState<ApiIssue[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
+  const issueSummaryRef = useRef<HTMLElement>(null);
   const sourceRequest = useRef(0);
-  const sourceLibraryRef = useRef<HTMLDetailsElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const modelName = (id: string) => { const model = data.models.find(item => item.id === id); return model ? `${model.brand} ${model.name} · ${model.year}款 · ${model.power}` : '车型档案已变更'; };
 
   function adopt(job: ManualImport) {
-    setActive(job); setDraft(draftOf(job)); setDirty(false); setVerified(false); setApplicabilityConfirmed(false);
+    setActive(job); setDraft(draftOf(job)); setDirty(false); setServerIssues([]); onModelChange(job.modelId);
     setCommonFirstMonths(''); setCommonFirstKm('');
-    setPageNumber(job.files.find(file => file.mimeType.startsWith('image/'))?.pageNumber ?? null);
-    setExpanded(job.rows[0] ? [job.rows[0].id] : []);
+    setPageNumber(job.files.some(file => file.mimeType === 'text/plain') ? 1 : job.files.find(file => file.mimeType.startsWith('image/'))?.pageNumber ?? null);
+    setExpanded([]);
     setJobs(current => [job, ...current.filter(item => item.id !== job.id)].sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
   }
   async function loadJobs() {
@@ -91,22 +85,14 @@ export default function ManualWorkbench({ data, onRefresh, children, focusReques
     return () => { cancelled = true; };
   }, []);
   useEffect(() => {
-    const token = ++sourceRequest.current;
-    if (!modelId) { setSources([]); setSourceLoading(false); setAiSourceResult(null); return; }
-    let cancelled = false; setSourceLoading(true); setSourceDiscovered(false); setSourcesError(''); setSources([]); setAiSourceResult(null);
-    api<ManualSource[]>(`/admin/manual-sources?modelId=${encodeURIComponent(modelId)}`).then(result => { if (!cancelled && sourceRequest.current === token) setSources(result); }).catch(reason => { if (!cancelled && sourceRequest.current === token) setSourcesError(messageOf(reason)); }).finally(() => { if (!cancelled && sourceRequest.current === token) setSourceLoading(false); });
-    return () => { cancelled = true; };
+    sourceRequest.current++; setSources([]); setAiSourceResult(null); setSourcesError(''); setSourceLoading(false);
   }, [modelId]);
-  useEffect(() => {
-    const pdf = files.length === 1 && files[0].type === 'application/pdf' ? URL.createObjectURL(files[0]) : '';
-    setLocalPdf(pdf); return () => { if (pdf) URL.revokeObjectURL(pdf); };
-  }, [files]);
   useEffect(() => {
     const previews = files.filter(file => file.type.startsWith('image/')).map(file => ({ file, url: URL.createObjectURL(file) }));
     setFilePreviews(previews);
     return () => { previews.forEach(preview => URL.revokeObjectURL(preview.url)); };
   }, [files]);
-  useEffect(() => { if (error) errorRef.current?.focus(); }, [error]);
+  useEffect(() => { if (error) (issueSummaryRef.current || errorRef.current)?.focus(); }, [error, serverIssues.length]);
   useEffect(() => {
     if (!active || !pending(active)) return;
     let cancelled = false; let refreshing = false;
@@ -129,11 +115,11 @@ export default function ManualWorkbench({ data, onRefresh, children, focusReques
   }, [focusRequest?.token]);
   useEffect(() => {
     if (!ruleFocusRequest) return;
-    setTab('rules'); setModelId(ruleFocusRequest.modelId); setError('');
+    setTab('rules'); onModelChange(ruleFocusRequest.modelId); setError('');
   }, [ruleFocusRequest?.token]);
 
   function editDraft(changes: Partial<Draft>) {
-    setDraft(current => current ? { ...current, ...changes } : current); setDirty(true); setVerified(false); setApplicabilityConfirmed(false); setNotice('');
+    setDraft(current => current ? { ...current, ...changes } : current); setDirty(true); setServerIssues([]); setError(''); setNotice('');
   }
   function editRow(id: string, changes: Partial<ManualRuleDraft>) {
     if (draft) editDraft({ rows: draft.rows.map(row => row.id === id ? {
@@ -148,7 +134,7 @@ export default function ManualWorkbench({ data, onRefresh, children, focusReques
     try {
       const result = applyCommonFirstService(draft.rows, commonFirstMonths.trim() ? Number(commonFirstMonths) : null, commonFirstKm.trim() ? Number(commonFirstKm) : null);
       if (result.changed) editDraft({ rows: result.rows });
-      setNotice(result.changed ? `已填入 ${result.changed} 项空白首次周期，请逐项核对原文后保存草稿。` : '没有可填入的空白首次周期；已有值、未勾选及按条件处理的项目均保留。');
+      setNotice(result.changed ? `已填入 ${result.changed} 项空白首次周期，核对后可直接确认导入。` : '没有可填入的空白首次周期；已有值、未勾选及按条件处理的项目均保留。');
     } catch (reason) { setError(messageOf(reason)); }
   }
   async function autoMapProjects() {
@@ -170,16 +156,8 @@ export default function ManualWorkbench({ data, onRefresh, children, focusReques
   }
   async function persist(): Promise<ManualImport | null> {
     if (!active || !draft) return null;
-    if (!draft.sourceTitle.trim()) throw new Error('请填写手册名称后保存。');
-    if (!validSourceLink(draft.sourceUrl)) throw new Error('请填写不含登录凭据的 HTTPS 来源链接；手工照片可留空。');
-    for (const [index, row] of draft.rows.entries()) {
-      if (!row.name.trim()) throw new Error(`第 ${index + 1} 项需要项目名称；误加的空白行可在展开后移除。`);
-      for (const key of ['firstMonths', 'firstKm', 'intervalMonths', 'intervalKm'] as const) {
-        const value = row[key];
-        if (value != null && (!Number.isInteger(value) || value <= 0 || value > (key.endsWith('Months') ? 1200 : 2000000))) throw new Error(`第 ${index + 1} 项的周期必须是有效正整数，未说明的阈值请留空。`);
-      }
-    }
-    const job = await patch<ManualImport>(`/admin/manual-imports/${active.id}/draft`, { expectedRevision: active.revision, ...draft });
+    if (!validSourceLink(draft.sourceUrl)) throw new Error('来源链接须为 HTTPS；图片上传可留空。');
+    const job = await patch<ManualImport>(`/admin/manual-imports/${active.id}/draft`, { expectedRevision: active.revision, ...draft, sourceTitle: draft.sourceTitle.trim() || `${modelName(active.modelId)}保养资料` });
     setActive(job); setDraft(draftOf(job)); setDirty(false);
     setJobs(current => current.map(item => item.id === job.id ? job : item));
     return job;
@@ -195,130 +173,126 @@ export default function ManualWorkbench({ data, onRefresh, children, focusReques
     } catch (reason) { setError(messageOf(reason)); }
     finally { setBusy(false); }
   }
-  async function discoverSources() {
-    if (!modelId || sourceLoading || busy) return;
-    const token = ++sourceRequest.current;
-    setSourceLoading(true); setSourcesError(''); setAiSourceResult(null);
+  async function selectModel(nextId: string) {
+    if (busy || nextId === modelId) return;
+    setBusy(true); setError(''); setNotice('');
     try {
-      const result = await api<ManualSource[]>(`/admin/manual-sources?modelId=${encodeURIComponent(modelId)}&discover=true`);
-      if (sourceRequest.current === token) { setSources(result); setSourceDiscovered(true); }
-    } catch (reason) { if (sourceRequest.current === token) setSourcesError(messageOf(reason)); }
-    finally { if (sourceRequest.current === token) setSourceLoading(false); }
+      if (dirty && active?.status === 'awaiting_confirmation') await persist();
+      setActive(null); setDraft(null); setDirty(false); setServerIssues([]); setFiles([]);
+      onModelChange(nextId);
+    } catch (reason) { setError(`草稿尚未保存，已保留当前车型：${messageOf(reason)}`); }
+    finally { setBusy(false); }
   }
   async function aiDiscoverSources() {
     if (!modelId || sourceLoading || busy) return;
-    if (sourceLibraryRef.current) {
-      sourceLibraryRef.current.open = true;
-      sourceLibraryRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
-    }
     const token = ++sourceRequest.current;
-    setSourceLoading(true); setSourcesError(''); setAiSourceResult(null);
+    setSourceLoading(true); setSourcesError(''); setAiSourceResult(null); setSources([]);
     try {
       const result = await post<AiSourceResult>('/admin/manual-imports/ai-search', { modelId, consent: true });
-      if (sourceRequest.current === token) { setSources(result.sources); setAiSourceResult(result); setSourceDiscovered(true); }
+      if (sourceRequest.current === token) { setSources(result.sources); setAiSourceResult(result); }
     } catch (reason) { if (sourceRequest.current === token) setSourcesError(messageOf(reason)); }
     finally { if (sourceRequest.current === token) setSourceLoading(false); }
   }
-  function validateFiles(selected: File[]) {
-    if (!selected.length) return '请选择 PDF 或手册图片。';
-    if (selected.length > 12) return '每次最多上传 12 张手册图片。';
-    const pdfs = selected.filter(file => file.type === 'application/pdf');
-    if (pdfs.length && selected.length !== 1) return 'PDF 每次上传 1 份，请勿与图片混合上传。';
-    if (pdfs[0]?.size > 32 * 1024 * 1024) return 'PDF 不能超过 32 MB，请先压缩或提取需要的页面。';
-    if (selected.some(file => !['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(file.type))) return '仅支持 PDF、JPEG、PNG 和 WebP。';
-    if (selected.some(file => file.type !== 'application/pdf' && file.size > 8 * 1024 * 1024)) return '每张图片不能超过 8 MB。';
-    if (selected.reduce((sum, file) => sum + file.size, 0) > 32 * 1024 * 1024) return '本次上传总大小不能超过 32 MB。';
-    return '';
-  }
-  function changeMethod(next: typeof method) {
-    setMethod(next); setPageMode('auto'); setFileError(''); setDragging(false); setError('');
-    if (next === 'images') setFiles(current => current.filter(file => file.type.startsWith('image/')));
-    if (next === 'pdf') setFiles(current => current.filter(file => file.type === 'application/pdf').slice(0, 1));
-    if (fileInput.current) fileInput.current.value = '';
-  }
   function receiveFiles(incoming: File[]) {
     if (busy || !incoming.length) return;
-    if (method === 'images' && incoming.some(file => !file.type.startsWith('image/'))) { setFileError('这里接收保养表图片；整本手册请切换到“PDF 手册”。'); return; }
-    if (method === 'pdf' && incoming.some(file => file.type !== 'application/pdf')) { setFileError('请选择一份 PDF；截图请切换到“保养表图片”。'); return; }
-    const next = method === 'images' ? [...files, ...incoming].filter((file, index, all) => all.findIndex(other => other.name === file.name && other.size === file.size && other.lastModified === file.lastModified) === index) : incoming;
-    const message = validateFiles(next); setFileError(message);
-    if (message) return;
+    const next = [...files, ...incoming].filter((file, index, all) => all.findIndex(other => other.name === file.name && other.size === file.size && other.lastModified === file.lastModified) === index);
+    let message = '';
+    if (next.some(file => !['image/jpeg', 'image/png', 'image/webp'].includes(file.type))) message = '请选择 JPEG、PNG 或 WebP 保养表图片。';
+    else if (next.length > 12) message = '每次最多选择 12 张图片。';
+    else if (next.some(file => file.size > 8 * 1024 * 1024)) message = '每张图片不能超过 8 MB。';
+    else if (next.reduce((sum, file) => sum + file.size, 0) > 32 * 1024 * 1024) message = '本次图片总大小不能超过 32 MB。';
+    setFileError(message); if (message) return;
     setFiles(next); setError('');
   }
-  function useSource(source: ManualSource) {
-    const directory = source.isDirectory !== false;
-    setMetadata(current => ({ ...current, sourceUrl: source.url, ...(directory ? {} : { sourceTitle: source.title }) }));
-    changeMethod('url');
-    setSourceHint(directory ? '这是资料目录或品牌入口，请继续打开页面取得具体 PDF／图片后上传；尚未找到可直接识别的手册文件。' : '已填入候选资料的名称与链接。是否适用于所选年款和动力，识别后仍需核对。');
-    formRef.current?.querySelector<HTMLElement>('#mw-materials')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-  }
-  async function createImport(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); if (busy) return;
-    setError(''); setNotice('');
-    if (!data.config.aiConfigured) { setError('AI 识别服务尚未配置，请联系部署者完成配置。'); return; }
-    if (!validSourceLink(metadata.sourceUrl)) { setError('请填写不含登录凭据的 HTTPS 来源链接；手工照片可留空。'); return; }
-    if (!consent) { setError('请先勾选同意使用当前 AI 服务识别手册。'); return; }
-    if (method !== 'url') { const message = validateFiles(files); if (message) { setFileError(message); setError(message); return; } }
-    if (method === 'url' && !metadata.sourceUrl.trim()) { setError('请填写可公开访问的 PDF、图片或具体手册页面链接。'); return; }
-    if (method !== 'images' && pageMode === 'manual' && !metadata.pageRange.trim()) { setError('手动选页时请填写需要识别的 PDF 页码，或改为自动定位。'); return; }
+  async function startImport(source?: ManualSource) {
+    if (busy || !modelId) return;
+    setError(''); setNotice(''); setServerIssues([]);
+    if (!data.config.aiConfigured) { setError('AI 服务尚未配置，请联系部署者完成配置。'); return; }
+    if (!source && !files.length) { setFileError('请添加至少一张保养表图片。'); return; }
     setBusy(true);
     try {
       let job: ManualImport;
-      const input = { modelId, ...metadata, pageRange: method !== 'images' && pageMode === 'manual' ? metadata.pageRange : '', pageMode: method === 'images' ? 'auto' : pageMode };
-      if (method !== 'url') {
-        const body = new FormData();
-        Object.entries({ ...input, consent: 'true' }).forEach(([key, value]) => body.append(key, value));
+      if (source) job = await post<ManualImport>('/admin/manual-imports/from-url', { modelId, sourceTitle: source.title, sourceUrl: source.url, consent: true, pageMode: 'auto' });
+      else {
+        const body = new FormData(); body.append('modelId', modelId); body.append('consent', 'true');
         files.forEach(file => body.append('files', file));
         job = await api<ManualImport>('/admin/manual-imports', { method: 'POST', body });
-      } else job = await post<ManualImport>('/admin/manual-imports/from-url', { ...input, consent: true });
+      }
       adopt(job); setFiles([]); if (fileInput.current) fileInput.current.value = '';
-      setMetadata({ sourceTitle: '', sourceUrl: '', edition: '', applicability: '', pageRange: '' }); setPageMode('auto'); setSourceHint(''); setFileError('');
-      setConsent(false); setNotice('手册已导入，识别完成后请逐项核对。');
+      setFileError(''); setNotice('资料已接收，AI 正在整理保养项目。识别后只需在此核对并导入。');
     } catch (reason) { setError(messageOf(reason)); }
     finally { setBusy(false); }
   }
   async function saveDraft() {
     if (busy) return; setBusy(true); setError(''); setNotice('');
-    try { await persist(); setNotice('草稿已保存。请完成适用范围和原文核对后发布。'); }
+    try { await persist(); setNotice('草稿已保存，可稍后继续；确认导入时也会自动保存修改。'); }
     catch (reason) { setError(messageOf(reason)); }
     finally { setBusy(false); }
   }
-  function checkPublish() {
-    if (!active || !draft) return '请先选择已识别的手册。';
-    if (dirty) return '请先保存当前草稿，再核对并发布。';
-    const included = draft.rows.filter(row => row.include);
-    if (!included.length) return '请至少选择一个需要发布的保养项目。';
-    if (!draft.sourceTitle.trim() || !draft.edition.trim() || !draft.applicability.trim()) return '请补全手册名称、版本及车型适用范围并保存。';
-    if (active.metadataOrigin?.edition === 'unknown') return '原文未能确定手册版本，请先核实并补充版本信息，再保存草稿。';
-    if (active.metadataOrigin && ['target', 'unknown'].includes(active.metadataOrigin.applicability)) return '当前适用范围只是待核对信息，请根据原文核实并补充后保存草稿。';
-    const imagePages = new Set(active.files.filter(file => file.mimeType.startsWith('image/')).map(file => file.pageNumber));
-    const projects = new Set<string>();
+  function rowIssues(row: ManualRuleDraft, index: number): ApiIssue[] {
+    const issues: ApiIssue[] = [];
+    const add = (field: string, message: string) => issues.push({ rowId: row.id, rowNumber: index + 1, field, message });
+    const pages = new Set(active?.files.map(file => file.pageNumber).filter(number => number != null));
+    if (!row.name.trim()) add('name', '请填写项目名称。');
+    if (!row.projectId && !row.catalogProjectId && !row.createProject) add('projectId', '未能自动关联标准项目，请选择项目，或本次不导入。');
+    if (row.catalogProjectId && catalogProjects.length && catalogProjects.find(project => project.id === row.catalogProjectId)?.action !== row.action) add('projectId', '所选标准项目的操作不一致，请区分检查与更换。');
+    if (row.projectId && !data.projects.some(project => project.id === row.projectId && project.active)) add('projectId', '所选标准项目不可用，请重新关联。');
+    if (!row.sourceText.trim()) add('sourceText', '缺少支持本项的原文，请补充摘录。');
+    if (!row.pageNumbers.length || row.pageNumbers.some(page => !pages.has(page))) add('pageNumbers', '请关联本份资料中的原文证据。');
+    for (const key of ['firstMonths', 'firstKm', 'intervalMonths', 'intervalKm'] as const) {
+      const value = row[key];
+      if (value != null && (!Number.isInteger(value) || value <= 0 || value > (key.endsWith('Months') ? 1200 : 2000000))) add(key, '周期应为有效正整数，原文未说明时留空。');
+    }
+    if (row.triggerType === 'periodic') {
+      if (row.condition.trim()) add('condition', '带特殊工况的项目请改为按条件处理，普通说明可移至脚注。');
+      if (row.intervalMonths == null && row.intervalKm == null) add('intervalMonths', '未识别到后续周期，请按原文补充或本次不导入。');
+    } else if (!row.condition.trim()) add('condition', '请保留按条件或按需处理的原文依据。');
+    return issues;
+  }
+  function reviewIssues(): ApiIssue[] {
+    if (!draft) return [];
+    const issues = draft.rows.flatMap((row, index) => row.include ? rowIssues(row, index) : []);
+    const targets = new Set<string>();
     for (const [index, row] of draft.rows.entries()) {
       if (!row.include) continue;
-      const prefix = `第 ${index + 1} 项「${row.name || '未命名'}」`;
-      if (!row.name.trim()) return `${prefix}需要填写项目名称。`;
-      if (!row.projectId && !row.catalogProjectId && !row.createProject) return `${prefix}需要关联标准项目，可先点击自动关联；无法确定时保留待核对或取消本次导入。`;
-      const mapped = row.projectId || (row.catalogProjectId ? data.projects.find(project => project.catalogSource?.catalogId === row.catalogProjectId)?.id || `catalog:${row.catalogProjectId}` : '');
-      if (mapped && projects.has(mapped)) return `${prefix}与另一项关联了相同标准项目，请合并或分别新建。`;
-      if (mapped) projects.add(mapped);
-      if (!row.sourceText.trim() || !row.pageNumbers.length || row.pageNumbers.some(page => !imagePages.has(page))) return `${prefix}需要原文摘录及有效证据页码。`;
-      if (row.triggerType === 'periodic' && row.condition.trim()) return `${prefix}带有特殊适用条件，请选择“达到条件时”，或将普通说明放入脚注并清空适用条件。`;
-      if (row.triggerType === 'periodic' && ((row.firstMonths == null && row.firstKm == null) || (row.intervalMonths == null && row.intervalKm == null))) return `${prefix}缺少首次或后续周期。请根据原文补全，无法确定的项目可取消本次导入。`;
-      if (row.triggerType !== 'periodic' && !row.condition.trim()) return `${prefix}需要填写按条件或按需处理的依据。`;
+      const target = row.projectId || (row.catalogProjectId ? data.projects.find(project => project.catalogSource?.catalogId === row.catalogProjectId)?.id || `catalog:${row.catalogProjectId}` : '');
+      if (target && targets.has(target)) issues.push({ rowId: row.id, rowNumber: index + 1, field: 'projectId', message: '与另一项关联了同一标准项目，请合并核对，或本次不导入。' });
+      if (target) targets.add(target);
     }
-    if (!verified || !applicabilityConfirmed) return '请确认已逐项核对原文，并确认手册适用于所选车型。';
-    return '';
+    if (!validSourceLink(draft.sourceUrl)) issues.push({ field: 'sourceUrl', message: '资料来源链接须为 HTTPS，图片资料可以留空。' });
+    return issues;
+  }
+  function revealIssue(issue: ApiIssue) {
+    if (issue.rowId) {
+      setExpanded(current => current.includes(issue.rowId!) ? current : [...current, issue.rowId!]);
+      requestAnimationFrame(() => { const node = document.getElementById(`mw-row-${issue.rowId}`); node?.scrollIntoView({ block: 'center', behavior: 'auto' }); const field = issue.field === 'interval' ? 'intervalMonths' : issue.field; const control = node ? Array.from(node.querySelectorAll<HTMLElement>('[data-field]')).find(element => element.dataset.field === field) || node.querySelector<HTMLElement>('[aria-invalid="true"]') || node.querySelector<HTMLElement>('input:not([type="checkbox"]), select, textarea') : null; control?.focus(); });
+    } else { const node = document.getElementById('mw-metadata'); if (node instanceof HTMLDetailsElement) node.open = true; requestAnimationFrame(() => node?.querySelector<HTMLElement>('input[type="url"]')?.focus()); }
+  }
+  function selectReadyRows() {
+    if (!draft) return;
+    const seen = new Set<string>();
+    const rows = draft.rows.map((row, index) => {
+      const target = row.projectId || (row.catalogProjectId ? data.projects.find(project => project.catalogSource?.catalogId === row.catalogProjectId)?.id || `catalog:${row.catalogProjectId}` : '');
+      const ready = row.include && rowIssues(row, index).length === 0 && !serverIssues.some(issue => issue.rowId === row.id) && (!target || !seen.has(target));
+      if (ready && target) seen.add(target);
+      return { ...row, include: ready };
+    });
+    editDraft({ rows }); setNotice(`已选择 ${rows.filter(row => row.include).length} 项可导入项目，其他项目保留在资料中，不会生成规则。`);
   }
   async function publish() {
-    if (busy || !active) return;
-    const message = checkPublish(); if (message) { setError(message); return; }
-    setBusy(true); setError(''); setNotice('');
+    if (busy || !active || !draft) return;
+    const issues = reviewIssues();
+    if (!draft.rows.some(row => row.include)) { setError('请至少选择一项可导入的保养项目。'); return; }
+    if (issues.length) { setServerIssues([]); setError(`有 ${issues.length} 处需要处理，已在下方集中列出。可修改，或仅保留可导入项目。`); return; }
+    setBusy(true); setError(''); setNotice(''); setServerIssues([]);
     let saved = false;
     try {
-      const job = await post<ManualImport>(`/admin/manual-imports/${active.id}/publish`, { expectedRevision: active.revision, verified: true, applicabilityConfirmed: true });
-      saved = true; adopt(job); await onRefresh(); setNotice(`已发布 ${job.publishedRuleIds.length} 项规则，车主端将按该车型展示。`);
-    } catch (reason) { setError(saved ? '规则已发布，业务数据刷新暂未完成。请刷新数据查看，勿重复发布。' : messageOf(reason)); }
-    finally { setBusy(false); }
+      const job = await post<ManualImport>(`/admin/manual-imports/${active.id}/publish`, { expectedRevision: active.revision, draft, verified: true, applicabilityConfirmed: true });
+      saved = true; adopt(job); await onRefresh(); setNotice(`已为当前车型导入 ${job.publishedRuleIds.length} 项保养规则。`);
+    } catch (reason) {
+      if (reason instanceof ApiError && reason.issues.length) setServerIssues(reason.issues);
+      setError(saved ? '规则已导入，业务数据刷新暂未完成。请刷新查看。' : messageOf(reason));
+    } finally { setBusy(false); }
   }
   async function retry() {
     if (!active || busy) return; setBusy(true); setError(''); setNotice('');
@@ -337,110 +311,110 @@ export default function ManualWorkbench({ data, onRefresh, children, focusReques
   }
 
   const images = active?.files.filter(file => file.mimeType.startsWith('image/')) || [];
-  const preview = images.find(file => file.pageNumber === pageNumber) || images[0];
+  const preview = images.find(file => file.pageNumber === pageNumber) || (active?.files.some(file => file.mimeType === 'text/plain') ? undefined : images[0]);
+  const evidenceFiles = active?.files.filter(file => file.pageNumber != null).filter((file, index, all) => all.findIndex(other => other.pageNumber === file.pageNumber) === index) || [];
   const editing = active?.status === 'awaiting_confirmation';
   const includedCount = draft?.rows.filter(row => row.include).length || 0;
-  const imageImport = active?.pageSelection?.mode === 'images' || Boolean(active && !active.files.some(file => file.mimeType === 'application/pdf'));
-  const evidenceName = (number: number | null) => imageImport ? `图片 ${number ?? '?'}` : `第 ${number ?? '?'} 页`;
+  const textImport = Boolean(active?.files.some(file => file.mimeType === 'text/plain'));
+  const imageImport = !textImport && (active?.pageSelection?.mode === 'images' || Boolean(active && !active.files.some(file => file.mimeType === 'application/pdf')));
+  const evidenceName = (number: number | null) => textImport ? number === 1 ? '网页正文' : `图片 ${number == null ? '?' : number - 1}` : imageImport ? `图片 ${number ?? '?'}` : `第 ${number ?? '?'} 页`;
   const metadataHint = (field: 'sourceTitle' | 'edition' | 'applicability') => {
     if (draft && active && draft[field] !== active[field]) return '人工修改 · 保存后生效';
     const origin = active?.metadataOrigin?.[field];
-    return origin ? { provided: '人工填写', document: '从资料原文识别 · 待核对', filename: '由文件名生成 · 待核对', target: '按所选车型拟关联 · 尚未证实', unknown: '原文未识别到 · 请补充核对' }[origin] : '已保存信息 · 请对照原文核对';
+    return origin ? { provided: '人工填写', document: '从资料原文识别 · 待核对', filename: '由文件名生成 · 待核对', target: '按所选车型拟关联 · 尚未证实', unknown: '原文未注明 · 可保留为空' }[origin] : '已保存信息 · 请对照原文核对';
   };
 
-  return <div className="mw-workbench">
-    <div className="mw-tabs" role="tablist" aria-label="保养资料管理">
-      <button type="button" id="mw-import-tab" role="tab" tabIndex={tab === 'imports' ? 0 : -1} aria-selected={tab === 'imports'} aria-controls="mw-import-panel" onClick={() => setTab('imports')} onKeyDown={event => { if (['ArrowRight', 'ArrowLeft', 'End'].includes(event.key)) { event.preventDefault(); setTab('rules'); document.getElementById('mw-rules-tab')?.focus(); } }}><UploadCloud size={18} aria-hidden="true" />手册导入</button>
-      <button type="button" id="mw-rules-tab" role="tab" tabIndex={tab === 'rules' ? 0 : -1} aria-selected={tab === 'rules'} aria-controls="mw-rules-panel" onClick={() => setTab('rules')} onKeyDown={event => { if (['ArrowRight', 'ArrowLeft', 'Home'].includes(event.key)) { event.preventDefault(); setTab('imports'); document.getElementById('mw-import-tab')?.focus(); } }}><BookOpen size={18} aria-hidden="true" />车型规则<span>{data.rules.length}</span></button>
+  const conciseMetadata = (field: 'edition' | 'applicability') => {
+    const value = draft?.[field].trim() || '';
+    const origin = active?.metadataOrigin?.[field];
+    const unconfirmedOrigin = value === active?.[field] && (origin === 'unknown' || origin === 'target');
+    const unknownMarker = /^(?:未知|不详|不明|未见|未识别|未提供|未标注|无法确定|待核对|待确认|unknown|n\/?a|适用范围未知|版本未知)(?:[（(：:；;，,。.!！\s]|$)/i.test(value);
+    return !value || unconfirmedOrigin || unknownMarker ? '原文未注明' : value;
+  };
+
+  const applicabilityWarnings = (active?.warnings || []).filter(warning => {
+    const mismatch = /不适用|不匹配|不符|冲突|混有|混合|混杂|不一致|多个年款|不同年款|不同车型|不同动力|不覆盖|不涵盖/.test(warning);
+    const uncertainMatch = /不能(?:据此)?证明|无法(?:据此)?证明|不能确认|无法确认|未能证实/.test(warning) && /(?:19|20)\d{2}|混有|混合|不同|多个|冲突|年款|动力|配置|市场/.test(warning);
+    const genericTargetNotice = /^(?:识别页面未明确给出适用车型与版本，请结合手册封面和原车资料核对；目标车型不构成适用证据。|(?:所选|目标)车型(?:本身|信息)?(?:不构成适用证据|不能证明手册适用)[。！!]?|适用范围未知（待核对）；拟关联：.*尚未证实适用。)$/.test(warning);
+    return !genericTargetNotice && (mismatch || uncertainMatch);
+  }).slice(0, 2);
+
+  const modelJobs = jobs.filter(job => job.modelId === modelId);
+  const currentModel = data.models.find(model => model.id === modelId);
+  const currentRuleCount = data.rules.filter(rule => rule.modelId === modelId && !rule.supersededBy).length;
+  const allIssues = [...reviewIssues(), ...serverIssues].filter((issue, index, all) => all.findIndex(other => other.rowId === issue.rowId && other.field === issue.field && other.message === issue.message) === index);
+  const threshold = (months: number | null, km: number | null) => [months == null ? '' : `${months} 个月`, km == null ? '' : `${km.toLocaleString()} km`].filter(Boolean).join(' / ') || '原文未单列';
+
+  return <div className="mw-workbench mw-simple-workbench">
+    <section className="mw-model-context ad-panel" aria-label="按车型管理保养资料">
+      <span className="mw-context-icon"><BookOpen size={25} aria-hidden="true" /></span>
+      <label className="mw-field"><span>当前车型</span><select aria-label="当前保养车型" value={modelId} disabled={busy || !data.models.length} onChange={event => void selectModel(event.target.value)}>{!data.models.length && <option value="">请先建立车型档案</option>}{data.models.map(model => <option key={model.id} value={model.id}>{modelName(model.id)}{model.isDemo ? '（演示）' : ''}</option>)}</select></label>
+      <div className="mw-context-stats"><span><strong>{currentRuleCount}</strong> 项现行规则</span><span><strong>{modelJobs.length}</strong> 份保养资料</span></div>
+    </section>
+    <div className="mw-tabs" role="tablist" aria-label="当前车型保养资料">
+      <button type="button" id="mw-import-tab" role="tab" tabIndex={tab === 'imports' ? 0 : -1} aria-selected={tab === 'imports'} aria-controls="mw-import-panel" onClick={() => setTab('imports')} onKeyDown={event => { if (['ArrowRight', 'ArrowLeft', 'End'].includes(event.key)) { event.preventDefault(); setTab('rules'); document.getElementById('mw-rules-tab')?.focus(); } }}><Sparkles size={18} aria-hidden="true" />导入保养资料</button>
+      <button type="button" id="mw-rules-tab" role="tab" tabIndex={tab === 'rules' ? 0 : -1} aria-selected={tab === 'rules'} aria-controls="mw-rules-panel" onClick={() => setTab('rules')} onKeyDown={event => { if (['ArrowRight', 'ArrowLeft', 'Home'].includes(event.key)) { event.preventDefault(); setTab('imports'); document.getElementById('mw-import-tab')?.focus(); } }}><BookOpen size={18} aria-hidden="true" />本车型规则<span>{currentRuleCount}</span></button>
     </div>
     <div ref={errorRef} tabIndex={-1} className={`mw-feedback mw-error ${error ? '' : 'mw-hidden'}`} role="alert"><AlertCircle size={19} aria-hidden="true" /><span>{error}</span></div>
     {notice && <div className="mw-feedback mw-success" role="status"><CheckCircle2 size={19} aria-hidden="true" /><span>{notice}</span></div>}
     <div id="mw-rules-panel" role="tabpanel" aria-labelledby="mw-rules-tab" hidden={tab !== 'rules'}>{children}</div>
     <div id="mw-import-panel" role="tabpanel" aria-labelledby="mw-import-tab" hidden={tab !== 'imports'}>
-      <div className="mw-step-guide"><span><b>1</b>确定车型与来源</span><ArrowRight size={16} aria-hidden="true" /><span><b>2</b>AI 提取草稿</span><ArrowRight size={16} aria-hidden="true" /><span><b>3</b>核对后发布</span></div>
-      <div className="mw-history-bar"><div><strong>手册导入任务</strong><small>上传原文与规则版本一起留存</small></div><div><button type="button" className="ad-button" onClick={() => void refresh()} disabled={busy}><RefreshCw size={16} aria-hidden="true" />刷新任务</button>{active && <button type="button" className="ad-button ad-button-primary" onClick={() => void chooseJob(null)} disabled={busy}><Plus size={16} aria-hidden="true" />导入另一份</button>}</div></div>
-      {loading ? <p className="mw-loading" role="status"><LoaderCircle size={18} className="ad-spin" aria-hidden="true" />正在读取任务…</p> : jobs.length > 0 && <label className="mw-field mw-task-picker"><span>继续查看或核对手册</span><select value={active?.id || ''} disabled={busy} onChange={event => { const selected = jobs.find(job => job.id === event.target.value); void chooseJob(selected || null); }}><option value="">新建导入任务</option>{jobs.map(job => <option key={job.id} value={job.id}>{statusNames[job.status]} · {job.sourceTitle || '保养资料（待识别）'} · {modelName(job.modelId)} · {readableDate(job.createdAt)}</option>)}</select></label>}
-      {!active ? <form ref={formRef} className="mw-new-import" onSubmit={event => void createImport(event)} onPaste={event => {
-        if (method !== 'images' || busy || ['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName) || (event.target as HTMLElement).isContentEditable) return;
-        const pasted = Array.from(event.clipboardData.items).filter(item => item.kind === 'file').map(item => item.getAsFile()).filter((file): file is File => file != null);
-        if (pasted.length) { event.preventDefault(); receiveFiles(pasted); }
-      }}>
-        <section className="ad-panel mw-panel mw-target-panel">
-          <div className="mw-panel-title"><span className="mw-title-icon"><BookOpen size={21} aria-hidden="true" /></span><div><h2>添加一份保养资料</h2><p>选好车型，上传保养公里数表。名称、版本和适用范围交给 AI 从原文整理。</p></div></div>
-          <label className="mw-field"><span>关联车型 <i>*</i></span><select value={modelId} required disabled={busy} onChange={event => setModelId(event.target.value)}><option value="">请选择车型</option>{data.models.map(model => <option key={model.id} value={model.id}>{modelName(model.id)}{model.isDemo ? '（课程演示档案）' : ''}</option>)}</select><small>这是本次准备关联的车型，资料是否适用将在识别后核对。</small></label>
-          <div className="mw-lookup-shortcut"><p>还没有资料？可让 AI 按当前品牌、年款与动力整理公开手册候选。</p><button type="button" className="ad-button" disabled={busy || sourceLoading || !modelId} onClick={() => void aiDiscoverSources()}><Sparkles size={17} aria-hidden="true" />AI 查询保养手册</button></div>
-        </section>
-        <section className="ad-panel mw-panel" id="mw-materials">
-          <div className="mw-panel-title"><span className="mw-title-icon"><UploadCloud size={21} aria-hidden="true" /></span><div><h2>上传保养资料</h2><p>拍下或截取保养表，保留表头、公里数、时间、图例和脚注。</p></div></div>
-          <fieldset className="mw-method mw-method-cards"><legend className="mw-sr-only">选择资料形式</legend>{([
-            { value: 'images', title: '保养表图片', detail: '推荐 · 选择、拖入或粘贴截图', Icon: ImageIcon },
-            { value: 'pdf', title: 'PDF 手册', detail: '自动查找保养表，无需先选页', Icon: FileText },
-            { value: 'url', title: '从链接下载', detail: '已有公开的手册或文件链接', Icon: Link2 },
-          ] as const).map(item => <label key={item.value} className={method === item.value ? 'mw-method-selected' : ''}><input type="radio" name="manual-method" value={item.value} checked={method === item.value} onChange={() => changeMethod(item.value)} disabled={busy} /><item.Icon size={21} aria-hidden="true" /><span><strong>{item.title}</strong><small>{item.detail}</small></span></label>)}</fieldset>
-          {method !== 'url' ? <>
-            <div className={`mw-upload-area mw-dropzone ${dragging ? 'mw-dragging' : ''} ${fileError ? 'mw-upload-invalid' : ''}`} tabIndex={busy ? -1 : 0} role="region" aria-label={method === 'images' ? '保养表图片上传区，可选择、拖入或粘贴截图' : 'PDF 手册上传区'} aria-describedby={fileError ? 'mw-file-help mw-file-error' : 'mw-file-help'} onDragOver={event => { event.preventDefault(); if (!busy) { event.dataTransfer.dropEffect = 'copy'; setDragging(true); } }} onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false); }} onDrop={event => { event.preventDefault(); setDragging(false); if (!busy) receiveFiles(Array.from(event.dataTransfer.files)); }}>
-              {method === 'images' ? <ImageIcon size={32} aria-hidden="true" /> : <FileText size={32} aria-hidden="true" />}
-              <strong>{method === 'images' ? '把保养表放到这里' : '上传 PDF，自动查找保养内容'}</strong>
-              <p>{method === 'images' ? '点击选择图片，或拖入文件；截图后点此区域按 Ctrl+V 粘贴。' : '文字版手册可自动查找周期表和相邻说明；无法定位时建议改传表格截图。'}</p>
-              <label className="mw-file-button" htmlFor="manual-upload-files"><UploadCloud size={17} aria-hidden="true" />{method === 'images' ? files.length ? '继续添加图片' : '选择保养表图片' : '选择 PDF 文件'}</label>
-              <input id="manual-upload-files" className="mw-sr-only" ref={fileInput} type="file" multiple={method === 'images'} accept={method === 'images' ? 'image/jpeg,image/png,image/webp' : 'application/pdf'} disabled={busy} aria-describedby="mw-file-help" aria-invalid={Boolean(fileError)} onChange={event => { receiveFiles(Array.from(event.target.files || [])); event.target.value = ''; }} />
-              <small id="mw-file-help">{method === 'images' ? '最多 12 张 JPEG／PNG／WebP，每张≤8 MB，总大小≤32 MB。' : '一次 1 份 PDF，≤32 MB；长扫描件建议上传保养表截图，或手动选页。'}</small>
-            </div>
-            {fileError && <p id="mw-file-error" className="mw-field-error" role="alert">{fileError}</p>}
-            {method === 'images' && filePreviews.length > 0 && <div className="mw-uploaded-images" aria-label="已选择的保养表图片">{filePreviews.map(({ file, url }, index) => <figure key={`${file.name}-${file.lastModified}-${index}`}><img src={url} alt={`待识别的保养表图片 ${index + 1}`} /><figcaption><strong>{file.name}</strong><small>{(file.size / 1024 / 1024).toFixed(1)} MB</small></figcaption><button type="button" aria-label={`移除图片 ${index + 1}：${file.name}`} disabled={busy} onClick={() => { setFiles(current => current.filter((_, position) => position !== index)); setFileError(''); }}><X size={17} aria-hidden="true" /></button></figure>)}</div>}
-            {method === 'pdf' && files[0] && <div className="mw-selected-pdf"><FileText size={23} aria-hidden="true" /><span><strong>{files[0].name}</strong><small>{(files[0].size / 1024 / 1024).toFixed(1)} MB · 上传后自动定位保养表</small></span><button type="button" className="ad-button" disabled={busy} onClick={() => { setFiles([]); setFileError(''); }}>移除</button></div>}
-          </> : <>
-            <label className="mw-field"><span>手册或文件链接 <i>*</i></span><input type="url" value={metadata.sourceUrl} onChange={event => { setMetadata(current => ({ ...current, sourceUrl: event.target.value })); setSourceHint(''); }} required maxLength={2000} disabled={busy} placeholder="https://…" /><small>支持公开 PDF／图片及有唯一文件链接的具体手册页。网盘或资料目录请先取得文件，再选择上传。</small></label>
-            {sourceHint && <p className="mw-source-use-hint" role="status">{sourceHint}</p>}
-          </>}
-          {method !== 'images' && <details className="mw-optional mw-pdf-options"><summary><span>高级：查看 PDF 或手动选页</span><small>{pageMode === 'auto' ? '当前自动定位' : '当前手动选页'}</small><ChevronDown size={17} aria-hidden="true" /></summary><div>
-            <fieldset className="mw-method"><legend className="mw-sr-only">PDF 识别范围</legend><label><input type="radio" name="manual-pages" checked={pageMode === 'auto'} onChange={() => setPageMode('auto')} disabled={busy} />自动定位保养表（推荐）</label><label><input type="radio" name="manual-pages" checked={pageMode === 'manual'} onChange={() => setPageMode('manual')} disabled={busy} />手动指定页码</label></fieldset>
-            {pageMode === 'manual' ? <label className="mw-field mw-page-range"><span>需要识别的 PDF 页码</span><input value={metadata.pageRange} onChange={event => setMetadata(current => ({ ...current, pageRange: event.target.value }))} maxLength={200} disabled={busy} placeholder="如：150-154,160" /><small>按阅读器显示的页码，从 1 开始，最多 12 页；请包含表头、图例和脚注。</small></label> : <p className="mw-inline-hint">系统自动选择保养周期表和相关说明。识别后会展示实际采用的页码，供你对照。</p>}
-            {method === 'pdf' && localPdf && <details className="mw-local-preview"><summary>预览待上传 PDF</summary><object data={localPdf} type="application/pdf" aria-label="待上传手册 PDF 预览"><p>当前浏览器无法内嵌预览，<a href={localPdf} target="_blank" rel="noreferrer">打开本地 PDF</a>。</p></object><a href={localPdf} target="_blank" rel="noreferrer">在新页打开 PDF<ExternalLink size={14} aria-hidden="true" /></a></details>}
-          </div></details>}
-          <div className="mw-auto-metadata"><Sparkles size={20} aria-hidden="true" /><div><strong>名称、版本、适用范围会自动整理</strong><p>AI 只从资料中识别，找不到的信息会明确显示待核对；现在可以留空。</p>{method !== 'url' && files.length > 0 && <small>文件预览：{files[0].name} · 拟关联 {modelName(modelId)}。这不是已验证的手册适用范围。</small>}</div></div>
-          <details className="mw-optional"><summary><span>补充已知资料信息（选填）</span><ChevronDown size={17} aria-hidden="true" /></summary><div className="mw-form-grid">
-            <label className="mw-field"><span>资料名称</span><input value={metadata.sourceTitle} onChange={event => setMetadata(current => ({ ...current, sourceTitle: event.target.value }))} maxLength={1000} disabled={busy} placeholder="可留空，由 AI 从原文识别" /></label>
-            <label className="mw-field"><span>版本／发布日期</span><input value={metadata.edition} onChange={event => setMetadata(current => ({ ...current, edition: event.target.value }))} maxLength={200} disabled={busy} placeholder="可留空，不必提前查找" /></label>
-            {method !== 'url' && <label className="mw-field mw-full"><span>原始来源链接</span><input type="url" value={metadata.sourceUrl} onChange={event => setMetadata(current => ({ ...current, sourceUrl: event.target.value }))} maxLength={2000} disabled={busy} placeholder="选填，https://…" /></label>}
-            <label className="mw-field mw-full"><span>原文已明确的适用范围</span><textarea value={metadata.applicability} onChange={event => setMetadata(current => ({ ...current, applicability: event.target.value }))} rows={2} maxLength={2000} disabled={busy} placeholder="只填写原文已说明的年款、动力、市场或配置；不知道可留空" /><small>所选车型：{modelName(modelId)}；待从原文核对，系统不会直接认定适用。</small></label>
-          </div></details>
-          <label className="mw-check"><input type="checkbox" checked={consent} onChange={event => setConsent(event.target.checked)} disabled={busy} required /><span>同意将资料交给当前 AI 服务识别，并确认有权使用。<small>识别结果先存为草稿，人工核对发布后才生成车型规则。</small></span></label>
-          {!data.config.aiConfigured && <div className="mw-feedback mw-error"><AlertCircle size={18} aria-hidden="true" />AI 服务尚未配置，暂不能开始识别。</div>}
-          <div className="mw-form-actions"><span>{method === 'images' ? `已选择 ${files.length} 张图片` : method === 'pdf' ? files.length ? 'PDF 就绪 · 自动整理后核对' : '请添加 PDF 手册' : '支持公开可下载资料'}</span><button type="submit" className="ad-button ad-button-primary" disabled={busy || !data.config.aiConfigured}>{busy ? <LoaderCircle size={17} className="ad-spin" aria-hidden="true" /> : <Sparkles size={17} aria-hidden="true" />}{busy ? '正在导入…' : '开始 AI 识别'}</button></div>
-        </section>
-        <details ref={sourceLibraryRef} className="ad-panel mw-panel mw-optional mw-source-library"><summary><span>手边没有资料？按车型查找手册</span><ChevronDown size={18} aria-hidden="true" /></summary><div>
-          <div className="mw-source-heading"><div><h3>{sourceDiscovered ? '候选资料与查询入口' : '公开资料库'}</h3><p>优先查询 CarOBook，再从品牌官方等渠道补充。</p></div><div className="mw-source-actions"><button type="button" className="ad-button" disabled={busy || sourceLoading || !modelId} onClick={() => void discoverSources()}><BookOpen size={16} aria-hidden="true" />公开来源查询</button><button type="button" className="ad-button ad-button-primary" disabled={busy || sourceLoading || !modelId} onClick={() => void aiDiscoverSources()}><Sparkles size={16} aria-hidden="true" />AI 查询保养手册</button></div></div>
-          <p className="mw-source-explanation">{sourceDiscovered ? '候选名称匹配不代表适用已验证，识别后仍需核对年款、动力与市场。目录入口需要继续查找具体文件。' : '这些是查询入口。点击查找可查询具体手册候选。'}</p>
-          {aiSourceResult && <div className="mw-ai-sources" role="status"><strong>{aiSourceResult.aiStatus === 'completed' ? 'AI 已整理公开查询结果' : '公开查询结果（AI 暂未完成整理）'}</strong><p>{aiSourceResult.summary}</p><small>查询车型：{aiSourceResult.query} · {readableDate(aiSourceResult.searchedAt)}</small>{aiSourceResult.warnings.length > 0 && <ul>{aiSourceResult.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul>}</div>}
-          {sourceLoading && <p className="mw-loading" role="status"><LoaderCircle size={17} className="ad-spin" aria-hidden="true" />正在查询公开资料并整理候选，请稍候…</p>}
-          {sourcesError && <p className="mw-source-error" role="status">查询暂未完成：{sourcesError}。也可直接上传已取得的资料。</p>}
-          <div className="mw-sources">{sources.map(source => <article className="mw-source" key={`${source.kind}-${source.url}`}><div><span className={`mw-source-label ${source.kind === 'carobook' ? 'mw-source-priority' : ''}`}>{source.isDirectory ? '资料目录入口' : source.kind === 'carobook' ? 'CarOBook' : source.kind === 'official' ? '品牌官方' : '补充渠道'}</span><h4>{source.title}</h4><p>{source.description}</p></div><div><a href={source.url} target="_blank" rel="noreferrer">打开来源<ExternalLink size={14} aria-hidden="true" /></a><button type="button" disabled={busy} onClick={() => useSource(source)}>{source.isDirectory ? '填入查询入口' : '使用这份资料'}</button></div></article>)}</div>
-        </div></details>
-      </form> : <div className="mw-review">
+      <div className="mw-history-bar"><p className="mw-journey">选车型 <ArrowRight size={14} aria-hidden="true" />AI 查找或图片识别 <ArrowRight size={14} aria-hidden="true" />核对后一次导入</p><div>{active && <button type="button" className="ad-button" onClick={() => void chooseJob(null)} disabled={busy}><Plus size={16} aria-hidden="true" />导入另一份资料</button>}<button type="button" className="ad-button ad-button-ghost" onClick={() => void refresh()} disabled={busy} aria-label="刷新本车型资料"><RefreshCw size={16} aria-hidden="true" /></button></div></div>
+      {loading ? <p className="mw-loading" role="status">正在读取本车型资料…</p> : modelJobs.length > 0 && <details className="mw-history-details"><summary>本车型已有资料 <span>{modelJobs.length} 份{modelJobs.some(job => job.status === 'awaiting_confirmation') ? ` · ${modelJobs.filter(job => job.status === 'awaiting_confirmation').length} 份待核对` : ''}</span><ChevronDown size={17} aria-hidden="true" /></summary><div className="mw-history-list">{modelJobs.map(job => <button key={job.id} type="button" aria-current={active?.id === job.id ? 'true' : undefined} disabled={busy} onClick={() => void chooseJob(job)}><span><strong>{job.sourceTitle || '保养资料'}</strong><small>{readableDate(job.createdAt)}</small></span><span className={`mw-status mw-status-${job.status}`}>{statusNames[job.status]}</span></button>)}</div></details>}
+      {!active ? <div className="mw-new-import">
+        <div className="mw-entry-switch" role="group" aria-label="选择导入方式">
+          <button type="button" aria-pressed={method === 'search'} className={method === 'search' ? 'mw-entry-active' : ''} onClick={() => { setMethod('search'); setError(''); }}><Sparkles size={24} aria-hidden="true" /><span><strong>AI 查找手册</strong><small>按品牌、车系查找公开保养资料</small></span><ArrowRight size={18} aria-hidden="true" /></button>
+          <button type="button" aria-pressed={method === 'images'} className={method === 'images' ? 'mw-entry-active' : ''} onClick={() => { setMethod('images'); setError(''); }}><ImageIcon size={24} aria-hidden="true" /><span><strong>图片识别导入</strong><small>上传或粘贴保养周期表截图</small></span><ArrowRight size={18} aria-hidden="true" /></button>
+        </div>
+        {method === 'search' ? <section className="ad-panel mw-panel mw-search-panel">
+          <div className="mw-search-intro"><div className="mw-panel-title"><span className="mw-title-icon"><Sparkles size={23} aria-hidden="true" /></span><div><h2>让 AI 找到这款车的保养资料</h2><p>先查找{currentModel ? `「${currentModel.brand} ${currentModel.name}」` : '当前车系'}通用手册，再结合年款与动力整理候选，范围覆盖公开互联网。</p></div></div><button type="button" className="ad-button ad-button-primary" disabled={busy || sourceLoading || !modelId} onClick={() => void aiDiscoverSources()}>{sourceLoading ? <LoaderCircle size={18} className="ad-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{sourceLoading ? '正在全网查找…' : sources.length ? '重新查询保养手册' : 'AI 查询保养手册'}</button></div>
+          {!sourceLoading && !aiSourceResult && !sourcesError && <div className="mw-search-empty"><BookOpen size={33} aria-hidden="true" /><strong>不用先找网站，也不用填写手册信息</strong><p>查到资料后可直接识别；名称、来源、版本及保养项目由 AI 整理。</p></div>}
+          {sourceLoading && <div className="mw-search-empty" role="status"><LoaderCircle size={28} className="ad-spin" aria-hidden="true" /><strong>正在查找公开保养手册</strong><p>将整理实际找到的手册、保养网页和图片来源。</p></div>}
+          {aiSourceResult && <div className="mw-ai-sources" role="status"><strong>{aiSourceResult.aiStatus === 'completed' ? '已找到并整理候选资料' : '已整理可用的公开查询结果'}</strong><p>{aiSourceResult.summary}</p><small>{readableDate(aiSourceResult.searchedAt)}</small>{aiSourceResult.warnings.length > 0 && <details><summary>查询说明</summary><ul>{aiSourceResult.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></details>}</div>}
+          {sourcesError && <div className="mw-source-error" role="status"><p>{sourcesError}</p><button type="button" className="ad-link-button" onClick={() => setMethod('images')}>改用保养表图片识别</button></div>}
+          <div className="mw-sources">{sources.map(source => <article className="mw-source" key={source.url}><div><span className="mw-source-label">{source.isDirectory ? '查询入口' : source.kind === 'official' ? '品牌官方资料' : '公开保养资料'}</span><h4>{source.title}</h4><p>{source.description}</p><small className="mw-source-host">{(() => { try { return new URL(source.url).hostname; } catch { return ''; } })()}</small></div><div><a href={source.url} target="_blank" rel="noreferrer">查看来源<ExternalLink size={14} aria-hidden="true" /></a>{source.isDirectory !== false ? <small>请在来源中取得保养表截图</small> : <button type="button" disabled={busy} onClick={() => void startImport(source)}><Sparkles size={15} aria-hidden="true" />识别这份资料</button>}</div></article>)}</div>
+          <p className="mw-ai-consent">点击查询或识别，即使用当前 AI 服务整理车型及资料。查询结果的适用年款、动力与原文内容将在导入前集中核对。</p>
+        </section> : <form ref={formRef} className="ad-panel mw-panel mw-image-panel" onSubmit={event => { event.preventDefault(); void startImport(); }} onPaste={event => {
+          if (busy || ['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName) || (event.target as HTMLElement).isContentEditable) return;
+          const pasted = Array.from(event.clipboardData.items).filter(item => item.kind === 'file').map(item => item.getAsFile()).filter((file): file is File => file != null);
+          if (pasted.length) { event.preventDefault(); receiveFiles(pasted); }
+        }}>
+          <div className="mw-panel-title"><span className="mw-title-icon"><ImageIcon size={23} aria-hidden="true" /></span><div><h2>一张保养表，AI 帮你整理成规则</h2><p>上传截图或手册照片即可。名称、版本、来源和适用范围均自动整理，无需提前填写。</p></div></div>
+          <div className={`mw-upload-area mw-dropzone ${dragging ? 'mw-dragging' : ''} ${fileError ? 'mw-upload-invalid' : ''}`} tabIndex={busy ? -1 : 0} role="region" aria-label="保养表图片上传区，可选择、拖入或粘贴截图" aria-describedby={fileError ? 'mw-file-help mw-file-error' : 'mw-file-help'} onDragOver={event => { event.preventDefault(); if (!busy) { event.dataTransfer.dropEffect = 'copy'; setDragging(true); } }} onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false); }} onDrop={event => { event.preventDefault(); setDragging(false); receiveFiles(Array.from(event.dataTransfer.files)); }}>
+            <UploadCloud size={35} aria-hidden="true" /><strong>拖入保养表图片，或按 Ctrl+V 粘贴截图</strong><p>保留公里数、月份、表头及检查／更换图例，封面可以一起上传。</p><label className="mw-file-button" htmlFor="manual-upload-files"><Plus size={17} aria-hidden="true" />{files.length ? '继续添加图片' : '选择保养表图片'}</label><input id="manual-upload-files" className="mw-sr-only" ref={fileInput} type="file" multiple accept="image/jpeg,image/png,image/webp" disabled={busy} aria-describedby="mw-file-help" aria-invalid={Boolean(fileError)} onChange={event => { receiveFiles(Array.from(event.target.files || [])); event.target.value = ''; }} /><small id="mw-file-help">最多 12 张，每张不超过 8 MB，总大小不超过 32 MB。</small>
+          </div>{fileError && <p id="mw-file-error" className="mw-field-error" role="alert">{fileError}</p>}
+          {filePreviews.length > 0 && <div className="mw-uploaded-images" aria-label="已选择的保养表图片">{filePreviews.map(({ file, url }, index) => <figure key={`${file.name}-${file.lastModified}-${index}`}><img src={url} alt={`待识别的保养表图片 ${index + 1}`} /><figcaption><strong>{file.name}</strong><small>{(file.size / 1024 / 1024).toFixed(1)} MB</small></figcaption><button type="button" aria-label={`移除图片 ${index + 1}`} disabled={busy} onClick={() => { setFiles(current => current.filter((_, position) => position !== index)); setFileError(''); }}><X size={17} aria-hidden="true" /></button></figure>)}</div>}
+          <p className="mw-ai-consent">点击开始识别，即将这些图片交给当前 AI 服务处理。请使用你有权导入的资料；识别结果先保存为待核对资料。</p>
+          <div className="mw-form-actions"><span>{files.length ? `已选择 ${files.length} 张图片 · 为 ${currentModel?.brand || ''} ${currentModel?.name || '当前车型'} 整理规则` : '添加图片后即可开始'}</span><button type="submit" className="ad-button ad-button-primary" disabled={busy || !modelId || !data.config.aiConfigured}>{busy ? <LoaderCircle size={18} className="ad-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{busy ? '正在接收图片…' : '开始识别图片'}</button></div>
+        </form>}
+      </div> : <div className="mw-review">
         <section className="ad-panel mw-panel mw-job-summary"><div><span className={`mw-status mw-status-${active.status}`}>{statusNames[active.status]}</span><h2>{active.sourceTitle || '保养资料（待识别）'}</h2><p>{modelName(active.modelId)}</p><small>{readableDate(active.createdAt)} · 草稿修订 {active.revision}{active.aiModel ? ` · ${active.aiModel}` : ''}</small></div>{active.status === 'published' && <span className="mw-published-mark"><ShieldCheck size={28} aria-hidden="true" />{active.publishedRuleIds.length} 项规则已发布</span>}</section>
+        {applicabilityWarnings.length > 0 && <section className="mw-applicability-warning" role="status" aria-label="资料适用性提醒"><div><AlertCircle size={22} aria-hidden="true" /><h3>请先核对资料适用性</h3></div><ul>{applicabilityWarnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul><p>若年款、动力或市场不匹配，请更换资料；不要将其他配置的保养要求直接用于当前车型。</p></section>}
         {active.reason && <div className={`mw-feedback ${active.status === 'failed' ? 'mw-error' : 'mw-information'}`} role="status">{pending(active) ? <LoaderCircle size={19} className="ad-spin" aria-hidden="true" /> : active.status === 'failed' ? <AlertCircle size={19} aria-hidden="true" /> : <FileText size={19} aria-hidden="true" />}<span>{active.reason}</span>{active.status === 'failed' && <button type="button" className="ad-button" onClick={() => void retry()} disabled={busy}>重新识别</button>}</div>}
-        {active.pageSelection && <div className="mw-page-selection" role="status"><FileText size={18} aria-hidden="true" /><div><strong>{({ auto: 'AI 自动定位保养表', manual: '按指定页码识别', all: '完整资料识别', images: '保养表图片识别' })[active.pageSelection.mode]}</strong><p>{active.pageSelection.mode === 'images' ? `共 ${images.length} 张原文图片` : `${active.pageSelection.pages.length ? `采用第 ${active.pageSelection.pages.join('、')} 页` : '正在定位相关内容'}${active.pageSelection.totalPages ? ` · 全文 ${active.pageSelection.totalPages} 页` : ''}`}{active.pageSelection.notice ? ` · ${active.pageSelection.notice}` : ''}</p></div></div>}
-        {active.warnings.length > 0 && <div className="mw-warnings"><h3><AlertCircle size={18} aria-hidden="true" />需要留意的原文问题</h3><ul>{active.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></div>}
+        {active.pageSelection && <div className="mw-page-selection" role="status"><FileText size={18} aria-hidden="true" /><div><strong>{textImport ? '公开网页与保养图片识别' : ({ auto: 'AI 自动定位保养表', manual: '按指定页码识别', all: '完整资料识别', images: '保养表图片识别' })[active.pageSelection.mode]}</strong><p>{textImport ? `已留存网页正文${images.length ? `及 ${images.length} 张原文图片` : ''}` : active.pageSelection.mode === 'images' ? `共 ${images.length} 张原文图片` : `${active.pageSelection.pages.length ? `采用第 ${active.pageSelection.pages.join('、')} 页` : '正在定位相关内容'}${active.pageSelection.totalPages ? ` · 全文 ${active.pageSelection.totalPages} 页` : ''}`}{active.pageSelection.notice ? ` · ${active.pageSelection.notice}` : ''}</p></div></div>}
+        {active.warnings.length > 0 && <details className="mw-warnings"><summary><AlertCircle size={18} aria-hidden="true" />资料提示 <span>{active.warnings.length} 项</span><ChevronDown size={16} aria-hidden="true" /></summary><ul>{active.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></details>}
+        {editing && allIssues.length > 0 && <section ref={issueSummaryRef} id="mw-review-issues" className="mw-review-issues" tabIndex={-1} aria-labelledby="mw-issues-title"><div><AlertCircle size={21} aria-hidden="true" /><h3 id="mw-issues-title">集中处理 {allIssues.length} 处问题</h3></div><p>已识别到的内容都保留在下方。可以修改这些项目，也可先导入完整项目，其余留作资料。</p><ul>{allIssues.map((issue, index) => <li key={`${issue.rowId}-${issue.field}-${index}`}><button type="button" onClick={() => revealIssue(issue)}>{issue.rowNumber ? `第 ${issue.rowNumber} 项：` : ''}{issue.message}</button></li>)}</ul><button type="button" className="ad-button" disabled={busy} onClick={selectReadyRows}>仅保留可导入项目</button></section>}
         <div className="mw-review-grid">
-          <aside className="ad-panel mw-evidence"><div className="mw-evidence-heading"><h3><ImageIcon size={18} aria-hidden="true" />手册原文</h3>{preview && <a href={preview.url} target="_blank" rel="noreferrer">放大查看<ExternalLink size={14} aria-hidden="true" /></a>}</div>{images.length > 0 ? <><div className="mw-page-buttons" aria-label="选择原文证据">{images.map(file => <button key={file.id} type="button" aria-pressed={preview?.id === file.id} onClick={() => setPageNumber(file.pageNumber)}>{evidenceName(file.pageNumber)}</button>)}</div>{preview && <img className="mw-evidence-image" src={preview.url} alt={`资料原文，${evidenceName(preview.pageNumber)}`} />}</> : <p className="mw-muted">暂无可预览的证据页。</p>}<div className="mw-original-files">{active.files.filter(file => file.original).map(file => <a key={file.id} href={file.url} target="_blank" rel="noreferrer"><FileText size={15} aria-hidden="true" /><span>{file.name}</span><ExternalLink size={14} aria-hidden="true" /></a>)}</div></aside>
+          <aside className="ad-panel mw-evidence"><div className="mw-evidence-heading"><h3><ImageIcon size={18} aria-hidden="true" />手册原文</h3>{preview && <a href={preview.url} target="_blank" rel="noreferrer">放大查看<ExternalLink size={14} aria-hidden="true" /></a>}</div>{evidenceFiles.length > 0 && <div className="mw-page-buttons" aria-label="选择原文证据">{evidenceFiles.map(file => <button key={file.id} type="button" aria-pressed={pageNumber === file.pageNumber || preview?.id === file.id} onClick={() => setPageNumber(file.pageNumber)}>{evidenceName(file.pageNumber)}</button>)}</div>}{preview ? <img className="mw-evidence-image" src={preview.url} alt={`资料原文，${evidenceName(preview.pageNumber)}`} /> : <div className="mw-text-evidence"><p>{textImport ? '网页正文已留存，下方为识别引用的原文摘录。' : pending(active) ? '正在整理原文证据，请稍候。' : '请打开下方原始资料核对。'}</p>{active.sourceExcerpt && <blockquote>{active.sourceExcerpt}</blockquote>}{active.sourceUrl.startsWith('https://') && <a href={active.sourceUrl} target="_blank" rel="noreferrer">打开来源网页<ExternalLink size={14} aria-hidden="true" /></a>}</div>}<div className="mw-original-files">{active.files.filter(file => file.original).map(file => <a key={file.id} href={file.url} target="_blank" rel="noreferrer"><FileText size={15} aria-hidden="true" /><span>{file.mimeType === 'text/plain' ? '查看完整网页原文' : file.name}</span><ExternalLink size={14} aria-hidden="true" /></a>)}</div></aside>
+
           <div className="mw-draft-column">
-            {draft && <section className="ad-panel mw-panel mw-recognized-metadata"><div className="mw-recognition-heading"><Sparkles size={20} aria-hidden="true" /><div><h3>{pending(active) ? '正在整理资料信息' : '资料信息与适用范围'}</h3><p>AI 从原文整理的内容可以修改；未识别到的信息会标注待核对。</p></div></div><div className="mw-form-grid">
-              <label className="mw-field mw-full"><span>资料名称</span><input value={draft.sourceTitle} disabled={!editing || busy} maxLength={1000} onChange={event => editDraft({ sourceTitle: event.target.value })} placeholder="资料名称待核对" /><small className="mw-metadata-origin">{metadataHint('sourceTitle')}</small></label>
-              <label className="mw-field"><span>手册版本／发布日期</span><input value={draft.edition} disabled={!editing || busy} maxLength={200} onChange={event => editDraft({ edition: event.target.value })} placeholder="未知，请核对原文" /><small className="mw-metadata-origin">{metadataHint('edition')}</small></label>
-              <label className="mw-field"><span>来源链接（选填）</span><input type="url" value={draft.sourceUrl} disabled={!editing || busy} maxLength={2000} onChange={event => editDraft({ sourceUrl: event.target.value })} /></label>
-              <label className="mw-field mw-full"><span>原文说明的车型适用范围</span><textarea value={draft.applicability} disabled={!editing || busy} rows={3} maxLength={2000} onChange={event => editDraft({ applicability: event.target.value })} placeholder="未知，请根据原文核对市场、年款和动力" /><small className="mw-metadata-origin">{metadataHint('applicability')}</small></label>
-            </div>{!pending(active) && <details className="mw-source-excerpt" open={!active.sourceExcerpt}><summary>查看资料信息的原文摘录</summary>{active.sourceExcerpt ? <blockquote>{active.sourceExcerpt}</blockquote> : <p>未识别到可支持名称、版本或适用范围的原文。请对照原图补充核实，所选车型本身不能证明手册适用。</p>}</details>}</section>}
-            {draft && !pending(active) && <section className="mw-candidate-section"><div className="mw-candidate-heading"><div><h3>{active.status === 'published' ? '已审核的保养项目' : '逐项对照识别结果'}</h3><p>共 {draft.rows.length} 项，{includedCount} 项纳入本次规则</p></div>{editing && <button type="button" className="ad-button" disabled={busy || draft.rows.length >= 60} onClick={() => { const row: ManualRuleDraft = { id: `row-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, name: '', projectId: null, createProject: false, include: true, action: 'inspect', triggerType: 'periodic', firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null, mileageType: 'total_km', condition: '', notes: '', sourceText: '', pageNumbers: [] }; editDraft({ rows: [...draft.rows, row] }); setExpanded(current => [...current, row.id]); }}><Plus size={16} aria-hidden="true" />补充遗漏项</button>}</div>
-              {editing && <section className="ad-panel mw-bulk-tools" aria-label="批量补全与自动关联"><div className="mw-bulk-heading"><div><h4>通用首次保养</h4><p>仅在原文明确共用首保阈值时使用。只填入已选、首次月数和公里数均为空的固定周期项目，已有值不变。</p></div><button type="button" className="ad-button" disabled={busy} onClick={() => void autoMapProjects()}><Sparkles size={16} aria-hidden="true" />自动关联标准项目</button></div><div className="mw-form-grid"><label className="mw-field"><span>通用首次保养（月）</span><input type="number" min={1} max={1200} step={1} value={commonFirstMonths} disabled={busy} placeholder="原文明确的月数" onChange={event => setCommonFirstMonths(event.target.value)} /></label><label className="mw-field"><span>通用首次保养（km）</span><input type="number" min={1} max={2000000} step={1} value={commonFirstKm} disabled={busy} placeholder="原文明确的公里数" onChange={event => setCommonFirstKm(event.target.value)} /></label></div><div className="mw-bulk-footer"><small>后续周期仍需逐项核对；自动关联不确定时留空，参考目录项目在发布时才导入。</small><button type="button" className="ad-button" disabled={busy || (!commonFirstMonths.trim() && !commonFirstKm.trim())} onClick={fillCommonFirstService}>填入空白首次周期</button></div>{catalogError && <p className="mw-source-error" role="status">{catalogError}</p>}</section>}
+            {draft && <section className="ad-panel mw-panel mw-recognized-metadata"><div className="mw-recognition-heading"><Sparkles size={20} aria-hidden="true" /><div><h3>{pending(active) ? 'AI 正在整理资料信息' : '资料信息已自动整理'}</h3><p>原文未注明的版本等信息可留空，不影响导入。</p></div></div><dl className="mw-metadata-summary"><div><dt>资料名称</dt><dd>{draft.sourceTitle || `${modelName(active.modelId)}保养资料`}</dd></div><div><dt>版本</dt><dd>{conciseMetadata('edition')}</dd></div><div><dt>适用范围</dt><dd>{conciseMetadata('applicability')}</dd></div></dl><details id="mw-metadata" className="mw-optional"><summary><span>{editing ? '修改资料信息（选填）' : '查看资料信息及原文摘录'}</span><ChevronDown size={17} aria-hidden="true" /></summary><div className="mw-form-grid">
+              <label className="mw-field mw-full"><span>资料名称</span><input value={draft.sourceTitle} disabled={!editing || busy} maxLength={1000} onChange={event => editDraft({ sourceTitle: event.target.value })} placeholder="留空时自动使用当前车型名称" /><small>{metadataHint('sourceTitle')}</small></label>
+              <label className="mw-field"><span>版本／发布日期（选填）</span><input value={draft.edition} disabled={!editing || busy} maxLength={200} onChange={event => editDraft({ edition: event.target.value })} placeholder="原文未注明可留空" /></label>
+              <label className="mw-field"><span>来源链接（选填）</span><input type="url" value={draft.sourceUrl} disabled={!editing || busy} maxLength={2500} aria-invalid={!validSourceLink(draft.sourceUrl)} onChange={event => editDraft({ sourceUrl: event.target.value })} /></label>
+              <label className="mw-field mw-full"><span>原文车型适用范围（选填）</span><textarea value={draft.applicability} disabled={!editing || busy} rows={2} maxLength={3000} onChange={event => editDraft({ applicability: event.target.value })} placeholder="保留原文已写明的范围，未知可留空" /><small>{metadataHint('applicability')}</small></label>
+            </div>{active.sourceExcerpt && <blockquote className="mw-source-quote">{active.sourceExcerpt}</blockquote>}</details></section>}
+            {draft && !pending(active) && <section className="mw-candidate-section"><div className="mw-candidate-heading"><div><h3>{active.status === 'published' ? '已导入的保养项目' : '保养项目识别结果'}</h3><p>共 {draft.rows.length} 项 · 本次选择 {includedCount} 项 · 点击项目可修改细节</p></div>{editing && <button type="button" className="ad-button" disabled={busy || draft.rows.length >= 60} onClick={() => { const row: ManualRuleDraft = { id: `row-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, name: '', projectId: null, createProject: false, include: true, action: 'inspect', triggerType: 'periodic', firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null, mileageType: 'total_km', condition: '', notes: '', sourceText: '', pageNumbers: [] }; editDraft({ rows: [...draft.rows, row] }); setExpanded(current => [...current, row.id]); }}><Plus size={16} aria-hidden="true" />补充遗漏项</button>}</div>
+              {editing && <details className="ad-panel mw-bulk-tools"><summary>批量调整首保与项目关联 <ChevronDown size={17} aria-hidden="true" /></summary><div className="mw-bulk-content"><div className="mw-bulk-heading"><div><h4>通用首次保养</h4><p>仅在原文明确共用首保阈值时使用。只填入已选、首次月数和公里数均为空的固定周期项目，已有值不变。</p></div><button type="button" className="ad-button" disabled={busy} onClick={() => void autoMapProjects()}><Sparkles size={16} aria-hidden="true" />自动关联标准项目</button></div><div className="mw-form-grid"><label className="mw-field"><span>通用首次保养（月）</span><input type="number" min={1} max={1200} step={1} value={commonFirstMonths} disabled={busy} placeholder="原文明确的月数" onChange={event => setCommonFirstMonths(event.target.value)} /></label><label className="mw-field"><span>通用首次保养（km）</span><input type="number" min={1} max={2000000} step={1} value={commonFirstKm} disabled={busy} placeholder="原文明确的公里数" onChange={event => setCommonFirstKm(event.target.value)} /></label></div><div className="mw-bulk-footer"><small>后续周期仍需逐项核对；自动关联不确定时留空，参考目录项目在发布时才导入。</small><button type="button" className="ad-button" disabled={busy || (!commonFirstMonths.trim() && !commonFirstKm.trim())} onClick={fillCommonFirstService}>填入空白首次周期</button></div>{catalogError && <p className="mw-source-error" role="status">{catalogError}</p>}</div></details>}
               {draft.rows.length === 0 && <div className="ad-panel mw-no-rows"><BookOpen size={25} aria-hidden="true" /><h4>还没有可核对的保养项目</h4><p>请查看识别说明，确认所选页面包含保养表、图例和脚注。</p></div>}
-              {draft.rows.map((row, index) => <article className={`mw-rule ${!row.include ? 'mw-rule-excluded' : ''}`} key={row.id}><div className="mw-rule-top"><label className="mw-row-include"><input type="checkbox" checked={row.include} disabled={!editing || busy} onChange={event => editRow(row.id, { include: event.target.checked })} /><span className="mw-sr-only">纳入第 {index + 1} 项规则</span></label><button type="button" className="mw-rule-toggle" aria-expanded={expanded.includes(row.id)} aria-controls={`mw-row-${row.id}`} onClick={() => setExpanded(current => current.includes(row.id) ? current.filter(id => id !== row.id) : [...current, row.id])}><span><small>项目 {index + 1} · {manualActionNames[row.action]} · {triggerNames[row.triggerType]}</small><strong>{row.name || '待填写项目名称'}</strong><em>{row.pageNumbers.length ? imageImport ? `原文图片 ${row.pageNumbers.join('、')}` : `原文第 ${row.pageNumbers.join('、')} 页` : '尚未关联证据页'}{!row.include ? ' · 本次不导入' : row.catalogProjectId ? ' · 已关联参考目录项目' : !row.projectId && !row.createProject ? ' · 待关联标准项目' : ''}</em></span><ChevronDown size={19} aria-hidden="true" /></button></div>
-                <div id={`mw-row-${row.id}`} className="mw-rule-fields" hidden={!expanded.includes(row.id)}><div className="mw-form-grid"><label className="mw-field mw-full"><span>保养项目名称</span><input value={row.name} disabled={!editing || busy} maxLength={160} onChange={event => editRow(row.id, { name: event.target.value })} /></label><label className="mw-field mw-full"><span>映射到标准服务项目</span><select value={row.createProject ? '__new__' : row.projectId || (row.catalogProjectId ? `catalog:${row.catalogProjectId}` : '')} disabled={!editing || busy} onChange={event => { const value = event.target.value; editRow(row.id, { projectId: !value || value === '__new__' || value.startsWith('catalog:') ? null : value, catalogProjectId: value.startsWith('catalog:') ? value.slice(8) : null, createProject: value === '__new__' }); }}><option value="">未关联，自动匹配失败时留空</option><optgroup label="系统已有项目">{data.projects.filter(project => project.active && project.category !== 'diagnosis').map(project => <option key={project.id} value={project.id}>{project.name}</option>)}</optgroup><optgroup label="公开参考标准项目（发布时导入）">{catalogProjects.filter(project => project.category !== 'diagnosis').map(project => <option key={project.id} value={`catalog:${project.id}`}>{project.name}</option>)}{row.catalogProjectId && !catalogProjects.some(project => project.id === row.catalogProjectId) && <option value={`catalog:${row.catalogProjectId}`}>已关联参考项目（目录暂未读取）</option>}</optgroup><option value="__new__">明确新增一个标准项目</option></select><small>{row.createProject ? '发布时将按上方名称创建新项目。检查和更换要求不同时，请保留不同的项目含义。' : row.catalogProjectId ? '已关联公开参考项目，发布时导入或复用已有标准项目；请核对操作含义。' : '自动关联会保留已有人工选择，不确定时留空。名称或操作修改后需重新关联。'}</small></label><label className="mw-field"><span>要求的操作</span><select value={row.action} disabled={!editing || busy} onChange={event => editRow(row.id, { action: event.target.value as MaintenanceAction })}>{Object.entries(manualActionNames).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label><label className="mw-field"><span>触发方式</span><select value={row.triggerType} disabled={!editing || busy} onChange={event => { const triggerType = event.target.value as MaintenanceTrigger; editRow(row.id, { triggerType, ...(triggerType !== 'periodic' ? { firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null } : {}) }); }}>{Object.entries(triggerNames).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
-                  {row.triggerType === 'periodic' && <>{(['firstMonths', 'firstKm', 'intervalMonths', 'intervalKm'] as const).map(key => <label className="mw-field" key={key}><span>{{ firstMonths: '首次保养（月）', firstKm: '首次保养（km）', intervalMonths: '后续周期（月）', intervalKm: '后续周期（km）' }[key]}</span><input type="number" min={1} max={key.endsWith('Months') ? 1200 : 2000000} step={1} value={row[key] ?? ''} disabled={!editing || busy} placeholder="原文未说明则留空" onChange={event => editRow(row.id, { [key]: event.target.value === '' ? null : Number(event.target.value) })} /></label>)}<p className="mw-inline-hint mw-full">时间和里程以先到者为准。只填写原文明确的阈值；空白表示该阈值未说明。</p></>}
-                  <label className="mw-field mw-full"><span>里程口径</span><select value={row.mileageType} disabled={!editing || busy} onChange={event => editRow(row.id, { mileageType: event.target.value as ManualRuleDraft['mileageType'] })}><option value="total_km">车辆累计总里程</option><option value="engine_km">发动机累计里程</option></select></label><label className="mw-field mw-full"><span>{row.triggerType === 'periodic' ? '特殊适用条件（固定周期须留空）' : '触发条件／按需处理依据'}</span><textarea rows={2} value={row.condition} disabled={!editing || busy} maxLength={2000} onChange={event => editRow(row.id, { condition: event.target.value })} placeholder={row.triggerType === 'periodic' ? '特殊条件请改选“达到条件时”；普通说明请写入脚注' : '保留严苛工况、检测后更换等限制条件'} /></label><label className="mw-field mw-full"><span>脚注与补充说明</span><textarea rows={2} value={row.notes} disabled={!editing || busy} maxLength={4000} onChange={event => editRow(row.id, { notes: event.target.value })} /></label><label className="mw-field mw-full"><span>原文摘录</span><textarea rows={3} value={row.sourceText} disabled={!editing || busy} maxLength={6000} onChange={event => editRow(row.id, { sourceText: event.target.value })} /><small>请对照左侧原图核实文字、单位、图例和脚注。</small></label></div><fieldset className="mw-evidence-pages"><legend>{imageImport ? '关联原文图片' : '关联原文页码'}</legend>{images.map(file => <label key={file.id}><input type="checkbox" checked={file.pageNumber != null && row.pageNumbers.includes(file.pageNumber)} disabled={!editing || busy || file.pageNumber == null} onChange={event => { if (file.pageNumber == null) return; const pages = new Set(row.pageNumbers); event.target.checked ? pages.add(file.pageNumber) : pages.delete(file.pageNumber); editRow(row.id, { pageNumbers: [...pages].sort((a, b) => a - b) }); setPageNumber(file.pageNumber); }} />{evidenceName(file.pageNumber)}</label>)}</fieldset>{editing && <button type="button" className="mw-remove-row" disabled={busy} onClick={() => editDraft({ rows: draft.rows.filter(item => item.id !== row.id) })}>移除本行</button>}</div>
+              {draft.rows.map((row, index) => <article className={`mw-rule ${!row.include ? 'mw-rule-excluded' : ''} ${row.include && allIssues.some(issue => issue.rowId === row.id) ? 'mw-rule-needs-review' : ''}`} key={row.id}><div className="mw-rule-top"><label className="mw-row-include"><input type="checkbox" checked={row.include} disabled={!editing || busy} onChange={event => editRow(row.id, { include: event.target.checked })} /><span className="mw-sr-only">纳入第 {index + 1} 项规则</span></label><button type="button" className="mw-rule-toggle" aria-expanded={expanded.includes(row.id)} aria-controls={`mw-row-${row.id}`} onClick={() => setExpanded(current => current.includes(row.id) ? current.filter(id => id !== row.id) : [...current, row.id])}><span><small>项目 {index + 1} · {manualActionNames[row.action]} · {triggerNames[row.triggerType]}</small><strong>{row.name || '待填写项目名称'}</strong><em>{row.pageNumbers.length ? textImport ? `原文证据 ${row.pageNumbers.map(page => evidenceName(page)).join('、')}` : imageImport ? `原文图片 ${row.pageNumbers.join('、')}` : `原文第 ${row.pageNumbers.join('、')} 页` : '尚未关联证据页'}{!row.include ? ' · 本次不导入' : row.catalogProjectId ? ' · 已关联参考目录项目' : !row.projectId && !row.createProject ? ' · 待关联标准项目' : ''}</em><span className="mw-row-cycles">{row.triggerType === 'periodic' ? <><span>{row.firstMonths == null && row.firstKm == null ? row.intervalMonths != null || row.intervalKm != null ? '首保未单列，按已注明周期起算' : '首保未单列，待核对保养周期' : `首次：${threshold(row.firstMonths, row.firstKm)}`}</span><span>后续：{threshold(row.intervalMonths, row.intervalKm)}</span></> : <span>{row.condition || '按原文条件处理'}</span>}</span></span><ChevronDown size={19} aria-hidden="true" /></button></div>
+                <div id={`mw-row-${row.id}`} className="mw-rule-fields" hidden={!expanded.includes(row.id)} aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined}>{allIssues.some(issue => issue.rowId === row.id) && <ul className="mw-row-problems" id={`mw-row-problems-${row.id}`}>{allIssues.filter(issue => issue.rowId === row.id).map((issue, i) => <li key={i}>{issue.message}</li>)}</ul>}<div className="mw-form-grid"><label className="mw-field mw-full"><span>保养项目名称</span><input data-field="name" aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined} aria-invalid={row.include && allIssues.some(issue => issue.rowId === row.id && issue.field === 'name')} value={row.name} disabled={!editing || busy} maxLength={160} onChange={event => editRow(row.id, { name: event.target.value })} /></label><label className="mw-field mw-full"><span>映射到标准服务项目</span><select data-field="projectId" aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined} aria-invalid={row.include && allIssues.some(issue => issue.rowId === row.id && issue.field === 'projectId')} value={row.createProject ? '__new__' : row.projectId || (row.catalogProjectId ? `catalog:${row.catalogProjectId}` : '')} disabled={!editing || busy} onChange={event => { const value = event.target.value; editRow(row.id, { projectId: !value || value === '__new__' || value.startsWith('catalog:') ? null : value, catalogProjectId: value.startsWith('catalog:') ? value.slice(8) : null, createProject: value === '__new__' }); }}><option value="">未关联，自动匹配失败时留空</option><optgroup label="系统已有项目">{data.projects.filter(project => project.active && project.category !== 'diagnosis').map(project => <option key={project.id} value={project.id}>{project.name}</option>)}</optgroup><optgroup label="公开参考标准项目（发布时导入）">{catalogProjects.filter(project => project.category !== 'diagnosis').map(project => <option key={project.id} value={`catalog:${project.id}`}>{project.name}</option>)}{row.catalogProjectId && !catalogProjects.some(project => project.id === row.catalogProjectId) && <option value={`catalog:${row.catalogProjectId}`}>已关联参考项目（目录暂未读取）</option>}</optgroup><option value="__new__">明确新增一个标准项目</option></select><small>{row.createProject ? '发布时将按上方名称创建新项目。检查和更换要求不同时，请保留不同的项目含义。' : row.catalogProjectId ? '已关联公开参考项目，发布时导入或复用已有标准项目；请核对操作含义。' : '自动关联会保留已有人工选择，不确定时留空。名称或操作修改后需重新关联。'}</small></label><label className="mw-field"><span>要求的操作</span><select data-field="action" aria-invalid={row.include && allIssues.some(issue => issue.rowId === row.id && issue.field === 'action')} aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined} value={row.action} disabled={!editing || busy} onChange={event => editRow(row.id, { action: event.target.value as MaintenanceAction })}>{Object.entries(manualActionNames).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label><label className="mw-field"><span>触发方式</span><select data-field="triggerType" aria-invalid={row.include && allIssues.some(issue => issue.rowId === row.id && issue.field === 'triggerType')} aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined} value={row.triggerType} disabled={!editing || busy} onChange={event => { const triggerType = event.target.value as MaintenanceTrigger; editRow(row.id, { triggerType, ...(triggerType !== 'periodic' ? { firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null } : {}) }); }}>{Object.entries(triggerNames).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+                  {row.triggerType === 'periodic' && <>{(['firstMonths', 'firstKm', 'intervalMonths', 'intervalKm'] as const).map(key => <label className="mw-field" key={key}><span>{{ firstMonths: '首次保养（月）', firstKm: '首次保养（km）', intervalMonths: '后续周期（月）', intervalKm: '后续周期（km）' }[key]}</span><input data-field={key} aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined} aria-invalid={row.include && allIssues.some(issue => issue.rowId === row.id && (issue.field === key || issue.field === 'interval' && key.startsWith('interval')))} type="number" min={1} max={key.endsWith('Months') ? 1200 : 2000000} step={1} value={row[key] ?? ''} disabled={!editing || busy} placeholder="原文未说明则留空" onChange={event => editRow(row.id, { [key]: event.target.value === '' ? null : Number(event.target.value) })} /></label>)}<p className="mw-inline-hint mw-full">时间和里程以先到者为准。只填写原文明确的阈值；空白表示该阈值未说明。</p></>}
+                  <label className="mw-field mw-full"><span>里程口径</span><select value={row.mileageType} disabled={!editing || busy} onChange={event => editRow(row.id, { mileageType: event.target.value as ManualRuleDraft['mileageType'] })}><option value="total_km">车辆累计总里程</option><option value="engine_km">发动机累计里程</option></select></label><label className="mw-field mw-full"><span>{row.triggerType === 'periodic' ? '特殊适用条件（固定周期须留空）' : '触发条件／按需处理依据'}</span><textarea data-field="condition" aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined} aria-invalid={row.include && allIssues.some(issue => issue.rowId === row.id && issue.field === 'condition')} rows={2} value={row.condition} disabled={!editing || busy} maxLength={2000} onChange={event => editRow(row.id, { condition: event.target.value })} placeholder={row.triggerType === 'periodic' ? '特殊条件请改选“达到条件时”；普通说明请写入脚注' : '保留严苛工况、检测后更换等限制条件'} /></label><label className="mw-field mw-full"><span>脚注与补充说明</span><textarea rows={2} value={row.notes} disabled={!editing || busy} maxLength={4000} onChange={event => editRow(row.id, { notes: event.target.value })} /></label><label className="mw-field mw-full"><span>原文摘录</span><textarea data-field="sourceText" aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined} aria-invalid={row.include && allIssues.some(issue => issue.rowId === row.id && issue.field === 'sourceText')} rows={3} value={row.sourceText} disabled={!editing || busy} maxLength={6000} onChange={event => editRow(row.id, { sourceText: event.target.value })} /><small>请对照左侧原图核实文字、单位、图例和脚注。</small></label></div><fieldset data-field="pageNumbers" tabIndex={-1} aria-invalid={row.include && allIssues.some(issue => issue.rowId === row.id && issue.field === 'pageNumbers')} aria-describedby={allIssues.some(issue => issue.rowId === row.id) ? `mw-row-problems-${row.id}` : undefined} className="mw-evidence-pages"><legend>{textImport ? '关联原文证据' : imageImport ? '关联原文图片' : '关联原文页码'}</legend>{evidenceFiles.map(file => <label key={file.id}><input type="checkbox" checked={file.pageNumber != null && row.pageNumbers.includes(file.pageNumber)} disabled={!editing || busy || file.pageNumber == null} onChange={event => { if (file.pageNumber == null) return; const pages = new Set(row.pageNumbers); event.target.checked ? pages.add(file.pageNumber) : pages.delete(file.pageNumber); editRow(row.id, { pageNumbers: [...pages].sort((a, b) => a - b) }); setPageNumber(file.pageNumber); }} />{evidenceName(file.pageNumber)}</label>)}</fieldset>{editing && <button type="button" className="mw-remove-row" disabled={busy} onClick={() => editDraft({ rows: draft.rows.filter(item => item.id !== row.id) })}>移除本行</button>}</div>
               </article>)}
             </section>}
-            {editing && <section className="ad-panel mw-panel mw-publish"><div className="mw-publish-title"><ShieldCheck size={23} aria-hidden="true" /><div><h3>核对后发布到车型规则</h3><p>仅发布已勾选项目，原有规则版本和资料依据仍可追溯。</p></div></div><label className="mw-check"><input type="checkbox" checked={applicabilityConfirmed} disabled={busy || dirty} onChange={event => setApplicabilityConfirmed(event.target.checked)} /><span>已确认手册的市场、年款和动力配置适用于「{modelName(active.modelId)}」。</span></label><label className="mw-check"><input type="checkbox" checked={verified} disabled={busy || dirty} onChange={event => setVerified(event.target.checked)} /><span>已逐项对照原文，核对操作、周期、里程口径、触发条件及脚注。</span></label>{dirty && <p className="mw-unsaved" role="status">有未保存修改。请先保存草稿，再完成以上核对确认。</p>}<div className="mw-form-actions"><button type="button" className="ad-button" onClick={() => void saveDraft()} disabled={busy || !dirty}><Save size={17} aria-hidden="true" />保存草稿</button><button type="button" className="ad-button ad-button-primary" onClick={() => void publish()} disabled={busy || dirty || !verified || !applicabilityConfirmed || includedCount === 0}>{busy ? <LoaderCircle size={17} className="ad-spin" aria-hidden="true" /> : <CheckCircle2 size={17} aria-hidden="true" />}确认发布 {includedCount} 项</button></div></section>}
+            {editing && <form className="ad-panel mw-panel mw-publish" onSubmit={event => { event.preventDefault(); void publish(); }}><div className="mw-publish-title"><ShieldCheck size={23} aria-hidden="true" /><div><h3>确认并导入到当前车型</h3><p>只导入已选择的 {includedCount} 项，未选择的内容仍保留在资料中。修改会随本次提交一起保存。</p></div></div><p className="mw-publish-confirmation">点击“确认并导入”，表示你已对照原文核对保养要求，并确认这些项目适用于「{modelName(active.modelId)}」。</p><div className="mw-form-actions"><button type="button" className="ad-button ad-button-ghost" onClick={() => void saveDraft()} disabled={busy || !dirty}><Save size={17} aria-hidden="true" />稍后继续，保存草稿</button><button type="submit" className="ad-button ad-button-primary" disabled={busy || includedCount === 0}>{busy ? <LoaderCircle size={17} className="ad-spin" aria-hidden="true" /> : <CheckCircle2 size={17} aria-hidden="true" />}{busy ? '正在导入…' : `确认并导入 ${includedCount} 项规则`}</button></div></form>}
+
           </div>
         </div>
       </div>}
