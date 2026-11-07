@@ -2,6 +2,20 @@
 
 ## 当前部署选择
 
+V0.9.3 **`0.9.3+5907628593` 于2026-11-07北京时间21:48:35上线**，首次成功启动 `2026-11-07T13:48:35.015Z`，发布源码为 `e9a9b35ee7b9a12117673b402f5c13bfdb6a9c0a`。本版支持时间、公里或先到者提醒，完整显示条件阈值，车主端展示到期日期与上海自然日倒计时；旧警告或明确时间的资料按严格原文动态兼容，未批量改写旧规则。操作及适用边界见 [手册导入](manual-import.md)。
+
+最终通过已登录Portainer更新原 `autovoyage` Stack：API `autovoyage-api:e9a9b35`（`39c1353c5621`）、Web `autovoyage-web:e9a9b35`（`0ecc8c9a392a`）均healthy。17项私有环境变量逐项一致，Compose仅替换两个镜像标签；数据库、上传卷、网络、API 1 GiB及IP + 58083端口沿用。回滚目标为API `autovoyage-api:b082863`（`60ba961fb835`）和Web `autovoyage-web:b082863`（`39ec37b86f2f`），保留业务库与持久卷，不重新初始化或播种。
+
+首次部署源码 `bd38795` 的API因共享包作为外部依赖而无法由原生Node加载 `src/manual-draft.js`，未成功启动，也未新增发布日志；当时已回滚至健康的V0.9.2，并严格核对20张业务／审计表及9条旧发布记录完整。修复后将共享运行时代码内联入API，构建时检查workspace依赖不得外置，并在每次构建中以无种子的独立PGlite执行原生Node产物启动检查。Windows本地及Linux镜像构建均通过，最终完整检查167项测试及类型／构建通过后，才以本节最终源码重新部署。
+
+最终部署前于 `2026-11-07T13:48:08.828Z` 只读备份public的22张自有表、439行（含会话），仅存本机忽略目录。上线后20张业务／审计表逐对象完全一致，旧9条发布记录保留，仅新增本版1条，共10条。基线及上线后均为项目27项全部启用、12规则、5车型、2辆车、报价及版本各9、保养记录1、手册5、文件17、审计239、消息7；升级未新增这些业务项目或发布正式手册。会话单独变化，不把会话或新版本登记算作业务资料改动。
+
+公网 `/`、`/healthz`、`/api/v1/health`、`/api/v1/config` 均HTTP200，精确版本与本节一致，首页资源为 `assets/index-SLSutwvp.js`；发布源码在[main](https://github.com/gexiaobin/mem-car-information-system/actions/runs/42378270323)与[开发分支](https://github.com/gexiaobin/mem-car-information-system/actions/runs/42378270167)的Actions均success。实际数据库、产物启动及界面核验范围见 [验证记录](verification.md)。
+
+公网证据：[条件项目月份与公里](images/maintenance-v093-time-fields-cloud.png)、[车型时间规则](images/maintenance-v093-rules-cloud.png)、[本版更新日志](images/maintenance-v093-updates-cloud.png)、[两容器健康](images/maintenance-v093-stack-cloud.png)。
+
+## V0.9.2 历史部署
+
 V0.9.2 **`0.9.2+3e822546b3` 于2026-11-07北京时间20:41:55上线**，首次成功启动时间为 `2026-11-07T12:41:55.925Z`，发布源码为 `b082863e102087d3f81df7c31fc9785be2426f65`。本版补充独立机油／机滤参考项目，分别显示原文证据、标准项目关联及本次选择；旧待核对草稿可以直接重新关联，不重跑AI。目录为27项候选，正式业务项目不会因升级自动增加，具体操作和限制见 [手册导入](manual-import.md)。
 
 通过已登录Portainer更新原 `autovoyage` Stack：API镜像为 `autovoyage-api:b082863`（`60ba961fb835`），Web镜像为 `autovoyage-web:b082863`（`39ec37b86f2f`），两容器均healthy。17项私有环境变量逐项完全一致，Compose仅替换两个镜像标签；沿用数据库、上传卷、网络、API 1 GiB内存限制及IP + 58083端口。回滚目标为API `autovoyage-api:038166f`（`d447f4520630`）及Web `autovoyage-web:038166f`（`713837a79e2a`），保留业务库及持久卷，不重新初始化或播种。
