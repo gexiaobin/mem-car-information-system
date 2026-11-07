@@ -94,6 +94,8 @@ test("AI answer reads an actual source and imports cached evidence once, without
   assert.equal(job.result!.evidenceMode, "document_reading");
   assert.equal(job.result!.answer.status, "ready");
   assert.equal(job.result!.answer.rows[0].projectId, "synthetic-filter");
+  assert.equal(job.result!.answer.mappingDiagnostics?.[0]?.status, "matched");
+  assert.equal(job.result!.answer.mappingDiagnostics?.[0]?.targetName, "空调滤清器更换");
   assert.equal(job.result!.answer.rows[0].firstKm, null, "do not invent a separate first service interval");
   assert.equal(job.result!.answer.manuals[0].url, source.url);
   for (const table of ["manual_imports", "files", "rules", "logs"] as const) assert.deepEqual(await list(service.db, table), [], `query may not write ${table}`);
@@ -103,15 +105,18 @@ test("AI answer reads an actual source and imports cached evidence once, without
   assert.equal(a.statusCode, 200, a.body); assert.equal(b.statusCode, 200, b.body);
   const draft = a.json<ManualImport>(); assert.equal(draft.id, b.json<ManualImport>().id);
   assert.equal(draft.status, "awaiting_confirmation"); assert.equal(draft.files[0].mimeType, "text/plain");
+  assert.deepEqual(draft.mappingDiagnostics, job.result!.answer.mappingDiagnostics);
   assert.equal(draft.sourceUrl, source.url); assert.equal(draft.edition, ""); assert.equal(draft.metadataOrigin!.sourceTitle, "document");
   assert.equal(readings, 1); assert.equal(downloads, 1);
   assert.equal((await list(service.db, "manual_imports")).length, 1);
   assert.equal((await list(service.db, "files")).length, 1); assert.deepEqual(await list(service.db, "rules"), []);
   const stored = await get<ManualImport>(service.db, "manual_imports", draft.id);
+  assert.equal(stored?.mappingDiagnostics, undefined, "matching explanations are computed for responses, not persisted as AI or human data");
   await put(service.db, "manual_imports", { ...stored!, status: "published", revision: 5 });
   const repeated = await service.call("POST", "from-ai-answer", payload);
   assert.equal(repeated.json<ManualImport>().status, "published", "repeat import returns the latest persisted state");
   assert.equal(repeated.json<ManualImport>().revision, 5);
+  assert.equal(repeated.json<ManualImport>().mappingDiagnostics?.[0]?.status, "matched");
   assert.equal(repeated.json().modelIdentity, undefined, "internal concurrency fields stay private");
   await put(service.db, "models", { ...model, power: "混动 2.0L" });
   const changed = await service.call("POST", "from-ai-answer", payload);

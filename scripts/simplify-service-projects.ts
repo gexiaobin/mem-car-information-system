@@ -5,7 +5,7 @@ import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadConfig } from "../apps/api/src/config.js";
 import { connectDatabase } from "../apps/api/src/db.js";
-import { catalogProjects, generalCatalogProjects } from "../apps/api/src/data/public-catalog.js";
+import { catalogProjects, legacyGeneralCatalogProjects } from "../apps/api/src/data/public-catalog.js";
 import { ProjectSimplificationError, runProjectSimplification } from "../apps/api/src/project-simplification.js";
 
 async function main() {
@@ -48,7 +48,8 @@ async function main() {
   const db = await connectDatabase(config);
   try {
     const report = await runProjectSimplification(db, {
-      apply, actorId, expectedDigest, catalogProjects, generalProjects: generalCatalogProjects,
+      // This maintenance command retains its original 25-service policy.
+      apply, actorId, expectedDigest, catalogProjects, generalProjects: legacyGeneralCatalogProjects,
       beforeApply: async prepared => {
         await writeFile(reportPath, JSON.stringify(prepared, null, 2) + "\n", { flag: "wx", mode: 0o600 });
       },

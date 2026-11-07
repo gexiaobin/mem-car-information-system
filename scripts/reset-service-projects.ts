@@ -5,7 +5,7 @@ import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadConfig } from "../apps/api/src/config.js";
 import { connectDatabase } from "../apps/api/src/db.js";
-import { catalogSources, catalogVersion, generalCatalogProjects } from "../apps/api/src/data/public-catalog.js";
+import { catalogSources, catalogVersion, legacyGeneralCatalogProjects } from "../apps/api/src/data/public-catalog.js";
 import { ProjectResetError, runProjectReset } from "../apps/api/src/project-reset.js";
 
 async function main() {
@@ -42,7 +42,8 @@ async function main() {
   const db = await connectDatabase(config);
   try {
     const report = await runProjectReset(db, { apply, clearUnmatchedDemo, expectedDigest, actorId,
-      generalProjects: generalCatalogProjects, sources: catalogSources, catalogVersion,
+      // Preserve the original reviewed 25-service reset target as references grow.
+      generalProjects: legacyGeneralCatalogProjects, sources: catalogSources, catalogVersion,
       beforeApply: async prepared => { await writeFile(reportPath, JSON.stringify(prepared, null, 2) + "\n", { flag: "wx", mode: 0o600 }); },
     });
     await writeFile(reportPath, JSON.stringify(report, null, 2) + "\n", { flag: apply ? "w" : "wx", mode: 0o600 });

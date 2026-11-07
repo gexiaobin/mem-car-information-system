@@ -14,7 +14,7 @@ import bydVariantData from "./catalog-variants-byd-recent.json" with { type: "js
 import latestVariantData from "./catalog-variants-latest.json" with { type: "json" };
 
 // Versioned, bundled snapshots: browsing the catalog never depends on a third-party request.
-export const catalogVersion = "2026-11-07.1";
+export const catalogVersion = "2026-11-07.2";
 const label = z.string().trim().min(1);
 export const catalogSources: CatalogSource[] = z.array(z.object({
   id: label, title: label, url: z.url(), license: label, revision: label,
@@ -39,11 +39,21 @@ const generalProjectIds = [
   "ref-low-voltage-battery", "ref-low-voltage-battery-replace", "ref-wiper-replace", "ref-ac-system-clean",
   "ref-charge-connector", "ref-traction-battery-health",
 ];
-export const generalCatalogProjects: CatalogProject[] = generalProjectIds.map(id => {
+// Freeze the original approved 25-item set for historical reset tooling.
+// Expanding the reference directory must never broaden a destructive reset.
+export const legacyGeneralCatalogProjects: CatalogProject[] = generalProjectIds.map(id => {
   const entry = catalogProjects.find(project => project.id === id);
   if (!entry) throw new Error(`Missing general service template: ${id}`);
   return entry;
 });
+export const generalCatalogProjects: CatalogProject[] = [
+  ...legacyGeneralCatalogProjects,
+  ...["ref-engine-oil-only", "ref-engine-oil-filter-only"].map(id => {
+    const entry = catalogProjects.find(project => project.id === id);
+    if (!entry) throw new Error(`Missing independent oil service template: ${id}`);
+    return entry;
+  }),
+];
 export const catalogVariants: CatalogVariant[] = z.array(z.object({
   id: label.max(200), modelCatalogId: label, year: z.number().int().min(1950).max(2100),
   power: label.max(200), trim: label.max(200), sourceId: label,

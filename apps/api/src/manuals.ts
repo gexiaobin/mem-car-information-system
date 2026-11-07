@@ -2,13 +2,13 @@ import { z } from "zod";
 import type { CarModel, MaintenanceRule, ManualAsset, ManualDocument, ManualImport, ManualMetadataOrigin, ManualPageSelection, ManualRuleDraft, Project, Vehicle } from "@autovoyage/shared";
 import type { Context } from "./context.js";
 import { authenticated, roles, route } from "./context.js";
-import { get, list, put } from "./db.js";
+import { get, list, put, type Sql } from "./db.js";
 import { AppError, audit, ensure, id, now, sha256 } from "./domain.js";
 import { readManualImages, receiveManualFiles } from "./manual-files.js";
 import { discoverManualSources, manualSources } from "./manual-sources.js";
 import { ingestManualSource, readManualTextEvidence } from "./manual-web-source.js";
 import { manualRowSchema, recognizeManual, recognizeManualText } from "./manual-vision.js";
-import { autoMapManualProjects, manualProjectSubject, standardProjectAction } from "./manual-project-mapping.js";
+import { autoMapManualProjects, diagnoseManualProjectMappings, manualProjectSubject, standardProjectAction } from "./manual-project-mapping.js";
 import { catalogProjects, catalogSources, catalogVersion } from "./data/public-catalog.js";
 
 interface StoredManual extends ManualImport {
@@ -56,9 +56,9 @@ const originsFor = (job: Pick<ManualImport, "sourceTitle" | "edition" | "applica
   ...job.metadataOrigin,
 });
 const usableDocumentMetadata = (value: string) => !!value.trim() && !/^(?:未知|不详|不明|未见|未识别|未提供|未标注|无法确定|待核对|待确认|unknown|n\/?a|null|none)[。.!！]?$/i.test(value.trim());
-function publicManual(job: StoredManual): ManualImport {
+function presentManual(job: StoredManual, projects: Project[]): ManualImport {
   const { attempts: _, modelIdentity: __, baseRuleVersions: ___, publicationHash: ____, acquiredSourceUrl: _____, ...result } = job;
-  return result;
+  return { ...result, mappingDiagnostics: diagnoseManualProjectMappings(job.rows, projects) };
 }
 function verifySourceLink(sourceUrl: string, files: ManualAsset[]) {
   ensure(!sourceUrl.startsWith("/api/") || files.some(file => file.url === sourceUrl), 400, "SOURCE_FILE_MISMATCH", "本地来源链接必须对应本次手册原件或页面");
@@ -115,7 +115,7 @@ export async function createRecognizedManualDraft(ctx: Context, userId: string, 
     };
     await put(sql, "manual_imports", job);
     await audit(sql, userId, "manual.ai_answer.imported", "manual", job.id, "保存AI查询所得原文和已识别项目为待确认草稿；尚未发布保养规则");
-    return publicManual(job);
+    return presentManual(job, await list<Project>(sql, "projects"));
   });
 }
 /** Collect all actionable selected-row issues before any publication writes. */
@@ -176,6 +176,7 @@ function publicationIssues(job: StoredManual, projects: Project[], versions: Rec
 
 export function registerManuals(ctx: Context) {
   const { app, db, config } = ctx;
+  const publicManual = async (job: StoredManual, sql: Sql = db) => presentManual(job, await list<Project>(sql, "projects"));
   const queued = new Set<string>();
   let draining: Promise<void> | null = null;
   let closing = false;
@@ -277,7 +278,8 @@ export function registerManuals(ctx: Context) {
   });
   app.get(route("/admin/manual-imports"), async request => {
     roles(request, ["platform_admin"]);
-    return (await list<StoredManual>(db, "manual_imports")).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).map(publicManual);
+    const projects = await list<Project>(db, "projects");
+    return (await list<StoredManual>(db, "manual_imports")).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).map(job => presentManual(job, projects));
   });
   app.get<{ Params: { id: string } }>(route("/manuals/:id"), async request => {
     const user = authenticated(request);
@@ -348,7 +350,7 @@ export function registerManuals(ctx: Context) {
       for (const key of metadataKeys) if (input[key] !== job[key] && (key !== "sourceTitle" || input.sourceTitle)) metadataOrigin[key] = input[key].trim() ? "provided" : "unknown";
       const updated = await put(sql, "manual_imports", { ...job, rows: input.rows, sourceTitle: input.sourceTitle || job.sourceTitle, sourceUrl: input.sourceUrl, edition: input.edition, applicability: input.applicability, sourceExcerpt: input.sourceExcerpt ?? job.sourceExcerpt, metadataOrigin, revision: job.revision + 1, updatedAt: now() });
       await audit(sql, user.id, "manual.draft.saved", "manual", job.id, `保存 ${input.rows.filter(row => row.include).length} 条候选规则，尚未发布`);
-      return publicManual(updated);
+      return publicManual(updated, sql);
     });
   });
   app.post<{ Params: { id: string } }>(route("/admin/manual-imports/:id/auto-map"), async request => {
@@ -363,7 +365,7 @@ export function registerManuals(ctx: Context) {
       const mapped = rows.filter((row, index) => row !== job.rows[index]).length;
       const updated = await put(sql, "manual_imports", { ...job, rows, revision: job.revision + 1, updatedAt: now() });
       await audit(sql, user.id, "manual.projects.matched", "manual", job.id, `为${mapped}条空白映射关联标准或参考项目；未确定项目保持留空，未发布规则`);
-      return publicManual(updated);
+      return publicManual(updated, sql);
     });
   });
   app.post<{ Params: { id: string } }>(route("/admin/manual-imports/:id/publish"), async (request, reply) => {
@@ -379,7 +381,7 @@ export function registerManuals(ctx: Context) {
       const publicationHash = sha256(JSON.stringify(input));
       if (job.status === "published") {
         ensure(job.publicationHash === publicationHash, 409, "PUBLICATION_CONFLICT", "该任务已发布，不能用不同内容重复发布");
-        return publicManual(job);
+        return publicManual(job, sql);
       }
       ensure(job.status === "awaiting_confirmation", 409, "INVALID_STATE", "手册识别与人工核对完成后才可发布");
       ensure(job.revision === input.expectedRevision, 409, "REVISION_CONFLICT", "手册草稿已更新，请刷新并重新核对");
@@ -476,7 +478,7 @@ export function registerManuals(ctx: Context) {
       const updated: StoredManual = { ...job, status: "published", publishedAt: now(), publishedRuleIds: publishedRules.map(rule => rule.id), publicationHash, revision: job.revision + 1, updatedAt: now(), reason: `已人工复核并发布 ${publishedRules.length} 条车型保养规则；原文和旧规则版本保留。` };
       await put(sql, "manual_imports", updated);
       await audit(sql, user.id, "manual.published", "manual", job.id, `人工复核适用范围、原文及项目映射；发布车型 ${model.brand} ${model.name} ${model.year} 的 ${publishedRules.length} 条规则：${publishedRules.map(rule => rule.id).join(",")}`);
-      return publicManual(updated);
+      return publicManual(updated, sql);
     });
   });
   return {

@@ -10,7 +10,7 @@ import { createApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { get, list, put } from "../src/db.js";
 import { maintenanceFor } from "../src/domain.js";
-import { catalogModels, catalogProjects, generalCatalogProjects, catalogSources, catalogVersion, catalogVariants, variantsByModel } from "../src/data/public-catalog.js";
+import { catalogModels, catalogProjects, generalCatalogProjects, legacyGeneralCatalogProjects, catalogSources, catalogVersion, catalogVariants, variantsByModel } from "../src/data/public-catalog.js";
 import { autoMapManualProjects, manualProjectSubject, standardProjectAction } from "../src/manual-project-mapping.js";
 
 const origin = "http://localhost:5173";
@@ -70,6 +70,10 @@ test("bundled candidates have traceable sources and do not auto-populate operati
   assert(catalogProjects.every(project => !Object.hasOwn(project, "intervalKm") && !Object.hasOwn(project, "price")));
   assert.equal((await list<CarModel>(service.db, "models")).some(model => model.catalogSource), false);
   assert.equal((await list<Project>(service.db, "projects")).some(project => project.catalogSource), false);
+  assert.equal(legacyGeneralCatalogProjects.length, 25);
+  assert.equal(generalCatalogProjects.length, 27);
+  assert.deepEqual(generalCatalogProjects.filter(project => !legacyGeneralCatalogProjects.some(old => old.id === project.id)).map(project => project.id), ["ref-engine-oil-only", "ref-engine-oil-filter-only"]);
+  assert(generalCatalogProjects.some(project => project.id === "ref-engine-oil-filter"), "existing combined oil service stays available");
 });
 
 test("recent model years are selectable for the reported Sea Lion 06 and common brands", async () => {
@@ -216,7 +220,7 @@ test("service templates are searchable by category and retain action and source 
   const directory = await call("admin", "GET", "/admin/catalog/projects");
   assert.equal(directory.statusCode, 200, directory.body);
   const page = directory.json<CatalogProjectsResponse>();
-  assert.equal(page.total, 25);
+  assert.equal(page.total, 27);
   assert.deepEqual(page.items.map(project => project.id), generalCatalogProjects.map(project => project.id));
   assert(!page.categories.includes("diagnosis"));
   assert.equal((await call("admin", "GET", "/admin/catalog/projects?q=正时皮带")).json<CatalogProjectsResponse>().total, 0);

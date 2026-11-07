@@ -5,10 +5,10 @@ import pg from "pg";
 import type { MaintenanceRule, ManualImport, Offer, Project, ServiceRecord } from "@autovoyage/shared";
 import { loadConfig } from "../src/config.js";
 import { connectDatabase, list, put, tables, type Database, type Table } from "../src/db.js";
-import { catalogSources, catalogVersion, generalCatalogProjects } from "../src/data/public-catalog.js";
+import { catalogSources, catalogVersion, legacyGeneralCatalogProjects } from "../src/data/public-catalog.js";
 import { generalProjectId, planProjectReset, runProjectReset, type ProjectResetReport, type ProjectResetSnapshot } from "../src/project-reset.js";
 
-const settings = { generalProjects: generalCatalogProjects, sources: catalogSources, catalogVersion };
+const settings = { generalProjects: legacyGeneralCatalogProjects, sources: catalogSources, catalogVersion };
 const project = (id: string, name: string, description: string, category = "保养"): Project => ({ id, name, description, category, code: id.toUpperCase(), unit: "次", active: true });
 const rule = (id: string, projectId: string, modelId: string, extra: Partial<MaintenanceRule> = {}): MaintenanceRule => ({ id, projectId, modelId,
   intervalMonths: 12, intervalKm: 10000, firstMonths: 6, firstKm: 5000, mileageType: "total_km", sourceTitle: "合成原始规则",

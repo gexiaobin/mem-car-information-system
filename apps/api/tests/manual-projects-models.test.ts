@@ -192,6 +192,48 @@ test("concurrent reference publication creates one canonical project and later j
   assert(catalogProjects.some(item => item.id === actual?.catalogSource?.catalogId));
 });
 
+test("older oil drafts remap distinct conditional services without AI, selection changes or premature project creation", async () => {
+  const target = await model();
+  const oil = row({ id: "oil", name: "发动机机油", triggerType: "condition", include: false, firstKm: null, intervalKm: null, intervalMonths: 6, condition: "当出现警告时或6个月，以先到者为准。", sourceText: "合成测试：更换发动机机油，当出现警告时或6个月，以先到者为准。" });
+  const filter = row({ ...oil, id: "oil-filter", name: "发动机机油滤清器", intervalMonths: 12, condition: "当出现警告时或1年，以先到者为准。", sourceText: "合成测试：更换发动机机油滤清器，当出现警告时或1年，以先到者为准。" });
+  const original = await job(target, [oil, filter]);
+  const before = await list<Project>(service.db, "projects");
+  const storedBefore = await get(service.db, "manual_imports", original.id);
+  const read = await call("admin", "GET", `/admin/manual-imports/${original.id}`);
+  assert.equal(read.statusCode, 200, read.body);
+  assert.equal(read.json<ManualImport>().mappingDiagnostics?.length, 2);
+  assert.deepEqual(await get(service.db, "manual_imports", original.id), storedBefore, "diagnostics are read-only response metadata");
+  const mappedReply = await call("admin", "POST", `/admin/manual-imports/${original.id}/auto-map`, { expectedRevision: 1 });
+  assert.equal(mappedReply.statusCode, 200, mappedReply.body);
+  const mapped = mappedReply.json<ManualImport>();
+  assert.deepEqual(mapped.rows.map(item => item.catalogProjectId), ["ref-engine-oil-only", "ref-engine-oil-filter-only"]);
+  assert.deepEqual(mapped.rows.map(item => [item.include, item.triggerType, item.intervalMonths, item.condition]), [[false, "condition", 6, oil.condition], [false, "condition", 12, filter.condition]]);
+  assert(mapped.mappingDiagnostics?.every(item => item.status === "matched" && item.targetName));
+  assert.deepEqual(await list(service.db, "projects"), before, "mapping does not create reference projects");
+  assert.equal((await get<ManualImport>(service.db, "manual_imports", original.id))?.mappingDiagnostics, undefined);
+  const againReply = await call("admin", "POST", `/admin/manual-imports/${original.id}/auto-map`, { expectedRevision: 2 });
+  assert.equal(againReply.statusCode, 200, againReply.body);
+  const again = againReply.json<ManualImport>();
+  assert.deepEqual(again.rows, mapped.rows, "repeated mapping gives identical rows");
+  assert.deepEqual(again.mappingDiagnostics, mapped.mappingDiagnostics);
+  const publication = { expectedRevision: again.revision, verified: true, applicabilityConfirmed: true, draft: { sourceTitle: again.sourceTitle, sourceUrl: again.sourceUrl, edition: again.edition, applicability: again.applicability, rows: again.rows.map(item => ({ ...item, include: true })) } };
+  const publish = await call("admin", "POST", `/admin/manual-imports/${original.id}/publish`, publication);
+  assert.equal(publish.statusCode, 200, publish.body);
+  const result = publish.json<ManualImport>();
+  assert.equal(result.publishedRuleIds.length, 2);
+  const after = await list<Project>(service.db, "projects");
+  assert.equal(after.length, before.length + 2);
+  for (const previous of before) assert.deepEqual(after.find(item => item.id === previous.id), previous);
+  const rules = (await list<{ id: string; projectId: string; intervalMonths: number; triggerType: string; condition: string }>(service.db, "rules")).filter(item => result.publishedRuleIds.includes(item.id));
+  assert.equal(new Set(rules.map(item => item.projectId)).size, 2);
+  assert.deepEqual(rules.map(item => item.intervalMonths).sort((a, b) => a - b), [6, 12]);
+  assert(rules.every(item => item.triggerType === "condition" && /警告/.test(item.condition)));
+  const repeat = await call("admin", "POST", `/admin/manual-imports/${original.id}/publish`, publication);
+  assert.equal(repeat.statusCode, 200, repeat.body);
+  assert.deepEqual(repeat.json<ManualImport>().publishedRuleIds, result.publishedRuleIds);
+  assert.equal((await list<Project>(service.db, "projects")).length, after.length);
+});
+
 test("reference publication reuses an equivalent human-created alias rather than duplicating it", async () => {
   const alias = project({ id: "human-brake-fluid", code: "HUMAN-BRAKE-FLUID", name: "刹车液检查", description: "检查制动液状态" });
   await put(service.db, "projects", alias);

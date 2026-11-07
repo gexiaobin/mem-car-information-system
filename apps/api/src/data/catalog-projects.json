@@ -1470,5 +1470,31 @@
     "sourceIds": [
       "jiffy-service-catalog"
     ]
+  },
+  {
+    "id": "ref-engine-oil-only",
+    "code": "REF-ENGINE-OIL-ONLY",
+    "name": "更换发动机机油",
+    "category": "发动机",
+    "description": "仅更换发动机机油，不包含机油滤清器；油液规格、用量和保养周期须按具体车型手册分别确认。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-qinl-maintenance",
+      "vw-express"
+    ]
+  },
+  {
+    "id": "ref-engine-oil-filter-only",
+    "code": "REF-ENGINE-OIL-FILTER-ONLY",
+    "name": "更换发动机机油滤清器",
+    "category": "滤清器",
+    "description": "仅更换发动机机油滤清器，不包含机油；滤芯型号与保养周期须按具体车型手册分别确认，不能套用机油更换周期。",
+    "unit": "次",
+    "action": "replace",
+    "sourceIds": [
+      "byd-qinl-maintenance",
+      "vw-express"
+    ]
   }
 ]

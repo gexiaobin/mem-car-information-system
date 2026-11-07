@@ -81,6 +81,14 @@ V0.9.1工作区使用异步直接回答。`POST /admin/manual-imports/ai-answer`
 
 完成任务附带 `result`：`query,sources,summary,warnings,aiStatus,searchedAt,evidenceMode`，其中 `evidenceMode=document_reading`；`answer` 含 `status=ready|partial|not_found`、`title,summary,applicability,edition,sourceTitle,sourceUrl,manuals,rows,warnings`。`manuals` 只包含实际读取的资料，`rows` 使用既有 `ManualRuleDraft` 结构。下载失败、只有目录、AI失败或没有有效项目都不生成周期；已读取的原文链接在AI失败时仍可查看。实际HTML表格在提取文本前保留空列和合并表头，避免打点错列。来源限定不是由自定义AI凭空联网决定，服务端先真实检索／获取字节，再把证据交给模型。
 
+V0.9.2源码新增可选的只读 `mappingDiagnostics`：可出现在 `ManualImport.mappingDiagnostics` 及AI查询的 `result.answer.mappingDiagnostics`，逐行解释标准项目关联，不混入 `rows`。其结构为：
+
+```ts
+{ rowId: string; status: 'matched' | 'unmapped' | 'conflict'; code: string; message: string; targetName?: string }[]
+```
+
+这些说明由服务端按当前项目数据重新推导，不是AI识别原文、不替代发布校验，也不改变 `include`。客户端仅用于展示，旧响应可没有该字段；保存草稿或发布时不能把它放入 `draft`、草稿行或确认声明，严格请求结构不接受该只读字段。
+
 查询不持久化手册、文件、规则和审计。缓存按管理员隔离，绑定品牌、车系、年款、动力及演示标识；有效证据通常缓存30分钟，失败／无证据结果最多30秒。最多30个任务、原文字节合计96 MiB，超额驱逐旧完成任务或明确失败；进程重启会失效。`GET`不返回内部文件路径、密钥、缓存原文字节或车型锁字段。
 
 `POST /admin/manual-imports/from-ai-answer` 接收严格JSON `{ "modelId": "准确车型ID", "answerId": "上述任务ID", "consent": true }`。服务端核验当前用户、缓存及车型身份，保存同一批原文，并以已整理行建立 `awaiting_confirmation` 任务，自动关联标准项目；不二次下载、请求AI或发布规则。重复／并发使用同一答案复用同一持久任务，并返回其最新状态。过期或他人缓存返回404／`AI_ANSWER_NOT_FOUND`，未完成或无行返回409／`AI_ANSWER_NOT_READY`，车型变更返回409／`MODEL_CHANGED`。持久草稿创建失败会清理本次证据，原缓存可重试；后续核对发布仍使用原有事务接口。
@@ -131,9 +139,9 @@ PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `man
 }
 ```
 
-动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。周期数字可为空；V0.9携带 `draft` 发布时，周期规则的后续月数／公里数至少有一个有效阈值，`condition` 必须为空，正常使用说明放在 `notes`。原文未单列首次时，两项首次值可保持null，计算从已注明的后续周期起算；有任一独立首次值则保持原文维度。有特殊适用条件的项目使用条件／按需类型，保留条件且不计算固定到期，这些候选默认不选中。未知值不能由AI补齐。选中行需有有效证据页和原文摘录，且必须仅选择有效 `projectId`、公开参考 `catalogProjectId` 或明确 `createProject=true` 三种映射之一。其他映射字段置空／false，`catalogProjectId` 可省略以兼容旧草稿。重复项目与故障诊断范围不能发布。
+动作 `action` 为 `inspect`／`replace`／`clean`／`lubricate`／`other`，触发方式 `triggerType` 为 `periodic`／`condition`／`as_needed`。周期数字可为空；V0.9携带 `draft` 发布时，周期规则的后续月数／公里数至少有一个有效阈值，`condition` 必须为空，正常使用说明放在 `notes`。原文未单列首次时，两项首次值可保持null，计算从已注明的后续周期起算；有任一独立首次值则保持原文维度。有特殊适用条件的项目使用条件／按需类型，保留条件及原文阈值，不计算通用固定到期；这些候选默认 `include=false`，人工核对后允许明确改为true，不能为通过校验而强改固定周期或清除原文阈值。未知值不能由AI补齐。选中行需有有效证据页和原文摘录，且必须仅选择有效 `projectId`、公开参考 `catalogProjectId` 或明确 `createProject=true` 三种映射之一。其他映射字段置空／false，`catalogProjectId` 可省略以兼容旧草稿。重复项目与故障诊断范围不能发布。
 
-首次识别只为唯一、同部件／明确同义词且同操作的行自动映射启用的非故障诊断项目，找不到时再匹配公开参考目录；不确定、冲突或重复目标留空，不默认新增。`POST /admin/manual-imports/:id/auto-map` 接收 `{ "expectedRevision": 3 }`，仅处理 `awaiting_confirmation` 的当前版本草稿，保留已有 `projectId`、`catalogProjectId` 或明确新增选择；返回更新后的任务并递增revision。过期版本返回409／`REVISION_CONFLICT`。参考项目在发布事务中才创建或复用并保留 `catalogSource`；多义匹配、停用项目或编码冲突会阻止发布，不静默复制。
+首次识别只为唯一、同部件／确定的名称别名且同操作的行自动映射启用的非故障诊断项目，找不到时再匹配公开参考目录，不使用模糊相似度。多动作、重复来源行、重复目标、停用、操作未知或歧义不能被自动替换，未选目标继续留空，已有人工选择继续保留并通过只读诊断提示问题。`POST /admin/manual-imports/:id/auto-map` 接收 `{ "expectedRevision": 3 }`，仅处理 `awaiting_confirmation` 的当前版本草稿，保留已有 `projectId`、`catalogProjectId` 或明确新增选择以及原文、周期和 `include`；返回更新后的 `ManualImport` 并递增revision，不重新下载或请求AI。可对历史待核对草稿执行，过期版本返回409／`REVISION_CONFLICT`。参考项目在发布事务中才创建或复用并保留 `catalogSource`；多义匹配、停用项目或编码冲突会阻止发布，不静默复制。
 
 “通用首次保养”在客户端修改草稿后仍通过原PATCH保存，没有额外批量发布接口。只作用于已选、`periodic`、`condition`空白且 `firstMonths`／`firstKm`均为null的行，不改后续周期或任何已知首次值。月数为1–1200、公里数1–2000000的整数，至少填写一项；这些管理员提供的值仍须原文支持及发布前确认。
 
@@ -202,7 +210,7 @@ V0.9工作区一次发布使用 `POST /admin/manual-imports/:id/publish`，把�
 | --- | --- |
 | `GET /admin/catalog/models` | `q`、`brand`、`year`、`availableOnly` 可选；`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,offset,limit,brands,years,sources,version`；每个车系含 `variantCount`、`years`。品牌筛选为精确匹配，搜索忽略大小写、空白及全半角差异 |
 | `GET /admin/catalog/models/:id/variants` | 所选车系的实际配置；可选 `year`、`power`、`q`，`offset` 默认 0，`limit` 默认 40、最大 100。返回 `items,total,years,powers,sources,version,offset,limit` |
-| `GET /admin/catalog/projects` | `q`、`category` 可选，仅提供 25 项通用服务候选，筛选后返回 `items,total,categories,sources,version`，项目含 `action` 和参考来源 IDs |
+| `GET /admin/catalog/projects` | `q`、`category` 可选，V0.9.2源码提供27项通用服务候选，筛选后返回 `items,total,categories,sources,version`，项目含 `action` 和参考来源 IDs |
 | `POST /admin/catalog/models/import` | 选择配置：`{ "catalogId": "车系候选ID", "variantId": "公开配置ID" }`；人工补充：`{ "catalogId": "车系候选ID", "year": 2024, "power": "管理员核对的实际动力与配置" }`。两种请求不能混用；返回 `{model,created}` |
 | `POST /admin/catalog/projects/import` | `{ "catalogIds": ["目录条目ID"], "skipConflicts": true }`，1–200 条，重复 ID 去重。`skipConflicts` 可省略，默认 `false`；返回 `{projects,created,existing}`，设为 `true` 时另含 `skipped` |
 
@@ -220,7 +228,9 @@ V0.9工作区一次发布使用 `POST /admin/manual-imports/:id/publish`，把�
 
 参考项目优先按候选来源、编码或归一化名称复用，再复用部件相同、操作相同且唯一的同义项目；保留已有描述、来源、启停状态及其他编辑。部件相同但动作未知或存在多义候选时不新增副本；故障诊断不参与周期保养项目的语义匹配。默认 `skipConflicts=false`，编码等冲突返回409并整批回滚；设为 `true` 时提交可安全新增或复用的条目，并返回 `skipped: { catalogId: string; name: string; reason: string }[]`，无冲突时为 `[]`。`created` 为新增数，`existing` 为复用数，`projects` 仅含成功新增或复用结果，跳过项不计入成功数。不存在的候选仍返回 `CATALOG_ENTRY_NOT_FOUND`，整批不写入。未知字段不能通过导入请求夹带来源、保养规则或演示标记。
 
-参考服务查询收窄为 25 项常见保养服务；旧版 120 项的已知 ID 仍由导入接口兼容，以保留既有草稿和来源。手册自动关联仍可匹配已有启用业务项目，新候选模板只从 25 项通用目录选择；无法明确关联时继续留空供人工核对。目录更新本身不会批量停用业务项目。
+V0.9.2源码目录版本为 `2026-11-07.2`，参考服务查询在原25项上补入 `ref-engine-oil-only` 和 `ref-engine-oil-filter-only`，共27项，分别表示独立机油更换和独立机滤更换。旧组合 `ref-engine-oil-filter` 继续表示同时更换机油及机滤，不能用来代替只有其中一个部件的来源行，也不能将机油6个月和机滤12个月合并。旧版120项的已知ID继续兼容以保留既有草稿和来源。自动关联的新候选来自27项通用目录，也可匹配既有启用业务项目；无法明确对应时留空供核对。目录扩充不会自动新增、停用或重建正式项目；仅明确目录导入，或确认发布选中的参考行时，才创建或安全复用对应业务项目。
+
+历史精简及重建CLI使用冻结的 `legacyGeneralCatalogProjects` 原25项清单，不能把其目标数量当作当前查询目录27项，也不能为补两个候选重新执行清空重建。历史25项验收记录保持原样。
 
 标准服务列表通过现有 `bootstrap` 项目数据在客户端筛选**启用／已停用／全部**，默认启用，无新增状态查询接口。停用项仍可通过现有 `PATCH /admin/projects/:id` 将 `active` 改回 `true`。运维 CLI `scripts/simplify-service-projects.ts` 默认只读预览，显式 `--apply` 才停用未修改、无业务引用且来源版本为 `2026-11-05.1` 的非通用导入项目；它不是 REST 接口。计划摘要、原始快照和恢复操作见 [精简已有服务目录](public-catalog.md#精简已有服务目录)。
 

@@ -33,8 +33,18 @@ test('clear fluid and air-filter synonyms map while cabin air and engine air sta
     assert.equal(autoMapManualProjects([row(name)], [])[0]?.catalogProjectId, 'ref-cabin-filter', name);
 });
 
-test('extra components, separate oil services and mixed actions never collapse into a single standard project', () => {
-  for (const name of ['空气滤清器、空调滤清器', '空气滤清器滤芯及空调滤清器滤芯', '机油、机油滤清器、空气滤清器', '机油', '机油滤清器', '刹车油及变速器油', '机油及未知滤清器', '检查并更换机油、机油滤清器']) {
+test('independent oil services retain their own component and do not collapse into the compound service', () => {
+  for (const name of ['机油', '发动机机油', '更换发动机机油']) {
+    assert.equal(autoMapManualProjects([row(name)], [])[0]!.catalogProjectId, 'ref-engine-oil-only', name);
+  }
+  for (const name of ['机油滤清器', '发动机机油滤清器', '发动机机油滤芯', '更换发动机机油滤清器', '发动机机油滤清器滤芯']) {
+    assert.equal(manualProjectSubject(name), '机滤', name);
+    assert.equal(autoMapManualProjects([row(name)], [])[0]!.catalogProjectId, 'ref-engine-oil-filter-only', name);
+  }
+});
+
+test('extra components and mixed actions never collapse into a single standard project', () => {
+  for (const name of ['空气滤清器、空调滤清器', '空气滤清器滤芯及空调滤清器滤芯', '机油、机油滤清器、空气滤清器', '刹车油及变速器油', '机油及未知滤清器', '检查并更换机油、机油滤清器']) {
     const mapped = autoMapManualProjects([row(name)], [])[0]!;
     assert.equal(mapped.projectId, null, name);
     assert.equal(mapped.catalogProjectId, null, name);

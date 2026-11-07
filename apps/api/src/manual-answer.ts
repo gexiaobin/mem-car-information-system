@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { CarModel, ManualImport, ManualPageSelection, ManualRuleDraft, ManualSource, Project } from "@autovoyage/shared";
+import type { CarModel, ManualImport, ManualPageSelection, ManualProjectMappingDiagnostic, ManualRuleDraft, ManualSource, Project } from "@autovoyage/shared";
 import type { Context } from "./context.js";
 import { roles, route } from "./context.js";
 import { get, list } from "./db.js";
@@ -8,7 +8,7 @@ import { discoverManualSources, modelManualQueries, publicDownload, validateSour
 import { prepareManualImage, prepareManualPdfSelection, persistPreparedManualFiles, type PreparedFile } from "./manual-files.js";
 import { extractManualWebPage } from "./manual-web-source.js";
 import { recognizeManual } from "./manual-vision.js";
-import { autoMapManualProjects } from "./manual-project-mapping.js";
+import { autoMapManualProjects, diagnoseManualProjectMappings } from "./manual-project-mapping.js";
 import { createRecognizedManualDraft, manualModelIdentity } from "./manuals.js";
 import { acquireOfficialManualContext } from "./manual-official-sources.js";
 
@@ -20,7 +20,7 @@ export interface ManualAiAnswerResult {
     status: "ready" | "partial" | "not_found";
     title: string; summary: string; applicability: string; edition: string;
     sourceTitle: string; sourceUrl: string; manuals: ManualSource[];
-    rows: ManualRuleDraft[]; warnings: string[];
+    rows: ManualRuleDraft[]; mappingDiagnostics?: ManualProjectMappingDiagnostic[]; warnings: string[];
   };
 }
 export interface ManualAiAnswerJob {
@@ -230,7 +230,8 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
       ensure(read.rows.every(row => row.sourceText.trim() && row.pageNumbers.length && row.pageNumbers.every(page => available.has(page))), 422, "AI_EVIDENCE_INVALID", "识别结果缺少实际原文依据");
       if (!read.rows.length) { warnings.push(`已读取“${source.title}”，但没有提取到有原文依据的保养项目。`); continue; }
       const grounded = groundTextRows(read.rows.map(row => ({ ...row, id: id(), projectId: null, catalogProjectId: null, createProject: false, include: row.triggerType === "periodic" })), evidence.files);
-      const rows = autoMapManualProjects(grounded.rows, await list<Project>(ctx.db, "projects"));
+      const projects = await list<Project>(ctx.db, "projects");
+      const rows = autoMapManualProjects(grounded.rows, projects);
       const answerWarnings = [...warnings, ...read.warnings, ...grounded.warnings];
       if (!read.applicability.trim()) answerWarnings.push("已读取资料尚未明确适用车型范围，导入前请对照原文核对年款与动力。");
       if (!read.edition.trim()) answerWarnings.push("原文未注明版本，可留空。");
@@ -241,7 +242,7 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
         status: partial ? "partial" : "ready", title: read.sourceTitle || evidence.title,
         summary: result.summary, applicability: read.applicability, edition: read.edition,
         sourceTitle: read.sourceTitle || evidence.title, sourceUrl: evidence.sourceUrl,
-        manuals: evidence.manuals, rows, warnings: [...new Set(answerWarnings)],
+        manuals: evidence.manuals, rows, mappingDiagnostics: diagnoseManualProjectMappings(rows, projects), warnings: [...new Set(answerWarnings)],
       };
       result.warnings = result.answer.warnings;
       return { result, evidence: { ...evidence, sourceExcerpt: read.sourceExcerpt } };
@@ -342,7 +343,8 @@ export function registerManualAnswers(ctx: Context, dependencies: ManualAnswerDe
       ensure(current, 404, "AI_ANSWER_NOT_FOUND", "导入草稿已不存在，请重新查询");
       // Stored documents also contain server-only concurrency fields. Reuse the
       // public shape saved on first import while refreshing its current fields.
-      return Object.fromEntries(Object.keys(entry.imported).map(key => [key, current[key as keyof ManualImport]])) as unknown as ManualImport;
+      const result = Object.fromEntries(Object.keys(entry.imported).filter(key => key !== "mappingDiagnostics").map(key => [key, current[key as keyof ManualImport]])) as unknown as ManualImport;
+      return { ...result, mappingDiagnostics: diagnoseManualProjectMappings(current.rows, await list<Project>(ctx.db, "projects")) };
     }
     if (entry.importing) return entry.importing;
     const answer = entry.job.result?.answer;
