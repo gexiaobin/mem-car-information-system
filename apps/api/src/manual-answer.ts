@@ -3,7 +3,7 @@ import type { CarModel, ManualImport, ManualPageSelection, ManualRuleDraft, Manu
 import type { Context } from "./context.js";
 import { roles, route } from "./context.js";
 import { get, list } from "./db.js";
-import { ensure, id, now } from "./domain.js";
+import { AppError, ensure, id, now } from "./domain.js";
 import { discoverManualSources, modelManualQueries, publicDownload, validateSourceUrl } from "./manual-sources.js";
 import { prepareManualImage, prepareManualPdfSelection, persistPreparedManualFiles, type PreparedFile } from "./manual-files.js";
 import { extractManualWebPage } from "./manual-web-source.js";
@@ -129,13 +129,18 @@ async function prepareEvidence(source: ManualSource, model: CarModel, dependenci
   const page = extractManualWebPage(downloaded.bytes, downloaded.url, downloaded.charset);
   ensure(maintenanceWords.test(`${page.title}\n${page.text}`) && (page.text.length >= 80 || page.images.length), 400, "MANUAL_WEB_NO_EVIDENCE", "未取得保养正文");
   // Prefer a readable maintenance page to an unrelated whole-book download.
-  // If this is only an attachment page, acquire its actual linked PDF instead.
-  if (page.pdfs.length && !/公里|里程|公里数|km|个月|月数|更换|检查|保养时间表/i.test(page.text)) {
+  // An attachment index is not evidence. Follow only one unambiguous PDF;
+  // never pick the first variant from a page containing several manuals.
+  const hasBodyEvidence = page.images.length > 0 || (
+    /更换|检查|清洁|润滑|换位|轮换|replace|inspect|check|clean|lubricat|rotat/i.test(page.text)
+    && /\d[\d,.]*\s*(?:万|千)?\s*(?:km|公里|千米|个月|月|年)|每(?:个月|月|年)|当.{0,80}(?:警告|提示)|按需|必要时|when\b|as needed/i.test(page.text)
+  );
+  if (page.pdfs.length && !hasBodyEvidence) {
+    ensure(page.pdfs.length === 1, 400, "MANUAL_MULTIPLE_ATTACHMENTS", "该页面有多份手册附件且没有可读保养正文，不能自动猜选车型版本");
     const pdf = await download(page.pdfs[0], 0, undefined, 15000, deadline);
-    if (binaryType(pdf.bytes) === "application/pdf") {
-      const prepared = await prepareManualPdfSelection(pdf.bytes, filename(pdf.url), undefined, "auto");
-      return { ...prepared, sourceUrl: pdf.url, title: page.title || source.title, manuals: [{ ...concrete, url: pdf.url }] };
-    }
+    ensure(binaryType(pdf.bytes) === "application/pdf", 400, "MANUAL_FORMAT", "手册附件未返回有效 PDF，不能将下载索引页作为保养正文");
+    const prepared = await prepareManualPdfSelection(pdf.bytes, filename(pdf.url), undefined, "auto");
+    return { ...prepared, sourceUrl: pdf.url, title: page.title || source.title, manuals: [{ ...concrete, url: pdf.url }] };
   }
   const files: PreparedFile[] = [];
   const manuals = [concrete];
@@ -210,7 +215,12 @@ export async function readModelManualAnswer(ctx: Context, model: CarModel, progr
       if (!result.answer.sourceUrl) {
         result.answer.sourceUrl = evidence.sourceUrl; result.answer.sourceTitle = evidence.title; result.answer.title = evidence.title;
       }
-    } catch { warnings.push(`“${source.title}”未取得可用原文，已跳过。`); continue; }
+    } catch (error) {
+      warnings.push(error instanceof AppError && error.code === "MANUAL_MULTIPLE_ATTACHMENTS"
+        ? `“${source.title}”包含多份手册附件且没有可读保养正文，未自动猜选版本，已跳过。`
+        : `“${source.title}”未取得可用原文，已跳过。`);
+      continue;
+    }
     try {
       progress("organizing", "已取得手册原文，AI正在逐项整理保养周期、条件与出处…");
       const pages = evidence.files.filter(file => file.mimeType === "image/jpeg" && file.pageNumber !== null).map(file => ({ pageNumber: file.pageNumber!, buffer: file.bytes }));

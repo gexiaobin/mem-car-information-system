@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { randomBytes } from "node:crypto";
 import pg from "pg";
+import { PDFDocument } from "pdf-lib";
 import Fastify from "fastify";
 import type { CarModel, ManualImport, ManualSource, Project, User } from "@autovoyage/shared";
 import type { Context } from "../src/context.js";
@@ -135,6 +136,61 @@ test("a readable document is still offered when AI fails or finds no maintenance
     assert.equal(work.result.answer.sourceUrl, source.url); assert.deepEqual(work.result.answer.rows, []); assert.equal(work.evidence, undefined);
     assert(!JSON.stringify(work.result).includes("PRIVATE_PROVIDER_DETAIL"));
   }
+});
+
+test("multiple PDF attachment indexes are skipped without selecting a file or passing the index to AI", async t => {
+  const service = await harness(t);
+  const index = { ...source, title: "保养时间表下载", url: "https://official.example/downloads.html" };
+  const indexHtml = `<html><body><article><h1>保养时间表下载</h1><p>${"本页提供车辆保养资料附件，请依据车辆版本选择对应的手册原件。".repeat(4)}</p><a href="/fuel.pdf">汽油版保养手册</a><a href="/hybrid.pdf">混动版保养手册</a></article></body></html>`;
+  for (const fallback of [false, true]) {
+    const downloaded: string[] = []; let recognitions = 0;
+    const work = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({
+      discover: async () => fallback ? [index, source] : [index],
+      download: async url => { downloaded.push(url); return { bytes: Buffer.from(url === index.url ? indexHtml : html), type: "text/html", url }; },
+      recognize: async (_config, _pages, _model, texts) => {
+        recognitions++; assert(texts!.every(page => !page.text.includes("汽油版保养手册"))); return structuredClone(recognition);
+      },
+    }));
+    assert.deepEqual(downloaded, fallback ? [index.url, source.url] : [index.url]);
+    assert.equal(recognitions, fallback ? 1 : 0);
+    assert.match(work.result.warnings.join(" "), /多份手册附件.*未自动猜选/);
+    assert.equal(work.result.answer.manuals.some(manual => manual.url === index.url), false);
+    assert.equal(work.result.answer.status, fallback ? "ready" : "not_found");
+  }
+  assert.deepEqual(await list(service.db, "files"), []);
+});
+
+test("an attachment page can follow its unique actual PDF and retain the rendered source evidence", async t => {
+  const service = await harness(t);
+  const document = await PDFDocument.create();
+  document.addPage([360, 180]).drawText("Synthetic maintenance schedule: replace filter every 20000 km.", { x: 12, y: 100, size: 8 });
+  const pdf = Buffer.from(await document.save());
+  const index = { ...source, title: "保养资料下载", url: "https://official.example/one-manual.html" };
+  const pdfUrl = "https://official.example/single-manual.pdf";
+  const indexHtml = `<html><body><article><h1>保养资料下载</h1><p>${"此页提供对应车辆版本的手册原件下载，请阅读原件后了解具体保养要求。".repeat(4)}</p><a href="/single-manual.pdf">车主手册</a></article></body></html>`;
+  const downloaded: string[] = []; let recognitions = 0;
+  const work = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({
+    discover: async () => [index],
+    download: async url => { downloaded.push(url); return { bytes: url === pdfUrl ? pdf : Buffer.from(indexHtml), type: url === pdfUrl ? "application/pdf" : "text/html", url }; },
+    recognize: async (_config, pages, _model, texts) => {
+      recognitions++; assert.equal(pages.length, 1); assert.equal(pages[0].pageNumber, 1); assert.equal(texts!.length, 0); return structuredClone(recognition);
+    },
+  }));
+  assert.deepEqual(downloaded, [index.url, pdfUrl]); assert.equal(recognitions, 1);
+  assert.equal(work.result.answer.sourceUrl, pdfUrl); assert.equal(work.result.answer.manuals[0].url, pdfUrl);
+  assert(work.evidence!.files.some(file => file.original && file.mimeType === "application/pdf"));
+  assert.deepEqual(work.evidence!.selection.pages, [1]); assert.equal(work.evidence!.selection.totalPages, 1);
+  assert.deepEqual(await list(service.db, "files"), []); assert.deepEqual(await readdir(service.temporary), []);
+});
+
+test("readable maintenance text stays usable when it also links several PDF manuals", async t => {
+  const service = await harness(t); const downloaded: string[] = [];
+  const work = await readModelManualAnswer(service.ctx, model, () => {}, dependencies({
+    discover: async () => [source],
+    download: async url => { downloaded.push(url); return { bytes: Buffer.from(html.replace("</article>", '<a href="/a.pdf">原件A</a><a href="/b.pdf">原件B</a></article>')), type: "text/html", url }; },
+  }));
+  assert.deepEqual(downloaded, [source.url]); assert.equal(work.result.answer.status, "ready");
+  assert.equal(work.result.answer.sourceUrl, source.url); assert.equal(work.result.answer.rows.length, 1);
 });
 
 test("unlocated text quotes and fabricated structured thresholds cannot be offered as grounded periodic rules", async t => {
