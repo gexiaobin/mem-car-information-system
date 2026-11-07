@@ -69,6 +69,41 @@ npx tsx scripts/simplify-service-projects.ts --apply --expect-plan DRY_RUN_SHA25
 
 应用前脚本先将 `status: prepared` 的恢复快照写入已忽略的 `.local` 目录，数据库事务只将候选 `active` 从 `true` 改为 `false`，逐项记录管理员审计；提交成功后报告标记为 `applied`。不会删除、合并或转移项目，也不修改报价、周期、车型关联或规则。需要恢复时，在**标准服务项目 → 已停用**中编辑对应项目并重新启用，报告中的 `plan.candidates` 保留原始项目快照供核对。若命令异常且报告仍为 `prepared`，先核对数据库实际状态，再决定后续操作。
 
+## 清空后重建通用目录
+
+需要重新建立标准服务目录时，使用 `scripts/reset-service-projects.ts`。该维护流程会替换现有标准项目数据，包括此前已停用项目，目标为 **25 项通用项目全部启用、0 项停用**。先前的 `simplify-service-projects.ts` 只改变启用状态，不满足清空后重建的要求。不要运行 `initialize-server.ts` 代替此流程，该初始化脚本可能重新补入演示诊断项目和报价。
+
+执行前应备份目标 schema 的全部自有表，核对数据库连接和 `PGSCHEMA`；当前正式服务使用 `public`，开发 `.env` 可指向 `av_development`。预览默认只读，不删除或导入业务数据：
+
+```powershell
+$env:PGSCHEMA='public'
+npx tsx scripts/reset-service-projects.ts --output .local/service-reset-preview.json
+```
+
+报告包含原始业务快照 `snapshot` 和重建计划 `plan`，其中有 `mappings`、`unmatched`、`writes`、`deletes`、`beforeCounts`、`afterCounts`、`blockers` 与 `digest`；终端摘要给出 `canApply`。先核对拟写入、拟删除和阻碍项，不能仅依据最终项目数量执行。报告保存数据库原始资料，应始终留在已忽略的 `.local`，不进入公开仓库。
+
+脚本先规划旧项目到通用模板的迁移，仅允许部件、操作和服务含义明确一致的关联；报价金额、材料范围、车型周期和来源不能因此改变。操作未写明但有已发布、已核验手册规则明确证明时，可使用该规则动作作为依据，并记入映射证据。对同车型规则版本、已核验规则、服务记录和报价等进行冲突检查，不能用合并覆盖解决重复。未知动作、歧义或真实业务引用没有等价通用项目时，计划会列出阻碍并拒绝执行；存在预约或服务变更时，该脚本直接阻止执行，不改写已冻结的商业快照。
+
+如需额外清理没有等价通用项目的演示关联，须先明确核对影响，再在预览和执行中同时使用 `--clear-unmatched-demo`。该参数仅允许清理演示标识明确、没有其他业务依赖的规则、报价及历史报价，不能将真实或未知数据当作演示资料删除，也不允许删除保养记录。新增此参数会改变计划，应重新预览并复核摘要。没有额外清理需求时不要传入。
+
+```powershell
+npx tsx scripts/reset-service-projects.ts --clear-unmatched-demo --output .local/service-reset-demo-preview.json
+```
+
+核对完整报告、计划摘要和阻碍项后，使用新的报告文件名执行；将 `DRY_RUN_SHA256` 替换为相同选项下预览报告中的摘要：
+
+```powershell
+npx tsx scripts/reset-service-projects.ts --apply --expect-plan DRY_RUN_SHA256 --output .local/service-reset-applied.json
+```
+
+若已核准清理演示关联，执行命令还须包含 `--clear-unmatched-demo`。有多个启用的平台管理员时，预览和执行均使用 `--actor-id ADMIN_USER_ID` 指定真实操作人；`--help` 可查看参数。计划变化、未解决的引用或冲突均应中止，不能跳过检查强行重建。
+
+重建前将 `status: prepared` 的完整原始快照写入本机已忽略的 `.local` 目录；事务内迁移可明确对应的引用、清理获准的演示关联并重建项目，提交成功后报告标记为 `applied`。未发布手册中的非通用检查行保留原文、图片、名称、动作、周期和选中状态，只将无法迁移的 `projectId`、`catalogProjectId` 置空，`createProject` 设为 `false`，增加待核对提示。例如“检查发动机空气滤芯”和“检查空调滤清器”不能转成更换项目，须重新人工关联。发生项目映射或规则版本基线变化的手册任务更新修订号和更新时间；已发布手册的无等价映射会阻止执行。手册原件不重新识别，也不生成或改写周期。
+
+完成后核对项目总数25、启用25、停用0，且所有需有效项目的引用均存在；核对车型、车辆、规则、报价、服务记录、手册及文件的保留与明确计划一致。清空的数据不能通过“已停用”入口恢复，需要依据维护前备份及原始快照恢复关联数据。若报告仍显示 `prepared` 或命令异常，先核对实际数据库状态，避免重复执行。
+
+本节为维护流程，不表示已经在正式库执行。实际数量、关联迁移、删除范围和验收截图写入 [验证记录](verification.md)。有实际变更时新增一条真实管理员的 `projects.reset` 操作日志，重跑无变更计划不重复写入；纯数据维护不改软件版本，也不伪造一条新的软件上线记录。
+
 ## 来源与更新
 
 - 每个新导入实体保存候选 ID、目录版本、来源链接、许可说明、资料版本、查阅日期及导入时间。公开配置导入额外保存配置 ID、该行原文依据和可用的厂商信息。
