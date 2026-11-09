@@ -25,7 +25,7 @@ import {
   SectionHeading,
   dateText,
 } from "../components/UI";
-import { VehiclePhoto, VEHICLE_ART_SOURCE, VEHICLE_ART_CREDIT } from "../components/VehiclePhoto";
+import { VehiclePhoto } from "../components/VehiclePhoto";
 import { StoreIllustration } from "../components/StoreIllustration";
 import { compareMaintenance, maintenanceCountdown } from '../lib/maintenance-display';
 
@@ -114,8 +114,7 @@ export default function HomePage({
                   <span className="plate">{vehicle.plate}</span>
                 </p>
               </div>
-              <VehiclePhoto model={model} priority caption={false} />
-              <a className="garage-art-label" href={VEHICLE_ART_SOURCE} target="_blank" rel="noreferrer" title={VEHICLE_ART_CREDIT}>3D 概念车 · 外观示意</a>
+              <VehiclePhoto model={model} priority />
               </div>
               <div className="vehicle-data">
                 <div>
