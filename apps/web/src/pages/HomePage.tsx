@@ -25,7 +25,7 @@ import {
   SectionHeading,
   dateText,
 } from "../components/UI";
-import { VehiclePhoto, VEHICLE_ART_SOURCE, VEHICLE_ART_CREDIT } from "../components/VehiclePhoto";
+import { VehiclePhoto, VEHICLE_ART_CREDIT } from "../components/VehiclePhoto";
 import { StoreIllustration } from "../components/StoreIllustration";
 import { compareMaintenance, maintenanceCountdown } from '../lib/maintenance-display';
 
@@ -90,7 +90,7 @@ export default function HomePage({
           <div className="dashboard-hero">
             <section className="vehicle-hero digital-vehicle-hero">
               <div className="vehicle-hero-top">
-                <span className="garage-label"><CarFront size={17} aria-hidden="true" /> 我的爱车<span className="garage-label-line" /></span>
+                <span className="garage-label"><CarFront size={17} aria-hidden="true" /> 我的爱车</span>
                 <label className="vehicle-switch">
                   <span className="sr-only">切换车辆</span>
                   <select
@@ -115,7 +115,7 @@ export default function HomePage({
                 </p>
               </div>
               <VehiclePhoto model={model} priority caption={false} />
-              <a className="garage-art-label" href={VEHICLE_ART_SOURCE} target="_blank" rel="noreferrer" title={VEHICLE_ART_CREDIT}>3D 概念车 · 外观示意</a>
+              <span className="garage-art-label" title={VEHICLE_ART_CREDIT}>3D 概念车 · 外观示意</span>
               </div>
               <div className="vehicle-data">
                 <div>

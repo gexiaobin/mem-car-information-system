@@ -13,7 +13,6 @@ import {
   Wrench,
   Bell,
   UserRound,
-  ChevronDown,
   LogOut,
   ShieldCheck,
   ArrowRight,
@@ -96,6 +95,9 @@ export default function App() {
     );
   if (!data)
     return <Login config={config} loadError={error} onLogin={refresh} />;
+  // A store account opened by its manager stays here until it owns a personal password.
+  if (data.user.mustChangePassword)
+    return <PasswordSetup email={data.user.email} onDone={refresh} onLogout={logout} />;
   if (data.user.role !== "owner")
     return (
       <Suspense fallback={<Loading />}>
@@ -235,6 +237,76 @@ function Login({
   );
 }
 
+function PasswordSetup({
+  email,
+  onDone,
+  onLogout,
+}: {
+  email: string;
+  onDone: () => Promise<void>;
+  onLogout: () => Promise<void>;
+}) {
+  const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  return (
+    <div className="startup startup-form">
+      <div className="login-card">
+        <Brand />
+        <p className="eyebrow">{email}</p>
+        <h2>首次登录，请设置新密码</h2>
+        <p className="muted">初始密码只用于首次进入，设置完成后即失效。</p>
+        <form
+          className="form-stack"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (next.length < 8 || !/[A-Za-z]/.test(next) || !/\d/.test(next)) {
+              setError("新密码至少 8 位，并同时包含字母与数字。");
+              return;
+            }
+            if (next !== confirm) {
+              setError("两次输入的新密码不一致。");
+              return;
+            }
+            setBusy(true);
+            setError("");
+            try {
+              await post("/auth/change-password", { currentPassword: current, newPassword: next });
+              await onDone();
+            } catch (e) {
+              setError(messageOf(e));
+              setBusy(false);
+            }
+          }}
+        >
+          <label>
+            当前密码
+            <input type="password" autoComplete="current-password" required value={current} onChange={(e) => setCurrent(e.target.value)} />
+          </label>
+          <label>
+            新密码
+            <input type="password" autoComplete="new-password" required value={next} onChange={(e) => setNext(e.target.value)} />
+          </label>
+          <label>
+            确认新密码
+            <input type="password" autoComplete="new-password" required value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+          </label>
+          <ErrorBox message={error} />
+          <button className="btn btn-primary btn-full" disabled={busy}>
+            {busy ? "正在保存…" : "设置并进入工作台"}
+          </button>
+          <button type="button" className="btn btn-secondary btn-full" disabled={busy} onClick={() => void onLogout()}>
+            <LogOut size={17} />
+            退出登录
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 function OwnerShell({
   data,
   refresh,
@@ -301,7 +373,6 @@ function OwnerShell({
               <strong>{data.user.name}</strong>
               <small>云程车主</small>
             </span>
-            <ChevronDown size={16} />
           </button>
         </div>
       </aside>

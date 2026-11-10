@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { AlertCircle, ArrowRight, BookOpen, CheckCircle2, ChevronDown, ExternalLink, FileText, Image as ImageIcon, LoaderCircle, Plus, RefreshCw, Save, ShieldCheck, Sparkles, UploadCloud, X } from 'lucide-react';
+import { AlertCircle, ArrowRight, BookOpen, CheckCircle2, ChevronDown, ClipboardList, ExternalLink, FileText, Image as ImageIcon, LoaderCircle, Plus, RefreshCw, Save, ShieldCheck, Sparkles, UploadCloud, X } from 'lucide-react';
 import { applyCommonFirstService, buildCommonMaintenanceSummary, hasRecurringMaintenanceThreshold, usesIndependentConditionThreshold, type Bootstrap, type CatalogProject, type CatalogProjectsResponse, type ManualImport, type ManualProjectMappingDiagnostic, type ManualRuleDraft, type ManualSource, type MaintenanceAction, type MaintenanceTrigger } from '@autovoyage/shared';
 import { ApiError, api, patch, post, type ApiIssue } from '../lib/api';
+import ManualTableEntry from './ManualTableEntry';
 import './manuals.css';
 
 interface Props {
@@ -76,12 +77,13 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
   const [aiAnswerResult, setAiAnswerResult] = useState<ManualAiAnswerResult | null>(null);
   const [answerImportError, setAnswerImportError] = useState('');
   const [answerExpired, setAnswerExpired] = useState(false);
+  const [savedStale, setSavedStale] = useState(false);
   const [answerImported, setAnswerImported] = useState(false);
   const [catalogProjects, setCatalogProjects] = useState<CatalogProject[]>([]);
   const [catalogError, setCatalogError] = useState('');
   const [commonFirstMonths, setCommonFirstMonths] = useState('');
   const [commonFirstKm, setCommonFirstKm] = useState('');
-  const [method, setMethod] = useState<'search' | 'images'>('search');
+  const [method, setMethod] = useState<'search' | 'images' | 'table'>('search');
   const [files, setFiles] = useState<File[]>([]);
   const [filePreviews, setFilePreviews] = useState<{ file: File; url: string }[]>([]);
   const [fileError, setFileError] = useState('');
@@ -121,8 +123,18 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
     return () => { cancelled = true; };
   }, []);
   useEffect(() => {
-    sourceRequest.current++; setAnswerJob(null); setAiAnswerResult(null); setSourcesError(''); setSourceLoading(false); setAnswerImportError(''); setAnswerExpired(false); setAnswerImported(false);
-    return () => { sourceRequest.current++; };
+    sourceRequest.current++; setAnswerJob(null); setAiAnswerResult(null); setSourcesError(''); setSourceLoading(false); setAnswerImportError(''); setAnswerExpired(false); setAnswerImported(false); setSavedStale(false);
+    let cancelled = false;
+    // Re-entering the workbench shows the last answer for this model instead of an empty panel.
+    api<{ answer: { result: ManualAiAnswerResult; stale: boolean } | null }>(`/admin/manual-imports/ai-answer-saved?modelId=${encodeURIComponent(modelId)}`)
+      .then(response => {
+        if (cancelled || !response.answer) return;
+        setAiAnswerResult(response.answer.result);
+        setSavedStale(response.answer.stale);
+        setAnswerExpired(true);
+      })
+      .catch(() => undefined);
+    return () => { cancelled = true; sourceRequest.current++; };
   }, [modelId]);
   useEffect(() => {
     if (!answerJob || ['completed', 'failed'].includes(answerJob.status) || !sourceLoading) return;
@@ -254,7 +266,7 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
   async function aiDiscoverSources() {
     if (!modelId || sourceLoading || busy) return;
     const token = ++sourceRequest.current;
-    setSourceLoading(true); setSourcesError(''); setAiAnswerResult(null); setAnswerJob(null); setAnswerImportError(''); setAnswerExpired(false); setAnswerImported(false);
+    setSourceLoading(true); setSourcesError(''); setAiAnswerResult(null); setAnswerJob(null); setAnswerImportError(''); setAnswerExpired(false); setAnswerImported(false); setSavedStale(false);
     try {
       const job = await post<ManualAiAnswerJob>('/admin/manual-imports/ai-answer', { modelId, consent: true });
       if (sourceRequest.current === token) receiveAnswerJob(job);
@@ -509,8 +521,9 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
         <div className="mw-entry-switch" role="group" aria-label="选择导入方式">
           <button type="button" aria-pressed={method === 'search'} className={method === 'search' ? 'mw-entry-active' : ''} onClick={() => { setMethod('search'); setError(''); }}><Sparkles size={24} aria-hidden="true" /><span><strong>AI 查找手册</strong><small>直接阅读手册，整理保养项目与周期</small></span><ArrowRight size={18} aria-hidden="true" /></button>
           <button type="button" aria-pressed={method === 'images'} className={method === 'images' ? 'mw-entry-active' : ''} onClick={() => { setMethod('images'); setError(''); }}><ImageIcon size={24} aria-hidden="true" /><span><strong>图片识别导入</strong><small>上传或粘贴保养周期表截图</small></span><ArrowRight size={18} aria-hidden="true" /></button>
+          <button type="button" aria-pressed={method === 'table'} className={method === 'table' ? 'mw-entry-active' : ''} onClick={() => { setMethod('table'); setError(''); }}><ClipboardList size={24} aria-hidden="true" /><span><strong>手工录入保养表格</strong><small>按纸质手册逐项键入</small></span><ArrowRight size={18} aria-hidden="true" /></button>
         </div>
-        {method === 'search' ? <section className="ad-panel mw-panel mw-search-panel">
+        {method === 'table' ? <ManualTableEntry data={data} modelId={modelId} onCreated={job => { setMethod('search'); void (async () => { await loadJobs(); adopt(job); setNotice('手工录入的保养表格已保存为草稿，请核对后发布。'); })(); }} onCancel={() => setMethod('search')} /> : method === 'search' ? <section className="ad-panel mw-panel mw-search-panel">
           <div className="mw-search-intro"><div className="mw-panel-title"><span className="mw-title-icon"><Sparkles size={23} aria-hidden="true" /></span><div><h2>直接找到手册，读出保养要求</h2><p>AI 将查找{currentModel ? `「${currentModel.brand} ${currentModel.name}」` : '当前车系'}的公开手册，读取可访问的原文，在这里给出保养项目与周期表。</p></div></div><button type="button" className={`ad-button ${answerHasRows ? '' : 'ad-button-primary'}`} disabled={busy || sourceLoading || !modelId} onClick={() => void aiDiscoverSources()}>{sourceLoading ? <LoaderCircle size={18} className="ad-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{sourceLoading ? '正在查找并阅读…' : aiAnswerResult || sourcesError ? '重新查询保养手册' : 'AI 查询保养手册'}</button></div>
           {!sourceLoading && !aiAnswerResult && !sourcesError && <div className="mw-search-empty"><BookOpen size={33} aria-hidden="true" /><strong>手册原文、保养周期，一次整理</strong><p>找到可读取的资料后，直接显示手册与项目表；名称、版本和适用说明一并整理。</p></div>}
           {sourceLoading && <div className="mw-answer-progress" role="status" aria-live="polite"><div><LoaderCircle size={23} className="ad-spin" aria-hidden="true" /><strong>{answerJob?.message || '正在提交手册查询…'}</strong></div><ol aria-label="手册查询进度">{answerStages.map((stage, index) => <li key={stage.status} className={index < answerStage ? 'mw-stage-done' : index === answerStage ? 'mw-stage-current' : ''} aria-current={index === answerStage ? 'step' : undefined}><span>{index < answerStage ? <CheckCircle2 size={17} aria-hidden="true" /> : index + 1}</span>{stage.title}</li>)}</ol><p>完成后会自动显示手册内容与保养表。读取较长的手册需要一些时间。</p></div>}
@@ -531,6 +544,7 @@ export default function ManualWorkbench({ data, onRefresh, children, modelId, on
               <div className="mw-answer-footer"><p>{answerExpired ? '已整理的结果仍可阅读。重新查询会取得当前车型的最新可用手册内容。' : answerImported ? '这份查询已带入资料，点击继续查看，不会重复创建。' : commonSummary.items.length ? '带入常规主要项目后，对照原文核对一次，再确认导入本车型规则。' : '本次尚无可带入的常规主要项目，可查看原文或使用保养周期表图片。'}</p><button type="button" className="ad-button ad-button-primary" disabled={busy || sourceLoading || (!answerExpired && !answerImported && !commonSummary.regularRowIds.length)} onClick={() => void (answerExpired ? aiDiscoverSources() : importAnswer())}>{busy ? <LoaderCircle size={18} className="ad-spin" aria-hidden="true" /> : <ArrowRight size={18} aria-hidden="true" />}{busy ? '正在带入…' : answerExpired ? '重新查询并整理' : answerImported ? '查看已带入的资料' : commonSummary.items.length ? `带入核对 ${commonSummary.items.length} 项常规项目` : '暂无可带入常规项目'}</button></div>
             </>}
             {!answerHasRows && <>{answerWarnings.length > 0 && <details className="mw-answer-query-notes"><summary>查看查询说明<ChevronDown size={16} aria-hidden="true" /></summary><ul>{answerWarnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></details>}<p className="mw-answer-no-result">{answerFailure.next}</p><button type="button" className="ad-button" onClick={() => setMethod('images')}><ImageIcon size={17} aria-hidden="true" />使用保养表图片</button></>}
+            {savedStale && <p className="mw-answer-import-error" role="status"><AlertCircle size={18} aria-hidden="true" />车型资料已变更，这份是变更前查到的结果，请重新查询后再带入核对。</p>}
             <small className="mw-answer-date">查询时间：{readableDate(aiAnswerResult.searchedAt)}</small>
           </section>}
           <p className="mw-ai-consent">点击查询，即使用当前 AI 服务查找并阅读公开资料。项目表为 AI 整理结果，导入前请对照手册核对摘录、周期与车型适用性。</p>

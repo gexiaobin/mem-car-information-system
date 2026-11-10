@@ -39,6 +39,7 @@ import {
   shanghaiDay,
   saveMaintenanceMessages,
   recalculateMaintenance,
+  validateMileageUpdate,
 } from "./domain.js";
 import {
   authenticated,
@@ -56,6 +57,7 @@ import { registerImages } from "./images.js";
 import { registerRegistration } from "./registration.js";
 import { registerManuals } from "./manuals.js";
 import { registerManualFiles } from "./manual-files.js";
+import { registerMembers } from "./members.js";
 import { registerManualAiSearch } from "./manual-ai-search.js";
 import { ensureUniqueOwnerPlate } from "./vehicle-identity.js";
 import { effectiveOffers } from "./prices.js";
@@ -504,6 +506,158 @@ export async function createApp(
       });
     },
   );
+  app.post<{ Params: { id: string } }>(
+    route("/vehicles/:id/mileage"),
+    { config: { rateLimit: { max: 30, timeWindow: "1 minute" } } },
+    async (request) => {
+      const user = owner(request);
+      const input = z
+        .object({
+          totalKm: z.number().int().min(0).max(2000000),
+          observedAt: z.string().datetime({ offset: true }),
+        })
+        .parse(request.body);
+      return db.transaction(async (sql) => {
+        const vehicle = await ownVehicle<Vehicle>(
+          sql,
+          request.params.id,
+          user,
+          true,
+        );
+        validateMileageUpdate(vehicle, input.totalKm, input.observedAt, "manual");
+        await put(sql, "observations", {
+          id: id(),
+          vehicleId: vehicle.id,
+          // Manual entries have no import job; a fresh uuid keeps the unique observation index free.
+          importId: id(),
+          totalKm: input.totalKm,
+          engineKm: null,
+          observedAt: input.observedAt,
+          confirmedAt: now(),
+          source: "车主手工录入（未经图片核对）",
+        });
+        await put(sql, "vehicles", {
+          ...vehicle,
+          totalKm: input.totalKm,
+          observedAt: input.observedAt,
+        });
+        await recalculateMaintenance(sql, user.id);
+        await audit(
+          sql,
+          user.id,
+          "mileage.manual",
+          "vehicle",
+          vehicle.id,
+          `手工录入里程 ${input.totalKm} km`,
+        );
+        await notify(
+          sql,
+          user.id,
+          "车辆里程已更新",
+          "手工填写的里程已入库，保养计划已按项目重新计算。",
+          "mileage",
+          "/",
+        );
+        return { totalKm: input.totalKm, observedAt: input.observedAt };
+      });
+    },
+  );
+  app.post<{ Params: { id: string } }>(
+    route("/vehicles/:id/service-records"),
+    { config: { rateLimit: { max: 30, timeWindow: "1 minute" } } },
+    async (request) => {
+      const user = owner(request);
+      const input = z
+        .object({
+          projectId: z.string().optional(),
+          customItemName: z.string().trim().max(60).optional(),
+          completedAt: z.string().datetime({ offset: true }),
+          totalKm: z.number().int().min(0).max(2000000),
+          totalCents: z.number().int().min(0).max(100000000).nullable().default(null),
+          note: z.string().max(2000).default(""),
+        })
+        .parse(request.body);
+      ensure(
+        !!input.projectId || !!input.customItemName,
+        400,
+        "PROJECT_REQUIRED",
+        "请选择标准服务项目，或填写本次保养内容",
+      );
+      return db.transaction(async (sql) => {
+        const vehicle = await ownVehicle<Vehicle>(
+          sql,
+          request.params.id,
+          user,
+          true,
+        );
+        const completedMs = Date.parse(input.completedAt);
+        ensure(
+          completedMs <= Date.now() + 60000,
+          400,
+          "FUTURE_DATE",
+          "保养时间不能晚于当前时间",
+        );
+        ensure(
+          completedMs >= Date.parse(`${vehicle.startDate}T00:00:00+08:00`),
+          400,
+          "OLD_RECORD",
+          "保养时间不能早于车辆启用日期",
+        );
+        ensure(
+          input.totalKm >= (vehicle.totalKm ?? vehicle.initialKm),
+          409,
+          "MILEAGE_ROLLBACK",
+          "保养里程不能低于最后有效里程",
+        );
+        if (input.projectId) {
+          const project = await get<Project>(sql, "projects", input.projectId);
+          ensure(
+            project?.active,
+            400,
+            "INVALID_PROJECT",
+            "请选择有效的标准服务项目",
+          );
+        }
+        const record: ServiceRecord = {
+          id: id(),
+          vehicleId: vehicle.id,
+          // Manual records are not linked to an appointment; a fresh uuid avoids the unique index.
+          appointmentId: id(),
+          projectId: input.projectId || "",
+          completedAt: input.completedAt,
+          totalKm: input.totalKm,
+          source: "车主自行记录（未经门店确认）",
+          totalCents: input.totalCents ?? 0,
+        };
+        await put(sql, "records", {
+          ...record,
+          customItemName: input.customItemName || "",
+          note: input.note,
+          unverified: true,
+        });
+        if (input.totalKm > (vehicle.totalKm ?? vehicle.initialKm))
+          await put(sql, "vehicles", { ...vehicle, totalKm: input.totalKm });
+        await recalculateMaintenance(sql, user.id);
+        await audit(
+          sql,
+          user.id,
+          "record.manual",
+          "record",
+          record.id,
+          `补录保养记录 ${input.projectId || input.customItemName}`,
+        );
+        await notify(
+          sql,
+          user.id,
+          "保养记录已补录",
+          "记录标注为「车主自行记录」，未经门店确认前仅供个人参考。",
+          "record",
+          "/account?tab=history",
+        );
+        return record;
+      });
+    },
+  );
   app.get<{ Params: { id: string } }>(
     route("/vehicles/:id/history"),
     async (request) => {
@@ -631,10 +785,13 @@ export async function createApp(
             "UNCERTAINTY_REQUIRED",
             "请说明估价的不确定因素",
           );
+        const replierRole = user.role === "expert" ? "expert" : "store_admin";
         const updated: Fault = {
           ...fault,
           ...input,
           assignedExpertId: fault.assignedExpertId,
+          repliedByName: user.name,
+          repliedByRole: replierRole,
           confirmed: false,
         };
         await put(sql, "faults", updated);
@@ -642,8 +799,12 @@ export async function createApp(
           sql,
           fault.ownerId,
           input.status === "need_info"
-            ? "专家需要补充故障信息"
-            : "专家已回复故障咨询",
+            ? replierRole === "store_admin"
+              ? "门店需要补充故障信息"
+              : "专家需要补充故障信息"
+            : replierRole === "store_admin"
+              ? "门店已回复故障咨询"
+              : "专家已回复故障咨询",
           "请查看建议、分项预估及不确定因素。预估金额不是确定总价。",
           "fault",
           "/repair",
@@ -676,7 +837,7 @@ export async function createApp(
           fault.status === "replied",
           409,
           "INVALID_STATE",
-          "请等待专家回复后再确认",
+          "请等待门店回复后再确认",
         );
         const updated = { ...fault, confirmed: true };
         await put(sql, "faults", updated);
@@ -755,6 +916,7 @@ export async function createApp(
   const images = registerImages({ app, db, config });
   const registrations = registerRegistration({ app, db, config });
   registerManualFiles({ app, db, config });
+  registerMembers({ app, db, config });
   registerManualAiSearch({ app, db, config });
   const manuals = registerManuals({ app, db, config });
   await images.resume();

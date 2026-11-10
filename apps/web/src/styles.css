@@ -777,9 +777,6 @@ label textarea {
   font-size: 10px;
   color: var(--color-text-muted);
 }
-.sidebar-user > svg {
-  margin-left: auto;
-}
 .owner-workspace {
   margin-left: 228px;
   min-width: 0;
@@ -1470,12 +1467,12 @@ label textarea {
   border-radius: 12px;
   border: 1px solid var(--color-border);
   background: #eef3f8;
-  min-height: 320px;
+  min-height: 440px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  align-self: flex-start;
+  align-self: stretch;
 }
 .import-image-area > img {
   max-height: 540px;
@@ -4060,16 +4057,16 @@ label textarea {
     gap: 21px;
   }
   .import-image-area {
-    min-height: 210px;
-    max-height: 300px;
+    min-height: 300px;
+    max-height: 420px;
   }
   .import-image-area > img {
-    max-height: 300px;
+    max-height: 420px;
     width: auto;
     margin: auto;
   }
   .upload-placeholder {
-    min-height: 210px;
+    min-height: 300px;
   }
   .import-layout .form-grid {
     grid-template-columns: 1fr 1fr;
@@ -4148,7 +4145,7 @@ label textarea {
     padding-left: 11px;
   }
   .store-search input {
-    font-size: 14px;
+    font-size: 16px;
     min-height: 44px;
   }
   .store-filters {
@@ -5537,7 +5534,7 @@ label textarea {
   .owner-app .sidebar nav { gap: 2px; }
   .owner-app .sidebar nav > a { padding: 12px 10px; font-size: 13px; }
   .owner-app .sidebar nav > a > svg { display: none; }
-  .owner-app .sidebar-user > span:not(.avatar), .owner-app .sidebar-user > svg { display: none; }
+  .owner-app .sidebar-user > span:not(.avatar) { display: none; }
   .owner-app .sidebar-user .avatar { height: 38px; width: 38px; }
   .owner-app .dashboard-hero, .owner-app .dashboard-bottom { grid-template-columns: minmax(0,1.4fr) minmax(260px,1fr); gap: 18px; }
   .owner-app .photo-vehicle-hero { padding-left: 20px; padding-right: 20px; }
@@ -5641,3 +5638,20 @@ label textarea {
   .photo-attribution { font-size: 10px; }
 }
 .owner-app .vehicle-title,.owner-app .vehicle-title-line{min-width:0}.owner-app .vehicle-title h2,.owner-app .vehicle-title>p{overflow-wrap:anywhere}.modal .form-stack>label{min-width:0}.modal select[name="modelId"]{max-width:100%;text-overflow:ellipsis}.owner-app .page-footer{flex-wrap:wrap}.owner-app .page-footer>span{overflow-wrap:anywhere}@media(max-width:767px){.owner-app .page-footer{padding-bottom:calc(85px + env(safe-area-inset-bottom));justify-content:center;gap:8px 16px}.owner-app .page-footer>.sul-entry{flex-basis:100%}}
+
+/* Manually added service items, shown beside the standard project chips. */
+.project-custom-legend{margin:14px 0 8px;font-size:12px;font-weight:600;color:var(--color-text-muted)}
+.project-custom-chips>button{border-style:dashed}
+.project-custom-add{display:flex;gap:9px;margin-top:10px}
+.project-custom-add>input{flex:1;min-width:0;border:1px solid var(--color-border);border-radius:10px;padding:10px 12px;min-height:44px;font-size:16px;background:#fff;color:var(--color-text)}
+.project-custom-add>.btn{white-space:nowrap}
+.project-custom-note{margin:8px 0 0;font-size:12px;color:var(--color-warning)}
+.booking-custom-items{margin:16px 0 0;padding:14px 16px;border:1px dashed #b7c8d9;border-radius:10px;background:#f7fafd}
+.booking-custom-items h3{margin:0 0 8px;font-size:13px}
+.booking-custom-items ul{margin:0;padding-left:20px;font-size:13px;color:var(--color-text)}
+.booking-custom-items small{display:block;margin-top:8px;font-size:12px;color:var(--color-text-muted)}
+.mileage-mode-switch{display:flex;gap:8px;margin:0 0 18px}
+.mileage-mode-switch>button{flex:1;min-height:44px;border:1px solid var(--color-border);border-radius:10px;background:#fff;color:var(--color-text-muted);font-size:14px}
+.mileage-mode-switch>button.selected{background:var(--color-primary-soft);border-color:var(--color-primary);color:var(--color-primary);font-weight:650}
+.startup-form{padding:24px}
+.startup-form .login-card{background:#fff;border:1px solid var(--color-border);border-radius:16px;padding:26px 24px;box-shadow:0 12px 32px rgb(9 37 80 / 6%)}

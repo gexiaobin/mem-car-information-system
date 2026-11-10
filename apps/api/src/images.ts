@@ -15,6 +15,7 @@ import {
   notify,
   sha256,
   recalculateMaintenance,
+  validateMileageUpdate,
 } from "./domain.js";
 export interface ImageFile {
   id: string;
@@ -364,46 +365,10 @@ export function registerImages(ctx: Context) {
           user,
           true,
         );
-        const observedMs = Date.parse(input.observedAt);
-        ensure(
-          observedMs <= Date.now() + 60000,
-          400,
-          "FUTURE_DATE",
-          "数据时间不能晚于当前时间",
-        );
-        ensure(
-          observedMs >= Date.parse(`${vehicle.startDate}T00:00:00+08:00`),
-          400,
-          "OLD_IMAGE",
-          "数据时间不能早于车辆启用日期",
-        );
-        ensure(
-          !vehicle.observedAt || observedMs > Date.parse(vehicle.observedAt),
-          409,
-          "OLD_IMAGE",
-          "图片数据时间不晚于最后有效记录，请上传更新的图片",
-        );
         const totalKm = Math.round(
           input.totalKm * (input.unit === "mi" ? 1.609344 : 1),
         );
-        ensure(
-          totalKm >= (vehicle.totalKm ?? vehicle.initialKm),
-          409,
-          "MILEAGE_ROLLBACK",
-          "累计里程不能低于最后有效里程",
-        );
-        if (vehicle.totalKm !== null && vehicle.observedAt) {
-          const elapsedDays = Math.max(
-            1,
-            (observedMs - Date.parse(vehicle.observedAt)) / 86400000,
-          );
-          ensure(
-            (totalKm - vehicle.totalKm) / elapsedDays <= 2000,
-            409,
-            "MILEAGE_ABNORMAL",
-            "里程增长异常，请核对车辆、单位和数据时间后重新提交",
-          );
-        }
+        validateMileageUpdate(vehicle, totalKm, input.observedAt, "image");
         await put(sql, "observations", {
           id: id(),
           vehicleId: vehicle.id,

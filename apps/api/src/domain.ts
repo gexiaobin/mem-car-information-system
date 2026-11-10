@@ -62,6 +62,54 @@ export function shanghaiDay(value = new Date()): string {
     day: "2-digit",
   }).format(value);
 }
+/** Guardrails shared by image confirmation and manual mileage entry. */
+export function validateMileageUpdate(
+  vehicle: Vehicle,
+  totalKm: number,
+  observedAt: string,
+  source: "image" | "manual",
+): number {
+  const observedMs = Date.parse(observedAt);
+  ensure(
+    observedMs <= Date.now() + 60000,
+    400,
+    "FUTURE_DATE",
+    "数据时间不能晚于当前时间",
+  );
+  ensure(
+    observedMs >= Date.parse(`${vehicle.startDate}T00:00:00+08:00`),
+    400,
+    "OLD_IMAGE",
+    "数据时间不能早于车辆启用日期",
+  );
+  ensure(
+    !vehicle.observedAt || observedMs > Date.parse(vehicle.observedAt),
+    409,
+    "OLD_IMAGE",
+    source === "image"
+      ? "图片数据时间不晚于最后有效记录，请上传更新的图片"
+      : "填写的时间不晚于最后有效记录，请选择更晚的日期时间",
+  );
+  ensure(
+    totalKm >= (vehicle.totalKm ?? vehicle.initialKm),
+    409,
+    "MILEAGE_ROLLBACK",
+    "累计里程不能低于最后有效里程",
+  );
+  if (vehicle.totalKm !== null && vehicle.observedAt) {
+    const elapsedDays = Math.max(
+      1,
+      (observedMs - Date.parse(vehicle.observedAt)) / 86400000,
+    );
+    ensure(
+      (totalKm - vehicle.totalKm) / elapsedDays <= 2000,
+      409,
+      "MILEAGE_ABNORMAL",
+      "里程增长异常，请核对车辆、单位和数据时间后重新提交",
+    );
+  }
+  return observedMs;
+}
 export function addMonthsClamped(date: string, months: number): string {
   const [y, m, d] = date.slice(0, 10).split("-").map(Number);
   const result = new Date(Date.UTC(y, m - 1 + months, 1));

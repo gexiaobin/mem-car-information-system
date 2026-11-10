@@ -24,6 +24,7 @@ import type {
 } from "@autovoyage/shared";
 import { cents } from "@autovoyage/shared";
 import { api, post } from "../lib/api";
+import ProjectPicker from "../components/ProjectPicker";
 import { StoreIllustration } from "../components/StoreIllustration";
 import StoreMap, {
   distanceKm,
@@ -82,6 +83,7 @@ export default function StoresPage({
   onSuccess: (text: string) => void;
 }) {
   const [params] = useSearchParams();
+  const [customItems, setCustomItems] = useState<string[]>([]);
   const [projectIds, setProjectIds] = useState<string[]>(() =>
     [
       params.get("fault")
@@ -426,41 +428,18 @@ export default function StoresPage({
                   onChange={(e) => setDay(e.target.value)}
                 />
               </label>
-              <fieldset className="project-group-filter">
-                <legend>本次服务项目（可多选）</legend>
-                <div className="project-choice-chips">
-                  {data.projects
-                    .filter(
-                      (project) =>
-                        project.active &&
-                        (!fault || project.category === "diagnosis"),
-                    )
-                    .map((project) => (
-                      <button
-                        key={project.id}
-                        type="button"
-                        aria-pressed={projectIds.includes(project.id)}
-                        className={
-                          projectIds.includes(project.id) ? "selected" : ""
-                        }
-                        disabled={!!fault}
-                        onClick={() => {
-                          setProjectIds((ids) =>
-                            ids.includes(project.id)
-                              ? ids.length > 1
-                                ? ids.filter((id) => id !== project.id)
-                                : ids
-                              : [...ids, project.id],
-                          );
-                          setSort("distance");
-                        }}
-                      >
-                        {projectIds.includes(project.id) && <Check size={14} />}{" "}
-                        {project.name}
-                      </button>
-                    ))}
-                </div>
-              </fieldset>
+              <ProjectPicker
+                projects={data.projects}
+                selected={projectIds}
+                custom={customItems}
+                disabled={!!fault}
+                filter={(project) => (fault ? project.category === "diagnosis" : true)}
+                onChange={({ selected, custom }) => {
+                  setProjectIds(selected);
+                  setCustomItems(custom);
+                  setSort("distance");
+                }}
+              />
               {schemes.map((scheme) => (
                 <label
                   className="scheme-filter bundle-scheme"
@@ -782,10 +761,12 @@ export default function StoresPage({
               }
               day={day}
               faultId={fault?.id}
+              customItems={customItems}
               onClose={() => setBooking(null)}
               onRefresh={onRefresh}
               onBooked={async () => {
                 setBooking(null);
+                setCustomItems([]);
                 await onRefresh();
                 onSuccess("预约已提交，等待门店确认");
               }}
@@ -872,6 +853,7 @@ function BookingModal({
   complete,
   day,
   faultId,
+  customItems,
   priceReady,
   onClose,
   onRefresh,
@@ -885,6 +867,7 @@ function BookingModal({
   complete: boolean;
   day: string;
   faultId?: string;
+  customItems: string[];
   priceReady: boolean;
   onClose: () => void;
   onRefresh: () => Promise<void>;
@@ -950,6 +933,7 @@ function BookingModal({
         ),
         requestId,
         ...(faultId ? { faultId } : {}),
+        ...(customItems.length ? { customItems } : {}),
       });
       await onBooked();
     } catch (error) {
@@ -1105,6 +1089,17 @@ function BookingModal({
               ) : (
                 <div className="feedback">
                   所选日期暂时没有可预约时段，请返回选择其他日期。
+                </div>
+              )}
+              {customItems.length > 0 && (
+                <div className="booking-custom-items">
+                  <h3>另外说明的项目（不计入本次报价）</h3>
+                  <ul>
+                    {customItems.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <small>到店后由门店评估是否增加及如何收费，不会自动计入结算。</small>
                 </div>
               )}
               <p className="form-hint">

@@ -451,3 +451,32 @@ test("answer queue bounds concurrent work and does not share jobs between admini
   await service.finish(a, "admin-a"); await service.finish(b, "admin-b"); await service.finish(c, "admin-c");
   assert.equal(reads, 3);
 });
+
+test("a finished answer is stored per model and reappears when the workbench is reopened", async t => {
+  const service = await harness(t);
+  assert.deepEqual((await service.call("GET", `ai-answer-saved?modelId=${model.id}`)).json(), { answer: null });
+
+  const job = await service.finish(await service.start());
+  assert.equal(job.status, "completed");
+
+  const stored = await service.call("GET", `ai-answer-saved?modelId=${model.id}`);
+  assert.equal(stored.statusCode, 200, stored.body);
+  const answer = stored.json().answer;
+  assert.equal(answer.modelId, model.id);
+  assert.equal(answer.stale, false);
+  assert.equal(answer.result.answer.rows[0].name, "空调滤清器更换");
+  assert.equal(answer.result.searchedAt, job.result!.searchedAt);
+  assert.equal(answer.result.answer.mappingDiagnostics, undefined, "transient diagnostics stay out of the stored copy");
+  assert.deepEqual(await list(service.db, "files"), [], "stored answers never copy evidence files");
+
+  // A model edit makes the stored answer stale rather than silently wrong.
+  await put(service.db, "models", { ...model, year: 2026 });
+  assert.equal((await service.call("GET", `ai-answer-saved?modelId=${model.id}`)).json().answer.stale, true);
+
+  // Storage is keyed by model, so other models start empty and rewrites replace the older answer.
+  const other = { ...model, id: "synthetic-answer-model-2", year: 2025 };
+  await put(service.db, "models", other);
+  assert.equal((await service.call("GET", `ai-answer-saved?modelId=${other.id}`)).json().answer, null);
+  const rows = await list<{ id: string; modelId: string }>(service.db, "ai_manual_answers");
+  assert.deepEqual(rows.map(row => row.modelId), [model.id], "one row per model keeps only the newest answer");
+});

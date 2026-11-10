@@ -40,6 +40,7 @@ const bookingSchema = z.object({
   expectedVersions: z.record(z.string(), z.number().int().positive()),
   requestId: z.string().min(8).max(120),
   faultId: z.string().optional(),
+  customItems: z.array(z.string().trim().min(1).max(60)).max(12).default([]),
 });
 const actionSchema = z.object({
   action: z.enum([
@@ -67,6 +68,7 @@ const canonical = (input: BookingInput) =>
       Object.entries(input.expectedVersions).sort(),
     ),
     faultId: input.faultId || null,
+    customItems: [...(input.customItems || [])].sort(),
   });
 async function canAccess(
   sql: Sql,
@@ -186,6 +188,12 @@ export function registerBookings({ app, db }: Context) {
         "DUPLICATE_OFFER",
         "服务项目不能重复",
       );
+      ensure(
+        new Set(input.customItems).size === input.customItems.length,
+        400,
+        "DUPLICATE_CUSTOM_ITEM",
+        "补充项目不能重复",
+      );
       const headers: Offer[] = [];
       for (const offerId of [...input.offerIds].sort()) {
         const offer = await get<Offer>(sql, "offers", offerId, true);
@@ -291,7 +299,7 @@ export function registerBookings({ app, db }: Context) {
           fault.confirmed && fault.status === "replied",
           409,
           "FAULT_NOT_CONFIRMED",
-          "请先确认专家建议与服务范围",
+          "请先确认门店答复与服务范围",
         );
         const projects = await list<Project>(sql, "projects");
         ensure(
@@ -333,6 +341,7 @@ export function registerBookings({ app, db }: Context) {
         finalCents: totalCents,
         requestId: input.requestId,
         requestHash,
+        customItems: input.customItems,
         createdAt: now(),
         updatedAt: now(),
         reason: "",
