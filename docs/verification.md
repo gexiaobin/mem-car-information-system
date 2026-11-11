@@ -1,10 +1,16 @@
 # 云程 · 验证记录
 
-更新日期：2026-11-11，Asia/Shanghai；以下按版本保留历史验收证据。
+更新日期：2026-11-12，Asia/Shanghai；以下按版本保留历史验收证据。
 
-## V0.9.6 团队PR整合（预部署验证，2026-11-11）
+## V0.9.7 HTTP预览兼容修复（部署待验收）
 
-本轮整合PR #1与PR #2，并修复登录邮箱记忆、手工保养表发布、历史保养里程时间线、首次改密的服务端限制及预约幂等兼容等问题。功能、权限和资料边界见 [团队PR更新说明](team-pr-update.md)。本地集成构建版本为 **`0.9.6+73b454ef99`**，此版本号是已验证构建的标识，尚不是公网运行版本或GitHub提交ID。
+V0.9.6公网验收发现手工表格新行直接调用`crypto.randomUUID()`，该API在IP加HTTP的非安全上下文不可用，打开入口会导致React页面白屏；本地localhost被浏览器视为安全上下文，未暴露此差异。本版统一手工表格与预约请求的客户端标识生成，优先使用原生UUID，HTTP环境使用`getRandomValues`，受限浏览器保留非秘密本地标识后备。此标识只用于页面行和预约幂等键，认证及服务端授权继续使用原有机制。
+
+新增4项回归覆盖原生UUID、HTTP能力、Crypto缺失和真实手工表格组件在HTTP能力下的首次渲染。`npm run check`通过：238／238项测试、全部工作区类型检查、API与Web生产构建、原生Node隔离启动；构建版本`0.9.7+8054761a75`，日志保存在忽略目录`.local/v097-check.log`。正式部署待验收，不能以修复代码和本地检查代替公网结果。
+
+## V0.9.6 团队PR整合（已部署，手工表格公网验收未通过）
+
+本轮整合PR #1与PR #2，并修复登录邮箱记忆、手工保养表发布、历史保养里程时间线、首次改密的服务端限制及预约幂等兼容等问题。功能、权限和资料边界见 [团队PR更新说明](team-pr-update.md)。本地验证完成于2026-11-11，构建版本 **`0.9.6+73b454ef99`** 已于`2026-11-11T16:09:59.511Z`（北京时间2026-11-12 00:09:59）启动上线，源码为`085a0d9ab7a517e19b753647dc0d64deb62765ee`。后续公网验收发现手工表格在HTTP IP地址环境白屏，本版不能作为最终验收通过，正在准备V0.9.7兼容热修。
 
 | 检查 | 实际结果 |
 | --- | --- |
@@ -12,12 +18,21 @@
 | 原生Node启动 | API生产构建通过隔离PGlite的原生Node启动检查，实际嵌入版本`0.9.6+73b454ef99`；不使用正式业务库或重新播种 |
 | 真实PostgreSQL专项 | 30／30项隔离测试通过，覆盖AI回答缓存与用户隔离、手工里程及历史时间线、预约补充项目与旧请求兼容、手工表格自动关联、成员开通／首次改密／停用等；日志保留于`.local/v096-postgres-tests.log`，不作为public业务导入 |
 | 本地浏览器 | 登录页显示“记住账号”；车主退出先确认，确认后返回登录；平台可打开手工录入保养表格，输入未保存项目后切换车型，项目字段清空，对应车型规则数由2变3。已确认入口、退出和车型切换隔离，不代表已完成全部角色、手机或公网验收 |
-| GitHub合并 | 尚未完成，最终PR状态、合并提交与CI结果待实际完成后写入；不能以本地集成验证代替GitHub合并 |
-| 正式部署 | 尚未完成，当前未记录本版镜像、容器健康、配置保留、数据库保留比对或公网验收结果；待Portainer实际更新并核验后写入 |
+| GitHub合并 | [PR #1](https://github.com/gexiaobin/mem-car-information-system/pull/1)已合并为`1977084db9662c476cdc4f28205088e5b5a5dc22`；[PR #2](https://github.com/gexiaobin/mem-car-information-system/pull/2)已合并为`085a0d9ab7a517e19b753647dc0d64deb62765ee`；当前open PR列表为空 |
+| 分支与CI | `main`及开发分支`codex/autovoyage-mvp`均同步到`085a0d9ab7a517e19b753647dc0d64deb62765ee`；[main Actions](https://github.com/gexiaobin/mem-car-information-system/actions/runs/43054125502)、[开发分支Actions](https://github.com/gexiaobin/mem-car-information-system/actions/runs/43054125078)、[集成分支Actions](https://github.com/gexiaobin/mem-car-information-system/actions/runs/43053528610)均为success |
+| 正式部署 | 已登录Portainer更新原Stack，API镜像`autovoyage-api:085a0d9`／`bd4f0403bafd`、Web镜像`autovoyage-web:085a0d9`／`27f7126f74e2`，均healthy；首次成功启动时间见上文 |
+| 配置与编排 | 17项私有环境变量逐项一致，Compose仅替换两个镜像标签，原数据库、附件持久卷、网络、端口与其他编排配置保留 |
+| 部署前备份 | `2026-11-11T16:09:37.878Z`（北京时间2026-11-12 00:09:37），public中22张自有表、517行一致只读快照，仅保存于本机忽略目录 |
+| 数据保留 | 20张业务／审计表逐值相同，12条旧发布记录保留，仅新增本版1条，共13条；新建`av_ai_manual_answers`缓存表为空，没有导入查询结果 |
+| 业务数量 | 6车型、27项启用标准项目、19规则、30文件、6份手册任务、12份报价及12份历史版本、2条保养记录保留；文件数量为元数据核验，不替代附件卷全部字节校验 |
+| 公网HTTP | `/`、`/healthz`、`/api/v1/health`、`/api/v1/config`均HTTP200；health与config精确版本为`0.9.6+73b454ef99`，数据库PostgreSQL、`demoMode=false`；私有报告`.local/v096-http-verified.json`和`.local/v096-postdeploy-verified.json`已保存 |
+| 公网未通过项 | 平台点击“手工录入保养表格”后白屏：新行初始化直接调用`crypto.randomUUID()`，公网HTTP IP地址环境不支持该调用；本地localhost验证没有暴露此兼容问题。已转入V0.9.7热修，修复后须在实际HTTP IP入口重新验收 |
 
 本地浏览器证据：[记住账号](images/team-v096-login-local.png)、[车主退出确认](images/team-v096-logout-local.png)、[手工保养表格](images/team-v096-manual-local.png)。
 
-本节仅记录已完成的本地集成、隔离数据库和上述浏览器检查，不声称V0.9.6已经上线，也不沿用旧版截图作为本版界面验收。GitHub合并和部署尚未完成，最后已确认公网版本仍为下方V0.9.5记录；实际更新后应补齐最终源码、构建版本、备份、镜像、业务保留与公网证据。
+公网证据：[两容器健康](images/team-v096-stack-cloud.png)、[已进入保养规则页面](images/team-v096-rules-cloud.png)。这些证据只支持对应容器与页面状态，不证明手工录入流程已通过。
+
+本节分别记录已完成的本地检查、GitHub合并／CI、实际部署和已发现的公网故障。V0.9.6已上线但手工表格公网验收未通过，不能作为本轮最终交付；V0.9.7热修仍在准备，最终源码、镜像、版本及公网验收须在实际更新后另行记录。
 
 ## V0.9.5 常规主要保养项目摘要（2026-11-08上线）
 

@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { Plus, Save, Trash2 } from 'lucide-react';
 import type { Bootstrap, ManualImport, ManualRuleDraft } from '@autovoyage/shared';
 import { post } from '../lib/api';
+import { createClientId } from '../lib/client-id';
 
 type Row = ManualRuleDraft;
 const actions: Record<string, string> = { inspect: '检查', replace: '更换', clean: '清洁', lubricate: '润滑', other: '其他处理' };
 const triggers: Record<string, string> = { periodic: '固定周期', condition: '按条件', as_needed: '按需处理' };
 const number = (value: string) => (value.trim() ? Number(value) : null);
 const newRow = (): Row => ({
-  id: crypto.randomUUID(), name: '', projectId: null, catalogProjectId: null, createProject: false, include: true,
+  id: createClientId(), name: '', projectId: null, catalogProjectId: null, createProject: false, include: true,
   action: 'replace', triggerType: 'periodic', firstMonths: null, firstKm: null, intervalMonths: null, intervalKm: null,
   mileageType: 'total_km', condition: '', notes: '', sourceText: '', pageNumbers: [],
 });
@@ -17,7 +18,7 @@ const newRow = (): Row => ({
 export default function ManualTableEntry({ data, modelId, onCreated, onCancel, onBusyChange }: {
   data: Bootstrap; modelId: string; onCreated: (job: ManualImport) => void; onCancel: () => void; onBusyChange?: (busy: boolean) => void;
 }) {
-  const [rows, setRows] = useState<Row[]>([newRow()]);
+  const [rows, setRows] = useState<Row[]>(() => [newRow()]);
   const [sourceTitle, setSourceTitle] = useState('');
   const [sourceUrl, setSourceUrl] = useState('');
   const [edition, setEdition] = useState('');

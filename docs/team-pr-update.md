@@ -2,6 +2,18 @@
 
 本文说明 [PR #1](https://github.com/gexiaobin/mem-car-information-system/pull/1) 与 [PR #2](https://github.com/gexiaobin/mem-car-information-system/pull/2) 的整合范围及验收重点。当前内容按整合源码编写，完整回归、GitHub合并及公网部署状态以 [验证记录](verification.md) 为准，不能据本文标题认定已上线。
 
+更新日期：2026-11-12，Asia/Shanghai。PR #1与PR #2均已合并，当前待处理PR列表为空；本地验证完成于2026-11-11。V0.9.6于北京时间2026-11-12 00:09:59部署，后续公网验收发现手工保养表格在HTTP IP入口白屏，不能作为最终验收通过；V0.9.7兼容热修正在准备，具体证据见 [验证记录](verification.md)。
+
+## GitHub合并状态
+
+| 项目 | 已确认结果 |
+| --- | --- |
+| PR #1 | 已合并，提交[`1977084db9662c476cdc4f28205088e5b5a5dc22`](https://github.com/gexiaobin/mem-car-information-system/commit/1977084db9662c476cdc4f28205088e5b5a5dc22) |
+| PR #2 | 已合并，提交[`085a0d9ab7a517e19b753647dc0d64deb62765ee`](https://github.com/gexiaobin/mem-car-information-system/commit/085a0d9ab7a517e19b753647dc0d64deb62765ee) |
+| 分支同步 | `main`及开发分支`codex/autovoyage-mvp`均同步到`085a0d9ab7a517e19b753647dc0d64deb62765ee` |
+| GitHub Actions | [main检查](https://github.com/gexiaobin/mem-car-information-system/actions/runs/43054125502)、[开发分支检查](https://github.com/gexiaobin/mem-car-information-system/actions/runs/43054125078)、[集成分支检查](https://github.com/gexiaobin/mem-car-information-system/actions/runs/43053528610)均为success |
+| 公网部署 | V0.9.6已部署，版本`0.9.6+73b454ef99`；容器健康与四条HTTP入口检查通过，手工表格HTTP兼容验收未通过，等待V0.9.7热修后重新验收 |
+
 ## 本次功能
 
 | 模块 | 整合后的行为 |
