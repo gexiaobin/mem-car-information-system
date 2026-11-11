@@ -39,6 +39,19 @@ const navigation = [
   { to: "/messages", label: "消息", desktop: "消息中心", Icon: Bell },
   { to: "/account", label: "我的", desktop: "我的服务", Icon: UserRound },
 ];
+const REMEMBERED_LOGIN_KEY = "autovoyage-remembered-login";
+
+function rememberedLogin() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(REMEMBERED_LOGIN_KEY) || "null");
+    if (stored && typeof stored.email === "string" && typeof stored.password === "string") {
+      return { email: stored.email, password: stored.password };
+    }
+  } catch {
+    localStorage.removeItem(REMEMBERED_LOGIN_KEY);
+  }
+  return null;
+}
 
 export default function App() {
   const [config, setConfig] = useState<PublicConfig | null>(null);
@@ -114,8 +127,10 @@ function Login({
   loadError: string;
   onLogin: () => Promise<void>;
 }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [savedLogin] = useState(rememberedLogin);
+  const [email, setEmail] = useState(() => savedLogin?.email || "");
+  const [password, setPassword] = useState(() => savedLogin?.password || "");
+  const [rememberPassword, setRememberPassword] = useState(() => savedLogin !== null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [chosen, setChosen] = useState("");
@@ -157,6 +172,11 @@ function Login({
               setError("");
               try {
                 await post("/auth/login", { email, password });
+                if (rememberPassword) {
+                  localStorage.setItem(REMEMBERED_LOGIN_KEY, JSON.stringify({ email, password }));
+                } else {
+                  localStorage.removeItem(REMEMBERED_LOGIN_KEY);
+                }
                 await onLogin();
               } catch (e) {
                 setError(messageOf(e));
@@ -188,6 +208,14 @@ function Login({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+            </label>
+            <label className="remember-password">
+              <input
+                type="checkbox"
+                checked={rememberPassword}
+                onChange={(e) => setRememberPassword(e.target.checked)}
+              />
+              <span>记住密码</span>
             </label>
             <ErrorBox message={error || loadError} />
             <button className="btn btn-primary btn-full" disabled={busy}>

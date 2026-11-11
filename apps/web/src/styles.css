@@ -576,6 +576,25 @@ label textarea {
   margin-top: 4px;
   height: 50px;
 }
+.login-card .remember-password {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+.login-card .remember-password input {
+  width: 17px;
+  height: 17px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--color-primary);
+}
 .demo-login {
   margin-top: 30px;
   padding-top: 25px;

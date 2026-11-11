@@ -71,6 +71,7 @@ export default function AccountPage({
   const [selected, setSelected] = useState<string | null>(null);
   const [filter, setFilter] = useState("active");
   const [error, setError] = useState("");
+  const [confirmingLogout, setConfirmingLogout] = useState(false);
   const [closing, setClosing] = useState(false);
   const [editing, setEditing] = useState<Vehicle | null>(null);
   const [registrations, setRegistrations] = useState<RegistrationImport[]>([]);
@@ -124,12 +125,18 @@ export default function AccountPage({
         </div>
         <button
           className="btn btn-secondary"
-          onClick={() => onLogout().catch((e) => setError(messageOf(e)))}
+          onClick={() => setConfirmingLogout(true)}
         >
           <LogOut size={17} />
           退出登录
         </button>
       </div>
+      {confirmingLogout && (
+        <LogoutConfirmation
+          onClose={() => setConfirmingLogout(false)}
+          onLogout={onLogout}
+        />
+      )}
       <ErrorBox message={error} />
       <section className="profile-card">
         <span className="profile-avatar">{data.user.name.slice(0, 1)}</span>
@@ -1087,6 +1094,50 @@ function AppointmentDetail({
             )}
           </div>
         )}
+      </div>
+    </Modal>
+  );
+}
+
+function LogoutConfirmation({
+  onClose,
+  onLogout,
+}: {
+  onClose: () => void;
+  onLogout: () => Promise<void>;
+}) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  return (
+    <Modal
+      title="确认退出登录？"
+      subtitle="退出后需要重新登录才能继续查看车辆与服务信息。"
+      onClose={busy ? () => undefined : onClose}
+    >
+      <div className="form-stack">
+        <ErrorBox message={error} />
+        <div className="modal-actions">
+          <button className="btn btn-secondary" disabled={busy} onClick={onClose}>
+            取消
+          </button>
+          <button
+            className="btn btn-primary"
+            disabled={busy}
+            onClick={async () => {
+              setBusy(true);
+              setError("");
+              try {
+                await onLogout();
+              } catch (e) {
+                setError(messageOf(e));
+                setBusy(false);
+              }
+            }}
+          >
+            <LogOut size={17} />
+            {busy ? "正在退出…" : "确认退出"}
+          </button>
+        </div>
       </div>
     </Modal>
   );
