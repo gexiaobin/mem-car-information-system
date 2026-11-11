@@ -22,3 +22,6 @@
 /* Service filters remain readable with status and category controls. */
 .ad-project-panel .ad-table-toolbar{flex-wrap:wrap}.ad-project-panel .ad-search{flex:1;min-width:min(100%,240px)}.ad-project-panel .ad-toolbar-actions{flex-wrap:wrap;justify-content:flex-end;max-width:100%}.ad-project-panel .ad-toolbar-note{white-space:nowrap}.ad-project-panel .ad-toolbar-actions select{min-height:44px}
 @media(max-width:767px){.ad-project-panel .ad-toolbar-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:10px}.ad-project-panel .ad-toolbar-actions select{width:100%;min-width:0}.ad-project-panel .ad-toolbar-note{grid-column:1/-1;white-space:normal}}
+
+/* Let a long menu scroll inside the sidebar so the bottom cards stay visible on short PC screens. */
+@media(min-width:768px){.ad-sidebar{overflow:hidden}.ad-sidebar nav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}.ad-sidebar-bottom{flex-shrink:0}}

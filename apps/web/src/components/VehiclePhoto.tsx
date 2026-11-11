@@ -1,5 +1,13 @@
 import type { CarModel } from "@autovoyage/shared";
 
+export const VEHICLE_ART_SOURCE = "https://github.com/gexiaobin/mem-car-information-system/blob/main/docs/image-attribution.md";
+export const VEHICLE_ART_CREDIT = "Car Concept — Eric Chadwick / Darmstadt Graphics Group GmbH, CC BY 4.0；银白材质、灯光与构图改编";
+
+/** Keeps the license accessible without overlaying the vehicle illustration. */
+export function VehicleArtCredit() {
+  return <a className="vehicle-art-credit" href={VEHICLE_ART_SOURCE} target="_blank" rel="noreferrer" title={VEHICLE_ART_CREDIT}>车辆素材与许可</a>;
+}
+
 /** A locally rendered concept car; it does not identify the owner's actual vehicle. */
 export function VehiclePhoto({ className = "", priority = false }: {
   model?: Pick<CarModel, "id" | "brand" | "name">;

@@ -21,6 +21,7 @@ export const publicUser = (user: StoredUser): User => ({
   email: user.email,
   role: user.role,
   storeId: user.storeId,
+  mustChangePassword: user.mustChangePassword,
 });
 export function authenticated(request: FastifyRequest): User {
   ensure(request.user, 401, "AUTH_REQUIRED", "请先登录");

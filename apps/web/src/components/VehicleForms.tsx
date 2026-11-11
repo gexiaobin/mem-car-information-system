@@ -212,7 +212,7 @@ function ManualVehicleEditor({
           </label>
         </div>
         <p className="form-hint">
-          启用时里程用于建立保养起点。当前里程请通过截图或仪表照片上传、核对确认后更新。
+          启用时里程用于建立保养起点。当前里程可通过截图或仪表照片识别核对，也可在「更新里程」中选择手工填写直接录入。
         </p>
         <ErrorBox message={error} />
         <div className="modal-actions">
@@ -268,6 +268,9 @@ export function ImportMileage({
       ) ||
       null,
   );
+  const [manual, setManual] = useState(false);
+  const [manualKm, setManualKm] = useState("");
+  const [manualAt, setManualAt] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
   const [busy, setBusy] = useState(false);
@@ -358,6 +361,99 @@ export function ImportMileage({
       setBusy(false);
     }
   };
+  const submitManual = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      await post(`/vehicles/${vehicle.id}/mileage`, {
+        totalKm: Number(manualKm),
+        observedAt: asDateTime(manualAt),
+      });
+      await onRefresh();
+      onSuccess("里程已手工录入，保养计划已更新");
+    } catch (e) {
+      setError(messageOf(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  const modeSwitch = (
+    <div className="mileage-mode-switch">
+      <button
+        type="button"
+        className={manual ? "" : "selected"}
+        aria-pressed={!manual}
+        onClick={() => {
+          setManual(false);
+          setError("");
+        }}
+      >
+        图片识别
+      </button>
+      <button
+        type="button"
+        className={manual ? "selected" : ""}
+        aria-pressed={manual}
+        onClick={() => {
+          setManual(true);
+          setError("");
+        }}
+      >
+        手工填写
+      </button>
+    </div>
+  );
+  if (manual)
+    return (
+      <Modal
+        title="更新爱车里程"
+        subtitle={`${vehicle.name} · ${vehicle.plate}`}
+        onClose={onClose}
+      >
+        {modeSwitch}
+        <form className="form-stack" onSubmit={submitManual}>
+          <div className="notice-note">
+            <ScanLine size={18} />
+            <span>
+              没有可识别的图片时，可直接填写仪表读数与读取时间。系统仍会校验里程不倒退、时间不早于车辆启用日期。
+            </span>
+          </div>
+          <label>
+            当前总里程（km）
+            <input
+              type="number"
+              min="0"
+              max="2000000"
+              step="1"
+              required
+              inputMode="numeric"
+              value={manualKm}
+              onChange={(e) => setManualKm(e.target.value)}
+            />
+          </label>
+          <label>
+            里程读取时间
+            <input
+              type="datetime-local"
+              required
+              max={localTimeInput()}
+              value={manualAt}
+              onChange={(e) => setManualAt(e.target.value)}
+            />
+          </label>
+          <ErrorBox message={error} />
+          <div className="modal-actions">
+            <button type="button" className="btn btn-secondary" onClick={onClose}>
+              取消
+            </button>
+            <button className="btn btn-primary" disabled={busy}>
+              {busy ? "正在保存…" : "保存里程"}
+            </button>
+          </div>
+        </form>
+      </Modal>
+    );
   return (
     <Modal
       title="更新爱车里程"
@@ -365,6 +461,7 @@ export function ImportMileage({
       onClose={onClose}
       wide
     >
+      {modeSwitch}
       <div className="import-steps">
         <span className="current">1 上传图片</span>
         <i />

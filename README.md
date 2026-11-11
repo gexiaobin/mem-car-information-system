@@ -87,6 +87,7 @@ V0.9.0起的导入工作区主界面只保留 **AI查找手册** 和 **图片识
 | [系统更新日志](docs/system-releases.md) | 自动版本标识、上线记录、发布说明维护、重启与回滚 |
 | [部署说明](docs/deployment.md) | 京东云、Portainer、端口、初始化、升级与回滚 |
 | [六人协作与验收](docs/development.md) | 分工、迭代、提交约定、测试与演示交付 |
+| [V0.9.6团队PR更新](docs/team-pr-update.md) | PR #1／#2整合范围、账号与成员、手工保养表、历史记录及验收清单；实际合并与部署状态见验证记录 |
 | [验证记录](docs/verification.md) | 已执行结果、当前线上版本与后续验收边界 |
 | [设计规范](design-system/autovoyage/MASTER.md) / [图片署名](docs/image-attribution.md) | UI 设计约定、照片作者、来源及许可 |
 

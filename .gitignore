@@ -11,3 +11,4 @@ test-results/
 *.tsbuildinfo
 uploads/
 .DS_Store
+.qoder/

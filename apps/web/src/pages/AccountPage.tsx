@@ -30,9 +30,12 @@ import {
   Empty,
   ErrorBox,
   DemoTag,
+  asDateTime,
   dateText,
+  localTimeInput,
   messageOf,
 } from "../components/UI";
+import ProjectPicker from "../components/ProjectPicker";
 import RegistrationCertificate, {
   RegistrationDetails,
   registrationStatusLabel,
@@ -73,6 +76,7 @@ export default function AccountPage({
   const [error, setError] = useState("");
   const [confirmingLogout, setConfirmingLogout] = useState(false);
   const [closing, setClosing] = useState(false);
+  const [recorder, setRecorder] = useState(false);
   const [editing, setEditing] = useState<Vehicle | null>(null);
   const [registrations, setRegistrations] = useState<RegistrationImport[]>([]);
   const [manualDocumentId, setManualDocumentId] = useState<string | null>(null);
@@ -123,10 +127,7 @@ export default function AccountPage({
           </h1>
           <p>服务进度、车辆档案与养护历史，一目了然。</p>
         </div>
-        <button
-          className="btn btn-secondary"
-          onClick={() => setConfirmingLogout(true)}
-        >
+        <button className="btn btn-secondary" onClick={() => setConfirmingLogout(true)}>
           <LogOut size={17} />
           退出登录
         </button>
@@ -271,6 +272,12 @@ export default function AccountPage({
               <p className="eyebrow">CARE, WELL DOCUMENTED</p>
               <h2>已完成的保养项目</h2>
             </div>
+            {vehicle && (
+              <button className="btn btn-secondary" onClick={() => setRecorder(true)}>
+                <Plus size={17} />
+                补录保养记录
+              </button>
+            )}
           </div>
           {data.serviceRecords.length ? (
             <div className="history-list">
@@ -283,7 +290,9 @@ export default function AccountPage({
                     <time>{dateText(record.completedAt)}</time>
                     <h3>
                       {data.projects.find((p) => p.id === record.projectId)
-                        ?.name || "保养项目"}
+                        ?.name ||
+                        record.customItemName ||
+                        "保养项目"}
                     </h3>
                     <p>
                       {
@@ -293,15 +302,19 @@ export default function AccountPage({
                       · {record.totalKm.toLocaleString()} km · {record.source}
                     </p>
                     <small className="history-price-note">
-                      项目报价快照 {cents(record.totalCents)}
-                      {data.appointments.some(
-                        (a) => a.id === record.appointmentId,
-                      )
-                        ? " · 最终总额见服务详情"
-                        : " · 合成历史导入记录"}
+                      {cents(record.totalCents)}
+                      {record.unverified
+                        ? " · 车主自行记录，未经门店确认"
+                        : data.appointments.some(
+                            (a) => a.id === record.appointmentId,
+                          )
+                          ? " · 门店确认完工，最终总额见服务详情"
+                          : " · 合成历史导入记录"}
                     </small>
                   </div>
-                  {data.appointments.some(
+                  {record.unverified ? (
+                    <span className="badge badge-warning">自行记录</span>
+                  ) : data.appointments.some(
                     (a) => a.id === record.appointmentId,
                   ) ? (
                     <button
@@ -324,7 +337,7 @@ export default function AccountPage({
           ) : (
             <Empty
               title="养护记录会从下一次服务开始"
-              text="门店完成实际项目，经你核对确认后，会逐项记录到这里。"
+              text="门店完成实际项目，经你核对确认后，会逐项记录到这里。也可以在上方补录历史保养。"
             />
           )}
           <div className="section-note">
@@ -710,6 +723,19 @@ export default function AccountPage({
           onClose={() => setClosing(false)}
         />
       )}
+      {recorder && vehicle && (
+        <ManualServiceRecord
+          data={data}
+          vehicle={vehicle}
+          onClose={() => setRecorder(false)}
+          onSaved={async () => {
+            setRecorder(false);
+            await onRefresh();
+            onSuccess("保养记录已补录，标注为未经门店确认");
+          }}
+        />
+      )}
+
     </>
   );
 }
@@ -1205,6 +1231,127 @@ function CloseAccount({
   );
 }
 
+function ManualServiceRecord({
+  data,
+  vehicle,
+  onClose,
+  onSaved,
+}: {
+  data: Bootstrap;
+  vehicle: Vehicle;
+  onClose: () => void;
+  onSaved: () => Promise<void>;
+}) {
+  const [selected, setSelected] = useState<string[]>([]);
+  const [custom, setCustom] = useState<string[]>([]);
+  const [completedAt, setCompletedAt] = useState(localTimeInput());
+  const [totalKm, setTotalKm] = useState(String(vehicle.totalKm ?? vehicle.initialKm));
+  const [price, setPrice] = useState("");
+  const [note, setNote] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  return (
+    <Modal
+      title="补录一条保养记录"
+      subtitle={`${vehicle.name} · ${vehicle.plate}`}
+      onClose={onClose}
+      wide
+    >
+      <form
+        className="form-stack"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setBusy(true);
+          setError("");
+          try {
+            await post(`/vehicles/${vehicle.id}/service-records`, {
+              ...(selected[0] ? { projectId: selected[0] } : {}),
+              ...(custom[0] ? { customItemName: custom[0] } : {}),
+              completedAt: asDateTime(completedAt),
+              totalKm: Number(totalKm),
+              ...(price.trim() ? { totalCents: Math.round(Number(price) * 100) } : {}),
+              note,
+            });
+            await onSaved();
+          } catch (e) {
+            setError(messageOf(e));
+          } finally {
+            setBusy(false);
+          }
+        }}
+      >
+        <div className="feedback feedback-warning">
+          <AlertTriangle size={20} />
+          <span>
+            自行补录会用于计算保养提醒，并标注为「未经门店确认」。历史记录可填写当时里程，不会覆盖车辆当前读数；里程须符合已有记录的时间顺序。
+          </span>
+        </div>
+        <ProjectPicker
+          projects={data.projects}
+          selected={selected}
+          custom={custom}
+          single
+          legend="保养项目"
+          customLegend="找不到对应项目？手动填写项目名称"
+          onChange={({ selected: nextSelected, custom: nextCustom }) => {
+            setSelected(nextSelected);
+            setCustom(nextCustom);
+          }}
+        />
+        <div className="form-grid">
+          <label>
+            保养时间
+            <input
+              type="datetime-local"
+              required
+              max={localTimeInput()}
+              value={completedAt}
+              onChange={(e) => setCompletedAt(e.target.value)}
+            />
+          </label>
+          <label>
+            当时总里程（km）
+            <input
+              type="number"
+              required
+              min={vehicle.initialKm}
+              max="2000000"
+              step="1"
+              inputMode="numeric"
+              value={totalKm}
+              onChange={(e) => setTotalKm(e.target.value)}
+            />
+          </label>
+          <label>
+            花费（元，可不填）
+            <input
+              type="number"
+              min="0"
+              max="1000000"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </label>
+        </div>
+        <label>
+          备注（门店、材料等）
+          <textarea rows={3} maxLength={2000} value={note} onChange={(e) => setNote(e.target.value)} />
+        </label>
+        <ErrorBox message={error} />
+        <div className="modal-actions">
+          <button type="button" className="btn btn-secondary" onClick={onClose}>
+            取消
+          </button>
+          <button className="btn btn-primary" disabled={busy}>
+            {busy ? "正在保存…" : "保存记录"}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+
 function EditVehicle({
   vehicle,
   onClose,
@@ -1219,7 +1366,7 @@ function EditVehicle({
   return (
     <Modal
       title="修改车辆信息"
-      subtitle="里程仍需通过图片上传、核对确认更新。"
+      subtitle="里程仍需通过图片识别核对或手工填写更新，车牌与昵称可直接修改。"
       onClose={onClose}
     >
       <form

@@ -13,7 +13,6 @@ import {
   Wrench,
   Bell,
   UserRound,
-  ChevronDown,
   LogOut,
   ShieldCheck,
   ArrowRight,
@@ -23,7 +22,8 @@ import {
 import type { Bootstrap, PublicConfig, User } from "@autovoyage/shared";
 import { api, post, ApiError } from "./lib/api";
 import { Brand, ErrorBox, Loading, messageOf } from "./components/UI";
-import { VehiclePhoto } from "./components/VehiclePhoto";
+import { VehiclePhoto, VehicleArtCredit } from "./components/VehiclePhoto";
+import { rememberedEmail, rememberEmail } from "./lib/remembered-login";
 import { SystemUpdateLogButton } from "./components/SystemUpdateLog";
 import { VehicleEditor, ImportMileage } from "./components/VehicleForms";
 import HomePage from "./pages/HomePage";
@@ -39,19 +39,6 @@ const navigation = [
   { to: "/messages", label: "消息", desktop: "消息中心", Icon: Bell },
   { to: "/account", label: "我的", desktop: "我的服务", Icon: UserRound },
 ];
-const REMEMBERED_LOGIN_KEY = "autovoyage-remembered-login";
-
-function rememberedLogin() {
-  try {
-    const stored = JSON.parse(localStorage.getItem(REMEMBERED_LOGIN_KEY) || "null");
-    if (stored && typeof stored.email === "string" && typeof stored.password === "string") {
-      return { email: stored.email, password: stored.password };
-    }
-  } catch {
-    localStorage.removeItem(REMEMBERED_LOGIN_KEY);
-  }
-  return null;
-}
 
 export default function App() {
   const [config, setConfig] = useState<PublicConfig | null>(null);
@@ -74,6 +61,7 @@ export default function App() {
     }
   }, [navigate]);
   useEffect(() => {
+    rememberedEmail();
     let alive = true;
     Promise.all([
       api<PublicConfig>("/config"),
@@ -109,6 +97,9 @@ export default function App() {
     );
   if (!data)
     return <Login config={config} loadError={error} onLogin={refresh} />;
+  // A store account opened by its manager stays here until it owns a personal password.
+  if (data.user.mustChangePassword)
+    return <PasswordSetup email={data.user.email} onDone={refresh} onLogout={logout} />;
   if (data.user.role !== "owner")
     return (
       <Suspense fallback={<Loading />}>
@@ -127,10 +118,10 @@ function Login({
   loadError: string;
   onLogin: () => Promise<void>;
 }) {
-  const [savedLogin] = useState(rememberedLogin);
-  const [email, setEmail] = useState(() => savedLogin?.email || "");
-  const [password, setPassword] = useState(() => savedLogin?.password || "");
-  const [rememberPassword, setRememberPassword] = useState(() => savedLogin !== null);
+  const [savedEmail] = useState(rememberedEmail);
+  const [email, setEmail] = useState(() => savedEmail || "");
+  const [password, setPassword] = useState("");
+  const [rememberAccount, setRememberAccount] = useState(() => savedEmail !== null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [chosen, setChosen] = useState("");
@@ -172,11 +163,7 @@ function Login({
               setError("");
               try {
                 await post("/auth/login", { email, password });
-                if (rememberPassword) {
-                  localStorage.setItem(REMEMBERED_LOGIN_KEY, JSON.stringify({ email, password }));
-                } else {
-                  localStorage.removeItem(REMEMBERED_LOGIN_KEY);
-                }
+                rememberEmail(rememberAccount ? email : null);
                 await onLogin();
               } catch (e) {
                 setError(messageOf(e));
@@ -209,13 +196,13 @@ function Login({
                 onChange={(e) => setPassword(e.target.value)}
               />
             </label>
-            <label className="remember-password">
+            <label className="remember-account">
               <input
                 type="checkbox"
-                checked={rememberPassword}
-                onChange={(e) => setRememberPassword(e.target.checked)}
+                checked={rememberAccount}
+                onChange={(e) => setRememberAccount(e.target.checked)}
               />
-              <span>记住密码</span>
+              <span>记住账号</span>
             </label>
             <ErrorBox message={error || loadError} />
             <button className="btn btn-primary btn-full" disabled={busy}>
@@ -257,8 +244,78 @@ function Login({
             <span>个人车辆与服务记录，按账号独立管理</span>
           </div>
         </div>
-        <p className="login-bottom">云程 AutoVoyage · 让每一程都有照应</p>
+        <div className="login-bottom"><span>云程 AutoVoyage · 让每一程都有照应</span><VehicleArtCredit /></div>
       </main>
+    </div>
+  );
+}
+
+function PasswordSetup({
+  email,
+  onDone,
+  onLogout,
+}: {
+  email: string;
+  onDone: () => Promise<void>;
+  onLogout: () => Promise<void>;
+}) {
+  const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  return (
+    <div className="startup startup-form">
+      <div className="login-card">
+        <Brand />
+        <p className="eyebrow">{email}</p>
+        <h2>首次登录，请设置新密码</h2>
+        <p className="muted">初始密码只用于首次进入，设置完成后即失效。</p>
+        <form
+          className="form-stack"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (next.length < 8 || !/[A-Za-z]/.test(next) || !/\d/.test(next)) {
+              setError("新密码至少 8 位，并同时包含字母与数字。");
+              return;
+            }
+            if (next !== confirm) {
+              setError("两次输入的新密码不一致。");
+              return;
+            }
+            setBusy(true);
+            setError("");
+            try {
+              await post("/auth/change-password", { currentPassword: current, newPassword: next });
+              await onDone();
+            } catch (e) {
+              setError(messageOf(e));
+              setBusy(false);
+            }
+          }}
+        >
+          <label>
+            当前密码
+            <input type="password" autoComplete="current-password" required value={current} onChange={(e) => setCurrent(e.target.value)} />
+          </label>
+          <label>
+            新密码
+            <input type="password" autoComplete="new-password" required value={next} onChange={(e) => setNext(e.target.value)} />
+          </label>
+          <label>
+            确认新密码
+            <input type="password" autoComplete="new-password" required value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+          </label>
+          <ErrorBox message={error} />
+          <button className="btn btn-primary btn-full" disabled={busy}>
+            {busy ? "正在保存…" : "设置并进入工作台"}
+          </button>
+          <button type="button" className="btn btn-secondary btn-full" disabled={busy} onClick={() => void onLogout()}>
+            <LogOut size={17} />
+            退出登录
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
@@ -329,7 +386,6 @@ function OwnerShell({
               <strong>{data.user.name}</strong>
               <small>云程车主</small>
             </span>
-            <ChevronDown size={16} />
           </button>
         </div>
       </aside>
@@ -444,6 +500,7 @@ function OwnerShell({
             让每一程都有照应{data.config.demoMode ? " · 课程演示数据" : ""}
           </span>
           <SystemUpdateLogButton version={data.config.version} />
+          <VehicleArtCredit />
         </footer>
       </div>
       <nav className="bottom-navigation" aria-label="手机主要导航">

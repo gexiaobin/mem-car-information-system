@@ -3,7 +3,7 @@ import type { CarModel, ManualImport, ManualPageSelection, ManualProjectMappingD
 import { buildCommonMaintenanceSummary } from "@autovoyage/shared";
 import type { Context } from "./context.js";
 import { roles, route } from "./context.js";
-import { get, list } from "./db.js";
+import { get, list, put } from "./db.js";
 import { AppError, ensure, id, now } from "./domain.js";
 import { discoverManualSources, discoverManualSourcesDetailed, manualDownloadLimit, modelManualQueries, publicDownload, validateSourceUrl, type ManualDiscoveryReport } from "./manual-sources.js";
 import { prepareManualImage, prepareManualPdfSelection, persistPreparedManualFiles, type PreparedFile } from "./manual-files.js";
@@ -59,6 +59,12 @@ const MiB = 1024 * 1024;
 const maintenanceWords = /保养|维护|维修|maintenance|service\s+(?:schedule|interval)/i;
 const blockedHost = /(^|\.)(?:pan\.baidu\.com|yun\.baidu\.com|lanzou[a-z]?\.com|aliyundrive\.com|alipan\.com)$/i;
 const done = (job: ManualAiAnswerJob) => ["completed", "failed"].includes(job.status);
+export interface SavedManualAnswer {
+  id: string; modelId: string; modelIdentity: string; userId: string;
+  searchedAt: string; savedAt: string; result: ManualAiAnswerResult;
+}
+/** One row per model keeps the most recent answer without growing unbounded. */
+export const savedAnswerId = (modelId: string) => `manual-answer:${modelId}`;
 const bodySchema = z.object({ modelId: z.string().trim().min(1).max(80), consent: z.literal(true) }).strict();
 
 function binaryType(bytes: Buffer): string | null {
@@ -326,6 +332,16 @@ export function registerManualAnswers(ctx: Context, dependencies: ManualAnswerDe
   let draining: Promise<void> | undefined;
   let closing = false;
   const snapshot = (entry: StoredAnswer) => structuredClone(entry.job);
+  async function persistAnswer(entry: StoredAnswer, result: ManualAiAnswerResult) {
+    try {
+      await put(ctx.db, "ai_manual_answers", {
+        id: savedAnswerId(entry.job.modelId), modelId: entry.job.modelId, modelIdentity: entry.modelIdentity,
+        userId: entry.userId, searchedAt: result.searchedAt, savedAt: now(),
+        // Evidence files stay in memory only; the saved answer keeps tables and sources.
+        result: { ...result, answer: { ...result.answer, mappingDiagnostics: undefined } },
+      } satisfies SavedManualAnswer);
+    } catch { /* A failed cache write cannot invalidate the live query result. */ }
+  }
   function prune() {
     for (const [key, entry] of entries) if (done(entry.job) && !entry.importing && entry.expires <= clock()) entries.delete(key);
   }
@@ -351,6 +367,7 @@ export function registerManualAnswers(ctx: Context, dependencies: ManualAnswerDe
           if (closing) break;
           if (work.evidence) { evict(bytesUsed(work.evidence), entry); entry.evidence = work.evidence; }
           entry.job.result = work.result; entry.job.status = "completed"; entry.job.message = work.result.summary;
+          await persistAnswer(entry, work.result);
         } catch {
           entry.evidence = undefined; entry.job.status = "failed";
           entry.job.message = "本次查询未完成，请稍后重试或上传保养表图片。";
@@ -379,6 +396,14 @@ export function registerManualAnswers(ctx: Context, dependencies: ManualAnswerDe
       job: { id: id(), modelId: model.id, status: "searching", message: "正在排队查找可直接阅读的保养资料…", createdAt: stamp, updatedAt: stamp } };
     entries.set(entry.job.id, entry); queue.push(entry);
     const initial = snapshot(entry); schedule(); reply.code(202); return initial;
+  });
+  ctx.app.get(route("/admin/manual-imports/ai-answer-saved"), async request => {
+    roles(request, ["platform_admin"]);
+    const input = z.object({ modelId: z.string().trim().min(1).max(80) }).parse(request.query);
+    const saved = await get<SavedManualAnswer>(ctx.db, "ai_manual_answers", savedAnswerId(input.modelId));
+    if (!saved) return { answer: null };
+    const model = await get<CarModel>(ctx.db, "models", input.modelId);
+    return { answer: { ...saved, stale: !model || manualModelIdentity(model) !== saved.modelIdentity } };
   });
   ctx.app.get(route("/admin/manual-imports/ai-answer/:id"), async request => {
     const user = roles(request, ["platform_admin"]);

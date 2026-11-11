@@ -90,7 +90,7 @@ export default function HomePage({
           <div className="dashboard-hero">
             <section className="vehicle-hero digital-vehicle-hero">
               <div className="vehicle-hero-top">
-                <span className="garage-label"><CarFront size={17} aria-hidden="true" /> 我的爱车<span className="garage-label-line" /></span>
+                <span className="garage-label"><CarFront size={17} aria-hidden="true" /> 我的爱车</span>
                 <label className="vehicle-switch">
                   <span className="sr-only">切换车辆</span>
                   <select

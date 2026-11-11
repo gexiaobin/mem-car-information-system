@@ -2,14 +2,19 @@
 
 统一前缀 `/api/v1`，JSON 直接返回资源；错误形如 `{ "error": { "code": "...", "message": "..." } }`。登录使用 HttpOnly 会话 Cookie，写入校验请求来源。身份和资源归属由服务端判断，前端隐藏按钮不代替鉴权。共享字段定义见 `packages/shared/src/index.ts`。
 
+V0.9.6为本次PR #1／#2整合的待验收改动，以下新增契约按当前源码说明，不代表已经部署或全量测试通过；实际版本以[验证记录](verification.md)为准。变更范围见[团队PR更新说明](team-pr-update.md)。
+
 | 资源 | 方法与路径 | 用途 |
 | --- | --- | --- |
 | 健康/配置 | `GET /health`、`GET /config` | 数据库就绪、公开功能配置 |
 | 系统更新 | `GET /releases` | 已登录角色查看当前运行版本及分页更新日志 |
 | 身份 | `GET /auth/me`、`POST /auth/login`、`POST /auth/logout` | 查询会话、登录、撤销会话 |
+| 本人密码 | `POST /auth/change-password` | 校验当前密码，设置个人密码并撤销其他会话 |
 | 注销 | `DELETE /auth/account` | 注销本人账号并撤销会话，保留必要业务审计 |
 | 页面数据 | `GET /bootstrap` | 按角色、本人/本店筛选的页面数据 |
 | 车辆 | `POST /vehicles`、`PATCH /vehicles/:id`、`GET /vehicles/:id/history` | 建档、维护与历史 |
+| 手工里程 | `POST /vehicles/:id/mileage` | 车主录入本人车辆总里程与读取时间，通过质量校验后重算提醒 |
+| 保养补录 | `POST /vehicles/:id/service-records` | 车主补录标准或自定义保养记录，保留未经门店确认标记与里程时间线 |
 | 图片 | `POST /files`、`GET /files/:id` | Multipart 上传与受控访问 |
 | 识别任务 | `POST /vehicles/:id/imports`、`GET /imports/:id` | 上传并查询持久化任务 |
 | 识别处理 | `POST /imports/:id/retry`、`POST /imports/:id/confirm` | 有限重试、核对与质量校验 |
@@ -28,15 +33,38 @@
 | 车型手册 | `POST /admin/rules`、`PATCH /admin/rules/:id` | 来源、版本、适用范围与复核 |
 | 手册来源 | `GET /admin/manual-sources?modelId=...&discover=true` | 平台管理员按品牌／车系开放查询公开资料及官方补充入口；不传 discover 时仅返回入口 |
 | AI手册直接回答 | `POST /admin/manual-imports/ai-answer`、`GET /admin/manual-imports/ai-answer/:id` | 异步获取并读取真实手册，直接返回原文链接与保养项目表 |
+| 最近AI手册结果 | `GET /admin/manual-imports/ai-answer-saved?modelId=...` | 平台读取该车型最近保存的结果及车型身份是否变更；不恢复内存原文证据 |
 | 使用AI手册回答 | `POST /admin/manual-imports/from-ai-answer` | 复用缓存原文和结果，建立待核对草稿，不重新识别或直接发布 |
 | 旧AI手册查询 | `POST /admin/manual-imports/ai-search` | 兼容原候选排序接口，新工作区使用直接回答 |
 | 手册导入 | `POST /admin/manual-imports`、`POST /admin/manual-imports/from-url` | 平台上传 PDF／图片，或获取公开手册文件及保养网页证据 |
+| 手工保养表 | `POST /admin/manual-imports/manual-entry` | 平台按纸质或官方手册录入表格，建立待核对草稿，不自动发布 |
 | 手册任务 | `GET /admin/manual-imports`、`GET /admin/manual-imports/:id`、`POST /admin/manual-imports/:id/retry` | 平台查询持久任务和有限重试 |
 | 手册审核发布 | `PATCH /admin/manual-imports/:id/draft`、`POST /admin/manual-imports/:id/publish` | 可单独保存草稿；也可一次提交当前draft并原子发布，集中返回待核对问题 |
 | 手册项目关联 | `POST /admin/manual-imports/:id/auto-map` | 为空白映射匹配已有或参考项目，保留人工选择 |
 | 手册证据 | `GET /manual-files/:id` | 平台读取；匹配本人车辆车型的车主读取已发布证据 |
 | 已发布手册 | `GET /manuals/:id` | 平台或拥有匹配车型的车主读取已发布手册及证据文件元数据 |
 | 门店 | `POST /admin/stores`、`PATCH /admin/stores/:id` | 本店资料、平台审核 |
+| 门店成员 | `POST /admin/store-members`、`POST /admin/store-members/:id/deactivate` | 门店管理员开通／停用本店管理员或专家；平台可指定门店管理 |
+
+## 账号与门店成员（V0.9.6待验收）
+
+前端“记住账号”仅将邮箱保存到本机`autovoyage-remembered-account`，不保存密码。旧`autovoyage-remembered-login`里的邮箱可迁移，旧含密码记录随之删除；浏览器存储不可用不得阻断登录。密码输入保留`autocomplete="current-password"`，是否使用浏览器自己的密码管理由使用者决定，应用不以localStorage代替密码管理器。
+
+`POST /admin/store-members`接收`{name,email,role,storeId?}`，`role`只允许`store_admin`或`expert`。门店管理员的所属店由服务端登录身份确定，不能通过传入其他`storeId`跨店开通；平台管理员须指定有效门店。邮箱不可重复。返回`{member,initialPassword}`，初始密码随机生成，仅本次响应展示，数据库只保留密码摘要。新账号`mustChangePassword=true`，不能创建车主或平台管理员。
+
+`POST /admin/store-members/:id/deactivate`无需业务字段。门店管理员仅能停用本店管理员／专家，平台可管理门店成员；禁止停用本人、车主或平台账号。停用后删除该账号所有会话，保留历史业务与审计，不等于删除成员资料。
+
+`POST /auth/change-password`接收`{currentPassword,newPassword}`，要求本人已登录、当前密码正确，新密码8–256位且含字母和数字，不能与当前密码相同；成功后清除`mustChangePassword`，保留当前会话并撤销本人其他会话，响应`{ok:true}`。初次改密要求由服务端统一拦截，未完成时业务接口返回403／`PASSWORD_CHANGE_REQUIRED`；仅身份、配置、健康、登录、退出及改密等指定接口可用。此时`GET /bootstrap`只提供当前身份与公开配置，业务数组为空，不能靠跳过前端页面读取门店资料。
+
+## 手工里程与保养补录（V0.9.6待验收）
+
+`POST /vehicles/:id/mileage`仅车主可调用，车辆必须属于本人。接收`{totalKm,observedAt}`，总里程为0–2000000的整数，时间为含时区的ISO字符串。沿用图片确认的日期、旧观测、里程倒退及异常增长校验；成功后保存明确标记为车主手工录入的观测，更新当前里程与读取时间、重算提醒并留审计。手工入口不伪造图片识别任务，也不填写未知发动机里程。
+
+`POST /vehicles/:id/service-records`接收`{projectId?,customItemName?,completedAt,totalKm,totalCents?,note?}`。需选择有效标准项目或填写1–60字的自定义内容，日期不得早于车辆启用或晚于当前允许误差；费用以分为单位，可省略，备注最多2000字。记录返回并保留`unverified=true`、`source="车主自行记录（未经门店确认）"`及备注，不生成预约、报价或门店完工凭证。
+
+补录里程按时间线校验：不得低于该时刻之前的有效观测／记录，也不得高于该时刻之后已知的里程；冲突分别返回`MILEAGE_ROLLBACK`或`MILEAGE_TIMELINE_CONFLICT`。合法历史补录可以低于当前里程，不回写当前车辆里程或最新观测时间。仅当记录晚于已知最新里程点时，才继续执行当前里程质量校验并新增观测；异常增长仍拒绝。绑定标准`projectId`的自行记录会影响已有对应规则的保养起点，应核对真实完成时间和里程；纯自定义内容的`projectId`为空，不按文字模糊匹配标准项目、不新建周期或自动重置某项提醒。
+
+预约可附带`customItems?: string[]`，接口最多12项、每项1–60字且不重复，当前页面选择器最多补充8项。该列表只保存额外服务意向，不加入报价快照或确定总价，不成为已完成项目或保养依据。相同请求标识的幂等比较包含此列表，修改补充项目后须使用新的`requestId`；空列表沿用旧预约的幂等摘要格式，兼容升级后的原请求重试。
 
 ## 系统更新日志
 
@@ -73,7 +101,7 @@
 
 ## 保养手册识别与车型规则
 
-本节关于 `conditionThresholdsIndependent`、完整周期编辑及时间提醒的契约自V0.9.3上线后保留。当前运行V0.9.4 `0.9.4+98079fdcf4`，于2026-11-07北京时间23:11:42上线；实际部署与验收见 [验证记录](verification.md)。
+本节关于 `conditionThresholdsIndependent`、完整周期编辑及时间提醒的契约自V0.9.3上线后保留。V0.9.5的常规主要项目摘要继续使用；V0.9.6新增最近结果保存与手工表格入口，当前整合待验收。实际运行版本与部署见 [验证记录](verification.md)。
 
 本组接口仅平台管理员可写入。上传与识别产生持久草稿，不直接改变车型适用项目或车主保养计划。文件、证据页、来源、版次、适用范围和人工确认随任务保留；具体操作、来源限制与字段语义见 [手册导入说明](manual-import.md)。
 
@@ -108,7 +136,11 @@ AI查询的远程PDF默认上限32 MiB，仅精确HTTPS主机`www.gac-toyota.com
 
 这些说明由服务端按当前项目数据重新推导，不是AI识别原文、不替代发布校验，也不改变 `include`。客户端仅用于展示，旧响应可没有该字段；保存草稿或发布时不能把它放入 `draft`、草稿行或确认声明，严格请求结构不接受该只读字段。
 
-查询不持久化手册、文件、规则和审计。缓存按管理员隔离，绑定品牌、车系、年款、动力及演示标识；有效证据通常缓存30分钟，失败／无证据结果最多30秒。最多30个任务、原文字节合计96 MiB，超额驱逐旧完成任务或明确失败；进程重启会失效。`GET`不返回内部文件路径、密钥、缓存原文字节或车型锁字段。
+V0.9.6会将完成的AI查询结果保存到新增`av_ai_manual_answers`缓存表，不能再将AI查询描述为“完全不写数据库”。每个车型保留最近一份结构化结果、来源与查询／保存时间，绑定车型身份，后续查询覆盖同车型旧缓存；这不是正式手册、证据文件、标准服务项目或已发布规则，也不自动创建这些业务资料。缓存写入失败不应把已经完成的实时查询改成失败。
+
+`GET /admin/manual-imports/ai-answer-saved?modelId=...`仅平台管理员可读，返回`{answer:null}`或包含`result`及`stale`的最近结果。`stale=true`表示品牌、车系、年款、动力或演示标识等车型身份已变更，旧结果仅供查看，不能当作现车型适用依据。持久结果按车型保存，平台管理员可查看；用于带入的实时任务与证据仍按创建管理员隔离，不能直接用另一管理员任务导入。
+
+原始PDF、页图及用于直接带入的原文字节仍只保留在内存证据缓存：有效证据通常30分钟，失败／无证据结果最多30秒；最多30个任务、原文字节合计96 MiB，超额驱逐旧完成任务或明确失败，进程重启后失效。最近结果不能恢复这些证据或任务授权，重新进入工作区可阅读最近表格，但带入前需重新查询取得有效原文。接口不返回内部文件路径、密钥或缓存原文字节。明确“带入核对”后才持久保存正式手册草稿及其证据；人工确认发布后才写入车型规则和适用项目。
 
 `POST /admin/manual-imports/from-ai-answer` 接收严格JSON `{ "modelId": "准确车型ID", "answerId": "上述任务ID", "consent": true, "scope": "common" }`；V0.9.5起`scope`可省略，默认及唯一允许值为`common`。服务端核验用户、缓存及车型身份，保存同一批原文，仅以常规主要摘要对应的原始行建立`awaiting_confirmation`任务，并按当前标准项目重新关联；合并显示的部件仍保存独立规则，不修改动作、周期或原来的`include`。查询中的`answer.rows`仍保留完整明细，`summary`描述主要项目数。没有主要常规行时返回422，不退回导入全部细目；不二次下载、请求AI或直接发布。重复／并发使用同一答案复用同一持久任务，返回最新状态。过期或他人缓存返回404／`AI_ANSWER_NOT_FOUND`，未完成或无行返回409／`AI_ANSWER_NOT_READY`，车型变更返回409／`MODEL_CHANGED`。草稿创建失败会清理本次证据，缓存可重试；后续核对发布沿用原事务接口。归并边界见[常规保养摘要](common-maintenance-summary.md)。
 
@@ -125,6 +157,10 @@ PDF最多1000页、识别最多12页。`pageMode` 为 `auto`（默认）或 `man
 来源条目的可选 `isDirectory=true` 表示品牌／目录入口，`false`表示查到的具体候选；入口名称不能当作实际手册标题。任务新增可选 `metadataOrigin` 记录名称／版本／适用范围来自人工、原文、文件名、目标建议或未知；`sourceExcerpt` 保存识别原文摘录，`pageSelection` 保存选页模式、物理页列表、总页数及说明。旧任务没有这些字段仍可读取。文件名和目标车型仅能生成待核对建议，不能证明版本或适用性。
 
 返回 `ManualImport`，状态为 `uploaded`、`processing`、`awaiting_confirmation`、`published` 或 `failed`，包含 `files`、`rows`、`warnings`、`revision` 和发布的规则 ID。`GET /admin/manual-imports` 仍返回管理员可见的任务集合；V0.9工作区按 `modelId` 只展示当前车型的资料和规则。任务不进入普通 `bootstrap`；附件不暴露服务端路径。发布前仅平台可访问证据，发布后还需车主拥有匹配车型车辆才可读取。
+
+V0.9.6新增`POST /admin/manual-imports/manual-entry`，仅平台可用，接收`{modelId,consent:true,sourceTitle,sourceUrl,edition,applicability,sourceExcerpt?,rows}`，`rows`为1–120条`ManualRuleDraft`。名称留空时按车型生成“保养表格（手工录入）”，版本、范围和HTTPS来源链接可留空；没有原件附件时不能填本地`/api/...`文件链接。返回`entryMode="manual"`、`aiModel="手工录入"`、`status="awaiting_confirmation"`且`files=[]`的草稿，不能称为AI识别或已读取原件。
+
+手工表格建立时按现有标准项目自动关联，无法准确匹配时留空，不自动创建正式项目。草稿沿用标准项目、动作、周期、版本冲突及车型身份等发布校验；每条发布行必须保留手册依据摘录。由于没有上传原件，手工模式不要求关联系统渲染证据页；此例外不适用于AI／图片导入。周期必须由人工对照纸质或官方手册录入，不从项目名称、目标车型或通用目录猜测。未知关联留空、未知周期保留待核对，保存草稿不代表可直接发布。发布仍需明确人工核对及车型适用确认，未选行只留存、不生成规则。
 
 `GET /manuals/:id` 仅返回已发布的 `ManualDocument` 元数据：`id`、`modelId`、`sourceTitle`、`sourceUrl`、`edition`、`applicability`、`sourceExcerpt`、`metadataOrigin`、`pageSelection`、`files`、`publishedAt`。平台或拥有匹配车型的车主可读；草稿返回 404，其他已登录角色／无匹配车辆车主返回 403。原件和页图通过 `GET /manual-files/:id` 采用相同权限读取，不能借用普通文件路由绕过权限。
 

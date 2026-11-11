@@ -18,7 +18,7 @@
 
 原许可明确排除 logo 及相关商标，元数据另列 Khronos 与 3D Commerce 标识。项目通过隐藏相关部件、去除贴图处理其可见标识；不能把商标视为 CC BY 授权内容。继续分发模型改编渲染图时，保留原作品、作者、来源、CC BY 4.0 链接与上述修改说明；该素材许可不自动改变应用代码许可。
 
-模型、原许可与本地 Three.js／Sharp 依赖放在忽略目录 `.local/car-studio`，渲染工具源码位于 [scripts/car-studio](../scripts/car-studio/README.md)。导出按钮通过本机 POST 保存透明 PNG，再由 `optimize.mjs` 依据 alpha ≥ 200 的车身包围框，保留左右各 60px、上 20px、下 50px 的周边区域及少量软阴影，生成两张 WebP；不通过下载操作导出。车辆组件提供 720w／1440w 的 `srcset`，首屏使用 eager／high，车辆档案延迟加载，并固定图片尺寸。运行时只请求本地 WebP，不下载 GLB 或加载 Three.js；此约束仅指车辆视觉，地图仍独立使用 MapLibre GL。页面继续标明外观示意，档案车型与里程以业务数据为准。
+模型、原许可与本地 Three.js／Sharp 依赖放在忽略目录 `.local/car-studio`，渲染工具源码位于 [scripts/car-studio](../scripts/car-studio/README.md)。导出按钮通过本机 POST 保存透明 PNG，再由 `optimize.mjs` 依据 alpha ≥ 200 的车身包围框，保留左右各 60px、上 20px、下 50px 的周边区域及少量软阴影，生成两张 WebP；不通过下载操作导出。车辆组件提供 720w／1440w 的 `srcset`，首屏使用 eager／high，车辆档案延迟加载，并固定图片尺寸。运行时只请求本地 WebP，不下载 GLB 或加载 Three.js；此约束仅指车辆视觉，地图仍独立使用 MapLibre GL。V0.5页面曾叠加外观示意说明；V0.9.6整合版本移除车图上的叠字及覆盖链接，改在登录页和车主页脚提供“车辆素材与许可”入口，链接至本说明，保留作者、来源、许可与改编信息。图片替代文字仍说明概念车仅为示意，档案车型与里程以业务数据为准。V0.9.6当前部署状态见 [验证记录](verification.md)，历史截图与历史署名描述继续保留。
 
 ## V0.4 原创皮卡与服务站插画（历史）
 

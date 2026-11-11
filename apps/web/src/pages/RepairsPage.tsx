@@ -25,9 +25,9 @@ import {
   messageOf,
 } from "../components/UI";
 const statusNames: Record<Fault["status"], string> = {
-  pending: "等待专家回复",
+  pending: "等待门店回复",
   need_info: "需要补充资料",
-  replied: "专家已回复",
+  replied: "门店已回复",
   booked: "已关联预约",
   closed: "咨询已关闭",
 };
@@ -432,8 +432,8 @@ function FaultDetail({
                 <MessageCircle size={21} />
               </span>
               <div>
-                <h3>门店专家的建议</h3>
-                <small>基于现有资料的初步判断</small>
+                <h3>{fault.repliedByRole === "store_admin" ? "门店的答复" : "门店专家的建议"}</h3>
+                <small>{fault.repliedByName ? `${fault.repliedByName} · 基于现有资料的初步判断` : "基于现有资料的初步判断"}</small>
               </div>
             </div>
             <p className="preserve-lines">{fault.reply}</p>

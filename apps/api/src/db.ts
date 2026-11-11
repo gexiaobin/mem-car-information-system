@@ -20,6 +20,7 @@ export const tables = [
   "imports",
   "registration_imports",
   "manual_imports",
+  "ai_manual_answers",
   "records",
   "observations",
   "logs",
